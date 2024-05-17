@@ -121,6 +121,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + '}';
+    }
     
 }
