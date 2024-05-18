@@ -5,16 +5,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.User;
 
-public class UserDAO extends DBContext{
-    
-    public ArrayList<User> getAllUser(){
+public class UserDAO extends DBContext {
+
+    public ArrayList<User> getAllUser() {
         ArrayList<User> uList = new ArrayList<>();
         String sql = "SELECT * FROM Users";
-        try{
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 User u = new User();
+                u.setUserId(rs.getInt("UserId"));
                 u.setName(rs.getString("Name"));
                 u.setUsername(rs.getString("Username"));
                 u.setMobile(rs.getString("Mobile"));
@@ -27,16 +28,17 @@ public class UserDAO extends DBContext{
                 u.setPassword(rs.getString("Password"));
                 uList.add(u);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       return uList;
+        return uList;
     }
+
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
         ArrayList<User> uList = dao.getAllUser();
-        for(User u : uList){
-            System.out.println(uList);
+        for (User u : uList) {
+            System.out.println(u);
         }
     }
 }
