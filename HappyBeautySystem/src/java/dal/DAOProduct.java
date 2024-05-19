@@ -31,7 +31,7 @@ public class DAOProduct extends DBContext {
                 p.setSold(rs.getInt("Sold"));
                 p.setIsCustomized(rs.getBoolean("IsCustomized"));
                 p.setIsActive(rs.getBoolean("IsActive"));
-                p.setCreateDate(rs.getDate("CreateDate"));
+                p.setCreateDate(rs.getString("CreateDate"));
                 pList.add(p);
             }
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class DAOProduct extends DBContext {
                 p.setSold(rs.getInt("Sold"));
                 p.setIsCustomized(rs.getBoolean("IsCustomized"));
                 p.setIsActive(rs.getBoolean("IsActive"));
-                p.setCreateDate(rs.getDate("CreateDate"));
+                p.setCreateDate(rs.getString("CreateDate"));
                 pList.add(p);
             }
         } catch (Exception e) {
