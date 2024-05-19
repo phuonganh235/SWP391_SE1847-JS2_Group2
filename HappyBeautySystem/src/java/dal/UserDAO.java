@@ -34,6 +34,48 @@ public class UserDAO extends DBContext {
         return uList;
     }
 
+    public User login(String username, String password) {
+        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
+                        rs.getString("Username"), rs.getString("Mobile"),
+                        rs.getString("Email"), rs.getString("Address"),
+                        rs.getString("PostCode"), rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"), rs.getString("CreateDate"),
+                        rs.getString("Password"));
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User getUserById(String userId){
+        String sql = "SELECT * FROM Users WHERE UserId = ?";
+        try{
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
+                        rs.getString("Username"), rs.getString("Mobile"),
+                        rs.getString("Email"), rs.getString("Address"),
+                        rs.getString("PostCode"), rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"), rs.getString("CreateDate"),
+                        rs.getString("Password"));
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
         ArrayList<User> uList = dao.getAllUser();
