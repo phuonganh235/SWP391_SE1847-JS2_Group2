@@ -18,12 +18,12 @@ public class Product {
     private int sold;
     private boolean isCustomized;
     private boolean isActive;
-    private Date createDate;
+    private String createDate;
 
     public Product() {
     }
 
-    public Product(int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, Date createDate) {
+    public Product(int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, String createDate) {
         this.productId = productId;
         this.productName = productName;
         this.shortDes = shortDes;
@@ -162,11 +162,11 @@ public class Product {
         this.isActive = isActive;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
