@@ -1,5 +1,6 @@
 
 
+<%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -73,7 +74,7 @@
                         <nav class="header__menu">
                             <ul>
                                 <li class="active"><a href="home.jsp">Home</a></li>
-                               
+
                                 <li><a href="shop.jsp">Shop</a>
                                     <ul class="dropdown">
                                         <li><a href="">Bodycare</a></li>
@@ -107,9 +108,27 @@
                                 <li><a href="#"><span class="icon_heart_alt"></span>
                                         <div class="tip">2</div>
                                     </a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
-                                    </a></li>
+                                    <%
+                                        double granTotal = 0; // Khởi tạo biến granTotal
+                                        int count = 0;
+                                        java.util.Enumeration em = session.getAttributeNames();
+                                        while (em.hasMoreElements()) {
+                                            count++;
+                                            String key = em.nextElement().toString();
+                                            if (key.startsWith("cart_")) {
+                                                ProductCart pro = (ProductCart) session.getAttribute(key);
+                                                double subtotal = pro.getQuantity() * pro.getPrice();
+                                                granTotal += subtotal; // Cộng dồn vào granTotal
+                                    %>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                <li>
+                                    <a href="/HappyBeautySystem/ViewUser/shop-cart.jsp"><span class="icon_bag_alt"></span>
+                                        <div class="tip"><%= count%></div>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

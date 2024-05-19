@@ -19,14 +19,14 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
     </head>
 
     <body>
@@ -116,6 +116,8 @@
                     </div>
                 </div>
                 <div class="row property__gallery">
+                    <!--                   ToanLV NOTE -->
+                    <!--                   Lặp sản phẩm từ database theo thẻ này  -->
                     <div class="col-lg-3 col-md-4 col-sm-6 mix women">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
@@ -123,7 +125,13 @@
                                 <ul class="product__hover">
                                     <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                    <li>
+                                        <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=1">
+                                            <span class="icon_bag_alt"></span>
+                                        </a>
+                                    </li>
+
+
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -139,6 +147,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--                    Đến đây -->
                     <div class="col-lg-3 col-md-4 col-sm-6 mix men">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
@@ -168,7 +177,11 @@
                                 <ul class="product__hover">
                                     <li><a href="img/product/product-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                    <li>
+                                        <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=2">
+                                            <span class="icon_bag_alt"></span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -510,45 +523,45 @@
         <!-- Trend Section End -->
 
         <!-- Discount Section Begin -->
-<!--        <section class="discount">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 p-0">
-                        <div class="discount__pic">
-                            <img src="img/discount.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 p-0">
-                        <div class="discount__text">
-                            <div class="discount__text__title">
-                                <span>Discount</span>
-                                <h2>Summer 2019</h2>
-                                <h5><span>Sale</span> 50%</h5>
-                            </div>
-                            <div class="discount__countdown" id="countdown-time">
-                                <div class="countdown__item">
-                                    <span>22</span>
-                                    <p>Days</p>
-                                </div>
-                                <div class="countdown__item">
-                                    <span>18</span>
-                                    <p>Hour</p>
-                                </div>
-                                <div class="countdown__item">
-                                    <span>46</span>
-                                    <p>Min</p>
-                                </div>
-                                <div class="countdown__item">
-                                    <span>05</span>
-                                    <p>Sec</p>
+        <!--        <section class="discount">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 p-0">
+                                <div class="discount__pic">
+                                    <img src="img/discount.jpg" alt="">
                                 </div>
                             </div>
-                            <a href="#">Shop now</a>
+                            <div class="col-lg-6 p-0">
+                                <div class="discount__text">
+                                    <div class="discount__text__title">
+                                        <span>Discount</span>
+                                        <h2>Summer 2019</h2>
+                                        <h5><span>Sale</span> 50%</h5>
+                                    </div>
+                                    <div class="discount__countdown" id="countdown-time">
+                                        <div class="countdown__item">
+                                            <span>22</span>
+                                            <p>Days</p>
+                                        </div>
+                                        <div class="countdown__item">
+                                            <span>18</span>
+                                            <p>Hour</p>
+                                        </div>
+                                        <div class="countdown__item">
+                                            <span>46</span>
+                                            <p>Min</p>
+                                        </div>
+                                        <div class="countdown__item">
+                                            <span>05</span>
+                                            <p>Sec</p>
+                                        </div>
+                                    </div>
+                                    <a href="#">Shop now</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>-->
+                </section>-->
         <!-- Discount Section End -->
 
         <!-- Services Section Begin -->
