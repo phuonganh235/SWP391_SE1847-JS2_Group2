@@ -49,7 +49,7 @@
                                 <c:choose>
                                     <c:when test="${check.equals('success')}">
                                         ${'Success'}
-                                        <c:redirect url="home"/>
+                                        <c:redirect url="ViewUser/home.jsp"/>
                                         <br />
                                     </c:when>
                                     <c:when test="${check.equals('fail')}">
