@@ -32,8 +32,8 @@ public class Login extends HttpServlet {
         User u = dao.login(username, password);
         if(u != null){
             request.setAttribute("check", "success");
-            session.setAttribute("user", username);
-            session.setAttribute("pass", password);
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
             request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
         }else {
             request.setAttribute("check", "fail");

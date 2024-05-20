@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -14,13 +16,13 @@ public class User {
     private String postCode;
     private String image;
     private int roleId;
-    private String createDate;
+    private Date createDate;
     private String password;
 
     public User() {
     }
 
-    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, String createDate, String password) {
+    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, Date createDate, String password) {
         this.userId = userId;
         this.name = name;
         this.username = username;
@@ -106,11 +108,11 @@ public class User {
         this.roleId = roleId;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -126,5 +128,6 @@ public class User {
     public String toString() {
         return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + '}';
     }
+
     
 }

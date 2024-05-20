@@ -16,6 +16,10 @@
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Authentication.Login</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>controller.Authentication.Register</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -31,5 +35,9 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
 </web-app>

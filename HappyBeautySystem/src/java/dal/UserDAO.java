@@ -2,7 +2,10 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import model.User;
 
 public class UserDAO extends DBContext {
@@ -24,7 +27,7 @@ public class UserDAO extends DBContext {
                 u.setPostCode(rs.getString("PostCode"));
                 u.setImage(rs.getString("ImageUrl"));
                 u.setRoleId(rs.getInt("RoleId"));
-                u.setCreateDate(rs.getString("CreateDate"));
+                u.setCreateDate(rs.getDate("CreateDate"));
                 u.setPassword(rs.getString("Password"));
                 uList.add(u);
             }
@@ -46,7 +49,7 @@ public class UserDAO extends DBContext {
                         rs.getString("Username"), rs.getString("Mobile"),
                         rs.getString("Email"), rs.getString("Address"),
                         rs.getString("PostCode"), rs.getString("ImageUrl"),
-                        rs.getInt("RoleId"), rs.getString("CreateDate"),
+                        rs.getInt("RoleId"), rs.getDate("CreateDate"),
                         rs.getString("Password"));
                 return u;
             }
@@ -56,18 +59,18 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public User getUserById(String userId){
+    public User getUserById(String userId) {
         String sql = "SELECT * FROM Users WHERE UserId = ?";
-        try{
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, userId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 User u = new User(rs.getInt("UserId"), rs.getString("Name"),
                         rs.getString("Username"), rs.getString("Mobile"),
                         rs.getString("Email"), rs.getString("Address"),
                         rs.getString("PostCode"), rs.getString("ImageUrl"),
-                        rs.getInt("RoleId"), rs.getString("CreateDate"),
+                        rs.getInt("RoleId"), rs.getDate("CreateDate"),
                         rs.getString("Password"));
                 return u;
             }
@@ -76,11 +79,66 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    public static void main(String[] args) {
-        UserDAO dao = new UserDAO();
-        ArrayList<User> uList = dao.getAllUser();
-        for (User u : uList) {
-            System.out.println(u);
+
+    public User getUserByUsername(String username) {
+        String sql = "SELECT * FROM Users WHERE Username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
+                        rs.getString("Username"), rs.getString("Mobile"),
+                        rs.getString("Email"), rs.getString("Address"),
+                        rs.getString("PostCode"), rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"), rs.getDate("CreateDate"),
+                        rs.getString("Password"));
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean checkExistEmail(String email) {
+        String sql = "SELECT * FROM Users WHERE Email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return false; //email has exist already
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public void register(String name, String username, String password, String mobile, String email, String address, String postCode, Date createDate, int roleId) {
+        String sql = "INSERT INTO [dbo].[Users]([Name],[Username],[Mobile],[Email],[Address],[PostCode],[RoleId],[CreateDate],[Password])\n"
+                + "     VALUES(?,?,?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, username);
+            ps.setString(3, mobile);
+            ps.setString(4, email);
+            ps.setString(5, address);
+            ps.setString(6, postCode);
+            ps.setInt(7, roleId);
+            ps.setDate(8, (java.sql.Date) createDate);
+            ps.setString(9, password);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+//    public static void main(String[] args) throws ParseException {
+//        UserDAO dao = new UserDAO();
+//        java.util.Date today = new Date();
+//        dao.register("1", "1", "1", "1", "1", "1", "1", new java.sql.Date(today.getTime()) ,2);
+//    }
 }

@@ -10,10 +10,10 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Register</title>
         <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/authen/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="ViewUser/fonts/authen/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/authen/style.css">
+    <link rel="stylesheet" href="ViewUser/css/authen/style.css">
     </head>
     <body>
         <div class="main">
@@ -50,14 +50,14 @@
                             </form>
                         </div>
                         <div class="signup-image">
-                            <figure><img src="img/authen/logo1.png" alt="sing up image"></figure>
-                            <a href="#" class="signup-image-link">I am already member</a>
+                            <figure><img src="ViewUser/img/authen/logo1.png" alt="sing up image"></figure>
+                            <a href="login.jsp" class="signup-image-link">I am already member</a>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="js/authen/main.js"></script>
+        <script src="ViewUser/vendor/jquery/jquery.min.js"></script>
+        <script src="ViewUser/js/authen/main.js"></script>
     </body>
 </html>
