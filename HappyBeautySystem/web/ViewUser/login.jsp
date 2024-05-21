@@ -61,7 +61,7 @@
                                 </c:choose>
                                 <div class="form-group form-button">
                                     <input type="submit" name="login" id="login" class="form-submit" value="Log in"/>
-                                    <a href="ViewUser/register.jsp" style="margin-top: 20px" class="signup-image-link">Create an account</a>
+                                    <a href="register" style="margin-top: 20px" class="signup-image-link">Create an account</a>
                                 </div>
                             </form>
                             <div class="social-login">

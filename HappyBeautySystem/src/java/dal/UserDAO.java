@@ -117,10 +117,8 @@ public class UserDAO extends DBContext {
     }
 
     public void register(String name, String username, String password, String mobile, String email, String address, String postCode, Date createDate, int roleId) {
-        String sql = "INSERT INTO [dbo].[Users]([Name],[Username],[Mobile],[Email],[Address],[PostCode],[RoleId],[CreateDate],[Password])\n"
-                + "     VALUES(?,?,?,?,?,?,?,?,?)";
-        try{
-            PreparedStatement ps = connection.prepareStatement(sql);
+        String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, username);
             ps.setString(3, mobile);
@@ -128,7 +126,7 @@ public class UserDAO extends DBContext {
             ps.setString(5, address);
             ps.setString(6, postCode);
             ps.setInt(7, roleId);
-            ps.setDate(8, (java.sql.Date) createDate);
+            ps.setDate(8, new java.sql.Date(createDate.getTime()));
             ps.setString(9, password);
             ps.executeUpdate();
         } catch (Exception e) {
