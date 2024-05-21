@@ -30,6 +30,10 @@ public class Login extends HttpServlet {
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
         User u = dao.login(username, password);
+//        String service = request.getParameter("service");
+//        if(service==null){
+//            request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
+//        }
         if(u != null){
             request.setAttribute("check", "success");
             session.setAttribute("username", username);

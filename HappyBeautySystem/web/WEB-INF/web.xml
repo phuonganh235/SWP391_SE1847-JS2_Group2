@@ -9,16 +9,20 @@
         <servlet-class>controller.Manager.manager</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>customer</servlet-name>
-        <servlet-class>controller.Customer.customer</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Authentication.Login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Register</servlet-name>
         <servlet-class>controller.Authentication.Register</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogOut</servlet-name>
+        <servlet-class>controller.Authentication.LogOut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>common.Home</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
@@ -29,15 +33,19 @@
         <url-pattern>/manager</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>customer</servlet-name>
-        <url-pattern>/customer</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogOut</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
 </web-app>

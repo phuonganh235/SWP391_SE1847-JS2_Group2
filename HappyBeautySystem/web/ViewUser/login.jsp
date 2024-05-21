@@ -28,7 +28,7 @@
                         <div class="signin-image">
                             <figure><img src="ViewUser/img/authen/logo1.png" alt="sing up image"></figure>
 
-                            <a href="ViewUser/home.jsp" class="signup-image-link">Back home</a>
+                            <a href="home" class="signup-image-link">Back home</a>
                         </div>
 
                         <div class="signin-form">
@@ -49,7 +49,7 @@
                                 <c:choose>
                                     <c:when test="${check.equals('success')}">
                                         ${'Success'}
-                                        <c:redirect url="ViewUser/home.jsp"/>
+                                        <c:redirect url="home"/>
                                         <br />
                                     </c:when>
                                     <c:when test="${check.equals('fail')}">
@@ -61,7 +61,7 @@
                                 </c:choose>
                                 <div class="form-group form-button">
                                     <input type="submit" name="login" id="login" class="form-submit" value="Log in"/>
-                                    <a href="ViewUser/register.jsp" style="margin-top: 20px" class="signup-image-link">Create an account</a>
+                                    <a href="register" style="margin-top: 20px" class="signup-image-link">Create an account</a>
                                 </div>
                             </form>
                             <div class="social-login">
