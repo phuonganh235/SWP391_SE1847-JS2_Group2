@@ -97,9 +97,9 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Product Management</h6>
-                            <a href="manageProduct.jsp">Show All</a>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+                            <h6 class="mb-0">Category Management</h6>
+                            <a href="manageCategory">Show All</a>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Category</button>
                         </div>
                         <!-- Load product Product -->
                         <div class="table-responsive">
@@ -109,46 +109,24 @@
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                         <th scope="col">ID</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">ShortDes</th>
-                                        <th scope="col">LongDes</th>
-                                        <th scope="col">AddDes</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Color</th>
-                                        <th scope="col">CompName</th>
-                                        <th scope="col">CategoryID</th>
-                                        <th scope="col">SubCategoryID</th>
-                                        <th scope="col">Sold</th>
-                                        <th scope="col">IsCustomized</th>
+                                        <th scope="col">Image</th>
                                         <th scope="col">IsActive</th>
-                                        <th scope="col">CreateDate</th>
+                                        <th scope="col">Create Date</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listP}" var="product">
+                                    <c:forEach items="${listCat}" var="cat">
                                         <tr>
                                             <td><input class="form-check-input" type="checkbox"></td>
-                                            <td>${product.productId}</td>
-                                            <td>${product.productName}</td>
-                                            <td>${product.shortDes}</td>
-                                            <td>${product.longDes}</td>
-                                            <td>${product.addDes}</td>
-                                            <td>${product.price}</td>
-                                            <td>${product.quantity}</td>
-                                            <td>${product.size}</td>
-                                            <td>${product.color}</td>
-                                            <td>${product.companyName}</td>
-                                            <td>${product.cateId}</td>
-                                            <td>${product.subCateId}</td>
-                                            <td>${product.sold}</td>
-                                            <td>${product.isCustomized}</td>
-                                            <td>${product.isActive}</td>
-                                            <td>${product.createDate}</td>
+                                            <td>${cat.categoryId}</td>
+                                            <td>${cat.categoryName}</td>
+                                            <td>${cat.categoryImageUrl}</td>
+                                            <td>${cat.isActive}</td>
+                                            <td>${cat.createDate}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="manager?service=update&id=${product.productId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
+                                                <a class="btn btn-sm btn-primary" href="managercategory?service=update&id=${cat.categoryId}">Update</a>
+                                                <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -161,72 +139,24 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                                        <h5 class="modal-title" id="addProductModalLabel">Add Category</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="manager?service=add" method="post">
+                                        <form action="managercategory?service=add" method="post">
                                             <div class="mb-3">
-                                                <label for="productId" class="form-label">Product ID</label>
-                                                <input type="number" class="form-control" id="productId" name="productId" required>
+                                                <label for="productId" class="form-label">Category ID</label>
+                                                <input type="number" class="form-control" id="categoryId" name="categoryId" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="productName" class="form-label">Product Name</label>
-                                                <input type="text" class="form-control" id="productName" name="productName" required>
+                                                <label for="productName" class="form-label">Category Name</label>
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="shortDes" class="form-label">Short Description</label>
-                                                <textarea class="form-control" id="shortDes" name="shortDes" required></textarea>
+                                                <label for="shortDes" class="form-label">Category ImageUrl</label>
+                                                <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="longDes" class="form-label">Long Description</label>
-                                                <textarea class="form-control" id="longDes" name="longDes" required></textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="addDes" class="form-label">Add Description</label>
-                                                <input type="text" class="form-control" id="addDes" name="addDes" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="price" class="form-label">Price</label>
-                                                <input type="number" class="form-control" id="price" name="price" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="quantity" class="form-label">Quantity</label>
-                                                <input type="number" class="form-control" id="quantity" name="quantity" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="size" class="form-label">Size</label>
-                                                <input type="text" class="form-control" id="size" name="size" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="color" class="form-label">Color</label>
-                                                <input type="text" class="form-control" id="color" name="color" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="companyName" class="form-label">Company Name</label>
-                                                <input type="text" class="form-control" id="companyName" name="companyName" required>
-                                            </div>
-             
-                                            <div class="mb-3">
-                                                <label for="cateId" class="form-label">Category</label>
-                                                <select class="form-select" id="cateId" name="cateId" required>
-                                                    <c:forEach items="${listCat}" var="cat">
-                                                        <option value="${cat.categoryId}">${cat.categoryName}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="subCateId" class="form-label">SubCategory</label>
-                                                <input type="number" class="form-control" id="subCateId" name="subCateId" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="sold" class="form-label">Sold</label>
-                                                <input type="number" class="form-control" id="sold" name="sold" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="isCustomized" class="form-label">Is Customized</label>
-                                                <input type="checkbox" class="form-check-input" id="isCustomized" name="isCustomized">
-                                            </div>
+                                            
                                             <div class="mb-3">
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
@@ -235,7 +165,7 @@
                                                 <label for="createDate" class="form-label">Create Date</label>
                                                 <input type="date" class="form-control" id="createDate" name="createDate" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Add Product</button>
+                                            <button type="submit" class="btn btn-primary">Add Category</button>
                                         </form>
                                     </div>
                                 </div>
