@@ -15,13 +15,17 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        String service = request.getParameter("service");
+        if (service == null) {
+            request.getRequestDispatcher("ViewUser/register.jsp").forward(request, response);
+        }
         request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-    } 
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String name = request.getParameter("name");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -31,13 +35,13 @@ public class Register extends HttpServlet {
         String postCode = request.getParameter("postCode");
         String roleId = request.getParameter("roleId");
         UserDAO dao = new UserDAO();
-        
-        if(dao.getUserByUsername(username) != null || dao.checkExistEmail(email)==false){
+
+        if (dao.getUserByUsername(username) != null || dao.checkExistEmail(email) == false) {
             HttpSession session = request.getSession();
             String err = "Username or Email has already exists!";
             session.setAttribute("error", err);
             request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-        }else{
+        } else {
             User u = new User();
             u.setName(name);
             u.setUsername(username);
@@ -47,7 +51,7 @@ public class Register extends HttpServlet {
             u.setAddress(address);
             u.setPostCode(postCode);
             u.setRoleId(2);
-            
+
             java.util.Date today = new Date();
             dao.register(name, username, password, mobile, email, address, postCode, new java.sql.Date(today.getTime()), 2);
             String message = "Register successfully, please enter Username and Password to login.";
