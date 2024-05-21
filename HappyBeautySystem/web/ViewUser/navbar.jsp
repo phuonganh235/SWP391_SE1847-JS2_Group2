@@ -57,8 +57,8 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="login.jsp">Login</a>
-                <a href="register.jsp">Register</a>
+                <a href="login">Login</a>
+                <a href="register">Register</a>
             </div>
         </div>
         <!-- Offcanvas Menu End -->

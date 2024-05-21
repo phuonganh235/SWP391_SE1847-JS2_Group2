@@ -133,6 +133,23 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public int getRole(String username, String password){
+        String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int a = rs.getInt("RoleId"); 
+                return a;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 2;
+    }
 
 //    public static void main(String[] args) throws ParseException {
 //        UserDAO dao = new UserDAO();

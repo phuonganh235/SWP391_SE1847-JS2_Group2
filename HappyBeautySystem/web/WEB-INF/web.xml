@@ -9,10 +9,6 @@
         <servlet-class>controller.Manager.manager</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>customer</servlet-name>
-        <servlet-class>controller.Customer.customer</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Authentication.Login</servlet-class>
     </servlet>
@@ -35,10 +31,6 @@
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>customer</servlet-name>
-        <url-pattern>/customer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
