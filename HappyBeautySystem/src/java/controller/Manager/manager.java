@@ -45,9 +45,9 @@ public class manager extends HttpServlet {
             boolean isCustomized = request.getParameter("isCustomized") != null;
             boolean isActive = request.getParameter("isActive") != null;
             String createDate = request.getParameter("createDate");
-
+            String pathImage = request.getParameter("pathImage");
             Product product = new Product(productId, productName, shortDes, longDes, addDes, price, quantity,
-                    size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate);
+                    size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate, pathImage);
             dao.addProduct(product);
             response.sendRedirect("manager");
         }
@@ -77,9 +77,9 @@ public class manager extends HttpServlet {
             boolean isCustomized = request.getParameter("isCustomized") != null;
             boolean isActive = request.getParameter("isActive") != null;
             String createDate = request.getParameter("createDate");
-
+            String pathImage = request.getParameter("pathImage");
             Product product = new Product(productId, productName, shortDes, longDes, addDes, price, quantity,
-                    size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate);
+                    size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate, pathImage);
             dao.updateProduct(product);
             response.sendRedirect("manager");
         }

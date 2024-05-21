@@ -19,11 +19,12 @@ public class Product {
     private boolean isCustomized;
     private boolean isActive;
     private String createDate;
+    private String pathImage;
 
     public Product() {
     }
 
-    public Product(int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, String createDate) {
+    public Product(int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, String createDate,String pathImage) {
         this.productId = productId;
         this.productName = productName;
         this.shortDes = shortDes;
@@ -40,6 +41,7 @@ public class Product {
         this.isCustomized = isCustomized;
         this.isActive = isActive;
         this.createDate = createDate;
+        this.pathImage = pathImage;
     }
 
     public int getProductId() {
@@ -170,9 +172,18 @@ public class Product {
         this.createDate = createDate;
     }
 
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
+    }
+
+    
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productName=" + productName + ", shortDes=" + shortDes + ", longDes=" + longDes + ", addDes=" + addDes + ", price=" + price + ", quantity=" + quantity + ", size=" + size + ", color=" + color + ", companyName=" + companyName + ", cateId=" + cateId + ", subCateId=" + subCateId + ", sold=" + sold + ", isCustomized=" + isCustomized + ", isActive=" + isActive + ", createDate=" + createDate + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", shortDes=" + shortDes + ", longDes=" + longDes + ", addDes=" + addDes + ", price=" + price + ", quantity=" + quantity + ", size=" + size + ", color=" + color + ", companyName=" + companyName + ", cateId=" + cateId + ", subCateId=" + subCateId + ", sold=" + sold + ", isCustomized=" + isCustomized + ", isActive=" + isActive + ", createDate=" + createDate + ", pathImage=" + pathImage + '}';
     }
     
     

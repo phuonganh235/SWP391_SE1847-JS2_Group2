@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="zxx">
+<html >
 
     <head>
         <meta charset="UTF-8">
@@ -19,14 +19,14 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
     </head>
 
     <body>
@@ -59,7 +59,7 @@
                         <div class="product__details__pic">
                             <div class="product__details__pic__left product__thumb nice-scroll">
                                 <a class="pt active" href="#product-1">
-                                    <img src="img/product/details/thumb-1.jpg" alt="">
+                                    <img src="ViewUser/img/product/details/thumb-1.jpg" alt="">
                                 </a>
                                 <a class="pt" href="#product-2">
                                     <img src="img/product/details/thumb-2.jpg" alt="">
@@ -73,99 +73,82 @@
                             </div>
                             <div class="product__details__slider__content">
                                 <div class="product__details__pic__slider owl-carousel">
-                                    <img data-hash="product-1" class="product__big__img" src="img/product/details/product-1.jpg" alt="">
-                                    <img data-hash="product-2" class="product__big__img" src="img/product/details/product-3.jpg" alt="">
-                                    <img data-hash="product-3" class="product__big__img" src="img/product/details/product-2.jpg" alt="">
-                                    <img data-hash="product-4" class="product__big__img" src="img/product/details/product-4.jpg" alt="">
+                                    <img data-hash="product-1" class="product__big__img" src="ViewUser/img/product/details/product-1.jpg" alt="">
+                                    <img data-hash="product-2" class="product__big__img" src="ViewUser/img/product/details/product-3.jpg" alt="">
+                                    <img data-hash="product-3" class="product__big__img" src="ViewUser/img/product/details/product-2.jpg" alt="">
+                                    <img data-hash="product-4" class="product__big__img" src="ViewUser/img/product/details/product-4.jpg" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="product__details__text">
-                            <h3>Essential structured blazer <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span>( 138 reviews )</span>
-                            </div>
-                            <div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>
-                            <p>Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                                magni lores eos qui ratione voluptatem sequi nesciunt.</p>
-                            <div class="product__details__button">
-                                <div class="quantity">
-                                    <span>Quantity:</span>
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
+                        <c:forEach items="${requestScope.ProductData}" var="p">
+                            <div class="product__details__text">
+                                <h3>${p.getProductName()} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <span>( 138 reviews )</span>
                                 </div>
-                                <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                                <ul>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__details__widget">
-                                <ul>
-                                    <li>
-                                        <span>Availability:</span>
-                                        <div class="stock__checkbox">
-                                            <label for="stockin">
-                                                In Stock
-                                                <input type="checkbox" id="stockin">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                <div class="product__details__price"><span>${p.getPrice()}</span></div>
+                                <p>${p.getLongDes()}</p>
+                                <div class="product__details__button">
+                                    <div class="quantity">
+                                        <span>Quantity: ${p.getQuantity()}</span>
+                                        <div class="pro-qty">
+                                            <input type="text" value="1">
                                         </div>
-                                    </li>
-                                    <li>
-                                        <span>Available color:</span>
-                                        <div class="color__checkbox">
-                                            <label for="red">
-                                                <input type="radio" name="color__radio" id="red" checked>
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <label for="black">
-                                                <input type="radio" name="color__radio" id="black">
-                                                <span class="checkmark black-bg"></span>
-                                            </label>
-                                            <label for="grey">
-                                                <input type="radio" name="color__radio" id="grey">
-                                                <span class="checkmark grey-bg"></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Available size:</span>
-                                        <div class="size__btn">
-                                            <label for="xs-btn" class="active">
-                                                <input type="radio" id="xs-btn">
-                                                xs
-                                            </label>
-                                            <label for="s-btn">
-                                                <input type="radio" id="s-btn">
-                                                s
-                                            </label>
-                                            <label for="m-btn">
-                                                <input type="radio" id="m-btn">
-                                                m
-                                            </label>
-                                            <label for="l-btn">
-                                                <input type="radio" id="l-btn">
-                                                l
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Promotions:</span>
-                                        <p>Free shipping</p>
-                                    </li>
-                                </ul>
+                                    </div>
+                                    <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                                    <ul>
+                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__details__widget">
+                                    <ul>
+                                        <li>
+                                            <span>Availability:</span>
+                                            <div class="stock__checkbox">
+                                                <label for="stockin">
+                                                    In Stock
+                                                    <input type="checkbox" id="stockin">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Available color:</span>
+                                            <div class="color__checkbox">
+                                                
+                                                <label for="grey">
+                                                    <input type="radio" name="color__radio" id="grey">
+                                                    <span class="checkmark grey-bg"></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Available size:</span>
+                                            <div class="size__btn">
+                                                
+                                                <label for="l-btn">
+                                                    <input type="radio" id="l-btn">
+                                                    l
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Promotions:</span>
+                                            <p>Free shipping</p>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <div class="col-lg-12">
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
@@ -465,16 +448,16 @@
         <!-- Search End -->
 
         <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/jquery.countdown.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.nicescroll.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
+        <script src="ViewUser/js/bootstrap.min.js"></script>
+        <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
+        <script src="ViewUser/js/jquery-ui.min.js"></script>
+        <script src="ViewUser/js/mixitup.min.js"></script>
+        <script src="ViewUser/js/jquery.countdown.min.js"></script>
+        <script src="ViewUser/js/jquery.slicknav.js"></script>
+        <script src="ViewUser/js/owl.carousel.min.js"></script>
+        <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
+        <script src="ViewUser/js/main.js"></script>
     </body>
 
 </html>

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Product;
+import model.ProductImage;
 
 public class ProductDAO extends DBContext {
 
@@ -31,12 +32,75 @@ public class ProductDAO extends DBContext {
                 prd.setIsCustomized(rs.getBoolean("IsCustomized"));
                 prd.setIsActive(rs.getBoolean("IsCustomized"));
                 prd.setCreateDate(rs.getString("CreateDate"));
+                prd.setPathImage(rs.getString("pathImage"));
                 pList.add(prd);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return pList;
+    }
+
+    public ArrayList<Product> getProduct(int id) {
+        ArrayList<Product> pList = new ArrayList<>();
+        String sql = "SELECT * FROM Product where productId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product prd = new Product();
+                prd.setProductId(rs.getInt("ProductId"));
+                prd.setProductName(rs.getString("ProductName"));
+                prd.setShortDes(rs.getString("ShortDescription"));
+                prd.setLongDes(rs.getString("LongDescription"));
+                prd.setAddDes(rs.getString("AdditionalDescription"));
+                prd.setPrice(rs.getFloat("Price"));
+                prd.setQuantity(rs.getInt("Quantity"));
+                prd.setSize(rs.getString("Size"));
+                prd.setColor(rs.getString("Color"));
+                prd.setCompanyName(rs.getString("CompanyName"));
+                prd.setCateId(rs.getInt("CategoryId"));
+                prd.setSubCateId(rs.getInt("SubCategoryId"));
+                prd.setSold(rs.getInt("Sold"));
+                prd.setIsCustomized(rs.getBoolean("IsCustomized"));
+                prd.setIsActive(rs.getBoolean("IsCustomized"));
+                prd.setCreateDate(rs.getString("CreateDate"));
+                prd.setPathImage(rs.getString("pathImage"));
+                pList.add(prd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pList;
+    }
+
+    // Lấy hình ảnh sản phẩm
+    public ArrayList<ProductImage> getProductImage(int productId) {
+        ArrayList<ProductImage> pimList = new ArrayList<>();
+        String sql = "SELECT [ImageId]\n"
+                + "      ,[ImageUrl]\n"
+                + "      ,[ProductId]\n"
+                + "      ,[DefaultImage]\n"
+                + "  FROM [ProductImages]\n "
+                + "where ProductId = ? ";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ProductImage pim = new ProductImage();
+                pim.setImageId(rs.getInt("imageId"));
+                pim.setImageUrl(rs.getString("imageUrl"));
+                pim.setProductId(rs.getInt("productId"));
+                pim.setDefaultImage(rs.getBoolean("defaultImage"));
+                pimList.add(pim);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pimList;
     }
 
     public Product getProductById(int productId) {
@@ -64,6 +128,7 @@ public class ProductDAO extends DBContext {
                 product.setIsCustomized(rs.getBoolean("IsCustomized"));
                 product.setIsActive(rs.getBoolean("IsActive"));
                 product.setCreateDate(rs.getString("CreateDate"));
+                product.setPathImage(rs.getString("pathImage"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,7 +137,7 @@ public class ProductDAO extends DBContext {
     }
 
     public void addProduct(Product product) {
-        String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, product.getProductName());
@@ -90,6 +155,7 @@ public class ProductDAO extends DBContext {
             st.setBoolean(13, product.isIsCustomized());
             st.setBoolean(14, product.isIsActive());
             st.setString(15, product.getCreateDate());
+            st.setString(16, product.getPathImage());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +163,7 @@ public class ProductDAO extends DBContext {
     }
 
     public void updateProduct(Product product) {
-        String sql = "UPDATE Product SET ProductName = ?, ShortDescription = ?, LongDescription = ?, AdditionalDescription = ?, Price = ?, Quantity = ?, Size = ?, Color = ?, CompanyName = ?, CategoryId = ?, SubCategoryId = ?, Sold = ?, IsCustomized = ?, IsActive = ?, CreateDate = ? WHERE ProductId = ?";
+        String sql = "UPDATE Product SET ProductName = ?, ShortDescription = ?, LongDescription = ?, AdditionalDescription = ?, Price = ?, Quantity = ?, Size = ?, Color = ?, CompanyName = ?, CategoryId = ?, SubCategoryId = ?, Sold = ?, IsCustomized = ?, IsActive = ?, CreateDate = ?, PathImage = ?  WHERE ProductId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, product.getProductName());
@@ -115,7 +181,8 @@ public class ProductDAO extends DBContext {
             st.setBoolean(13, product.isIsCustomized());
             st.setBoolean(14, product.isIsActive());
             st.setString(15, product.getCreateDate());
-            st.setInt(16, product.getProductId());
+            st.setString(16, product.getPathImage());
+            st.setInt(17, product.getProductId());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +204,6 @@ public class ProductDAO extends DBContext {
         ProductDAO dao = new ProductDAO();
         ArrayList<Product> pList = dao.getAllProduct();
         Product p = dao.getProductById(1);
-        
-        
+
     }
 }
