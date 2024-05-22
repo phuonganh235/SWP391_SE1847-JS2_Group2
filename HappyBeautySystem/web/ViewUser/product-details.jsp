@@ -1,4 +1,4 @@
-
+<%@page import="model.Product"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -83,6 +83,7 @@
                     </div>
                     <div class="col-lg-6">
                         <c:forEach items="${requestScope.ProductData}" var="p">
+<!--                            <input type="hidden" value="p.productId">-->
                             <div class="product__details__text">
                                 <h3>${p.getProductName()} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
                                 <div class="rating">

@@ -63,7 +63,32 @@ public class product extends HttpServlet {
             ProductDAO c = new ProductDAO();
             Product product = c.getProductById(productId);
             request.setAttribute("ProductData", product);
-            request.getRequestDispatcher("ViewUser/product-details.jsp").forward(request, response);
+            request.getRequestDispatcher("/ViewUser/product-details.jsp").forward(request, response);
+        }
+        
+        if(action.equalsIgnoreCase("search")){
+            String text = request.getParameter("text");
+            ArrayList<Product> productList = d.searchProductByCategory(text);
+//            ArrayList<Category> category = d.getCategory();
+//            int page, numperpage = 9;
+//            int size = productList.size();
+//            int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+//            String xpage = request.getParameter("page");
+//            if (xpage == null) {
+//                page = 1;
+//            } else {
+//                page = Integer.parseInt(xpage);
+//            }
+//            int start, end;
+//            start = (page - 1) * numperpage;
+//            end = Math.min(page * numperpage, size);
+//            List<Entity.Product> product = d.getListByPage(productList, start, end);
+//            request.setAttribute("page", page);
+//            request.setAttribute("num", num);
+//            request.setAttribute("CategoryData", category);
+//            request.setAttribute("ProductData", product);
+            request.setAttribute("ProductData", productList);
+            request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         }
     }
 
@@ -71,7 +96,8 @@ public class product extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.sendRedirect("/ViewUser/shop.jsp");
+        processRequest(request, response);
+//        response.sendRedirect("/ViewUser/shop.jsp");
     }
  
 

@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class Product {
+    Category cate;
     private int productId;
     private String productName;
     private String shortDes;
@@ -24,6 +25,15 @@ public class Product {
     public Product() {
     }
 
+    public Product(Category cate, int productId, String productName, String shortDes, float price, String pathImage) {
+        this.cate = cate;
+        this.productId = productId;
+        this.productName = productName;
+        this.shortDes = shortDes;
+        this.price = price;
+        this.pathImage = pathImage;
+    }
+    
     public Product(int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, String createDate,String pathImage) {
         this.productId = productId;
         this.productName = productName;
@@ -42,6 +52,14 @@ public class Product {
         this.isActive = isActive;
         this.createDate = createDate;
         this.pathImage = pathImage;
+    }
+    
+    public Category getCate() {
+        return cate;
+    }
+
+    public void setCate(Category cate) {
+        this.cate = cate;
     }
 
     public int getProductId() {

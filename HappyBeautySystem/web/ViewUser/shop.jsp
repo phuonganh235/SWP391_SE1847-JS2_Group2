@@ -220,15 +220,14 @@
                     </div>
                     <div class="col-lg-9 col-md-9">
                         <div class="row">
-                            hello Thanh Thanh
                             <c:forEach items="${requestScope.productList}" var="p">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="product__item">                                         
-                                        <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-3.jpg">
+                                        <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <div class="label new">New</div>
                                             <ul class="product__hover">
-                                                <li><a href="product?action=productdetail&product_id=${p.getProductId()}" class="image-popup">
-                                                        <img src="${p.getPathImage()}" alt="image product"><span class="arrow_expand"></span></a></li>
+                                                <li><a href="product?action=productdetail&product_id=${p.getProductId()}" >
+                                                        <img src="${p.getPathImage()}" width="100%;" alt="image product"><span class="arrow_expand"></span></a></li>
                                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                             </ul>

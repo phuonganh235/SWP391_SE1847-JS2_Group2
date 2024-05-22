@@ -3,6 +3,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.Category;
 import model.Product;
 import model.ProductImage;
 
@@ -136,6 +137,48 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
+    public ArrayList<Product> searchProductByCategory(String text) {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
+                + "  p.[ShortDescription], p.[Price], p.[pathImage]\n"
+                + "  FROM [Product] p left join [Category] c on c.CategoryId = p.CategoryId\n"
+                + "  where c.[CategoryName] like ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + text + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Product> searchProductByName(String text) {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
+                + "  p.[ShortDescription], p.[Price], p.[pathImage]\n"
+                + "  FROM [Product] p left join [Category] c on c.CategoryId = p.CategoryId\n"
+                + "  where p.[ProductName] like ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + text + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -204,6 +247,6 @@ public class ProductDAO extends DBContext {
         ProductDAO dao = new ProductDAO();
         ArrayList<Product> pList = dao.getAllProduct();
         Product p = dao.getProductById(1);
-
+        System.out.println(pList);
     }
 }

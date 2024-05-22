@@ -11,6 +11,9 @@ public class Category {
     public Category() {
     }
 
+    public Category(String categoryName) {
+    }
+    
     public Category(int categoryId, String categoryName, String categoryImageUrl, boolean isActive, String createDate) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;

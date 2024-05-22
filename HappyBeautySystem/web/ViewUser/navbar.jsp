@@ -34,7 +34,7 @@
         </style>
     </head>
     <body>
-         Page Preloder 
+        Page Preloder 
         <div id="preloder">
             <div class="loader"></div>
         </div>
@@ -43,8 +43,16 @@
         <div class="offcanvas-menu-overlay"></div>
         <div class="offcanvas-menu-wrapper">
             <div class="offcanvas__close">+</div>
+             <!--Search Bar-->
+            <div class="search_bar">
+                <form action="product?action=search" method="POST">
+                    <input name="text" placeholder="Search Product..." type="text">
+                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                </form>
+            </div>
             <ul class="offcanvas__widget">
-                <li><span class="icon_search search-switch"></span></li>
+                <!--<li><span class="icon_search search-switch"></span></li>-->
+
                 <li><a href="#"><span class="icon_heart_alt"></span>
                         <div class="tip">2</div>
                     </a></li>
