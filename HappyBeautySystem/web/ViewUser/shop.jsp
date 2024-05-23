@@ -247,14 +247,17 @@
                                 </div>
                             </c:forEach>
                             
+                            <!--Phân Trang-->
+                            <c:set var="page" value="${page}"/>
                             <div class="col-lg-12 text-center">
                                 <div class="pagination__option">
-                                    <a href="#">1</a>
-                                    <a href="#">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#"><i class="fa fa-angle-right"></i></a>
+                                    <c:forEach begin="${1}" end="${num}" var="i">
+                                        <a href="product?page=${i}">${i}</a>
+                                    </c:forEach>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
