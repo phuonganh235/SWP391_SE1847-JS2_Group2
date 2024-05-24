@@ -59,9 +59,10 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-        <c:if test="${not empty account}">
+        
         <!-- proflie begin-->
             <section style="background-color: #eee;">
+                <form action="managercategory?service=edit" method="post">
                 <div class="container py-5">
                     <div class="row">
                         <div class="col-lg-4">
@@ -81,7 +82,7 @@
                                             <label for="fullName">Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.name}</p>
+                                            <input id="fullName" name="name" size="40" value="<%=name%>">
                                         </div>
                                     </div>
                                     <hr>
@@ -90,7 +91,7 @@
                                             <label for="email">Email</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.email}</p>
+                                           <input id="email" name="email" size="40" value="<%=name%>">
                                         </div>
                                     </div>
                                     <hr>
@@ -99,7 +100,7 @@
                                             <label for="phone">Phone</label>
                                         </div>
                                         <div class="col-sm-9">
-                                           <p class="text-muted mb-0">${account.mobile}</p>
+                                           <input id="phone" name="phone" size="40" value="<%=name%>">
                                         </div>
                                     </div>
                                     <hr>
@@ -108,7 +109,7 @@
                                             <label for="postCode">Post Code</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.postCode}</p>
+                                            <input id="postCode" name="postCode" size="40" value="<%=name%>">
                                         </div>
                                     </div>
                                     <hr>
@@ -117,7 +118,7 @@
                                             <label for="Address">Address</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.address}</p>
+                                            <input id="Address" name="address" size="40" value="<%=name%>">
                                         </div>
                                     </div>
                                     <hr>
@@ -132,12 +133,12 @@
                         </div>                                                                
                     </div>
                 </div>
-
+            </form>
             </section>
-         </c:if>
+     
         
          <c:if test="${empty user}">
-                <p>No user information available. Please <a href="login?service=login">login</a>.</p>
+                <p>No user information available. Please <a href="login">login</a>.</p>
             </c:if>
 
         <!-- profile end-->
