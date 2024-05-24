@@ -16,22 +16,7 @@ import model.User;
 
 public class Login extends HttpServlet {
 
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-        request.setAttribute("check", "null");
-        String service = request.getParameter("service");
-        if (service == null) {
-            request.getRequestDispatcher("ViewUser/login.jsp").forward(request, response);
-        }
-        request.getRequestDispatcher("/ViewUser/login.jsp").include(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
@@ -39,20 +24,36 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
-        User u = dao.login(username, password);
-//        String service = request.getParameter("service");
-//        if(service==null){
-//            request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
-//        }
-        if (u != null) {
-            request.setAttribute("check", "success");
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
-            request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
-        } else {
-            request.setAttribute("check", "fail");
-            request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
+        String service = request.getParameter("service");
+        if (service == null) {
+            request.getRequestDispatcher("ViewUser/login.jsp").forward(request, response);
         }
+        if (service.equals("login")) {
+            User u = dao.login(username, password);
+            if (u != null) {
+                request.setAttribute("check", "success");
+                session.setAttribute("username", username);
+                session.setAttribute("password", password);
+                session.setAttribute("inforUser", u);
+                request.getRequestDispatcher("home").forward(request, response);
+            } else {
+                request.setAttribute("check", "fail");
+                request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
+            }
+        }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override

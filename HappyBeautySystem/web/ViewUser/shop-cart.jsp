@@ -1,3 +1,7 @@
+<%@page import="model.Product"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Cart"%>
 <%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -18,7 +22,6 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
@@ -27,16 +30,6 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
-                <!-- Css Styles -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
     </head>
 
     <body>
@@ -58,7 +51,6 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-
         <!-- Shop Cart Section Begin -->
         <section class="shop-cart spad">
             <div class="container">
@@ -77,20 +69,22 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        double granTotal = 0; // Khởi tạo biến granTotal
-                                        java.util.Enumeration em = session.getAttributeNames();
-                                        while (em.hasMoreElements()) {
-                                            String key = em.nextElement().toString();
-                                            if (key.startsWith("cart_")) {
-                                                ProductCart pro = (ProductCart) session.getAttribute(key);
-                                                double subtotal = pro.getQuantity() * pro.getPrice();
-                                                granTotal += subtotal; // Cộng dồn vào granTotal
-%>
+                                        List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
+                                        double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal
+                                        if (listCart != null && !listCart.isEmpty()) {
+                                            ProductDAO daoProduct = new ProductDAO();
+                                            for (Cart cart : listCart) {
+                                                Product pro = daoProduct.getProductById(cart.getProductId());
+                                                if (pro != null) {
+                                                    double subtotal = cart.getQuantity() * pro.getPrice();
+                                                    granTotal += subtotal;
+                                                    String formattedGranTotal = String.format("%.2f", granTotal);
+                                    %>
                                     <tr>
                                         <td class="cart__product__item">
-                                            <img src="img/shop-cart/Ami.png" alt=""/>
+                                            <img src="ViewUser/img/shop-cart/Ami.png" alt=""/>
                                             <div class="cart__product__item__title">
-                                                <h6><%= pro.getProduct_name()%></h6>
+                                                <h6><%= pro.getProductName()%></h6>
                                                 <div class="rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -100,17 +94,27 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price" data-price="<%= pro.getPrice()%>"></td>
+                                        <td class="cart__price" data-price="<%= pro.getPrice()%>">$<%= pro.getPrice()%></td>
                                         <td class="cart__quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="<%= pro.getQuantity()%>">
-                                            </div>
+                                            <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
                                         </td>
-                                        <td class="cart__price" data-price="<%= subtotal%>"></td>
-                                        <td class="cart__close"><span class="icon_close"></span></td>
+                                        <td class="cart__price sub_total" data-price="<%= subtotal%>" id="<%= cart.getCartId()%>">$<%= subtotal%></td>
+                                        <td class="cart__close">
+                                            <a href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
+                                                <span class="icon_close"></span>
+                                            </a>
+                                        </td>
+
                                     </tr>
                                     <%
                                             }
+                                        }
+                                    } else {
+                                    %>
+                                    <tr>
+                                        <td colspan="5" class="text-center">Your cart is empty</td>
+                                    </tr>
+                                    <%
                                         }
                                     %>
                                 </tbody>
@@ -126,7 +130,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn update__btn">
-                            <a href="#"><span class="icon_loading"></span> Update cart</a>
+                            <a href="#"><span class="btn btn-success"></span> Update cart</a>
                         </div>
                     </div>
                 </div>
@@ -144,10 +148,11 @@
                         <div class="cart__total__procced">
                             <h6>Cart total</h6>
                             <ul>
-                                <li class="cart__price" data-price="<%= granTotal%>"></li>
-                                <li class="cart__price" data-price="<%= granTotal%>"></li>
+                                <li>Total <span id="granTotal">$<%= granTotal%></span></li>
                             </ul>
-                            <a href="#" class="primary-btn">Proceed to checkout</a>
+                            <a href="#" class="primary-btn">Order With Address Default</a>
+                            <br><!-- comment -->
+                            <a href="#" class="primary-btn " style="background-color: green">Order With Address Orther</a>
                         </div>
                     </div>
                 </div>
@@ -296,16 +301,16 @@
         <!-- Search End -->
 
         <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/jquery.countdown.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.nicescroll.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
+        <script src="ViewUser/js/bootstrap.min.js"></script>
+        <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
+        <script src="ViewUser/js/jquery-ui.min.js"></script>
+        <script src="ViewUser/js/mixitup.min.js"></script>
+        <script src="ViewUser/js/jquery.countdown.min.js"></script>
+        <script src="ViewUser/js/jquery.slicknav.js"></script>
+        <script src="ViewUser/js/owl.carousel.min.js"></script>
+        <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
+        <script src="ViewUser/js/main.js"></script>
         <script>
                                 document.addEventListener('DOMContentLoaded', function () {
                                     const priceCells = document.querySelectorAll('.cart__price');
@@ -313,9 +318,78 @@
                                         const price = parseFloat(cell.getAttribute('data-price'));
                                         cell.textContent = price.toFixed(2);
                                     });
+
                                 });
+        </script>
+        <!--        //CHANGE QUANTITY -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+
+                                function stringToObject(string) {
+                                    //Tách chuỗi ra thành các phần tử có key với value ví du:
+                                    // [name=abc,age=20,gender=male]
+                                    let keyValuePairs = string.split(", ");
+                                    let obj = {}; // tạo 1 obj rỗng
+
+                                    // duyệt mọi phần tử
+                                    for (let i = 0; i < keyValuePairs.length; i++) {
+                                        // Tạo 1 mảng chứa key - value,
+                                        // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
+                                        // để thêm vào obj
+                                        let keyValue = keyValuePairs[i].split("=");
+
+                                        // Mảng có 2 phần tử, 0: key, 1: value
+                                        let key = keyValue[0].trim();
+                                        let value = keyValue[1].trim();
+
+                                        // Check xem value có phải số hay không? nếu là số thì parse
+                                        if (!isNaN(value)) {
+                                            value = parseFloat(value);
+                                        }
+
+                                        // thêm key-value vào obj
+                                        obj[key] = value;
+                                    }
+
+                                    return obj;
+                                }
+                                function changeQuantity(position, obj_raw, price) {
+                                    let value = +position.value;
+                                    if (value <= 0) {
+                                        position.value = 1;
+
+                                    }
+                                    console.log(typeof +position.value);
+                                    let obj = stringToObject(obj_raw);
+                                    console.log(obj)
+                                    console.log(price);
+                                    $.ajax({
+                                        url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
+                                        type: "POST",
+                                        success: function (data) {
+                                            let id = obj.cartId;
+                                            let total = document.getElementById(id);
+                                            total.innerHTML = price * position.value;
+
+                                            let priceCells = document.querySelectorAll('.sub_total');
+                                            let totalPrice = 0;
+                                            console.log(priceCells);
+                                            priceCells.forEach(cell => {
+                                                let price = +cell.innerHTML;
+//                                                cell.textContent = price.toFixed(2);
+                                                totalPrice += price;
+                                                
+                                            });
+                                            console.log(totalPrice);
+                                            document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
+
+                                        },
+                                        error: function (xhr, status, error) {
+
+                                        }
+                                    });
+                                }
         </script>
 
     </body>
-
 </html>
