@@ -62,7 +62,8 @@
         
         <!-- proflie begin-->
             <section style="background-color: #eee;">
-                <form action="managercategory?service=edit" method="post">
+                <c:set value="${requestScope.infor}" var="c"/>
+                <form action="customer-profle" method="post">
                 <div class="container py-5">
                     <div class="row">
                         <div class="col-lg-4">
@@ -70,7 +71,7 @@
                                 <div class="card-body text-center">
                                     <img src="${account.img}" alt="avatar"
                                          class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">${account.name}</h5>
+                                    <h5 class="my-3">${c.name}</h5>
                                 </div>
                             </div>                      
                         </div>
@@ -82,7 +83,8 @@
                                             <label for="fullName">Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input id="fullName" name="name" size="40" value="<%=name%>">
+                                            <input id="fullName" name="name" size="40" value="${c.name}">
+                                            <input value="Save" name="userID"  />
                                         </div>
                                     </div>
                                     <hr>
@@ -91,7 +93,7 @@
                                             <label for="email">Email</label>
                                         </div>
                                         <div class="col-sm-9">
-                                           <input id="email" name="email" size="40" value="<%=name%>">
+                                           <input id="email" name="email" size="40" value="${c.email}">
                                         </div>
                                     </div>
                                     <hr>
@@ -100,7 +102,7 @@
                                             <label for="phone">Phone</label>
                                         </div>
                                         <div class="col-sm-9">
-                                           <input id="phone" name="phone" size="40" value="<%=name%>">
+                                           <input id="phone" name="phone" size="40" value="${c.mobile}>">
                                         </div>
                                     </div>
                                     <hr>
@@ -109,7 +111,7 @@
                                             <label for="postCode">Post Code</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input id="postCode" name="postCode" size="40" value="<%=name%>">
+                                            <input id="postCode" name="postCode" size="40" value="${c.postCode}">
                                         </div>
                                     </div>
                                     <hr>
@@ -118,7 +120,7 @@
                                             <label for="Address">Address</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input id="Address" name="address" size="40" value="<%=name%>">
+                                            <input id="Address" name="address" size="40" value="${c.address}">
                                         </div>
                                     </div>
                                     <hr>
