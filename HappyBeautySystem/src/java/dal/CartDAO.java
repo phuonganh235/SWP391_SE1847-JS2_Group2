@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CartDAO extends DBContext {
 
+    // Adds a new cart entry to the database
     public void addCart(Cart cart) {
         String sql = "INSERT INTO cart (ProductId, Quantity, UserId, CreateDate) VALUES (?, ?, ?, ?)";
 
@@ -24,8 +25,8 @@ public class CartDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    // Cập nhật quantity
 
+    // Updates the quantity of a specific product in the cart for a specific user by incrementing it by 1
     public void updateQuantity(int userId, int productId) {
         String sql = "UPDATE cart SET Quantity = Quantity+1 WHERE UserId = ? AND ProductId = ?";
 
@@ -39,6 +40,7 @@ public class CartDAO extends DBContext {
         }
     }
 
+    // Retrieves a specific cart entry by userId and productId
     public Cart getCartByUserIdAndProductId(int userId, int productId) {
         String sql = "SELECT * FROM cart WHERE UserId = ? AND ProductId = ?";
         Cart cart = null;
@@ -65,6 +67,7 @@ public class CartDAO extends DBContext {
         return cart;
     }
 
+    // Retrieves all cart entries for a specific user by userId
     public List<Cart> getAllCartsByUserId(int userId) {
         List<Cart> carts = new ArrayList<>();
         String sql = "SELECT * FROM cart WHERE UserId = ?";
@@ -95,6 +98,7 @@ public class CartDAO extends DBContext {
         return carts;
     }
 
+    // Deletes a specific cart entry by productId and userId
     public void deleteCart(int productId, int userId) {
         String sql = "DELETE FROM cart WHERE ProductId = ? AND UserId = ?";
 
@@ -108,6 +112,7 @@ public class CartDAO extends DBContext {
         }
     }
 
+    // Updates the quantity of a specific product in the cart for a specific user
     public void updateQuantityChange(int userId, int productId, int quantity) {
         String sql = "UPDATE cart SET Quantity = ? WHERE UserId = ? AND ProductId = ?";
 
@@ -122,6 +127,7 @@ public class CartDAO extends DBContext {
         }
     }
 
+    //main method to test
     public static void main(String[] args) {
         CartDAO dao = new CartDAO();
         Cart cart = new Cart(1, 2, 4, "2022-12-10");

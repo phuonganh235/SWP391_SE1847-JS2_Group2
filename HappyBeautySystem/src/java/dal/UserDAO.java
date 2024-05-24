@@ -10,6 +10,7 @@ import model.User;
 
 public class UserDAO extends DBContext {
 
+    // Retrieves all users from the Users table in the database
     public ArrayList<User> getAllUser() {
         ArrayList<User> uList = new ArrayList<>();
         String sql = "SELECT * FROM Users";
@@ -37,6 +38,7 @@ public class UserDAO extends DBContext {
         return uList;
     }
 
+    // Authenticates a user with the provided username and password
     public User login(String username, String password) {
         String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
         try {
@@ -59,6 +61,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    // Retrieves a user by their userId
     public User getUserById(String userId) {
         String sql = "SELECT * FROM Users WHERE UserId = ?";
         try {
@@ -80,6 +83,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    // Retrieves a user by their username
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE Username = ?";
         try {
@@ -101,6 +105,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    // Checks if an email already exists in the Users table
     public boolean checkExistEmail(String email) {
         String sql = "SELECT * FROM Users WHERE Email = ?";
         try {
@@ -116,6 +121,7 @@ public class UserDAO extends DBContext {
         return true;
     }
 
+    // Registers a new user with the provided details
     public void register(String name, String username, String password, String mobile, String email, String address, String postCode, Date createDate, int roleId) {
         String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -134,6 +140,7 @@ public class UserDAO extends DBContext {
         }
     }
     
+    // Retrieves the role of a user based on their username and password
     public int getRole(String username, String password){
         String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
         try {

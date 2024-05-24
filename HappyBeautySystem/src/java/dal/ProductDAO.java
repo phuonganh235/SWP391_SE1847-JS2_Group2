@@ -8,7 +8,8 @@ import model.Product;
 import model.ProductImage;
 
 public class ProductDAO extends DBContext {
-//  Lấy tất cả sp
+    
+    // Retrieves all products from the Product table in the database
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product";
@@ -41,17 +42,17 @@ public class ProductDAO extends DBContext {
         }
         return pList;
     }
-    
-//  Lấy danh sách sp trên 1 trang từ start tới end
+
+    // Retrieves a sublist of products from a given list based on the start and end indices
     public ArrayList<Product> getListByPage(ArrayList<Product> list, int start, int end) {
         ArrayList<Product> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
             arr.add(list.get(i));
         }
         return arr;
-    } 
-    
-//  Lấy tất cả sp theo productId
+    }
+
+    // Retrieves products by their ID from the Product table
     public ArrayList<Product> getProduct(int id) {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product where productId = ?";
@@ -87,7 +88,7 @@ public class ProductDAO extends DBContext {
         return pList;
     }
 
-//  Lấy chi tiết hình ảnh sản phẩm
+    // Retrieves images associated with a product by the product's ID
     public ArrayList<ProductImage> getProductImage(int productId) {
         ArrayList<ProductImage> pimList = new ArrayList<>();
         String sql = "SELECT [ImageId]\n"
@@ -114,6 +115,7 @@ public class ProductDAO extends DBContext {
         return pimList;
     }
 
+    // Retrieves a product by its ID from the Product table
     public Product getProductById(int productId) {
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ProductId = ?";
@@ -147,7 +149,7 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
-//  Tìm kiếm sp theo Category
+    // Searches for products by category name
     public ArrayList<Product> searchProductByCategory(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -168,7 +170,8 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-//  Tìm kiếm sp theo tên sp
+
+    // Searches for products by product name
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -190,7 +193,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-//  Thêm sản phẩm
+    // Adds a new product to the Product table in the database
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -217,7 +220,7 @@ public class ProductDAO extends DBContext {
         }
     }
 
-//    Cập nhật sp
+    // Updates an existing product in the Product table in the database
     public void updateProduct(Product product) {
         String sql = "UPDATE Product SET ProductName = ?, ShortDescription = ?, LongDescription = ?, AdditionalDescription = ?, Price = ?, Quantity = ?, Size = ?, Color = ?, CompanyName = ?, CategoryId = ?, SubCategoryId = ?, Sold = ?, IsCustomized = ?, IsActive = ?, CreateDate = ?, PathImage = ?  WHERE ProductId = ?";
         try {
@@ -245,7 +248,7 @@ public class ProductDAO extends DBContext {
         }
     }
 
-//    Xóa sp khỏi db
+    // Deletes a product from the Product table in the database by its ID
     public void deleteProduct(int productId) {
         String sql = "DELETE FROM Product WHERE ProductId = ?";
         try {
@@ -264,7 +267,7 @@ public class ProductDAO extends DBContext {
 //        Product p = dao.getProductById(1);
         Product pro = dao.getProductById(1);
         System.out.println(pro.getProductName());
-        
+
         ArrayList<Product> pList = dao.getAllProduct();
         Product p = dao.getProductById(1);
         System.out.println(pList);

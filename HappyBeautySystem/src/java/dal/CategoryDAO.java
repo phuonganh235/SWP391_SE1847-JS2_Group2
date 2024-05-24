@@ -7,6 +7,7 @@ import model.Category;
 
 public class CategoryDAO extends DBContext {
 
+    // Retrieves all categories from the Category table in the database
     public ArrayList<Category> getAllCategories() {
         ArrayList<Category> categoryList = new ArrayList<>();
         String sql = "SELECT * FROM Category";
@@ -28,6 +29,7 @@ public class CategoryDAO extends DBContext {
         return categoryList;
     }
 
+    // Retrieves a category by its ID from the Category table
     public Category getCategoryById(int categoryId) {
         Category category = null;
         String sql = "SELECT * FROM Category WHERE CategoryId = ?";
@@ -49,6 +51,7 @@ public class CategoryDAO extends DBContext {
         return category;
     }
 
+    // Adds a new category to the Category table in the database
     public void addCategory(Category category) {
         String sql = "INSERT INTO Category (CategoryName, CategoryImageUrl, IsActive, CreateDate) VALUES (?, ?, ?, ?)";
         try {
@@ -63,6 +66,7 @@ public class CategoryDAO extends DBContext {
         }
     }
 
+    // Updates an existing category in the Category table in the database
     public void updateCategory(Category category) {
         String sql = "UPDATE Category SET CategoryName = ?, CategoryImageUrl = ?, IsActive = ?, CreateDate = ? WHERE CategoryId = ?";
         try {
@@ -78,6 +82,7 @@ public class CategoryDAO extends DBContext {
         }
     }
 
+    // Deletes a category from the Category table in the database by its ID
     public void deleteCategory(int categoryId) {
         String sql = "DELETE FROM Category WHERE CategoryId = ?";
         try {
@@ -89,6 +94,7 @@ public class CategoryDAO extends DBContext {
         }
     }
 
+    //main method
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();
         ArrayList<Category> categoryList = dao.getAllCategories();
