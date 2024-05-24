@@ -1,6 +1,6 @@
 package controller.Authentication;
 
-import dal.DAOProduct;
+
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;

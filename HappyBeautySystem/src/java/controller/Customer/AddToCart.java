@@ -2,7 +2,7 @@ package controller.Customer;
 
 import common.CommonDAO;
 import dal.CartDAO;
-import dal.DAOProduct;
+
 import dal.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
