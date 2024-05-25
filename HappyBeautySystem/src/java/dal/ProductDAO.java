@@ -10,6 +10,7 @@ import model.ProductImage;
 public class ProductDAO extends DBContext {
     
     // Retrieves all products from the Product table in the database
+
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product";
@@ -43,7 +44,9 @@ public class ProductDAO extends DBContext {
         return pList;
     }
 
+
     // Retrieves a sublist of products from a given list based on the start and end indices
+
     public ArrayList<Product> getListByPage(ArrayList<Product> list, int start, int end) {
         ArrayList<Product> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -53,6 +56,7 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves products by their ID from the Product table
+
     public ArrayList<Product> getProduct(int id) {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product where productId = ?";
@@ -116,6 +120,7 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves a product by its ID from the Product table
+
     public Product getProductById(int productId) {
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ProductId = ?";
@@ -149,7 +154,29 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
+
+    public ArrayList<Product> getProductByCategory(int category_id) {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "select c.CategoryName , p.ProductId, p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "WHERE p.CategoryId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, category_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
     // Searches for products by category name
+
     public ArrayList<Product> searchProductByCategory(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -171,7 +198,9 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+
     // Searches for products by product name
+
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -181,7 +210,6 @@ public class ProductDAO extends DBContext {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + text + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
@@ -193,7 +221,54 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+
+//    Search Products by Price
+    public ArrayList<Product> search(Double from, Double to) {
+        ArrayList<Product> list = new ArrayList<>();
+
+        String sql = "SELECT *  FROM Product\n"
+                + "WHERE 1=1";
+          if (from != null) {
+            sql += "and price >= '" + from + "'";
+        }
+        if (to != null) {
+            sql += "and price <= '" + to + "'";
+        }
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Product p = new Product(
+                        rs.getInt(1), // productId
+                        rs.getString(2), // productName
+                        rs.getString(3), // shortDes
+                        rs.getString(4), // longDes
+                        rs.getString(5), // addDes
+                        rs.getFloat(6), // price
+                        rs.getInt(7), // quantity
+                        rs.getString(8), // size
+                        rs.getString(9), // color
+                        rs.getString(10), // companyName
+                        rs.getInt(11), // cateId
+                        rs.getInt(12), // subCateId
+                        rs.getInt(13), // sold
+                        rs.getBoolean(14), // isCustomized
+                        rs.getBoolean(15), // isActive
+                        rs.getString(16), // createDate
+                        rs.getString(17) // pathImage
+                );
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return list;
+    }
+
+
     // Adds a new product to the Product table in the database
+
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -260,6 +335,24 @@ public class ProductDAO extends DBContext {
         }
     }
 
+
+    public int countReview(int id) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count'\n"
+                + "  FROM [ProductReview] where [ProductId] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
@@ -269,7 +362,13 @@ public class ProductDAO extends DBContext {
         System.out.println(pro.getProductName());
 
         ArrayList<Product> pList = dao.getAllProduct();
-        Product p = dao.getProductById(1);
-        System.out.println(pList);
+        ArrayList<Product> cList = dao.search(15.22, 30.22);      
+        for (Product product : cList) {
+            System.out.println(product);
+        }
+//        Product p = dao.getProductById(1);
+//        int count = dao.countReview(1);
+//        System.out.println(cList);
     }
+
 }

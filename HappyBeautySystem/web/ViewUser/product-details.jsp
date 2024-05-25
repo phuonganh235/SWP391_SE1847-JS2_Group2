@@ -41,9 +41,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                            <a href="./home"><i class="fa fa-home"></i> Home</a>
                             <a href="#">Women’s </a>
-                            <span>Essential structured blazer</span>
+                            <span>Essential structured blazer </span>
                         </div>
                     </div>
                 </div>
@@ -55,11 +55,12 @@
         <section class="product-details spad">
             <div class="container">
                 <div class="row">
+                    <!--Hiển thị chi tiết ảnh sp-->
                     <div class="col-lg-6">
                         <div class="product__details__pic">
                             <div class="product__details__pic__left product__thumb nice-scroll">
                                 <a class="pt active" href="#product-1">
-                                    <img src="ViewUser/img/product/details/thumb-1.jpg" alt="">
+                                    <img src="ViewUser/img/product/details/product-1.jpg" alt="">
                                 </a>
                                 <a class="pt" href="#product-2">
                                     <img src="img/product/details/thumb-2.jpg" alt="">
@@ -81,75 +82,76 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-6">
-                        <c:forEach items="${requestScope.ProductData}" var="p">
-<!--                            <input type="hidden" value="p.productId">-->
-                            <div class="product__details__text">
-                                <h3>${p.getProductName()} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>( 138 reviews )</span>
-                                </div>
-                                <div class="product__details__price"><span>${p.getPrice()}</span></div>
-                                <p>${p.getLongDes()}</p>
-                                <div class="product__details__button">
-                                    <div class="quantity">
-                                        <span>Quantity: ${p.getQuantity()}</span>
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
+                        <%--<c:forEach items="${requestScope.ProductData}" var="p">--%>
+                        <div class="product__details__text">
+                            <h3>Name: ${ProductData.getProductName()}<span>Description: ${ProductData.getShortDes()}</span></h3>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span>( Reviews: ${countReview} )</span>
+                            </div>
+                            <div class="product__details__price">Giá:$${ProductData.getPrice()}</div>
+                            <div class="">Category: ${requestScope.Category.categoryName}</div>
+                            <p>${ProductData.getLongDes()}</p>
+                            <div class="product__details__button">
+                                <div class="quantity">
+                                    <span>Quantity: ${ProductData.getQuantity()}</span>
+                                    <div class="pro-qty">
+                                        <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                                    <ul>
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                                    </ul>
                                 </div>
-                                <div class="product__details__widget">
-                                    <ul>
-                                        <li>
-                                            <span>Availability:</span>
-                                            <div class="stock__checkbox">
-                                                <label for="stockin">
-                                                    In Stock
-                                                    <input type="checkbox" id="stockin">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span>Available color:</span>
-                                            <div class="color__checkbox">
-                                                
-                                                <label for="grey">
-                                                    <input type="radio" name="color__radio" id="grey">
-                                                    <span class="checkmark grey-bg"></span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span>Available size:</span>
-                                            <div class="size__btn">
-                                                
-                                                <label for="l-btn">
-                                                    <input type="radio" id="l-btn">
-                                                    l
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span>Promotions:</span>
-                                            <p>Free shipping</p>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <ul>
+                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__details__widget">
+                                <ul>
+                                    <li>
+                                        <span>Availability:</span>
+                                        <div class="stock__checkbox">
+                                            <label for="stockin">
+                                                In Stock
+                                                <input type="checkbox" id="stockin">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Available color:</span>
+                                        <div class="color__checkbox">
+
+                                            <label for="grey">
+                                                <input type="radio" name="color__radio" id="grey">
+                                                <span>${ProductData.getColor()}</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Available size:</span>
+                                        <div class="size__btn">
+
+                                            <label for="l-btn">
+                                                <input type="radio" id="l-btn">
+                                                ${ProductData.getSize()}
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Promotions:</span>
+                                        <p>Free shipping</p>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </c:forEach>
+                    </div>
+                    <%--</c:forEach>--%>
                     <div class="col-lg-12">
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
@@ -160,48 +162,13 @@
                                     <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( ${countReview} )</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                     <h6>Description</h6>
-                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                        quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                        Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                        consequat massa quis enim.</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                        dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                        nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                        quis, sem.</p>
-                                </div>
-                                <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                    <h6>Specification</h6>
-                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                        quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                        Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                        consequat massa quis enim.</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                        dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                        nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                        quis, sem.</p>
-                                </div>
-                                <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                    <h6>Reviews ( 2 )</h6>
-                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                        quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                        Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                        consequat massa quis enim.</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                        dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                        nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                        quis, sem.</p>
+                                    <p>${ProductData.getLongDes()}</p>
                                 </div>
                             </div>
                         </div>
@@ -213,96 +180,33 @@
                             <h5>RELATED PRODUCTS</h5>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Buttons tweed blazer</a></h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-2.jpg">
-                                <ul class="product__hover">
-                                    <li><a href="img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Flowy striped skirt</a></h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 49.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-3.jpg">
-                                <div class="label stockout">out of stock</div>
-                                <ul class="product__hover">
-                                    <li><a href="img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Cotton T-Shirt</a></h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-4.jpg">
-                                <ul class="product__hover">
-                                    <li><a href="img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Slim striped pocket shirt</a></h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--Similar product-->
+                   <c:forEach items="${requestScope.ProductCategory}" var="pc">
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="product__item">
+                                                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
+                                                        <div class="label new">New</div>
+                                                        <ul class="product__hover">
+                                                            <li><a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
+                                                                    <img src="${pc.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a></li>
+                                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product__item__text">
+                                                        <h6><a href="product?action=productdetail&product_id=${pc.getProductId()}">${pc.getProductName()}</a></h6>
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <div class="product__price">${pc.getPrice()}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    </c:forEach>
                 </div>
             </div>
         </section>

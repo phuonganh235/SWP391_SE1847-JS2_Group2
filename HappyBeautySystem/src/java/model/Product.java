@@ -53,6 +53,28 @@ public class Product {
         this.createDate = createDate;
         this.pathImage = pathImage;
     }
+
+    public Product(Category cate, int productId, String productName, String shortDes, String longDes, String addDes, float price, int quantity, String size, String color, String companyName, int cateId, int subCateId, int sold, boolean isCustomized, boolean isActive, String createDate, String pathImage) {
+        this.cate = cate;
+        this.productId = productId;
+        this.productName = productName;
+        this.shortDes = shortDes;
+        this.longDes = longDes;
+        this.addDes = addDes;
+        this.price = price;
+        this.quantity = quantity;
+        this.size = size;
+        this.color = color;
+        this.companyName = companyName;
+        this.cateId = cateId;
+        this.subCateId = subCateId;
+        this.sold = sold;
+        this.isCustomized = isCustomized;
+        this.isActive = isActive;
+        this.createDate = createDate;
+        this.pathImage = pathImage;
+    }
+    
     
     public Category getCate() {
         return cate;
