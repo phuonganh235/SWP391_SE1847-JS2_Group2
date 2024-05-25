@@ -53,8 +53,11 @@
                     <a href="#" class="sidebar-toggler flex-shrink-0">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <form class="d-none d-md-flex ms-4">
-                        <input class="form-control border-0" type="search" placeholder="Search">
+                    <!--   Seach Form    -->
+                    <form class="d-none d-md-flex ms-4" action="managercategory?service=search" method="post">
+                        <input type="hidden" name="service" value="search">
+                        <input class="form-control border-0" type="search" placeholder="Search" name="txt">
+                        <button type="submit" class="btn btn-primary ms-2">Search</button>
                     </form>
                     <div class="navbar-nav align-items-center ms-auto">
                         <!-- Message Dropdown -->
@@ -98,7 +101,7 @@
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">Category Management</h6>
-                            <a href="manageCategory">Show All</a>
+                            <a href="managecategory">Show All</a>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Category</button>
                         </div>
                         <!-- Load product Product -->
@@ -144,10 +147,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="managercategory?service=add" method="post">
-                                            <div class="mb-3">
-                                                <label for="productId" class="form-label">Category ID</label>
-                                                <input type="number" class="form-control" id="categoryId" name="categoryId" required>
-                                            </div>
+                                            <input type="hidden" id="categoryId" name="categoryId" value="0">
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Category Name</label>
                                                 <input type="text" class="form-control" id="categoryName" name="categoryName" required>

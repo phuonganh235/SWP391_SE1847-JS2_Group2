@@ -1,4 +1,3 @@
-
 package controller.Manager;
 
 import dal.CategoryDAO;
@@ -14,7 +13,7 @@ import model.Category;
 public class managerCategory extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         CategoryDAO dao = new CategoryDAO();
         String service = request.getParameter("service");
@@ -27,12 +26,20 @@ public class managerCategory extends HttpServlet {
             request.getRequestDispatcher("ViewAdmin/manageCategory.jsp").forward(request, response);
         }
         if (service.equals("add")) {
-            int catId = Integer.parseInt(request.getParameter("categoryId"));
+            String catIdStr = request.getParameter("categoryId");
+            Integer categoryId = null;
+            if (catIdStr != null && !catIdStr.trim().isEmpty()) {
+                try {
+                    categoryId = Integer.parseInt(catIdStr);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
             String catName = request.getParameter("categoryName");
             String catImgUrl = request.getParameter("categoryImageUrl");
             boolean isActive = request.getParameter("isActive") != null;
             String createDate = request.getParameter("createDate");
-            Category cat = new Category(catId, catName, catImgUrl, isActive, createDate);
+            Category cat = new Category(categoryId, catName, catImgUrl, isActive, createDate);
             dao.addCategory(cat);
             response.sendRedirect("managercategory");
         }
@@ -57,17 +64,23 @@ public class managerCategory extends HttpServlet {
             dao.deleteCategory(catId);
             response.sendRedirect("managercategory");
         }
-    } 
+        if (service.equals("search")) {
+            String txt = request.getParameter("txt");
+            ArrayList<Category> searchCat = dao.searchByName(txt);
+            request.setAttribute("listCat", searchCat);
+            request.getRequestDispatcher("ViewAdmin/manageCategory.jsp").forward(request, response);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 

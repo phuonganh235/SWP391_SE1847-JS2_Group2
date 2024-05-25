@@ -1,6 +1,9 @@
 
 package model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Category {
     private int categoryId;
     private String categoryName;
@@ -67,6 +70,15 @@ public class Category {
         return "Category{" + "categoryId=" + categoryId + ", categoryName=" + categoryName + ", categoryImageUrl=" + categoryImageUrl + ", isActive=" + isActive + ", createDate=" + createDate + '}';
     }
   
-    
+    public String getFormattedCreateDate() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(this.createDate);  // Giả sử createDate ban đầu ở định dạng dd/MM/yyyy
+            return sdf.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.createDate;
+        }
+    }
     
 }

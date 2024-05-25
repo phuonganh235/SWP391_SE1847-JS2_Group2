@@ -94,6 +94,29 @@ public class CategoryDAO extends DBContext {
         }
     }
 
+    // Search a category from the Category table in the database by name
+    public ArrayList<Category> searchByName(String categoryName) {
+        ArrayList<Category> categoryList = new ArrayList<>();
+        String sql = "SELECT * FROM Category WHERE CategoryName LIKE ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + categoryName + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategoryId(rs.getInt("CategoryId"));
+                category.setCategoryName(rs.getString("CategoryName"));
+                category.setCategoryImageUrl(rs.getString("CategoryImageUrl"));
+                category.setIsActive(rs.getBoolean("IsActive"));
+                category.setCreateDate(rs.getString("CreateDate"));
+                categoryList.add(category);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categoryList;
+    }
+    
     //main method
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();

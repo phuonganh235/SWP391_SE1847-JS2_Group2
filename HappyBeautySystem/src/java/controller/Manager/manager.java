@@ -26,10 +26,20 @@ public class manager extends HttpServlet {
         if (service.equals("listall")) {
             ArrayList<Product> product = dao.getAllProduct();
             request.setAttribute("listP", product);
+            ArrayList<Category> cat = daoC.getAllCategories();
+            request.setAttribute("listCat", cat);
             request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
         }
         if (service.equals("add")) {
-            int productId = Integer.parseInt(request.getParameter("productId"));
+            String productIdStr = request.getParameter("productId");
+            Integer productId = null;
+            if (productIdStr != null && !productIdStr.trim().isEmpty()) {
+                try {
+                    productId = Integer.parseInt(productIdStr);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
             String productName = request.getParameter("productName");
             String shortDes = request.getParameter("shortDes");
             String longDes = request.getParameter("longDes");

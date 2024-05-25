@@ -166,10 +166,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="manager?service=add" method="post">
-                                            <div class="mb-3">
-                                                <label for="productId" class="form-label">Product ID</label>
-                                                <input type="number" class="form-control" id="productId" name="productId" required>
-                                            </div>
+                                            <input type="hidden" id="productId" name="productId" value="0">
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Product Name</label>
                                                 <input type="text" class="form-control" id="productName" name="productName" required>
@@ -209,7 +206,7 @@
              
                                             <div class="mb-3">
                                                 <label for="cateId" class="form-label">Category</label>
-                                                <select class="form-select" id="cateId" name="cateId" required>
+                                                <select class="form-select" id="categId" name="cateId" required>
                                                     <c:forEach items="${listCat}" var="cat">
                                                         <option value="${cat.categoryId}">${cat.categoryName}</option>
                                                     </c:forEach>
