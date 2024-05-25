@@ -34,22 +34,16 @@
         </style>
     </head>
     <body>
-        Page Preloder 
-        <div id="preloder">
-            <div class="loader"></div>
-        </div>
+        <!--        Page Preloder 
+                <div id="preloder">
+                    <div class="loader"></div>
+                </div>-->
 
         <!-- Offcanvas Menu Begin -->
         <div class="offcanvas-menu-overlay"></div>
         <div class="offcanvas-menu-wrapper">
             <div class="offcanvas__close">+</div>
-             <!--Search Bar-->
-            <div class="search_bar">
-                <form action="product?action=search" method="POST">
-                    <input name="text" placeholder="Search Product..." type="text">
-                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
-                </form>
-            </div>
+
             <ul class="offcanvas__widget">
                 <!--<li><span class="icon_search search-switch"></span></li>-->
 
@@ -81,9 +75,9 @@
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="home.jsp">Home</a></li>
+                                <li class="active"><a href="./home">Home</a></li>
 
-                                <li><a href="shop.jsp">Shop</a>
+                                <li><a href="./product">Shop</a>
                                     <ul class="dropdown">
                                         <li><a href="">Bodycare</a></li>
                                         <li><a href="">Skincare</a></li>
@@ -92,6 +86,7 @@
                                         <li><a href="">Perfume</a></li>
                                     </ul>
                                 </li>
+
                                 <li><a href="#">Pages</a>
                                     <ul class="dropdown">
                                         <li><a href="product-details.jsp">Product Details</a></li>
@@ -107,31 +102,41 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="header__right">
+                            <div style="width: 30px" >
+                                <form action="product?service=search" method="post" >
+                                    <input name="text" placeholder="Search Product..." type="text">
+                                    <button type="submit">Search</button>
+                                </form>
+                            </div>
+                           
                             <div class="header__right__auth">
                                 <a href="login?service=null">Login</a>
                                 <a href="register?service=null">Register</a>
                             </div>
                             <ul class="header__right__widget">
-                                <li><span class="icon_search search-switch"></span></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span>
+
+
+                                <li>
+                                    <a href="#"><span class="icon_heart_alt"></span>
                                         <div class="tip">2</div>
-                                    </a></li>
-                                    <%
-                                        double granTotal = 0; // Khởi tạo biến granTotal
-                                        int count = 0;
-                                        java.util.Enumeration em = session.getAttributeNames();
-                                        while (em.hasMoreElements()) {
-                                            count++;
-                                            String key = em.nextElement().toString();
-                                            if (key.startsWith("cart_")) {
-                                                ProductCart pro = (ProductCart) session.getAttribute(key);
-                                                double subtotal = pro.getQuantity() * pro.getPrice();
-                                                granTotal += subtotal; // Cộng dồn vào granTotal
-                                    %>
-                                    <%
-                                            }
+                                    </a>
+                                </li>
+                                <%
+                                    double granTotal = 0; // Khởi tạo biến granTotal
+                                    int count = 0;
+                                    java.util.Enumeration em = session.getAttributeNames();
+                                    while (em.hasMoreElements()) {
+                                        count++;
+                                        String key = em.nextElement().toString();
+                                        if (key.startsWith("cart_")) {
+                                            ProductCart pro = (ProductCart) session.getAttribute(key);
+                                            double subtotal = pro.getQuantity() * pro.getPrice();
+                                            granTotal += subtotal; // Cộng dồn vào granTotal
+                                %>
+                                <%
                                         }
-                                    %>
+                                    }
+                                %>
                                 <li>
                                     <a href="/HappyBeautySystem/ViewUser/shop-cart.jsp"><span class="icon_bag_alt"></span>
                                         <div class="tip"><%= count%></div>

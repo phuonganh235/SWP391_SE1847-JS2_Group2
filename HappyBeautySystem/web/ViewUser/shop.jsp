@@ -36,13 +36,14 @@
         <jsp:include page="navbar.jsp"/>
         <!-- Header Section End -->
 
+
         <!-- Breadcrumb Begin -->
         <div class="breadcrumb-option">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./home.jsp"><i class="fa fa-home"></i> Home</a>
+                            <a href="./home"><i class="fa fa-home"></i> Home</a>
                             <span>Shop</span>
                         </div>
                     </div>
@@ -57,93 +58,33 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3">
                         <div class="shop__sidebar">
+                            
                             <div class="sidebar__categories">
-                                <div class="section-title">
-                                    <h4>Categories</h4>
+                                <!--List Category-->
+                                <!--sidebar widget start-->
+                                <div class="sidebar_widget">
+                                    <div class="widget_list widget_categories">
+                                        <div class="section-title">
+                                            <h4>Shop By Categories</h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-heading">
+                                        <a data-toggle="collapse" data-target="#collapseFive">List Category</a>
+                                    </div>
                                 </div>
+                                <!-- sidebar widget end-->
                                 <div class="categories__accordion">
                                     <div class="accordion" id="accordionExample">
                                         <div class="card">
-                                            <div class="card-heading active">
-                                                <a data-toggle="collapse" data-target="#collapseOne">Bodycare</a>
-                                            </div>
-                                            <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-                                                        <li><a href="#">Coats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">Dresses</a></li>
-                                                        <li><a href="#">Shirts</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                        <li><a href="#">Jeans</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <a data-toggle="collapse" data-target="#collapseTwo">Skincare</a>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-                                                        <li><a href="#">Coats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">Dresses</a></li>
-                                                        <li><a href="#">Shirts</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                        <li><a href="#">Jeans</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <a data-toggle="collapse" data-target="#collapseThree">Haircare</a>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-                                                        <li><a href="#">Coats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">Dresses</a></li>
-                                                        <li><a href="#">Shirts</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                        <li><a href="#">Jeans</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <a data-toggle="collapse" data-target="#collapseFour">Makeup</a>
-                                            </div>
-                                            <div id="collapseFour" class="collapse" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-                                                        <li><a href="#">Coats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">Dresses</a></li>
-                                                        <li><a href="#">Shirts</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                        <li><a href="#">Jeans</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <a data-toggle="collapse" data-target="#collapseFive">Perfume</a>
-                                            </div>
+
                                             <div id="collapseFive" class="collapse" data-parent="#accordionExample">
                                                 <div class="card-body">
                                                     <ul>
-                                                        <li><a href="#">Coats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">Dresses</a></li>
-                                                        <li><a href="#">Shirts</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                        <li><a href="#">Jeans</a></li>
+                                                        <li><a href="product">All</a></li>
+                                                            <c:forEach items="${categoryList}" var="c">
+                                                            <li><a href="product?action=listByCategory&category_id=${c.categoryId}">${c.categoryName}</a></li>
+                                                            </c:forEach>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -151,23 +92,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="sidebar__filter">
-                                <div class="section-title">
-                                    <h4>Shop by price</h4>
-                                </div>
-                                <div class="filter-range-wrap">
-                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                         data-min="33" data-max="99"></div>
-                                    <div class="range-slider">
-                                        <div class="price-input">
-                                            <p>Price:</p>
-                                            <input type="text" id="minamount">
-                                            <input type="text" id="maxamount">
+
+                            <div class="sidebar__categories">
+                                
+                                <!--Search By Price-->
+                                <!--sidebar widget start-->
+                                <div class="sidebar_widget">
+                                    <div class="widget_list widget_categories">
+                                        <div class="section-title">
+                                            <h4>Shop by price</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">Filter</a>
+
+                                <form action="product?service=searchPrice" method="post" >
+                                    <div class="categories__accordion">
+                                        <div class="card bg-light">
+                                            <div class="form-row">
+                                                <div class="col mb-3">
+                                                    <label for="fromPrice">From Price:</label>
+                                                    <input id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <label for="toPrice">To Price:</label>
+                                                    <input id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
+                                                </div>
+                                                <div class="col-auto mb-3" style="padding-top: 12%">
+                                                    <button type="submit" class="btn btn-secondary btn-number">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
+                            <!--sidebar widget end-->
 
                             <div class="sidebar__color">
                                 <div class="section-title">
@@ -175,44 +135,14 @@
                                 </div>
                                 <div class="size__list color__list">
                                     <label for="black">
-                                        Blacks
-                                        <input type="checkbox" id="black">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="whites">
-                                        Whites
-                                        <input type="checkbox" id="whites">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="reds">
-                                        Reds
-                                        <input type="checkbox" id="reds">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="greys">
-                                        Greys
-                                        <input type="checkbox" id="greys">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="blues">
-                                        Blues
-                                        <input type="checkbox" id="blues">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="beige">
-                                        Beige Tones
-                                        <input type="checkbox" id="beige">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="greens">
-                                        Greens
-                                        <input type="checkbox" id="greens">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="yellows">
-                                        Yellows
-                                        <input type="checkbox" id="yellows">
-                                        <span class="checkmark"></span>
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><a href="product">All</a></li>
+                                                    <c:forEach items="${productList}" var="p">
+                                                    <li><a href="product?action=listByCompany&product_id=${p.productId}">${p.companyName}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
@@ -226,14 +156,15 @@
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <div class="label new">New</div>
                                             <ul class="product__hover">
-                                                <li><a href="product?action=productdetail&product_id=${p.getProductId()}" >
-                                                        <img src="${p.getPathImage()}" width="100%;" alt="image product"><span class="arrow_expand"></span></a></li>
+                                                <li><a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
+                                                        <img src="${p.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a></li>
                                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
-                                            <h6><a href="product?action=productdetail&product_id=${p.getProductId()}">${p.getProductName()}</a></h6>
+                                            <h5><a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
+                                            <h6>${p.getShortDes()}</h6>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -241,13 +172,13 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                             </div>
-                                            <div class="product__price">${p.getPrice()}</div>
+                                            <div class="product__price">Price: $${p.getPrice()}</div>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
-                            
-                            <!--Phân Trang-->
+
+                            <!--Pagination-->
                             <c:set var="page" value="${page}"/>
                             <div class="col-lg-12 text-center">
                                 <div class="pagination__option">
