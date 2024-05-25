@@ -33,7 +33,7 @@
 
                         <div class="signin-form">
                             <h2 class="form-title">Login</h2>
-                            <form action="login" method="POST" class="register-form" id="login-form">
+                            <form action="login" method="post" class="register-form" id="login-form">
                                 <div class="form-group">
                                     <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                     <input type="text" name="username" id="username" placeholder="UserName"/>
@@ -42,6 +42,8 @@
                                     <label for="password"><i class="zmdi zmdi-lock"></i></label>
                                     <input type="password" name="password" id="password" placeholder="**********"/>
                                 </div>
+                                <input type="hidden" name="service" value="login">
+                                
                                 <div class="form-group">
                                     <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
                                     <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
@@ -60,8 +62,9 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <div class="form-group form-button">
-                                    <input type="submit" name="login" id="login" class="form-submit" value="Log in"/>
+                                    <input type="submit" name="submit" id="login" class="form-submit" value="Log in"/>
                                     <a href="register" style="margin-top: 20px" class="signup-image-link">Create an account</a>
+                                    <a href="forgotpass" style="margin-top: 20px" class="signup-image-link">Forgot Password</a>
                                 </div>
                             </form>
                             <div class="social-login">

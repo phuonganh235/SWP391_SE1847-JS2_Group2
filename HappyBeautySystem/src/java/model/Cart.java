@@ -7,12 +7,12 @@ public class Cart {
     private int productId;
     private int quantity;
     private int userId;
-    private Date createDate;
+    private String createDate;
 
     public Cart() {
     }
 
-    public Cart(int cartId, int productId, int quantity, int userId, Date createDate) {
+    public Cart(int cartId, int productId, int quantity, int userId, String createDate) {
         this.cartId = cartId;
         this.productId = productId;
         this.quantity = quantity;
@@ -20,6 +20,13 @@ public class Cart {
         this.createDate = createDate;
     }
 
+    public Cart(int productId, int quantity, int userId, String createDate) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.userId = userId;
+        this.createDate = createDate;
+    }
+    
     public int getCartId() {
         return cartId;
     }
@@ -52,13 +59,19 @@ public class Cart {
         this.userId = userId;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public String toString() {
+        return "cartId=" + cartId + ", productId=" + productId + ", quantity=" + quantity + ", userId=" + userId + ", createDate=" + createDate;
+    }
+    
     
     
 }

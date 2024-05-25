@@ -1,5 +1,5 @@
 
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,10 +34,16 @@
         </style>
     </head>
     <body>
+
         <!--        Page Preloder 
                 <div id="preloder">
                     <div class="loader"></div>
                 </div>-->
+
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
+
 
         <!-- Offcanvas Menu Begin -->
         <div class="offcanvas-menu-overlay"></div>
@@ -48,10 +54,12 @@
                 <!--<li><span class="icon_search search-switch"></span></li>-->
 
                 <li><a href="#"><span class="icon_heart_alt"></span>
-                        <div class="tip">2</div>
+                        <div class="tip"></div>
                     </a></li>
                 <li><a href="#"><span class="icon_bag_alt"></span>
-                        <div class="tip">2</div>
+    <!--                        
+
+                            <div class="tip">2</div>-->
                     </a></li>
             </ul>
             <div class="offcanvas__logo">
@@ -59,7 +67,7 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="login?service=null">Login</a>
+                <a href="login">Login</a>
                 <a href="register">Register</a>
             </div>
         </div>
@@ -110,8 +118,23 @@
                             </div>
                            
                             <div class="header__right__auth">
-                                <a href="login?service=null">Login</a>
-                                <a href="register?service=null">Register</a>
+                                   <c:if test="${sessionScope.inforUser == null}">
+                                    <a href="login">Login</a>
+                                    <a href="register?service=null">Register</a>
+                                </c:if>
+                                <c:if test="${sessionScope.inforUser != null}">
+                                    <nav class="header__menu">
+                                    <ul>
+                                    <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
+                                        <ul class="dropdown">
+                                            <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
+                                             <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                            <li><a href="#">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                    </ul>
+                                        </nav>
+                                </c:if>
                             </div>
                             <ul class="header__right__widget">
 
