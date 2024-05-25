@@ -1,5 +1,5 @@
 
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="login?service=null">Login</a>
+                <a href="login?service=login">Login</a>
                 <a href="register">Register</a>
             </div>
         </div>
@@ -109,8 +109,23 @@
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                <a href="login?service=null">Login</a>
-                                <a href="register?service=null">Register</a>
+                                   <c:if test="${sessionScope.inforUser == null}">
+                                    <a href="login?service=login">Login</a>
+                                    <a href="register?service=null">Register</a>
+                                </c:if>
+                                <c:if test="${sessionScope.inforUser != null}">
+                                    <nav class="header__menu">
+                                    <ul>
+                                    <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
+                                        <ul class="dropdown">
+                                            <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
+                                             <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                            <li><a href="#">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                    </ul>
+                                        </nav>
+                                </c:if>
                             </div>
                             <ul class="header__right__widget">
                                 <li><span class="icon_search search-switch"></span></li>
