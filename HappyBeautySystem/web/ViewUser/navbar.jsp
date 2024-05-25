@@ -34,10 +34,6 @@
         </style>
     </head>
     <body>
-        <div id="preloder">
-            <div class="loader"></div>
-        </div>
-
         <!-- Offcanvas Menu Begin -->
         <div class="offcanvas-menu-overlay"></div>
         <div class="offcanvas-menu-wrapper">
@@ -57,7 +53,6 @@
                     </a></li>
                 <li><a href="#"><span class="icon_bag_alt"></span>
     <!--                        
-
                             <div class="tip">2</div>-->
                     </a></li>
             </ul>
@@ -65,10 +60,10 @@
                 <a href="home.jsp"><img src="img/authen/logo.png" alt=""></a>
             </div>
             <div id="mobile-menu-wrap"></div>
-            <div class="offcanvas__auth">
+<!--            <div class="offcanvas__auth">
                 <a href="login">Login</a>
                 <a href="register">Register</a>
-            </div>
+            </div>-->
         </div>
         <!-- Offcanvas Menu End -->
         <header class="header">
@@ -109,7 +104,7 @@
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                   <c:if test="${sessionScope.inforUser == null}">
+                                <c:if test="${sessionScope.inforUser == null}">
                                     <a href="login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
@@ -118,8 +113,8 @@
                                     <ul>
                                     <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
                                         <ul class="dropdown">
-                                            <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                             <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                            <li><a href="/HappyBeautySystem/customerprofile?service=ViewProfile">View Profile</a></li>
+                                             <li><a href="/HappyBeautySystem/customerprofile?service=editProfile">Edit Profile Profile</a></li>
                                             <li><a href="#">Logout</a></li>
                                         </ul>
                                     </li>

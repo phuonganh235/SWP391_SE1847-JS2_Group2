@@ -2,10 +2,13 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.User;
 
 public class UserDAO extends DBContext {
@@ -139,9 +142,9 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     // Retrieves the role of a user based on their username and password
-    public int getRole(String username, String password){
+    public int getRole(String username, String password) {
         String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -149,7 +152,7 @@ public class UserDAO extends DBContext {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int a = rs.getInt("RoleId"); 
+                int a = rs.getInt("RoleId");
                 return a;
             }
         } catch (Exception e) {
@@ -158,9 +161,40 @@ public class UserDAO extends DBContext {
         return 2;
     }
 
-//    public static void main(String[] args) throws ParseException {
-//        UserDAO dao = new UserDAO();
-//        java.util.Date today = new Date();
-//        dao.register("1", "1", "1", "1", "1", "1", "1", new java.sql.Date(today.getTime()) ,2);
-//    }
+    public int updateUser(User user) {
+        int n = 0;
+        String sqlUpdate = "UPDATE [dbo].[Users]"
+                + "   SET [Name] = ?,"
+                + "      [Mobile] = ?,"
+                + "      [Email] = ?,"
+                + "      [Address] = ?,"
+                + "      [PostCode] = ?"
+                + " WHERE [userId] = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
+            pre.setString(1, user.getName());
+            pre.setString(2, user.getMobile());
+            pre.setString(3, user.getEmail());
+            pre.setString(4, user.getAddress());
+            pre.setString(5, user.getPostCode());
+            pre.setInt(6, user.getUserId());
+
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
+    public static void main(String[] args) {
+        UserDAO dao = new UserDAO();
+        User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
+        int result = dao.updateUser(newUser);
+        if (result > 0) {
+            System.out.println("Update successful.");
+        } else {
+            System.out.println("Update failed.");
+        }
+    }
+
 }
