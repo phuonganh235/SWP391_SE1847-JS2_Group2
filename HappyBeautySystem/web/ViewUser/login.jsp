@@ -64,6 +64,7 @@
                                 <div class="form-group form-button">
                                     <input type="submit" name="submit" id="login" class="form-submit" value="Log in"/>
                                     <a href="register" style="margin-top: 20px" class="signup-image-link">Create an account</a>
+                                    <a href="forgotpass" style="margin-top: 20px" class="signup-image-link">Forgot Password</a>
                                 </div>
                             </form>
                             <div class="social-login">

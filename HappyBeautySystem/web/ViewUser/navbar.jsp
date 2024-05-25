@@ -66,7 +66,7 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="login?service=login">Login</a>
+                <a href="login">Login</a>
                 <a href="register">Register</a>
             </div>
         </div>
@@ -110,7 +110,7 @@
                         <div class="header__right">
                             <div class="header__right__auth">
                                    <c:if test="${sessionScope.inforUser == null}">
-                                    <a href="login?service=login">Login</a>
+                                    <a href="login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
                                 <c:if test="${sessionScope.inforUser != null}">
