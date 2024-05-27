@@ -21,6 +21,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
+        <script
+            src="https://kit.fontawesome.com/84a8258e0d.js"
+            crossorigin="anonymous"
+        ></script>
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -135,10 +139,15 @@
                                         <div class="tip">2</div>
                                     </a>
                                 </li>
-                                
+
                                 <li>
                                     <a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span>
-<!--                                        <div class="tip"></div>-->
+                                        <!--                                        <div class="tip"></div>-->
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><span <i class="fa-solid fa-list-check"></i></span>
+                                        <!--                                        <div class="tip"></div>-->
                                     </a>
                                 </li>
                             </ul>

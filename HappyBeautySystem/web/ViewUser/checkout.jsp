@@ -144,6 +144,11 @@
                                         <input type="checkbox" id="check-payment" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
                                     </label>
+                                    <label for="check-payment">
+                                        COD
+                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="3">
+                                        <span class="checkmark"></span>
+                                    </label>
 
                                 </div>
                                 <button type="submit" class="site-btn">Place oder</button>

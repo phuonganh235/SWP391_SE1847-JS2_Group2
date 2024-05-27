@@ -3,6 +3,11 @@ package dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.OrderDetail;
+import java.sql.*;
+import java.util.ArrayList;
 
 //ToanLV
 public class OrderDetailDAO extends DBContext {
@@ -23,9 +28,32 @@ public class OrderDetailDAO extends DBContext {
         }
     }
 
+    //GetList
+    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        String sql = "SELECT OrderId, ProductId, Quantity, Price FROM OrderDetail WHERE OrderId = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, orderId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int productId = resultSet.getInt("ProductId");
+                    int quantity = resultSet.getInt("Quantity");
+                    float price = resultSet.getFloat("Price");
+                    OrderDetail orderDetail = new OrderDetail(orderId, productId, quantity, price);
+                    orderDetails.add(orderDetail);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
-        boolean check = dao.addOrderDetail(3, 1, 3, 200);
-        System.out.println(check);
+        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(4);
+        for (OrderDetail li : lis) {
+            System.out.println(li.getQuantity());
+        }
     }
 }
