@@ -68,7 +68,7 @@ public class CartDAO extends DBContext {
         return cart;
     }
 
-    // Retrieves all cart entries for a specific user by userId
+    // get all cart by userID
     public List<Cart> getAllCartsByUserId(int userId) {
         List<Cart> carts = new ArrayList<>();
         String sql = "SELECT * FROM cart WHERE UserId = ?";
@@ -99,7 +99,7 @@ public class CartDAO extends DBContext {
         return carts;
     }
 
-    //Toanlv
+    //Delete all cart by userID
     public void deleteCartsByUserId(int userId) {
         String sql = "DELETE FROM cart WHERE UserId = ?";
 
@@ -115,7 +115,7 @@ public class CartDAO extends DBContext {
         }
     }
 
-    // Deletes a specific cart entry by productId and userId
+    // delete multi cart by userid ang producid 
     public void deleteCart(int productId, int userId) {
         String sql = "DELETE FROM cart WHERE ProductId = ? AND UserId = ?";
 
@@ -129,7 +129,7 @@ public class CartDAO extends DBContext {
         }
     }
 
-    // Updates the quantity of a specific product in the cart for a specific user
+    // upadate quantity
     public void updateQuantityChange(int userId, int productId, int quantity) {
         String sql = "UPDATE cart SET Quantity = ? WHERE UserId = ? AND ProductId = ?";
 
@@ -144,7 +144,7 @@ public class CartDAO extends DBContext {
         }
     }
 
-    //main method to test
+    //Test
     public static void main(String[] args) {
         CartDAO dao = new CartDAO();
         dao.deleteCartsByUserId(5);

@@ -1,3 +1,7 @@
+<%@page import="dal.ProductDAO"%>
+<%@page import="model.OrderDetail"%>
+<%@page import="model.Order"%>
+<%@page import="java.util.List"%>
 <%@page import="model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page isErrorPage="true" %>
@@ -18,6 +22,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
+        <script
+            src="https://kit.fontawesome.com/84a8258e0d.js"
+            crossorigin="anonymous"
+        ></script>
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
@@ -29,20 +37,63 @@
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link href="ViewUser/css/style-order-successfull.css" rel="stylesheet" type="text/css"/>
+        <link href="ViewUser/css/style-order-manager.css" rel="stylesheet" type="text/css"/>
+        <link href="css/style-order-manager.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
         <jsp:include page="navbar.jsp"/>
 
         <!-- Success Message Section Begin -->
-        <div class="container success-container">
-            <h2>Order Successfull !!</h2>
-            <p>Thank you for your purchase. Your order will be confirmed by staff as soon as possible.</p>
-            <p><strong>Some shop purchasing regulations</strong></p>
-            <p>1. Orders can only be canceled when paying by COD and the order has not been confirmed!!</p>
-            <p>Please be responsible with your orders </p>
-            <a href="/HappyBeautySystem/home" class="site-btn">Continue shopping</a>
+        <div class="container status-container">
+            <h2>Order Detail For You</h2>
+            <p>This is your order details page</p>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Ordered</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Confirmed</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Shipping to the buyer</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Delivered</a>
         </div>
+        <!--        hh-->
+        <!-- Order List Section Begin -->
+        <div class="container">
+            <table class="order-list">
+                <thead>
+                    <tr >
+                        <th class="text-center">Product Name</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        ProductDAO dao = new ProductDAO();
+                        List<OrderDetail> listOrderDetail = (List<OrderDetail>) request.getAttribute("listDetail");
+                        double granTotal = 0;
+                        if (listOrderDetail != null && !listOrderDetail.isEmpty()) {
+                            for (OrderDetail orderDetail : listOrderDetail) {
+                                Product product = dao.getProductById(orderDetail.getOrderID());
+                    %>
+                    <tr>
+                        <td class="text-center"><%= product.getProductName()%></td>
+                        <td class="text-center"><%= orderDetail.getQuantity() %></td>
+                        <td class="text-center"><%= orderDetail.getPrice() *orderDetail.getQuantity() %></td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr>
+                        <td colspan="3" class="text-center">No order details available</td>
+                    </tr>
+                    <%
+                        }
+                    %>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- Order List Section End -->
+        <!-- Footer Section Begin -->
         <footer class="footer">
             <div class="container">
                 <div class="row">
@@ -112,12 +163,6 @@
                 </div>
             </div>
         </footer>
-        <!-- Footer Section End -->
-
-
-        <!-- Search End -->
-
-        <!-- Js Plugins -->
         <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
         <script src="ViewUser/js/bootstrap.min.js"></script>
         <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
