@@ -98,6 +98,22 @@ public class CartDAO extends DBContext {
         return carts;
     }
 
+    //Toanlv
+    public void deleteCartsByUserId(int userId) {
+        String sql = "DELETE FROM cart WHERE UserId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, userId);
+            st.executeUpdate(); // Thực thi câu lệnh DELETE
+
+            // Đóng PreparedStatement
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Deletes a specific cart entry by productId and userId
     public void deleteCart(int productId, int userId) {
         String sql = "DELETE FROM cart WHERE ProductId = ? AND UserId = ?";
@@ -130,7 +146,6 @@ public class CartDAO extends DBContext {
     //main method to test
     public static void main(String[] args) {
         CartDAO dao = new CartDAO();
-        Cart cart = new Cart(1, 2, 4, "2022-12-10");
-        dao.updateQuantityChange(4,2,4);
+        dao.deleteCartsByUserId(5);
     }
 }

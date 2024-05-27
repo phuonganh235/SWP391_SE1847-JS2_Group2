@@ -5,38 +5,26 @@ import java.util.Date;
 public class Order {
 
     private int OrderId;
-    private int OrderDetailId;
-    private int ProductId;
-    private int Quantity;
     private int UserId;
     private int PaymentId;
     private String OrderDate;
     private boolean IsCancel;
+    private String CustomerName;
+    private String CustomerAddress;
+    private String CustomerPhoneNumber;
     private int Statuss;
 
     public Order() {
     }
 
-    public Order(int OrderId, int OrderDetailId, int ProductId, int Quantity, int UserId, int PaymentId, String OrderDate, boolean IsCancel, int Statuss) {
-        this.OrderId = OrderId;
-        this.OrderDetailId = OrderDetailId;
-        this.ProductId = ProductId;
-        this.Quantity = Quantity;
+    public Order(int UserId, int PaymentId, String OrderDate, boolean IsCancel, String CustomerName, String CustomerAddress, String CustomerPhoneNumber, int Statuss) {
         this.UserId = UserId;
         this.PaymentId = PaymentId;
         this.OrderDate = OrderDate;
         this.IsCancel = IsCancel;
-        this.Statuss = Statuss;
-    }
-
-    public Order(int OrderDetailId, int ProductId, int Quantity, int UserId, int PaymentId, String OrderDate, boolean IsCancel, int Statuss) {
-        this.OrderDetailId = OrderDetailId;
-        this.ProductId = ProductId;
-        this.Quantity = Quantity;
-        this.UserId = UserId;
-        this.PaymentId = PaymentId;
-        this.OrderDate = OrderDate;
-        this.IsCancel = IsCancel;
+        this.CustomerName = CustomerName;
+        this.CustomerAddress = CustomerAddress;
+        this.CustomerPhoneNumber = CustomerPhoneNumber;
         this.Statuss = Statuss;
     }
 
@@ -46,30 +34,6 @@ public class Order {
 
     public void setOrderId(int OrderId) {
         this.OrderId = OrderId;
-    }
-
-    public int getOrderDetailId() {
-        return OrderDetailId;
-    }
-
-    public void setOrderDetailId(int OrderDetailId) {
-        this.OrderDetailId = OrderDetailId;
-    }
-
-    public int getProductId() {
-        return ProductId;
-    }
-
-    public void setProductId(int ProductId) {
-        this.ProductId = ProductId;
-    }
-
-    public int getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(int Quantity) {
-        this.Quantity = Quantity;
     }
 
     public int getUserId() {
@@ -102,6 +66,30 @@ public class Order {
 
     public void setIsCancel(boolean IsCancel) {
         this.IsCancel = IsCancel;
+    }
+
+    public String getCustomerName() {
+        return CustomerName;
+    }
+
+    public void setCustomerName(String CustomerName) {
+        this.CustomerName = CustomerName;
+    }
+
+    public String getCustomerAddress() {
+        return CustomerAddress;
+    }
+
+    public void setCustomerAddress(String CustomerAddress) {
+        this.CustomerAddress = CustomerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return CustomerPhoneNumber;
+    }
+
+    public void setCustomerPhoneNumber(String CustomerPhoneNumber) {
+        this.CustomerPhoneNumber = CustomerPhoneNumber;
     }
 
     public int getStatuss() {

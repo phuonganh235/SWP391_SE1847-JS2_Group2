@@ -40,20 +40,26 @@ public class UserDAO extends DBContext {
 
     // Authenticates a user with the provided username and password
     public User login(String username, String password) {
-        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
+        String sql = "SELECT * FROM [Users] WHERE Username = ? AND Password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
-                        rs.getString("Username"), rs.getString("Mobile"),
-                        rs.getString("Email"), rs.getString("Address"),
-                        rs.getString("PostCode"), rs.getString("ImageUrl"),
-                        rs.getInt("RoleId"), rs.getDate("CreateDate"),
-                        rs.getString("Password"));
-                return u;
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("UserId"),
+                        rs.getString("Name"),
+                        rs.getString("Username"),
+                        rs.getString("Mobile"),
+                        rs.getString("Email"),
+                        rs.getString("Address"),
+                        rs.getString("PostCode"),
+                        rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"),
+                        rs.getDate("CreateDate"),
+                        rs.getString("Password")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,9 +145,9 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     // Retrieves the role of a user based on their username and password
-    public int getRole(String username, String password){
+    public int getRole(String username, String password) {
         String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -149,7 +155,7 @@ public class UserDAO extends DBContext {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int a = rs.getInt("RoleId"); 
+                int a = rs.getInt("RoleId");
                 return a;
             }
         } catch (Exception e) {
@@ -158,9 +164,9 @@ public class UserDAO extends DBContext {
         return 2;
     }
 
-//    public static void main(String[] args) throws ParseException {
-//        UserDAO dao = new UserDAO();
-//        java.util.Date today = new Date();
-//        dao.register("1", "1", "1", "1", "1", "1", "1", new java.sql.Date(today.getTime()) ,2);
-//    }
+    public static void main(String[] args) throws ParseException {
+        UserDAO dao = new UserDAO();
+        User hh = dao.login("lethib", "password456");
+        System.out.println(hh.getName());
+    }
 }

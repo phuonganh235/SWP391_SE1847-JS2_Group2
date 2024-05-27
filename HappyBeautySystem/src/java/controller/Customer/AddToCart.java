@@ -22,7 +22,7 @@ import model.User;
 
 @WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
 public class AddToCart extends HttpServlet {
-// ID USER IN SESSION
+// ToanLV
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class AddToCart extends HttpServlet {
         CommonDAO commonDAO = new CommonDAO();
         CartDAO cart = new CartDAO();
         String service = request.getParameter("service");
-        User inforUser = (User) session.getAttribute("inforUser");
+        User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             if (service != null && service.equals("addToCart")) {
                 String idProduct = request.getParameter("id");
@@ -43,7 +43,7 @@ public class AddToCart extends HttpServlet {
 
                 try {
                     int idInt = Integer.parseInt(idProduct);
-                    int userId = 4;  // Thay giá trị này khi có thông tin người dùng
+                    int userId = inforUser.getUserId();
 
                     Cart checkCart = cart.getCartByUserIdAndProductId(userId, idInt);
                     if (checkCart == null) {
@@ -67,7 +67,7 @@ public class AddToCart extends HttpServlet {
             }
 
             if (service.equals("showCart")) {
-                int userId = 4;  // Thay giá trị này khi có thông tin người dùng
+                int userId = inforUser.getUserId();  
                 List<Cart> listCart = cart.getAllCartsByUserId(userId);
                 request.setAttribute("listCart", listCart);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
@@ -79,7 +79,6 @@ public class AddToCart extends HttpServlet {
                 String userId = request.getParameter("userId");
                 int idInt = Integer.parseInt(idProduct);
                 int userIdInt = Integer.parseInt(userId);
-                // String userID = ...
                 cart.deleteCart(idInt, userIdInt);
                 response.sendRedirect("AddToCart?service=showCart");
             }
