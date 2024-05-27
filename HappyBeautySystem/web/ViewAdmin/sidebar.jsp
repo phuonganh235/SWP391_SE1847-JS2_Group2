@@ -36,12 +36,7 @@
     </head>
     <body>
 
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+    
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
@@ -81,6 +76,13 @@
                             <a href="signup.jsp" class="dropdown-item">Sign Up</a>
                             <a href="404.jsp" class="dropdown-item">404 Error</a>
                             <a href="blank.jsp" class="dropdown-item">Blank Page</a>
+                        </div>
+                    </div>
+                     <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>Manage Account</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="manageAccountAdmin?service=ListAllStaff" class="dropdown-item">View list account Staff</a>
+                            <a href="manageAccountAdmin?service=ListAllShipper" class="dropdown-item">View list account shipper</a>
                         </div>
                     </div>
                 </div>
