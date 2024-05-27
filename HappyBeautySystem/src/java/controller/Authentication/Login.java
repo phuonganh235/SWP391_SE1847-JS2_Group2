@@ -36,6 +36,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("password", password);
                     session.setAttribute("inforUserLogin", u);
                     response.sendRedirect("home");
+                    session.setAttribute("inforUser", u);
                 } else {// Handle incorrect login
                     request.setAttribute("check", "fail");
                     request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);

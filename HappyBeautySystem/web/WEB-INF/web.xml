@@ -74,7 +74,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageAccount</servlet-name>
-        <url-pattern>/customer-profile</url-pattern>
+        <url-pattern>/customerprofile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewServlet1</servlet-name>
