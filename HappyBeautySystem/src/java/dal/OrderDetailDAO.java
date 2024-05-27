@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+//ToanLV
 public class OrderDetailDAO extends DBContext {
 
-    public boolean addOrderDetail(int orderId, int productId, int quantity, float  price) {
+    // Add new 
+    public boolean addOrderDetail(int orderId, int productId, int quantity, float price) {
         String sql = "INSERT INTO OrderDetail (OrderId, ProductId, Quantity, Price) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, orderId);
@@ -20,7 +22,7 @@ public class OrderDetailDAO extends DBContext {
             return false;
         }
     }
-    
+
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
         boolean check = dao.addOrderDetail(3, 1, 3, 200);

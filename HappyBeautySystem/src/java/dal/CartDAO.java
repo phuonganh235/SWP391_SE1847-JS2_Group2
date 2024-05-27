@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+//ToanLV
 public class CartDAO extends DBContext {
 
     // Adds a new cart entry to the database
@@ -26,7 +27,7 @@ public class CartDAO extends DBContext {
         }
     }
 
-    // Updates the quantity of a specific product in the cart for a specific user by incrementing it by 1
+    // Updates quantity 
     public void updateQuantity(int userId, int productId) {
         String sql = "UPDATE cart SET Quantity = Quantity+1 WHERE UserId = ? AND ProductId = ?";
 
@@ -40,7 +41,7 @@ public class CartDAO extends DBContext {
         }
     }
 
-    // Retrieves a specific cart entry by userId and productId
+    // Get cart by userid and productid
     public Cart getCartByUserIdAndProductId(int userId, int productId) {
         String sql = "SELECT * FROM cart WHERE UserId = ? AND ProductId = ?";
         Cart cart = null;

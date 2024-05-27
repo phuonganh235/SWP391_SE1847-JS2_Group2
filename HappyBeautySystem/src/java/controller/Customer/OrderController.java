@@ -22,10 +22,10 @@ import model.OrderDetail;
 import model.Product;
 import model.User;
 
+// ToanLV
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
 
-    // ToanLV
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,6 +38,7 @@ public class OrderController extends HttpServlet {
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
+            // Show all cart
             if (service.equals("showAll")) {
                 int userId = inforUserLogin.getUserId();  // Thay giá trị này khi có thông tin người dùng
                 List<Cart> listCart = cart.getAllCartsByUserId(userId);
@@ -46,6 +47,7 @@ public class OrderController extends HttpServlet {
                 dispatcher.forward(request, response);
                 return;
             }
+            // User confirm order
             if (service.equals("confirmOrder")) {
                 String dateNow = commmon.getDateTimeNow();
                 String name = request.getParameter("name");
@@ -73,20 +75,17 @@ public class OrderController extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
 
     @Override
     public String getServletInfo() {
