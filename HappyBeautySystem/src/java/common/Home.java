@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import model.Product;
 import model.User;
 
 public class Home extends HttpServlet {
@@ -25,10 +27,17 @@ public class Home extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
         
+        ArrayList<Product> product = pDao.getNewProduct();
+        ArrayList<Product> productTrend = pDao.getTrendProduct();
+        ArrayList<Product> productSeller = pDao.getSellerProduct();
+        
         if(uDao.getRole(username, password) == 1){
             request.getRequestDispatcher("managerList").include(request, response);
             return;
         }
+        request.setAttribute("top8New", product);
+        request.setAttribute("topTrend", productTrend);
+        request.setAttribute("topSeller", productSeller);
         request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
     } 
 

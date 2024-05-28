@@ -35,16 +35,6 @@
     </head>
     <body>
 
-        <!--        Page Preloder 
-                <div id="preloder">
-                    <div class="loader"></div>
-                </div>-->
-
-        <div id="preloder">
-            <div class="loader"></div>
-        </div>
-
-
         <!-- Offcanvas Menu Begin -->
         <div class="offcanvas-menu-overlay"></div>
         <div class="offcanvas-menu-wrapper">
@@ -57,9 +47,7 @@
                         <div class="tip"></div>
                     </a></li>
                 <li><a href="#"><span class="icon_bag_alt"></span>
-    <!--                        
 
-                            <div class="tip">2</div>-->
                     </a></li>
             </ul>
             <div class="offcanvas__logo">
@@ -83,9 +71,9 @@
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./home">Home</a></li>
+                                <li class="active"><a href="home">Home</a></li>
 
-                                <li><a href="./product">Shop</a>
+                                <li><a href="/HappyBeautySystem/product">Shop</a>
                                     <ul class="dropdown">
                                         <li><a href="">Bodycare</a></li>
                                         <li><a href="">Skincare</a></li>
@@ -95,16 +83,16 @@
                                     </ul>
                                 </li>
 
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="product-details.jsp">Product Details</a></li>
-                                        <li><a href="shop-cart.jsp">Shop Cart</a></li>
-                                        <li><a href="checkout.jsp">Checkout</a></li>
-                                        <li><a href="blog-details.jsp">Blog Details</a></li>
-                                    </ul>
+                                <li><a href="blog-details">Pages</a>
+                                    <!--                                    <ul class="dropdown">
+                                                                            <li><a href="product-details.jsp">Product Details</a></li>
+                                                                            <li><a href="shop-cart.jsp">Shop Cart</a></li>
+                                                                            <li><a href="checkout.jsp">Checkout</a></li>
+                                                                            <li><a href="blog-details.jsp">Blog Details</a></li>
+                                                                        </ul>-->
                                 </li>
-                                <li><a href="blog.jsp">Blog</a></li>
-                                <li><a href="contact.jsp">Contact</a></li>
+                                <li><a href="./ViewUser/blog.jsp">Blog</a></li>
+                                <li><a href="./ViewUser/contact.jsp">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -116,24 +104,24 @@
                                     <button type="submit">Search</button>
                                 </form>
                             </div>
-                           
+
                             <div class="header__right__auth">
-                                   <c:if test="${sessionScope.inforUser == null}">
-                                    <a href="login">Login</a>
+                                <c:if test="${sessionScope.inforUser == null}">
+                                    <a href="Login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
                                 <c:if test="${sessionScope.inforUser != null}">
                                     <nav class="header__menu">
-                                    <ul>
-                                    <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
-                                        <ul class="dropdown">
-                                            <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                             <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                            <li><a href="#">Logout</a></li>
+                                        <ul>
+                                            <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
+                                                    <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                                    <li><a href="#">Logout</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
-                                    </li>
-                                    </ul>
-                                        </nav>
+                                    </nav>
                                 </c:if>
                             </div>
                             <ul class="header__right__widget">

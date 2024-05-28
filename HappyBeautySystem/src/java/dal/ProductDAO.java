@@ -8,9 +8,8 @@ import model.Product;
 import model.ProductImage;
 
 public class ProductDAO extends DBContext {
-    
-    // Retrieves all products from the Product table in the database
 
+    // Retrieves all products from the Product table in the database
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product";
@@ -44,9 +43,7 @@ public class ProductDAO extends DBContext {
         return pList;
     }
 
-
     // Retrieves a sublist of products from a given list based on the start and end indices
-
     public ArrayList<Product> getListByPage(ArrayList<Product> list, int start, int end) {
         ArrayList<Product> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -56,7 +53,6 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves products by their ID from the Product table
-
     public ArrayList<Product> getProduct(int id) {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product where productId = ?";
@@ -120,7 +116,6 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves a product by its ID from the Product table
-
     public Product getProductById(int productId) {
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ProductId = ?";
@@ -154,7 +149,6 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
-
     public ArrayList<Product> getProductByCategory(int category_id) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "select c.CategoryName , p.ProductId, p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
@@ -174,9 +168,66 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+//    Select new Product(8 products just imported 30 days ago)
+    public ArrayList<Product> getNewProduct() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT TOP 8 *\n"
+                + "FROM [dbo].[Product]\n"
+                + "WHERE [CreateDate] >= DATEADD(day, -30, GETDATE())\n"
+                + "ORDER BY [CreateDate] DESC;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+//    Sellect the best seller products
+    public ArrayList<Product> getSellerProduct() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT TOP 3 * FROM [dbo].[Product]\n"
+                + "ORDER BY Sold DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+//    Sellect the trending products 
+    public ArrayList<Product> getTrendProduct() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "SELECT TOP 3 * FROM [dbo].[Product]\n"
+                + "ORDER BY Quantity DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     // Searches for products by category name
-
     public ArrayList<Product> searchProductByCategory(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -198,9 +249,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
     // Searches for products by product name
-
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -210,6 +259,7 @@ public class ProductDAO extends DBContext {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + text + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
@@ -221,14 +271,13 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
-//    Search Products by Price
-    public ArrayList<Product> search(Double from, Double to) {
+//  Search Products by Price
+    public ArrayList<Product> searchByPrice(Double from, Double to) {
         ArrayList<Product> list = new ArrayList<>();
 
         String sql = "SELECT *  FROM Product\n"
                 + "WHERE 1=1";
-          if (from != null) {
+        if (from != null) {
             sql += "and price >= '" + from + "'";
         }
         if (to != null) {
@@ -266,9 +315,85 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+    // Sort Product from low to hight
+    public ArrayList<Product> getProductLow() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "Select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "ORDER BY p.Price";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return list;
+    }
+
+    //Sort Product from low to hight
+    public ArrayList<Product> getProductHigh() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "Select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "ORDER BY p.Price DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return list;
+    }
+//
+//    //Sort Product from A to Z
+
+    public ArrayList<Product> getProductAZ() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "ORDER BY p.ProductName";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return list;
+    }
+//
+//    //Sort Product from Z to A
+
+    public ArrayList<Product> getProductZA() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "ORDER BY p.ProductName DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category c = new Category(rs.getString(1));
+                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return list;
+    }
 
     // Adds a new product to the Product table in the database
-
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -335,7 +460,6 @@ public class ProductDAO extends DBContext {
         }
     }
 
-
     public int countReview(int id) {
         int count = 0;
         String sql = "SELECT COUNT(*) as 'count'\n"
@@ -361,14 +485,15 @@ public class ProductDAO extends DBContext {
         Product pro = dao.getProductById(1);
         System.out.println(pro.getProductName());
 
-        ArrayList<Product> pList = dao.getAllProduct();
-        ArrayList<Product> cList = dao.search(15.22, 30.22);      
-        for (Product product : cList) {
-            System.out.println(product);
-        }
+        ArrayList<Product> pList = dao.getProductLow();
+//        ArrayList<Product> cList = dao.searchByPrice(15.22, 30.22);
+        ArrayList<Product> cList = dao.getNewProduct();
+//        for (Product product : pList) {
+//            System.out.println(product);
+//        }
 //        Product p = dao.getProductById(1);
 //        int count = dao.countReview(1);
-//        System.out.println(cList);
+        System.out.println(cList);
     }
 
 }

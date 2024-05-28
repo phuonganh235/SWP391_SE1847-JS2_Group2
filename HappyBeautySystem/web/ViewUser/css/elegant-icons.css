@@ -83,15 +83,15 @@ you can use the generic selector below, but it's slower:
 .arrow_condense:before {
 	content: "\2f";
 }
-.arrow_expand:before {
+/*.arrow_expand:before {
 	content: "\30";
-}
+}*/
 .arrow_move:before {
 	content: "\31";
 }
-.arrow_carrot-up:before {
+/*.arrow_carrot-up:before {
 	content: "\32";
-}
+}*/
 .arrow_carrot-down:before {
 	content: "\33";
 }
