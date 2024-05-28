@@ -1,5 +1,10 @@
 
 
+<%@page import="model.Product"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Cart"%>
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -19,14 +24,14 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
     </head>
 
     <body>
@@ -34,7 +39,6 @@
         <!-- Header Section Begin -->
         <jsp:include page="navbar.jsp"/>
         <!-- Header Section End -->
-
         <!-- Breadcrumb Begin -->
         <div class="breadcrumb-option">
             <div class="container">
@@ -59,87 +63,36 @@
                             here to enter your code.</h6>
                     </div>
                 </div>
-                <form action="#" class="checkout__form">
+                <form action="OrderController?service=confirmOrder" class="checkout__form" method="post">
                     <div class="row">
                         <div class="col-lg-8">
                             <h5>Billing detail</h5>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="checkout__form__input">
-                                        <p>First Name <span>*</span></p>
-                                        <input type="text">
+                            <c:if test="${sessionScope.inforUserLogin != null}">  
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="${sessionScope.inforUserLogin.getName()}" required>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <label for="categoryName"> Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" value="${sessionScope.inforUserLogin.getAddress()}" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="checkout__form__input">
-                                        <p>Last Name <span>*</span></p>
-                                        <input type="text">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="categoryName">PhoneNumner</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.inforUserLogin.getMobile()}" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <div class="checkout__form__input">
-                                        <p>Country <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Address <span>*</span></p>
-                                        <input type="text" placeholder="Street Address">
-                                        <input type="text" placeholder="Apartment. suite, unite ect ( optinal )">
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Town/City <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Country/State <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Postcode/Zip <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="checkout__form__input">
-                                        <p>Phone <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="checkout__form__input">
-                                        <p>Email <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="checkout__form__checkbox">
-                                        <label for="acc">
-                                            Create an acount?
-                                            <input type="checkbox" id="acc">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <p>Create am acount by entering the information below. If you are a returing
-                                            customer login at the <br />top of the page</p>
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Account Password <span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                    <div class="checkout__form__checkbox">
-                                        <label for="note">
-                                            Note about your order, e.g, special noe for delivery
-                                            <input type="checkbox" id="note">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Oder notes <span>*</span></p>
-                                        <input type="text"
-                                               placeholder="Note about your order, e.g, special noe for delivery">
-                                    </div>
-                                </div>
-                            </div>
+                            </c:if>
                         </div>
+
+
+
                         <div class="col-lg-4">
                             <div class="checkout__order">
                                 <h5>Your order</h5>
@@ -149,40 +102,60 @@
                                             <span class="top__text">Product</span>
                                             <span class="top__text__right">Total</span>
                                         </li>
-                                        <li>01. Chain buck bag <span>$ 300.0</span></li>
-                                        <li>02. Zip-pockets pebbled<br /> tote briefcase <span>$ 170.0</span></li>
-                                        <li>03. Black jean <span>$ 170.0</span></li>
-                                        <li>04. Cotton shirt <span>$ 110.0</span></li>
+                                        <%
+                                            List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
+                                            double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal
+                                            if (listCart != null && !listCart.isEmpty()) {
+                                                ProductDAO daoProduct = new ProductDAO();
+                                                for (Cart cart : listCart) {
+                                                    Product pro = daoProduct.getProductById(cart.getProductId());
+                                                    if (pro != null) {
+                                                        double subtotal = cart.getQuantity() * pro.getPrice();
+                                                        granTotal += subtotal;
+                                                        String formattedGranTotal = String.format("%.2f", granTotal);
+                                        %>
+                                        <li><%= pro.getProductName()%> <span>$<%= pro.getPrice() * cart.getQuantity()%></span></li>
+                                            <%
+                                                    }
+                                                }
+                                            } else {
+                                            %>
+                                        <li>No Product</span></li>
+                                            <%
+                                                }
+                                            %>
                                     </ul>
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Subtotal <span>$ 750.0</span></li>
-                                        <li>Total <span>$ 750.0</span></li>
+                                        <li>Subtotal <span>$<%= granTotal%></span></li>
+                                        <li>Total <span>$<%= granTotal%></span></li>
                                     </ul>
                                 </div>
                                 <div class="checkout__order__widget">
-                                    <label for="o-acc">
-                                        Create an acount?
-                                        <input type="checkbox" id="o-acc">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <p>Create am acount by entering the information below. If you are a returing customer
-                                        login at the top of the page.</p>
                                     <label for="check-payment">
-                                        Cheque payment
-                                        <input type="checkbox" id="check-payment">
+                                        Mono
+                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label for="paypal">
-                                        PayPal
-                                        <input type="checkbox" id="paypal">
+
+                                    <label for="check-payment">
+                                        VNPay
+                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
                                     </label>
+                                    <label for="check-payment">
+                                        COD
+                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="3">
+                                        <span class="checkmark"></span>
+                                    </label>
+
                                 </div>
                                 <button type="submit" class="site-btn">Place oder</button>
                             </div>
                         </div>
+
+
                     </div>
                 </form>
             </div>

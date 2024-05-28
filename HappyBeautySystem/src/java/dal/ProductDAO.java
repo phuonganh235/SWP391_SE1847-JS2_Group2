@@ -8,9 +8,8 @@ import model.Product;
 import model.ProductImage;
 
 public class ProductDAO extends DBContext {
-    
-    // Retrieves all products from the Product table in the database
 
+    // Retrieves all products from the Product table in the database
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product";
@@ -44,9 +43,7 @@ public class ProductDAO extends DBContext {
         return pList;
     }
 
-
     // Retrieves a sublist of products from a given list based on the start and end indices
-
     public ArrayList<Product> getListByPage(ArrayList<Product> list, int start, int end) {
         ArrayList<Product> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -56,7 +53,6 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves products by their ID from the Product table
-
     public ArrayList<Product> getProduct(int id) {
         ArrayList<Product> pList = new ArrayList<>();
         String sql = "SELECT * FROM Product where productId = ?";
@@ -120,7 +116,6 @@ public class ProductDAO extends DBContext {
     }
 
     // Retrieves a product by its ID from the Product table
-
     public Product getProductById(int productId) {
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ProductId = ?";
@@ -154,7 +149,6 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
-
     public ArrayList<Product> getProductByCategory(int category_id) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "select c.CategoryName , p.ProductId, p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
@@ -174,9 +168,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
     // Searches for products by category name
-
     public ArrayList<Product> searchProductByCategory(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -198,9 +190,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
     // Searches for products by product name
-
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
@@ -221,14 +211,13 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
 //    Search Products by Price
     public ArrayList<Product> search(Double from, Double to) {
         ArrayList<Product> list = new ArrayList<>();
 
         String sql = "SELECT *  FROM Product\n"
                 + "WHERE 1=1";
-          if (from != null) {
+        if (from != null) {
             sql += "and price >= '" + from + "'";
         }
         if (to != null) {
@@ -266,9 +255,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-
     // Adds a new product to the Product table in the database
-
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -335,7 +322,6 @@ public class ProductDAO extends DBContext {
         }
     }
 
-
     public int countReview(int id) {
         int count = 0;
         String sql = "SELECT COUNT(*) as 'count'\n"
@@ -353,22 +339,34 @@ public class ProductDAO extends DBContext {
         return count;
     }
 
+    public void updateProductQuantityTru(int productId, int quantityToUpdate) {
+        String sql = "UPDATE Product SET Quantity = Quantity - ? WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantityToUpdate);
+            st.setInt(2, productId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public void updateProductQuantityPlus(int productId, int quantityToUpdate) {
+        String sql = "UPDATE Product SET Quantity = Quantity + ? WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantityToUpdate);
+            st.setInt(2, productId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-//        ArrayList<Product> pList = dao.getAllProduct();
-//        Product p = dao.getProductById(1);
-        Product pro = dao.getProductById(1);
-        System.out.println(pro.getProductName());
-
-        ArrayList<Product> pList = dao.getAllProduct();
-        ArrayList<Product> cList = dao.search(15.22, 30.22);      
-        for (Product product : cList) {
-            System.out.println(product);
-        }
-//        Product p = dao.getProductById(1);
-//        int count = dao.countReview(1);
-//        System.out.println(cList);
+        dao.updateProductQuantityTru(1, 3);
     }
 
 }

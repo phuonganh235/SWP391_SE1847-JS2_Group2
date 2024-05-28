@@ -1,4 +1,9 @@
 
+<%@page import="model.Product"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Cart"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,6 +21,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
+        <script
+            src="https://kit.fontawesome.com/84a8258e0d.js"
+            crossorigin="anonymous"
+        ></script>
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -34,17 +43,6 @@
         </style>
     </head>
     <body>
-
-        <!--        Page Preloder 
-                <div id="preloder">
-                    <div class="loader"></div>
-                </div>-->
-
-        <div id="preloder">
-            <div class="loader"></div>
-        </div>
-
-
         <!-- Offcanvas Menu Begin -->
         <div class="offcanvas-menu-overlay"></div>
         <div class="offcanvas-menu-wrapper">
@@ -52,15 +50,12 @@
 
             <ul class="offcanvas__widget">
                 <!--<li><span class="icon_search search-switch"></span></li>-->
-
                 <li><a href="#"><span class="icon_heart_alt"></span>
                         <div class="tip"></div>
                     </a></li>
-                <li><a href="#"><span class="icon_bag_alt"></span>
-    <!--                        
-
-                            <div class="tip">2</div>-->
+                <li><a href="AddToCart?service=showCart"><span class="icon_bag_alt"></span>
                     </a></li>
+
             </ul>
             <div class="offcanvas__logo">
                 <a href="home.jsp"><img src="img/authen/logo.png" alt=""></a>
@@ -116,24 +111,24 @@
                                     <button type="submit">Search</button>
                                 </form>
                             </div>
-                           
+
                             <div class="header__right__auth">
-                                   <c:if test="${sessionScope.inforUser == null}">
+                                <c:if test="${sessionScope.inforUserLogin == null}">
                                     <a href="login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
-                                <c:if test="${sessionScope.inforUser != null}">
+                                <c:if test="${sessionScope.inforUserLogin != null}">
                                     <nav class="header__menu">
-                                    <ul>
-                                    <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
-                                        <ul class="dropdown">
-                                            <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                             <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                            <li><a href="#">Logout</a></li>
+                                        <ul>
+                                            <li><a href="#">Hello:${sessionScope.inforUserLogin.getName()}</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
+                                                    <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                                    <li><a href="logout">Logout</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
-                                    </li>
-                                    </ul>
-                                        </nav>
+                                    </nav>
                                 </c:if>
                             </div>
                             <ul class="header__right__widget">
@@ -144,25 +139,15 @@
                                         <div class="tip">2</div>
                                     </a>
                                 </li>
-                                <%
-                                    double granTotal = 0; // Khởi tạo biến granTotal
-                                    int count = 0;
-                                    java.util.Enumeration em = session.getAttributeNames();
-                                    while (em.hasMoreElements()) {
-                                        count++;
-                                        String key = em.nextElement().toString();
-                                        if (key.startsWith("cart_")) {
-                                            ProductCart pro = (ProductCart) session.getAttribute(key);
-                                            double subtotal = pro.getQuantity() * pro.getPrice();
-                                            granTotal += subtotal; // Cộng dồn vào granTotal
-                                %>
-                                <%
-                                        }
-                                    }
-                                %>
+
                                 <li>
-                                    <a href="/HappyBeautySystem/ViewUser/shop-cart.jsp"><span class="icon_bag_alt"></span>
-                                        <div class="tip"><%= count%></div>
+                                    <a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span>
+                                        <!--                                        <div class="tip"></div>-->
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><span <i class="fa-solid fa-list-check"></i></span>
+                                        <!--                                        <div class="tip"></div>-->
                                     </a>
                                 </li>
                             </ul>
