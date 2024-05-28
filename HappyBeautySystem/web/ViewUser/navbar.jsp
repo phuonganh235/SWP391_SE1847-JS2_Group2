@@ -124,7 +124,7 @@
                                                 <ul class="dropdown">
                                                     <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
                                                     <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                                    <li><a href="#">Logout</a></li>
+                                                    <li><a href="logout">Logout</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
