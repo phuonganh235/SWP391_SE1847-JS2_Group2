@@ -36,9 +36,14 @@ public class Register extends HttpServlet {
         String roleId = request.getParameter("roleId");
         UserDAO dao = new UserDAO();
 
-        if (dao.getUserByUsername(username) != null || dao.checkExistEmail(email) == false) {
-            HttpSession session = request.getSession();
-            String err = "Username or Email has already exists!";
+        HttpSession session = request.getSession();
+
+        if (dao.getUserByUsername(username) != null) {
+            String err = "Username already exists!";
+            session.setAttribute("error", err);
+            request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
+        } else if (dao.checkExistEmail(email) == false) {
+            String err = "Email already exists!";
             session.setAttribute("error", err);
             request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
         } else {
@@ -55,7 +60,6 @@ public class Register extends HttpServlet {
             java.util.Date today = new Date();
             dao.register(name, username, password, mobile, email, address, postCode, new java.sql.Date(today.getTime()), 2);
             String message = "Register successfully, please enter Username and Password to login.";
-            HttpSession session = request.getSession();
             session.setAttribute("message", message);
             response.sendRedirect("login");
         }
