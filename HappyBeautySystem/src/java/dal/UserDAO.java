@@ -192,6 +192,34 @@ public class UserDAO extends DBContext {
         return n;
     }
 
+    //change password when forgot or User want to change their pass
+    public void updatePassword(String password, String username) {
+        String sql = "UPDATE Users SET Password = ? WHERE Username = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // method to check if user exists
+    public boolean userExists(String username) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
         User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
