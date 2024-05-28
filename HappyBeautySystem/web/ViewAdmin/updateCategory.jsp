@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="createDate">Create Date</label>
-                                        <input type="date" class="form-control" id="createDate" name="createDate" value="${cat.formattedCreateDate}" required>
+                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${cat.createDate}" >
                                 </div>
 
                             </div>
