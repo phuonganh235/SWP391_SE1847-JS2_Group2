@@ -54,7 +54,11 @@
                         <div class="tip"></div>
                     </a></li>
                 <li><a href="AddToCart?service=showCart"><span class="icon_bag_alt"></span>
-                    </a></li>
+
+                        <li><a href="#"><span class="icon_bag_alt"></span>
+
+
+                            </a></li>
 
             </ul>
             <div class="offcanvas__logo">
@@ -78,9 +82,9 @@
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./home">Home</a></li>
+                                <li class="active"><a href="home">Home</a></li>
 
-                                <li><a href="./product">Shop</a>
+                                <li><a href="/HappyBeautySystem/product">Shop</a>
                                     <ul class="dropdown">
                                         <li><a href="">Bodycare</a></li>
                                         <li><a href="">Skincare</a></li>
@@ -90,16 +94,16 @@
                                     </ul>
                                 </li>
 
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="product-details.jsp">Product Details</a></li>
-                                        <li><a href="shop-cart.jsp">Shop Cart</a></li>
-                                        <li><a href="checkout.jsp">Checkout</a></li>
-                                        <li><a href="blog-details.jsp">Blog Details</a></li>
-                                    </ul>
+                                <li><a href="blog-details">Pages</a>
+                                    <!--                                    <ul class="dropdown">
+                                                                            <li><a href="product-details.jsp">Product Details</a></li>
+                                                                            <li><a href="shop-cart.jsp">Shop Cart</a></li>
+                                                                            <li><a href="checkout.jsp">Checkout</a></li>
+                                                                            <li><a href="blog-details.jsp">Blog Details</a></li>
+                                                                        </ul>-->
                                 </li>
-                                <li><a href="blog.jsp">Blog</a></li>
-                                <li><a href="contact.jsp">Contact</a></li>
+                                <li><a href="./ViewUser/blog.jsp">Blog</a></li>
+                                <li><a href="./ViewUser/contact.jsp">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -115,49 +119,52 @@
                             <div class="header__right__auth">
                                 <c:if test="${sessionScope.inforUserLogin == null}">
                                     <a href="login">Login</a>
-                                    <a href="register?service=null">Register</a>
-                                </c:if>
-                                <c:if test="${sessionScope.inforUserLogin != null}">
-                                    <nav class="header__menu">
-                                        <ul>
-                                            <li><a href="#">Hello:${sessionScope.inforUserLogin.getName()}</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                                    <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                                    <li><a href="#">Logout</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </c:if>
+                                    <c:if test="${sessionScope.inforUser == null}">
+                                        <a href="Login">Login</a>
+                                        <a href="register?service=null">Register</a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.inforUserLogin != null}">
+                                        <nav class="header__menu">
+                                            <ul>
+                                                <li><a href="#">Hello:${sessionScope.inforUserLogin.getName()}</a>
+                                                <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
+                                                        <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                                        <li><a href="#">Logout</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </c:if>
+                                </div>
+                                <ul class="header__right__widget">
+
+
+                                    <li>
+                                        <a href="#"><span class="icon_heart_alt"></span>
+                                            <div class="tip">2</div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span>
+                                            <!--                                        <div class="tip"></div>-->
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><span <i class="fa-solid fa-list-check"></i></span>
+                                            <!--                                        <div class="tip"></div>-->
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="header__right__widget">
-
-
-                                <li>
-                                    <a href="#"><span class="icon_heart_alt"></span>
-                                        <div class="tip">2</div>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span>
-                                        <!--                                        <div class="tip"></div>-->
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><span <i class="fa-solid fa-list-check"></i></span>
-                                        <!--                                        <div class="tip"></div>-->
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
+                    <div class="canvas__open">
+                        <i class="fa fa-bars"></i>
+                    </div>
                 </div>
-                <div class="canvas__open">
-                    <i class="fa fa-bars"></i>
-                </div>
-            </div>
-        </header>
-    </body>
-</html>
+            </header>
+        </body>
+    </html>

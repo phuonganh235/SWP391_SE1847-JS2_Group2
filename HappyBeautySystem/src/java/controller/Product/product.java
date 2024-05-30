@@ -107,6 +107,105 @@ public class product extends HttpServlet {
             request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         }
 
+//        Sort Product
+        if (action.equals("sort")) {
+            String type = request.getParameter("type");
+            if (type.equals("low")) {
+                ArrayList<Product> productList = d.getProductLow();
+                ArrayList<Category> category = c.getAllCategories();
+//              Pagination
+                int page = 0, numperpage = 9;
+                int size = productList.size();
+                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> product = d.getListByPage(productList, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categoryList", category);
+                request.setAttribute("productList", product);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            }
+            
+            if (type.equals("high")) {
+                ArrayList<Product> productList = d.getProductHigh();
+                ArrayList<Category> category = c.getAllCategories();
+//              Pagination
+                int page = 0, numperpage = 9;
+                int size = productList.size();
+                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> product = d.getListByPage(productList, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categoryList", category);
+                request.setAttribute("productList", product);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            }
+            if (type.equals("a-z")) {
+                ArrayList<Product> productList = d.getProductAZ();
+                ArrayList<Category> category = c.getAllCategories();
+//              Pagination
+                int page = 0, numperpage = 9;
+                int size = productList.size();
+                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> product = d.getListByPage(productList, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categoryList", category);
+                request.setAttribute("productList", product);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            }
+            if (type.equals("z-a")) {
+                ArrayList<Product> productList = d.getProductZA();
+                ArrayList<Category> category = c.getAllCategories();
+//              Pagination
+                int page = 0, numperpage = 9;
+                int size = productList.size();
+                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> product = d.getListByPage(productList, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categoryList", category);
+                request.setAttribute("productList", product);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            }
+        }
+
+//View Product detail
         if (action.equalsIgnoreCase("productdetail")) {
             String product_id = request.getParameter("product_id");
 
@@ -176,7 +275,7 @@ public class product extends HttpServlet {
             try {
                 from = (fromPrice == null || fromPrice.equals("")) ? null : Double.parseDouble(fromPrice);
                 to = (toPrice == null || toPrice.equals("")) ? null : Double.parseDouble(toPrice);
-                ArrayList<Product> listP = d.search(from, to);
+                ArrayList<Product> listP = d.searchByPrice(from, to);
                 //            Pagination
                 int page = 0, numperpage = 9;
                 int size = listP.size();
