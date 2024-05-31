@@ -1,7 +1,5 @@
-
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
-<%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Cart"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -19,12 +17,8 @@
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-              rel="stylesheet">
-        <script
-            src="https://kit.fontawesome.com/84a8258e0d.js"
-            crossorigin="anonymous"
-        ></script>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/84a8258e0d.js" crossorigin="anonymous"></script>
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -36,7 +30,7 @@
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
         <style>
-            .logo-pic{
+            .logo-pic {
                 margin-left: 150px;
                 width: 40%;
             }
@@ -49,14 +43,8 @@
             <div class="offcanvas__close">+</div>
 
             <ul class="offcanvas__widget">
-                <!--<li><span class="icon_search search-switch"></span></li>-->
-                <li><a href="#"><span class="icon_heart_alt"></span>
-                        <div class="tip"></div>
-                    </a></li>
-                <li><a href="AddToCart?service=showCart"><span class="icon_bag_alt"></span>
-                <li><a href="#"><span class="icon_bag_alt"></span>
-                    </a></li>
-
+                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                <li><a href="AddToCart?service=showCart"><span class="icon_bag_alt"></span></a></li>
             </ul>
             <div class="offcanvas__logo">
                 <a href="home.jsp"><img src="img/authen/logo.png" alt=""></a>
@@ -80,7 +68,6 @@
                         <nav class="header__menu">
                             <ul>
                                 <li class="active"><a href="home">Home</a></li>
-
                                 <li><a href="/HappyBeautySystem/product">Shop</a>
                                     <ul class="dropdown">
                                         <li><a href="">Bodycare</a></li>
@@ -90,15 +77,7 @@
                                         <li><a href="">Perfume</a></li>
                                     </ul>
                                 </li>
-
-                                <li><a href="blog-details">Pages</a>
-                                    <!--                                    <ul class="dropdown">
-                                                                            <li><a href="product-details.jsp">Product Details</a></li>
-                                                                            <li><a href="shop-cart.jsp">Shop Cart</a></li>
-                                                                            <li><a href="checkout.jsp">Checkout</a></li>
-                                                                            <li><a href="blog-details.jsp">Blog Details</a></li>
-                                                                        </ul>-->
-                                </li>
+                                <li><a href="blog-details">Pages</a></li>
                                 <li><a href="./ViewUser/blog.jsp">Blog</a></li>
                                 <li><a href="./ViewUser/contact.jsp">Contact</a></li>
                             </ul>
@@ -106,17 +85,14 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="header__right">
-                            <div style="width: 30px" >
-                                <form action="product?service=search" method="post" >
+                            <div style="width: 30px">
+                                <form action="product?service=search" method="post">
                                     <input name="text" placeholder="Search Product..." type="text">
                                     <button type="submit">Search</button>
                                 </form>
                             </div>
-
                             <div class="header__right__auth">
                                 <c:if test="${sessionScope.inforUserLogin == null}">
-                                    <a href="login">Login</a>
-                                <c:if test="${sessionScope.inforUser == null}">
                                     <a href="login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
@@ -126,12 +102,7 @@
                                             <li><a href="#">Hello:${sessionScope.inforUserLogin.getName()}</a>
                                                 <ul class="dropdown">
                                                     <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                                    <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                                    <li><a href="logout">Logout</a></li>
-                                            <li><a href="#">Hello:${sessionScope.inforUser.getName()}</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
-                                                    <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
+                                                    <li><a href="customer-profle?service=editprofile">Edit Profile</a></li>
                                                     <li><a href="logout">Logout</a></li>
                                                 </ul>
                                             </li>
@@ -140,24 +111,9 @@
                                 </c:if>
                             </div>
                             <ul class="header__right__widget">
-
-
-                                <li>
-                                    <a href="#"><span class="icon_heart_alt"></span>
-                                        <div class="tip">2</div>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span>
-                                        <!--                                        <div class="tip"></div>-->
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><span <i class="fa-solid fa-list-check"></i></span>
-                                        <!--                                        <div class="tip"></div>-->
-                                    </a>
-                                </li>
+                                <li><a href="#"><span class="icon_heart_alt"></span><div class="tip">2</div></a></li>
+                                <li><a href="/HappyBeautySystem/AddToCart?service=showCart"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa-solid fa-list-check"></i></a></li>
                             </ul>
                         </div>
                     </div>
