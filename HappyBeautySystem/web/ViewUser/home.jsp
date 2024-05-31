@@ -100,19 +100,18 @@
 
                                         </span>
                                     </a>
+                                    <!--  // ToanLV code-->
                                     <ul class="product__hover">
-                                        <li>
-
-                                        </li>
+                                        <li></li>
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                         <!--Add Product to Cart-->
                                         <li>
-                                            <a href="#">
-                                                <!--<a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">-->
+                                            <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
                                                 <span class="icon_bag_alt"></span>
                                             </a>
                                         </li>
                                     </ul>
+                                    <!--                                                //-->
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h6>
@@ -229,7 +228,7 @@
                             </c:forEach>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="trend__content">
                             <div class="section-title">

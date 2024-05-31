@@ -393,7 +393,6 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
     // Adds a new product to the Product table in the database
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -505,7 +504,9 @@ public class ProductDAO extends DBContext {
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
+
         dao.updateProductQuantityTru(1, 3);
+
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
         Product pro = dao.getProductById(1);
