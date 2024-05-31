@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="ViewUser/css/authen/style.css">
     <script>
         function validateForm() {
+            var username = document.getElementById("username").value;
             var email = document.getElementById("email").value;
             var mobile = document.getElementById("mobile").value;
             var password = document.getElementById("pass").value;
@@ -21,6 +22,10 @@
             var mobilePattern = /^(?:\+84|0)(3|5|7|8|9)[0-9]{8}$/;
             var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
+            if (/\s/.test(username)) {
+                alert("Username should not contain spaces.");
+                return false;
+            }
             if (!emailPattern.test(email)) {
                 alert("Please enter a valid email address.");
                 return false;
