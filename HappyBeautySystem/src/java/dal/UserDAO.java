@@ -2,10 +2,11 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.User;
 
 public class UserDAO extends DBContext {
@@ -40,20 +41,26 @@ public class UserDAO extends DBContext {
 
     // Authenticates a user with the provided username and password
     public User login(String username, String password) {
-        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
+        String sql = "SELECT * FROM [Users] WHERE Username = ? AND Password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
-                        rs.getString("Username"), rs.getString("Mobile"),
-                        rs.getString("Email"), rs.getString("Address"),
-                        rs.getString("PostCode"), rs.getString("ImageUrl"),
-                        rs.getInt("RoleId"), rs.getDate("CreateDate"),
-                        rs.getString("Password"));
-                return u;
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("UserId"),
+                        rs.getString("Name"),
+                        rs.getString("Username"),
+                        rs.getString("Mobile"),
+                        rs.getString("Email"),
+                        rs.getString("Address"),
+                        rs.getString("PostCode"),
+                        rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"),
+                        rs.getDate("CreateDate"),
+                        rs.getString("Password")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,9 +146,9 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     // Retrieves the role of a user based on their username and password
-    public int getRole(String username, String password){
+    public int getRole(String username, String password) {
         String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -149,7 +156,7 @@ public class UserDAO extends DBContext {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int a = rs.getInt("RoleId"); 
+                int a = rs.getInt("RoleId");
                 return a;
             }
         } catch (Exception e) {
@@ -158,9 +165,68 @@ public class UserDAO extends DBContext {
         return 2;
     }
 
-//    public static void main(String[] args) throws ParseException {
+    public int updateUser(User user) {
+        int n = 0;
+        String sqlUpdate = "UPDATE [dbo].[Users]"
+                + "   SET [Name] = ?,"
+                + "      [Mobile] = ?,"
+                + "      [Email] = ?,"
+                + "      [Address] = ?,"
+                + "      [PostCode] = ?"
+                + " WHERE [userId] = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
+            pre.setString(1, user.getName());
+            pre.setString(2, user.getMobile());
+            pre.setString(3, user.getEmail());
+            pre.setString(4, user.getAddress());
+            pre.setString(5, user.getPostCode());
+            pre.setInt(6, user.getUserId());
+
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
+    //change password when forgot or User want to change their pass
+    public void updatePassword(String password, String username) {
+        String sql = "UPDATE Users SET Password = ? WHERE Username = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // method to check if user exists
+    public boolean userExists(String username) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+//    public static void main(String[] args) {
 //        UserDAO dao = new UserDAO();
-//        java.util.Date today = new Date();
-//        dao.register("1", "1", "1", "1", "1", "1", "1", new java.sql.Date(today.getTime()) ,2);
+//        User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
+//        int result = dao.updateUser(newUser);
+//        if (result > 0) {
+//            System.out.println("Update successful.");
+//        } else {
+//            System.out.println("Update failed.");
+//        }
 //    }
+
 }
