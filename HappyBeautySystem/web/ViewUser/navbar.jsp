@@ -117,7 +117,7 @@
                                 <c:if test="${sessionScope.inforUserLogin == null}">
                                     <a href="login">Login</a>
                                 <c:if test="${sessionScope.inforUser == null}">
-                                    <a href="Login">Login</a>
+                                    <a href="login">Login</a>
                                     <a href="register?service=null">Register</a>
                                 </c:if>
                                 <c:if test="${sessionScope.inforUserLogin != null}">
@@ -132,7 +132,7 @@
                                                 <ul class="dropdown">
                                                     <li><a href="customer-profle?service=ViewProfile">View Profile</a></li>
                                                     <li><a href="customer-profle?service=editprofile">Edit Profile Profile</a></li>
-                                                    <li><a href="#">Logout</a></li>
+                                                    <li><a href="logout">Logout</a></li>
                                                 </ul>
                                             </li>
                                         </ul>

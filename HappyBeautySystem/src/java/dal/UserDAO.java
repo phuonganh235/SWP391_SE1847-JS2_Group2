@@ -3,8 +3,6 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -220,15 +218,15 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-    public static void main(String[] args) {
-        UserDAO dao = new UserDAO();
-        User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
-        int result = dao.updateUser(newUser);
-        if (result > 0) {
-            System.out.println("Update successful.");
-        } else {
-            System.out.println("Update failed.");
-        }
-    }
+//    public static void main(String[] args) {
+//        UserDAO dao = new UserDAO();
+//        User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
+//        int result = dao.updateUser(newUser);
+//        if (result > 0) {
+//            System.out.println("Update successful.");
+//        } else {
+//            System.out.println("Update failed.");
+//        }
+//    }
 
 }

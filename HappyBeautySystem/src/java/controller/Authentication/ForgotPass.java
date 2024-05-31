@@ -13,14 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.net.PasswordAuthentication;
 import java.util.Properties;
 import java.util.Random;
 
-/**
- *
- * @author admin
- */
 @WebServlet(name="ForgotPass", urlPatterns={"/forgotpass"})
 public class ForgotPass extends HttpServlet {
 
