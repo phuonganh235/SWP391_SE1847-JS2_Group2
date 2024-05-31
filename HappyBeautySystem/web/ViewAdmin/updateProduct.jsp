@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="createDate">Create Date</label>
-                                        <input type="date" class="form-control" id="createDate" name="createDate" value="${product.createDate}" required>
+                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${product.createDate}" required>
                                 </div>
 
                             </div>

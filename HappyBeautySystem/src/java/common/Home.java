@@ -23,7 +23,6 @@ public class Home extends HttpServlet {
         UserDAO uDao = new UserDAO();
         ProductDAO pDao = new ProductDAO();
         HttpSession session = request.getSession();
-
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
         

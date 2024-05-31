@@ -273,6 +273,7 @@ public class ProductDAO extends DBContext {
 
 //  Search Products by Price
     public ArrayList<Product> searchByPrice(Double from, Double to) {
+
         ArrayList<Product> list = new ArrayList<>();
 
         String sql = "SELECT *  FROM Product\n"
@@ -477,9 +478,34 @@ public class ProductDAO extends DBContext {
         return count;
     }
 
+    public void updateProductQuantityTru(int productId, int quantityToUpdate) {
+        String sql = "UPDATE Product SET Quantity = Quantity - ? WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantityToUpdate);
+            st.setInt(2, productId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public void updateProductQuantityPlus(int productId, int quantityToUpdate) {
+        String sql = "UPDATE Product SET Quantity = Quantity + ? WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantityToUpdate);
+            st.setInt(2, productId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
+        dao.updateProductQuantityTru(1, 3);
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
         Product pro = dao.getProductById(1);

@@ -232,7 +232,7 @@
                                                 <label for="createDate" class="form-label">Create Date</label>
                                                 <input type="date" class="form-control" id="createDate" name="createDate" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Add Product</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
                                     </div>
                                 </div>

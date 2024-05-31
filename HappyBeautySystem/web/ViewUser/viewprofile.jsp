@@ -52,14 +52,14 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
                             <a href="/HappyBeautySystem/home"><i class="fa fa-home"></i> Home</a>
-                            <span>My account</span>
+                            <span>View profile</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Breadcrumb End -->
-        <c:if test="${not empty account}">
+        <c:if test="${not empty inforUser}">
         <!-- proflie begin-->
             <section style="background-color: #eee;">
                 <div class="container py-5">
@@ -67,9 +67,9 @@
                         <div class="col-lg-4">
                             <div class="card mb-4">
                                 <div class="card-body text-center">
-                                    <img src="${account.img}" alt="avatar"
+                                    <img src="${inforUser.image}" alt="avatar"
                                          class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">${account.name}</h5>
+                                    <h5 class="my-3">${inforUser.name}</h5>
                                 </div>
                             </div>                      
                         </div>
@@ -81,7 +81,7 @@
                                             <label for="fullName">Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.name}</p>
+                                            <p class="text-muted mb-0">${inforUser.name}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -90,7 +90,7 @@
                                             <label for="email">Email</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.email}</p>
+                                            <p class="text-muted mb-0">${inforUser.email}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -99,7 +99,7 @@
                                             <label for="phone">Phone</label>
                                         </div>
                                         <div class="col-sm-9">
-                                           <p class="text-muted mb-0">${account.mobile}</p>
+                                           <p class="text-muted mb-0">${inforUser.mobile}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -108,7 +108,7 @@
                                             <label for="postCode">Post Code</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.postCode}</p>
+                                            <p class="text-muted mb-0">${inforUser.postCode}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -117,16 +117,10 @@
                                             <label for="Address">Address</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${account.address}</p>
+                                            <p class="text-muted mb-0">${inforUser.address}</p>
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-sm-12 text-end">
-                                            <input class="btn btn-primary form-control" type="submit"
-                                                   value="Save" name="submit" id="submit" />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>                  
                         </div>                                                                
@@ -137,7 +131,7 @@
          </c:if>
         
          <c:if test="${empty user}">
-                <p>No user information available. Please <a href="login?service=login">login</a>.</p>
+                <p>No user information available. Please <a href="login">login</a>.</p>
             </c:if>
 
         <!-- profile end-->

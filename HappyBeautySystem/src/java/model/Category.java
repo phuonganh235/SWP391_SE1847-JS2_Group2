@@ -1,10 +1,10 @@
-
 package model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Category {
+
     private int categoryId;
     private String categoryName;
     private String categoryImageUrl;
@@ -16,7 +16,7 @@ public class Category {
 
     public Category(String categoryName) {
     }
-    
+
     public Category(int categoryId, String categoryName, String categoryImageUrl, boolean isActive, String createDate) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
@@ -69,16 +69,17 @@ public class Category {
     public String toString() {
         return "Category{" + "categoryId=" + categoryId + ", categoryName=" + categoryName + ", categoryImageUrl=" + categoryImageUrl + ", isActive=" + isActive + ", createDate=" + createDate + '}';
     }
-  
+
     public String getFormattedCreateDate() {
+        SimpleDateFormat sdfInput = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat sdfOutput = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(this.createDate);  // Giả sử createDate ban đầu ở định dạng dd/MM/yyyy
-            return sdf.format(date);
+            Date date = sdfInput.parse(this.createDate);
+            return sdfOutput.format(date);
         } catch (Exception e) {
             e.printStackTrace();
-            return this.createDate;
+            return null;
         }
     }
-    
+
 }

@@ -1,0 +1,86 @@
+
+.status-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+.status-container h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+.status-container p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+}
+.status-container .btn {
+    font-size: 16px;
+    padding: 12px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+.btn-ordered {
+    background-color: #007bff;
+}
+.btn-ordered:hover {
+    background-color: #0056b3;
+}
+.btn-confirmed {
+    background-color: #ffc107;
+}
+.btn-confirmed:hover {
+    background-color: #e0a800;
+}
+.btn-shipping {
+    background-color: #17a2b8;
+}
+.btn-shipping:hover {
+    background-color: #117a8b;
+}
+.btn-delivered {
+    background-color: #28a745;
+}
+.btn-delivered:hover {
+    background-color: #218838;
+}
+
+.order-list {
+    margin-top: 50px;
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.order-list th, .order-list td {
+    padding: 15px;
+    text-align: left;
+}
+.order-list th {
+    background-color: #f4f4f4;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+.order-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.order-list tr:hover {
+    background-color: #f1f1f1;
+}
+.order-list td {
+    font-size: 16px;
+    color: #333;
+}
