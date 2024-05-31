@@ -127,7 +127,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 text-end">
                                             <input class="btn btn-primary form-control" type="submit" value="Save" name="submit" id="submit" /> 
-                                            <input type="hidden" name="service" value="editProfile">
+                                            <input type="hidden" name="service" value="editprofile">
                                             
                                         </div>
                                     </div>

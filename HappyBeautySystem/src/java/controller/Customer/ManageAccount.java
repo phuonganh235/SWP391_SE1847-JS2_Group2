@@ -42,7 +42,7 @@ public class ManageAccount extends HttpServlet {
                 }
                 break;
               //edit thong user
-            case "editProfile":
+            case "editprofile":
                 String submit = request.getParameter("submit"); //lay tham so submit tu trang editprofile
                 if (submit == null) { // neu user chua gui form
                     User editProfileUser = (User) session.getAttribute("inforUser"); // lay thong tin user da login
