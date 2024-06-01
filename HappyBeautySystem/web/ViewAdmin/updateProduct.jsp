@@ -69,11 +69,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="number" class="form-control" id="price" name="price" value="${product.price}" required>
+                                    <input type="number" class="form-control" id="price" name="price" value="${product.price}" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" value="${product.quantity}" required>
+                                    <input type="number" class="form-control" id="quantity" name="quantity" value="${product.quantity}" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="size">Size</label>
@@ -97,11 +97,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="subCateId">SubCategory</label>
-                                    <input type="number" class="form-control" id="subCateId" name="subCateId" value="${product.subCateId}" required>
+                                    <input type="number" class="form-control" id="subCateId" name="subCateId" value="${product.subCateId}" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="sold">Sold</label>
-                                    <input type="number" class="form-control" id="sold" name="sold" value="${product.sold}" required>
+                                    <input type="number" class="form-control" id="sold" name="sold" value="${product.sold}" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="isCustomized">Is Customized</label>
@@ -113,9 +113,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="createDate">Create Date</label>
-                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${product.createDate}" required>
+                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${product.createDate}" readonly>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="pathImage">PathImage</label>
+                                    <input type="text" class="form-control" id="pathImage" name="pathImage" value="${product.pathImage}" required>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-success" value="Update">

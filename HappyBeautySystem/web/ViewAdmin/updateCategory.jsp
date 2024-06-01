@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="createDate">Create Date</label>
-                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${cat.createDate}" >
+                                        <input type="text" class="form-control" id="createDate" name="createDate" value="${cat.createDate}" readonly>
                                 </div>
 
                             </div>

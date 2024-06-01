@@ -101,7 +101,7 @@
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">Category Management</h6>
-                            <a href="managecategory">Show All</a>
+                            <a href="managercategory">Show All</a>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Category</button>
                         </div>
                         <!-- Load product Product -->
@@ -161,10 +161,7 @@
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="createDate" class="form-label">Create Date</label>
-                                                <input type="date" class="form-control" id="createDate" name="createDate" required>
-                                            </div>
+                                            
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
                                     </div>

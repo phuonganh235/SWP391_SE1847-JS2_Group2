@@ -459,7 +459,41 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
-
+    //Search Product by name in dashboard
+    public ArrayList<Product> searchProductByNameToManage(String productName) {
+        ArrayList<Product> pList = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE ProductName LIKE ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + productName + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product prd = new Product();
+                prd.setProductId(rs.getInt("ProductId"));
+                prd.setProductName(rs.getString("ProductName"));
+                prd.setShortDes(rs.getString("ShortDescription"));
+                prd.setLongDes(rs.getString("LongDescription"));
+                prd.setAddDes(rs.getString("AdditionalDescription"));
+                prd.setPrice(rs.getFloat("Price"));
+                prd.setQuantity(rs.getInt("Quantity"));
+                prd.setSize(rs.getString("Size"));
+                prd.setColor(rs.getString("Color"));
+                prd.setCompanyName(rs.getString("CompanyName"));
+                prd.setCateId(rs.getInt("CategoryId"));
+                prd.setSubCateId(rs.getInt("SubCategoryId"));
+                prd.setSold(rs.getInt("Sold"));
+                prd.setIsCustomized(rs.getBoolean("IsCustomized"));
+                prd.setIsActive(rs.getBoolean("IsActive"));
+                prd.setCreateDate(rs.getString("CreateDate"));
+                prd.setPathImage(rs.getString("pathImage"));
+                pList.add(prd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pList;
+    }
+    
     public int countReview(int id) {
         int count = 0;
         String sql = "SELECT COUNT(*) as 'count'\n"

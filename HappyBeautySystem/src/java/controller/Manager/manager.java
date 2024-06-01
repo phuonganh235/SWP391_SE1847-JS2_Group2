@@ -8,7 +8,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import model.Category;
 import model.Product;
 
@@ -20,9 +22,11 @@ public class manager extends HttpServlet {
         ProductDAO dao = new ProductDAO();
         CategoryDAO daoC = new CategoryDAO();
         String service = request.getParameter("service");
+        // Default service to "listall" if no service parameter is provided
         if (service == null) {
             service = "listall";
         }
+        // Listing all products
         if (service.equals("listall")) {
             ArrayList<Product> product = dao.getAllProduct();
             request.setAttribute("listP", product);
@@ -30,6 +34,7 @@ public class manager extends HttpServlet {
             request.setAttribute("listCat", cat);
             request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
         }
+        // Adding a new product
         if (service.equals("add")) {
             String productIdStr = request.getParameter("productId");
             Integer productId = null;
@@ -54,13 +59,15 @@ public class manager extends HttpServlet {
             int sold = Integer.parseInt(request.getParameter("sold"));
             boolean isCustomized = request.getParameter("isCustomized") != null;
             boolean isActive = request.getParameter("isActive") != null;
-            String createDate = request.getParameter("createDate");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String createDate = sdf.format(new Date());
             String pathImage = request.getParameter("pathImage");
             Product product = new Product(productId, productName, shortDes, longDes, addDes, price, quantity,
                     size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate, pathImage);
             dao.addProduct(product);
             response.sendRedirect("manager");
         }
+        //Updating a product
         if (service.equals("update")) {
             int productId = Integer.parseInt(request.getParameter("id"));
             Product p = dao.getProductById(productId);
@@ -69,7 +76,7 @@ public class manager extends HttpServlet {
             request.setAttribute("listCat", cat);
             request.getRequestDispatcher("ViewAdmin/updateProduct.jsp").forward(request, response);
         }
-
+        //Editing a product
         if (service.equals("edit")) {
             int productId = Integer.parseInt(request.getParameter("productId"));
             String productName = request.getParameter("productName");
@@ -93,11 +100,18 @@ public class manager extends HttpServlet {
             dao.updateProduct(product);
             response.sendRedirect("manager");
         }
-
+        //Deleting a product
         if (service.equals("delete")) {
             int productId = Integer.parseInt(request.getParameter("id"));
             dao.deleteProduct(productId);
             response.sendRedirect("manager");
+        }
+        //Searching product by name
+        if (service.equals("search")){
+            String txt = request.getParameter("txt");
+            ArrayList<Product> searchProduct = dao.searchProductByNameToManage(txt);
+            request.setAttribute("listP", searchProduct);
+            request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
         }
     }
 

@@ -53,8 +53,10 @@
                     <a href="#" class="sidebar-toggler flex-shrink-0">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <form class="d-none d-md-flex ms-4">
-                        <input class="form-control border-0" type="search" placeholder="Search">
+                    <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
+                        <input type="hidden" name="service" value="search">
+                        <input class="form-control border-0" type="search" placeholder="Search" name="txt">
+                        <button type="submit" class="btn btn-primary ms-2">Search</button>
                     </form>
                     <div class="navbar-nav align-items-center ms-auto">
                         <!-- Message Dropdown -->
@@ -98,10 +100,10 @@
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">Product Management</h6>
-                            <a href="manageProduct.jsp">Show All</a>
+                            <a href="manager">Show All</a>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
                         </div>
-                        <!-- Load product Product -->
+                        <!-- Load Product -->
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead>
@@ -123,6 +125,7 @@
                                         <th scope="col">IsCustomized</th>
                                         <th scope="col">IsActive</th>
                                         <th scope="col">CreateDate</th>
+                                        <th scope="col">PathImage</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -146,6 +149,7 @@
                                             <td>${product.isCustomized}</td>
                                             <td>${product.isActive}</td>
                                             <td>${product.createDate}</td>
+                                            <td>${product.pathImage}</td>
                                             <td>
                                                 <a class="btn btn-sm btn-primary" href="manager?service=update&id=${product.productId}">Update</a>
                                                 <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
@@ -185,11 +189,11 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="price" class="form-label">Price</label>
-                                                <input type="number" class="form-control" id="price" name="price" required>
+                                                <input type="number" class="form-control" id="price" name="price" min="0" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="quantity" class="form-label">Quantity</label>
-                                                <input type="number" class="form-control" id="quantity" name="quantity" required>
+                                                <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="size" class="form-label">Size</label>
@@ -214,11 +218,11 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="subCateId" class="form-label">SubCategory</label>
-                                                <input type="number" class="form-control" id="subCateId" name="subCateId" required>
+                                                <input type="number" class="form-control" id="subCateId" name="subCateId" min="0" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="sold" class="form-label">Sold</label>
-                                                <input type="number" class="form-control" id="sold" name="sold" required>
+                                                <input type="number" class="form-control" id="sold" name="sold" min="0" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="isCustomized" class="form-label">Is Customized</label>
@@ -228,9 +232,13 @@
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-                                            <div class="mb-3">
+<!--                                            <div class="mb-3">
                                                 <label for="createDate" class="form-label">Create Date</label>
                                                 <input type="date" class="form-control" id="createDate" name="createDate" required>
+                                            </div>-->
+                                            <div class="mb-3">
+                                                <label for="pathImage" class="form-label">PathImage</label>
+                                                <input type="text" class="form-control" id="pathImage" name="pathImage" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
