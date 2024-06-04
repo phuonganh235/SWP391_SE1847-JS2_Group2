@@ -42,8 +42,8 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
                             <a href="./home"><i class="fa fa-home"></i> Home</a>
-                            <a href="#">Women’s </a>
-                            <span>Essential structured blazer </span>
+                            <a href="/HappyBeautySystem/product">Product </a>
+                            <span>${ProductData.getProductName()} </span>
                         </div>
                     </div>
                 </div>
@@ -93,6 +93,7 @@
                         <%--<c:forEach items="${requestScope.ProductData}" var="p">--%>
                         <div class="product__details__text">
                             <h3>Name: ${ProductData.getProductName()}<span>Description: ${ProductData.getShortDes()}</span></h3>
+                            <h4 style="color: #008ce6; font-weight: bold">Brand: ${ProductData.getCompanyName()}</h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -101,7 +102,7 @@
                                 <i class="fa fa-star"></i>
                                 <span>( Reviews: ${countReview} )</span>
                             </div>
-                            <div class="product__details__price">Giá:$${ProductData.getPrice()}</div>
+                            <div class="product__details__price">Price: $${ProductData.getPrice()}</div>
                             <div class="">Category: ${requestScope.Category.categoryName}</div>
                             <p>${ProductData.getLongDes()}</p>
                             <div class="product__details__button">
@@ -111,7 +112,7 @@
                                         <input min = "1" max = ${ProductData.getQuantity()} type="text" value="1">
                                     </div>
                                 </div>
-                                <a href="./ViewUser/shop-cart.jsp" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                                 <ul>
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                     <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>

@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                            <a href="./home"><i class="fa fa-home"></i> Home</a>
                             <span>Shopping cart</span>
                         </div>
                     </div>
@@ -82,9 +82,13 @@
                                     %>
                                     <tr>
                                         <td class="cart__product__item">
-                                            <img src="ViewUser/img/shop-cart/Ami.png" alt=""/>
+                                            <a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
+                                                <img style="
+                                                     height: 90px;
+                                                     width: 90px;
+                                                     " src="<%= pro.getPathImage()%>" alt=""></a>
                                             <div class="cart__product__item__title">
-                                                <h6><%= pro.getProductName()%></h6>
+                                                <h6><a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a></h6>
                                                 <div class="rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -96,7 +100,7 @@
                                         </td>
                                         <td class="cart__price" data-price="<%= pro.getPrice()%>">$<%= pro.getPrice()%></td>
                                         <td class="cart__quantity">
-                                            <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
+                                            <input min = "1" type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
                                         </td>
                                         <td class="cart__price sub_total" data-price="<%= subtotal%>" id="<%= cart.getCartId()%>">$<%= subtotal%></td>
                                         <td class="cart__close">
@@ -125,7 +129,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn">
-                            <a href="/HappyBeautySystem/home">Continue Shopping</a>
+                            <a href="/HappyBeautySystem/product">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
@@ -153,134 +157,9 @@
         </section>
         <!-- Shop Cart Section End -->
 
-        <!-- Instagram Begin -->
-        <div class="instagram">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Instagram End -->
-
-        <!-- Footer Section Begin -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-7">
-                        <div class="footer__about">
-                            <div class="footer__logo">
-                                <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                cilisis.</p>
-                            <div class="footer__payment">
-                                <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-5">
-                        <div class="footer__widget">
-                            <h6>Quick links</h6>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-4">
-                        <div class="footer__widget">
-                            <h6>Account</h6>
-                            <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 col-sm-8">
-                        <div class="footer__newslatter">
-                            <h6>NEWSLETTER</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Email">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
-                            <div class="footer__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <div class="footer__copyright__text">
-                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-                        </div>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Footer Section End -->
+        <!--footer area start-->
+        <jsp:include page="footer.jsp"/>
+        <!--footer area end-->
 
         <!-- Search Begin -->
         <div class="search-model">
@@ -305,83 +184,83 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    const priceCells = document.querySelectorAll('.cart__price');
-                                    priceCells.forEach(cell => {
-                                        const price = parseFloat(cell.getAttribute('data-price'));
-                                        cell.textContent = price.toFixed(2);
-                                    });
+                                                document.addEventListener('DOMContentLoaded', function () {
+                                                    const priceCells = document.querySelectorAll('.cart__price');
+                                                    priceCells.forEach(cell => {
+                                                        const price = parseFloat(cell.getAttribute('data-price'));
+                                                        cell.textContent = price.toFixed(2);
+                                                    });
 
-                                });
+                                                });
         </script>
         <!--        //CHANGE QUANTITY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
 
-                                function stringToObject(string) {
-                                    //Tách chuỗi ra thành các phần tử có key với value ví du:
-                                    // [name=abc,age=20,gender=male]
-                                    let keyValuePairs = string.split(", ");
-                                    let obj = {}; // tạo 1 obj rỗng
+                                                function stringToObject(string) {
+                                                    //Tách chuỗi ra thành các phần tử có key với value ví du:
+                                                    // [name=abc,age=20,gender=male]
+                                                    let keyValuePairs = string.split(", ");
+                                                    let obj = {}; // tạo 1 obj rỗng
 
-                                    // duyệt mọi phần tử
-                                    for (let i = 0; i < keyValuePairs.length; i++) {
-                                        // Tạo 1 mảng chứa key - value,
-                                        // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
-                                        // để thêm vào obj
-                                        let keyValue = keyValuePairs[i].split("=");
+                                                    // duyệt mọi phần tử
+                                                    for (let i = 0; i < keyValuePairs.length; i++) {
+                                                        // Tạo 1 mảng chứa key - value,
+                                                        // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
+                                                        // để thêm vào obj
+                                                        let keyValue = keyValuePairs[i].split("=");
 
-                                        // Mảng có 2 phần tử, 0: key, 1: value
-                                        let key = keyValue[0].trim();
-                                        let value = keyValue[1].trim();
+                                                        // Mảng có 2 phần tử, 0: key, 1: value
+                                                        let key = keyValue[0].trim();
+                                                        let value = keyValue[1].trim();
 
-                                        // Check xem value có phải số hay không? nếu là số thì parse
-                                        if (!isNaN(value)) {
-                                            value = parseFloat(value);
-                                        }
+                                                        // Check xem value có phải số hay không? nếu là số thì parse
+                                                        if (!isNaN(value)) {
+                                                            value = parseFloat(value);
+                                                        }
 
-                                        // thêm key-value vào obj
-                                        obj[key] = value;
-                                    }
+                                                        // thêm key-value vào obj
+                                                        obj[key] = value;
+                                                    }
 
-                                    return obj;
-                                }
-                                function changeQuantity(position, obj_raw, price) {
-                                    let value = +position.value;
-                                    if (value <= 0) {
-                                        position.value = 1;
+                                                    return obj;
+                                                }
+                                                function changeQuantity(position, obj_raw, price) {
+                                                    let value = +position.value;
+                                                    if (value <= 0) {
+                                                        position.value = 1;
 
-                                    }
-                                    console.log(typeof +position.value);
-                                    let obj = stringToObject(obj_raw);
-                                    console.log(obj)
-                                    console.log(price);
-                                    $.ajax({
-                                        url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
-                                        type: "POST",
-                                        success: function (data) {
-                                            let id = obj.cartId;
-                                            let total = document.getElementById(id);
-                                            total.innerHTML = price * position.value;
+                                                    }
+                                                    console.log(typeof +position.value);
+                                                    let obj = stringToObject(obj_raw);
+                                                    console.log(obj)
+                                                    console.log(price);
+                                                    $.ajax({
+                                                        url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
+                                                        type: "POST",
+                                                        success: function (data) {
+                                                            let id = obj.cartId;
+                                                            let total = document.getElementById(id);
+                                                            total.innerHTML = price * position.value;
 
-                                            let priceCells = document.querySelectorAll('.sub_total');
-                                            let totalPrice = 0;
-                                            console.log(priceCells);
-                                            priceCells.forEach(cell => {
-                                                let price = +cell.innerHTML;
+                                                            let priceCells = document.querySelectorAll('.sub_total');
+                                                            let totalPrice = 0;
+                                                            console.log(priceCells);
+                                                            priceCells.forEach(cell => {
+                                                                let price = +cell.innerHTML;
 //                                                cell.textContent = price.toFixed(2);
-                                                totalPrice += price;
-                                                
-                                            });
-                                            console.log(totalPrice);
-                                            document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
+                                                                totalPrice += price;
 
-                                        },
-                                        error: function (xhr, status, error) {
+                                                            });
+                                                            console.log(totalPrice);
+                                                            document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
 
-                                        }
-                                    });
-                                }
+                                                        },
+                                                        error: function (xhr, status, error) {
+
+                                                        }
+                                                    });
+                                                }
         </script>
 
     </body>

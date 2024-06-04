@@ -20,7 +20,7 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        
+
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                          
+
                             <div class="sidebar__categories">
 
                                 <!--Search By Price-->
@@ -130,8 +130,7 @@
                                 </form>
                             </div>
                             <!--sidebar widget end-->
-                            
-                           
+
                             <!--Sidebar sort start-->
                             <div class="sidebar__categories">
                                 <!--List Category-->
@@ -171,31 +170,6 @@
 
                     <!--List Product-->
                     <div class="col-lg-9 col-md-12">
-                        <!--Sort Product start-->
-                        <!--                        <div>
-                                                    <h3 style="color: black;" class="toggle-list">Filter</h3>
-                                                    <ul id="circle-list" style="list-style-type: circle; display: none;">
-                                                        <li><a class="dropdown-item" href="product?action=sort&type=low">Prices range from low to high</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=high">Prices range from high to low</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=a-z">A-Z</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=z-a">Z-A</li>
-                                                    </ul>
-                                                </div>-->
-                        <!--Sort Product end -->
-                        <!--                        <div class="shop_toolbar_wrapper" style="border:none">
-                                                    <div class="dropdown ">
-                                                        <h3 style="color: black; background-color: pink;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Filter
-                                                        </h3>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Prices range from low to high</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=low">Prices range from low to high</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=high">Prices from high to low</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=a-z">A-Z</a>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
-                        <!--List product-->
                         <div class="row">
                             <c:forEach items="${requestScope.productList}" var="p">
                                 <div class="col-lg-4 col-md-6">
@@ -203,11 +177,12 @@
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <div class="label new">New</div>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
-                                                        <img src="${p.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a>
+                                                <img src="${p.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">
-                                                
+
                                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                                <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
+                                                        <span class="icon_bag_alt"></span></a></li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
@@ -236,14 +211,13 @@
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- Shop Section End -->
-        
+
         <!--footer area start-->
         <jsp:include page="footer.jsp"/>
         <!--footer area end-->
@@ -259,7 +233,7 @@
         <script src="ViewUser/js/owl.carousel.min.js"></script>
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
-        
+
     </body>
 
 </html>
