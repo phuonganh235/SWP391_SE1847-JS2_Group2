@@ -61,28 +61,34 @@
                                 <div class="modal-header">						
                                     <h4 class="modal-title">Create account Shipper</h4>
                                 </div>
+                                 <c:if test="${not empty sessionScope.error}">
+                                    <div style="color: red; font-weight: bold;">
+                                        ${sessionScope.error}
+                                    </div>
+                                    <c:remove var="error" scope="session"/>
+                                </c:if>
 
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="">
+                                        <input type="text" class="form-control" id="name" name="name" value="${param.name}">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" value="" required>
+                                        <input type="text" class="form-control" id="email" name="email" value="${param.email}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="phone">phone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="" required>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="${param.phone}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="password">password</label>
-                                         <input type="text" class="form-control" id="pasword" name="password" value="" required>
+                                         <input type="text" class="form-control" id="pasword" name="password" value="${param.password}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="gender"> Gender</label>
-                                            <input type="text" class="form-control" id="gender" name="gender" value="" required>
+                                            <input type="text" class="form-control" id="gender" name="gender" value="${param.gender}" required>
                                     </div>
 
 

@@ -48,13 +48,13 @@ public class shipperDao extends DBContext {
             ResultSet rs = pre.executeQuery();
             if (rs.next()) {
 
-                String Name = rs.getString(2);
-                String phone = rs.getString(3);
-                String email = rs.getString(4);
-                int RoldeId = rs.getInt(5);
+                 String name = rs.getString(2);
+                String email = rs.getString(3);
+                String phone = rs.getString(4);
+                int RoleId = rs.getInt(5);
                 String gender = rs.getString(6);
                 String password = rs.getString(7);
-                Shipper newShipper = new Shipper(shipperId, Name, email, phone, RoldeId, gender, password);
+                Shipper newShipper = new Shipper(shipperId, name, email, phone, RoleId, gender, password);
                 return newShipper;
             }
 
@@ -144,6 +144,36 @@ public class shipperDao extends DBContext {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vector;
+    }
+    
+        public boolean checkExistEmail(String email) {
+        String sql = "SELECT * FROM Shipper WHERE email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return false; //email has exist already
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+       public boolean checkExistPassword(String password) {
+        String sql = "SELECT * FROM Shipper WHERE password = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return false; //email has exist already
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
       public static void main(String[] args) {

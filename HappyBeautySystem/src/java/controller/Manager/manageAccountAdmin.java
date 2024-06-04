@@ -9,7 +9,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
+import java.util.regex.Pattern;
 import model.Shipper;
 import model.Staff;
 
@@ -24,6 +26,7 @@ public class manageAccountAdmin extends HttpServlet {
             String service = request.getParameter("service");
             staffDao DaoStaff = new staffDao();
             shipperDao DaoShiper = new shipperDao();
+            HttpSession session = request.getSession();
 
             if (service == null) {
                 response.sendRedirect("ViewAdmin/Widget.jsp");
@@ -50,8 +53,74 @@ public class manageAccountAdmin extends HttpServlet {
                 String phone = request.getParameter("phone");
                 String password = request.getParameter("password");
                 String gender = request.getParameter("gender");
-                int roleid = Integer.parseInt(request.getParameter("roleid"));
-                Staff staffNew = new Staff(0, name, email, phone, password, gender, roleid);
+                String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+                String mobilePattern = "^(?:\\+84|0)(3|5|7|8|9)[0-9]{8}$";
+                String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+                String NamePattern = "^(?!\\s*$)[A-Za-z\\s]+$";
+
+                if (!Pattern.matches(NamePattern, name)) {
+                    session.setAttribute("error", "Name cannot be empty or full of spaces!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+                if (!Pattern.matches(emailPattern, email)) {
+                    session.setAttribute("error", "email must be in the form example@example.com!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+
+                if (!Pattern.matches(mobilePattern, phone)) {
+                    session.setAttribute("error", "Invalid Vietnam mobile number!VN");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+
+                if (!Pattern.matches(passwordPattern, password)) {
+                    session.setAttribute("error", "Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+                if (!DaoStaff.checkExistEmail(email)) {
+                    session.setAttribute("error", "Email already exists!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+                 if (!DaoStaff.checkExistPassword(password)) {
+                    session.setAttribute("error", "Password already exists!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountStaff.jsp").forward(request, response);
+                    return;
+                }
+                Staff staffNew = new Staff(0, name, email, phone, password, gender, 1);
                 DaoStaff.insertStaff(staffNew);
                 response.sendRedirect("manageAccountAdmin?service=ListAllStaff");
             }
@@ -115,6 +184,73 @@ public class manageAccountAdmin extends HttpServlet {
                 String phone = request.getParameter("phone");
                 String password = request.getParameter("password");
                 String gender = request.getParameter("gender");
+                      String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+                String mobilePattern = "^(?:\\+84|0)(3|5|7|8|9)[0-9]{8}$";
+                String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+                String NamePattern = "^(?!\\s*$)[A-Za-z\\s]+$";
+
+                if (!Pattern.matches(NamePattern, name)) {
+                    session.setAttribute("error", "Name cannot be empty or full of spaces!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
+                if (!Pattern.matches(emailPattern, email)) {
+                    session.setAttribute("error", "email must be in the form example@example.com!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
+
+                if (!Pattern.matches(mobilePattern, phone)) {
+                    session.setAttribute("error", "Invalid Vietnam mobile number!VN");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
+
+                if (!Pattern.matches(passwordPattern, password)) {
+                    session.setAttribute("error", "Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
+                if (!DaoShiper.checkExistEmail(email)) {
+                    session.setAttribute("error", "Email already exists!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
+                  if (!DaoShiper.checkExistPassword(password)) {
+                    session.setAttribute("error", "Password already exists!");
+                    request.setAttribute("name", name);
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("gender", gender);
+                    request.getRequestDispatcher("/ViewAdmin/createAccountShipper.jsp").forward(request, response);
+                    return;
+                }
                 Shipper newShipper = new Shipper(0, name, email, phone, 1, gender, password);
                 DaoShiper.insertShipper(newShipper);
                 response.sendRedirect("manageAccountAdmin?service=ListAllShipper");

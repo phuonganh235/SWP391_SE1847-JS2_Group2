@@ -173,8 +173,8 @@
                                                     <td>${s.phone}</td>
                                                     <td>${s.gender}</td>
                                                     <td>${s.password}</td>
-                                                    <td><a href="manageAccountAdmin?service=update&id=${s.staffId}"> update</a>&nbsp; &nbsp; &nbsp;                    
-                                                        <a href="#" onclick="doDeleteStaff('${s.staffId}')"> delete</a>
+                                                    <td><a href="manageAccountAdmin?service=update&id=${s.staffId}"> <i class="fas fa-user-edit"></i></a>                  
+                                                        <a href="#" onclick="doDeleteStaff('${s.staffId}')"> <i class="fas fa-trash-alt"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -136,8 +136,9 @@
                         </div>                                                                
                     </div>
                 </div>
+            </form>
         </section>
-    </form>
+    
 
     <!-- profile end-->
 

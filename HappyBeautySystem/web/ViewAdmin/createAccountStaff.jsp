@@ -39,7 +39,6 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-       
     </head>
 
     <body>
@@ -58,38 +57,38 @@
                 <div id="editProductModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="manageAccountAdmin" method="post">
+                            <form action="manageAccountAdmin?service=insertStaff" method="post">
                                 <div class="modal-header">						
                                     <h4 class="modal-title">Create account staff</h4>
                                 </div>
+                                <c:if test="${not empty sessionScope.error}">
+                                    <div style="color: red; font-weight: bold;">
+                                        ${sessionScope.error}
+                                    </div>
+                                    <c:remove var="error" scope="session"/>
+                                </c:if>
 
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="namestaf">Name</label>
-                                        <input type="text" class="form-control" id="namestaf" name="name" value="">
+                                        <input type="text" class="form-control" id="namestaf" name="name" value="${param.name}">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" value="" required>
+                                        <input type="text" class="form-control" id="email" name="email" value="${param.email}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone">phone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="password">password</label>
-                                         <input type="text" class="form-control" id="pasword" name="password" value="" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="gender"> Gender</label>
-                                            <input type="text" class="form-control" id="gender" name="gender" value="" required>
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="${param.phone}" required>
                                     </div>
                                     <div class="form-group">
-                                            <label for="roleid"> RoleId</label>
-                                            <input type="text" class="form-control" id="roleid" name="roleid" value="" required>
+                                        <label for="password">Password</label>
+                                        <input type="text" class="form-control" id="password" name="password" value="${param.password}" required>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <input type="text" class="form-control" id="gender" name="gender" value="${param.gender}" required>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="submit" class="btn btn-success" value="Create">
@@ -106,25 +105,9 @@
             </div>
             <!-- Content End -->
 
-
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
 
         <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/chart/chart.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-        <script src="ViewAdmin/js/manager.js" type="text/javascript"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
-
-</html>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js

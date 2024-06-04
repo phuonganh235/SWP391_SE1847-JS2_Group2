@@ -148,6 +148,38 @@ public void deleteStaff(int staffId) {
         }
         return vector;
     }
+     
+
+    
+    public boolean checkExistEmail(String email) {
+        String sql = "SELECT * FROM Staff WHERE email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return false; //email has exist already
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+       public boolean checkExistPassword(String password) {
+        String sql = "SELECT * FROM Staff WHERE password = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return false; //email has exist already
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
 
     public static void main(String[] args) {

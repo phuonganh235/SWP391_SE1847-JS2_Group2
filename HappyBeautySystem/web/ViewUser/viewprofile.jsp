@@ -59,80 +59,79 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-        <c:if test="${not empty inforUser}">
-        <!-- proflie begin-->
-            <section style="background-color: #eee;">
-                <div class="container py-5">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="card mb-4">
-                                <div class="card-body text-center">
-                                    <img src="${inforUser.image}" alt="avatar"
-                                         class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">${inforUser.name}</h5>
-                                </div>
-                            </div>                      
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="fullName">Full Name</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${inforUser.name}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="email">Email</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${inforUser.email}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="phone">Phone</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                           <p class="text-muted mb-0">${inforUser.mobile}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="postCode">Post Code</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${inforUser.postCode}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="Address">Address</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">${inforUser.address}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                </div>
-                            </div>                  
-                        </div>                                                                
-                    </div>
-                </div>
 
-            </section>
-         </c:if>
+        <c:set value="${requestScope.account}" var="u"/>
+            <!-- proflie begin-->
+            <section style="background-color: #eee;">
+                    <div class="container py-5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <img src="${u.image}" alt="avatar"
+                                             class="rounded-circle img-fluid" style="width: 150px;">
+                                        <h5 class="my-3">${u.name}</h5>
+                                    </div>
+                                </div>                      
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="fullName">Full Name</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${u.name}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="email">Email</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${u.email}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="phone">Phone</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${u.mobile}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="postCode">Post Code</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${u.postCode}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="Address">Address</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${u.address}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+            
+                                    </div>
+                                </div>                  
+                            </div>                                                                
+                        </div>
+                    </div>
+                
+            </section>       
         
-         <c:if test="${empty user}">
-                <p>No user information available. Please <a href="login">login</a>.</p>
-            </c:if>
+
 
         <!-- profile end-->
 

@@ -146,8 +146,8 @@
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4 text-center">List Account of Staff</h6>
-                                <h6 class="mb-4"><a href="manageAccountAdmin?service=ActionCreateShipper" >Create Account staff</a></h6>
+                                <h6 class="mb-4 text-center">List Account of Shipper</h6>
+                                <h6 class="mb-4"><a href="manageAccountAdmin?service=ActionCreateShipper" >Create Account Shipper</a></h6>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -173,8 +173,10 @@
                                                     <td>${s.getRoleId() }</td>
                                                     <td>${s.gender}</td>
                                                     <td>${s.password}</td>
-                                                    <td><a href="manageAccountAdmin?service=updateShipper&id=${s.shipperId}"> update</a>&nbsp; &nbsp; &nbsp;                    
-                                                        <a href="#" onclick="doDeleteShipper('${s.shipperId}')"> delete</a>
+                                                    <td>  
+                                                        <a href="manageAccountAdmin?service=updateShipper&id=${s.shipperId}"><i class="fas fa-user-edit"></i></a>
+
+                                                        <a href="#" onclick="doDeleteShipper('${s.shipperId}')"> <i class="fas fa-trash-alt"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
