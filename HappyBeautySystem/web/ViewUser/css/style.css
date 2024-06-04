@@ -3687,3 +3687,24 @@ ol {
 		font-size: 24px;
 	}
 }
+.form-group label {
+    display: flex;
+    align-items: center;
+}
+
+.form-group label i {
+    margin-right: 1em; /* Increased margin */
+    vertical-align: middle;
+}
+
+.form-group label span {
+    margin-left: 1em; /* Increased margin */
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+/* Additional styling */
+.form-group {
+    margin-bottom: 1em; /* Added margin between form groups */
+}
+

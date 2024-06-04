@@ -35,15 +35,21 @@
                             <h2 class="form-title">Login</h2>
                             <form action="login" method="post" class="register-form" id="login-form">
                                 <div class="form-group">
-                                    <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                    <label for="username">
+                                        <i class="zmdi zmdi-account material-icons-name"></i>
+                                        <span>Username</span>
+                                    </label>
                                     <input type="text" name="username" id="username" placeholder="UserName"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                    <label for="password">
+                                        <i class="zmdi zmdi-lock"></i>
+                                        <span>Password</span>
+                                    </label>
                                     <input type="password" name="password" id="password" placeholder="**********"/>
                                 </div>
                                 <input type="hidden" name="service" value="login">
-                                
+
                                 <div class="form-group">
                                     <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
                                     <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
