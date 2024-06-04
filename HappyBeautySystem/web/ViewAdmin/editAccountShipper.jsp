@@ -79,18 +79,18 @@
                                         <label for="email">Email</label>
                                         <input type="text" class="form-control" id="email" name="email" value="${shipper.email}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="phone">phone</label>
+                                     <div class="form-group">
+                                        <label for="phone">Phone</label>
                                         <input type="text" class="form-control" id="phone" name="phone" value="${shipper.phone}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="password">password</label>
-                                        <input type="text" class="form-control" id="pasword" name="password" value="${shipper.gender}" required>
+                                        <input type="text" class="form-control" id="pasword" name="password" value="${shipper.password}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="gender"> Gender</label>
-                                        <input type="text" class="form-control" id="gender" name="gender" value="${shipper.shipperId}" required>
+                                        <input type="text" class="form-control" id="gender" name="gender" value="${shipper.gender}" required>
                                     </div>
 
 
