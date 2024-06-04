@@ -30,65 +30,69 @@ public class ManagerOrder extends HttpServlet {
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
-            if (service == null) {
-                request.getRequestDispatcher("ViewUser/managerOrder.jsp").forward(request, response);
-            }
-            if (service.equals("managerOrder")) {
-                String option = request.getParameter("option");
-                int optionInt = Integer.parseInt(option);
-                //
-                int userId = inforUser.getUserId();
-                List<Order> listOrder;
-                switch (optionInt) {
-                    case 0:
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                        dispatcher.forward(request, response);
-                        break;
-                    case 1:
-                        listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 1);
-                        request.setAttribute("op", "1");
-                        request.setAttribute("listOrder", listOrder);
-                        RequestDispatcher dispatcher1 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                        dispatcher1.forward(request, response);
-                        break;
-                    case 2:
-                        listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
-                        request.setAttribute("listOrder", listOrder);
-                        request.setAttribute("op", "2");
-                        RequestDispatcher dispatcher2 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                        dispatcher2.forward(request, response);
-                        break;
-                    case 3:
-                        listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 3);
-                        request.setAttribute("listOrder", listOrder);
-                        request.setAttribute("op", "3");
-                        RequestDispatcher dispatcher3 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                        dispatcher3.forward(request, response);
-                        break;
-                    case 4:
-                        listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 4);
-                        request.setAttribute("listOrder", listOrder);
-                        request.setAttribute("op", "4");
-                        RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                        dispatcher4.forward(request, response);
-                        break;
+            if (inforUser == null) {
+                response.sendRedirect("login");
+            } else {
+                if (service == null) {
+                    request.getRequestDispatcher("ViewUser/managerOrder.jsp").forward(request, response);
                 }
-            }
-            //detail
-            if (service.equals("orderDetail")) {
-                String orderID = request.getParameter("orderid");
-                int odi = Integer.parseInt(orderID);
-                List<OrderDetail> list = orderDetailDAO.getOrderDetailsByOrderId(odi);
-                request.setAttribute("listDetail", list);
-                RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order-detail.jsp");
-                dispatcher4.forward(request, response);
-            }
-            // delete
-            if (service.equals("delete")) {
-                String orderID = request.getParameter("orderid");
-                int odi = Integer.parseInt(orderID);
-                orderDAO.deleteOrderAndDetails(odi);
-                response.sendRedirect("/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1");
+                if (service.equals("managerOrder")) {
+                    String option = request.getParameter("option");
+                    int optionInt = Integer.parseInt(option);
+                    //
+                    int userId = inforUser.getUserId();
+                    List<Order> listOrder;
+                    switch (optionInt) {
+                        case 0:
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                            dispatcher.forward(request, response);
+                            break;
+                        case 1:
+                            listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 1);
+                            request.setAttribute("op", "1");
+                            request.setAttribute("listOrder", listOrder);
+                            RequestDispatcher dispatcher1 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                            dispatcher1.forward(request, response);
+                            break;
+                        case 2:
+                            listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
+                            request.setAttribute("listOrder", listOrder);
+                            request.setAttribute("op", "2");
+                            RequestDispatcher dispatcher2 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                            dispatcher2.forward(request, response);
+                            break;
+                        case 3:
+                            listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 3);
+                            request.setAttribute("listOrder", listOrder);
+                            request.setAttribute("op", "3");
+                            RequestDispatcher dispatcher3 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                            dispatcher3.forward(request, response);
+                            break;
+                        case 4:
+                            listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 4);
+                            request.setAttribute("listOrder", listOrder);
+                            request.setAttribute("op", "4");
+                            RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                            dispatcher4.forward(request, response);
+                            break;
+                    }
+                }
+                //detail
+                if (service.equals("orderDetail")) {
+                    String orderID = request.getParameter("orderid");
+                    int odi = Integer.parseInt(orderID);
+                    List<OrderDetail> list = orderDetailDAO.getOrderDetailsByOrderId(odi);
+                    request.setAttribute("listDetail", list);
+                    RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order-detail.jsp");
+                    dispatcher4.forward(request, response);
+                }
+                // delete
+                if (service.equals("delete")) {
+                    String orderID = request.getParameter("orderid");
+                    int odi = Integer.parseInt(orderID);
+                    orderDAO.deleteOrderAndDetails(odi);
+                    response.sendRedirect("/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1");
+                }
             }
         }
     }

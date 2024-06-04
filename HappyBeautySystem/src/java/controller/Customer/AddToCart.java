@@ -37,61 +37,87 @@ public class AddToCart extends HttpServlet {
             // Add to Cart
             if (service != null && service.equals("addToCart")) {
                 String idProduct = request.getParameter("id");
-                if (idProduct == null || idProduct.isEmpty()) {
-                    out.println("Invalid product ID");
-                    return;
-                }
-
-                try {
-                    int idInt = Integer.parseInt(idProduct);
-                    int userId = inforUser.getUserId();
-
-                    Cart checkCart = cart.getCartByUserIdAndProductId(userId, idInt);
-                    if (checkCart == null) {
-                        Product pro = daoProduct.getProductById(idInt);
-                        if (pro == null) {
-                            out.println("Product not found");
-                            return;
-                        }
-                        String dateTimeNow = commonDAO.getDateTimeNow();
-                        Cart newCartAdd = new Cart(pro.getProductId(), 1, userId, dateTimeNow);
-                        cart.addCart(newCartAdd);
-                    } else {
-                        cart.updateQuantity(userId, idInt);
+                //chek login
+                if (inforUser == null) {
+                    response.sendRedirect("login");
+                } else {
+                    if (idProduct == null || idProduct.isEmpty()) {
+                        out.println("Invalid product ID");
+                        return;
                     }
-                    response.sendRedirect("AddToCart?service=showCart");
-                    return;
-                } catch (NumberFormatException e) {
-                    out.println("Invalid product ID format");
-                    return;
+
+                    try {
+                        int idInt = Integer.parseInt(idProduct);
+                        int userId = inforUser.getUserId();
+
+                        Cart checkCart = cart.getCartByUserIdAndProductId(userId, idInt);
+                        if (checkCart == null) {
+                            Product pro = daoProduct.getProductById(idInt);
+                            if (pro == null) {
+                                out.println("Product not found");
+                                return;
+                            }
+                            String dateTimeNow = commonDAO.getDateTimeNow();
+                            Cart newCartAdd = new Cart(pro.getProductId(), 1, userId, dateTimeNow);
+                            cart.addCart(newCartAdd);
+                        } else {
+                            cart.updateQuantity(userId, idInt);
+                        }
+                        response.sendRedirect("AddToCart?service=showCart");
+                        return;
+                    } catch (NumberFormatException e) {
+                        out.println("Invalid product ID format");
+                        return;
+                    }
                 }
             }
             // Show all cart
             if (service.equals("showCart")) {
-                int userId = inforUser.getUserId();
-                List<Cart> listCart = cart.getAllCartsByUserId(userId);
-                request.setAttribute("listCart", listCart);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
-                dispatcher.forward(request, response);
+                //chek login
+                if (inforUser == null) {
+                    response.sendRedirect("login");
+                } else {
+                    int userId = inforUser.getUserId();
+                    List<Cart> listCart = cart.getAllCartsByUserId(userId);
+                    request.setAttribute("listCart", listCart);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
+                    dispatcher.forward(request, response);
+                }
                 return;
             }
             // Delete multi cart
             if (service.equals("deleteCart")) {
-                String idProduct = request.getParameter("productId");
-                String userId = request.getParameter("userId");
-                int idInt = Integer.parseInt(idProduct);
-                int userIdInt = Integer.parseInt(userId);
-                cart.deleteCart(idInt, userIdInt);
-                response.sendRedirect("AddToCart?service=showCart");
+                //chek login
+                if (inforUser == null) {
+                    response.sendRedirect("login");
+                } else {
+                    String idProduct = request.getParameter("productId");
+                    int idProductInt = Integer.parseInt(idProduct);
+                    String userId = request.getParameter("userId");
+                    String quantity = request.getParameter("quantity");
+                    int quantityInt = Integer.parseInt(quantity);
+                    //
+                    daoProduct.updateProductQuantityPlus(idProductInt, quantityInt);
+                    //
+                    int idInt = Integer.parseInt(idProduct);
+                    int userIdInt = Integer.parseInt(userId);
+                    cart.deleteCart(idInt, userIdInt);
+                    response.sendRedirect("AddToCart?service=showCart");
+                }
             }
             // Update quantity
             if (service.equals("updateQuantity")) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                cart.updateQuantityChange(userId, productId, quantity);
+                //chek login
+                if (inforUser == null) {
+                    response.sendRedirect("login");
+                } else {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int userId = Integer.parseInt(request.getParameter("userId"));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+                    cart.updateQuantityChange(userId, productId, quantity);
 
-                response.getWriter().print("");
+                    response.getWriter().print("");
+                }
             }
 
         } catch (Exception e) {
