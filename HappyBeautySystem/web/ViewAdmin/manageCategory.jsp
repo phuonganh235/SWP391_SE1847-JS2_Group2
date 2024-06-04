@@ -137,7 +137,7 @@
                             </table>
                         </div>
 
-                        <!-- Add Product -->
+                        <!-- Add Category -->
                         <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -146,7 +146,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="managercategory?service=add" method="post">
+                                        <form id="addCategoryForm" action="managercategory?service=add" method="post">
                                             <input type="hidden" id="categoryId" name="categoryId" value="0">
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Category Name</label>
@@ -156,12 +156,12 @@
                                                 <label for="shortDes" class="form-label">Category ImageUrl</label>
                                                 <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
                                             </div>
-                                            
+
                                             <div class="mb-3">
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-                                            
+
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
                                     </div>
@@ -193,6 +193,20 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
+        <script>
+            document.getElementById('addCategoryForm').addEventListener('submit', function (event) {
+                var categoryName = document.getElementById('categoryName').value.trim();
+                var categoryImg = document.getElementById('categoryImageUrl').value.trim();
+                if (categoryName == '') {
+                    alert('Category name cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (categoryImg == '') {
+                    alert('Category ImageURL cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+            });
+        </script>
     </body>
 
 </html>

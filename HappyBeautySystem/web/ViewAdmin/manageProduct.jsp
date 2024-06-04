@@ -169,7 +169,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="manager?service=add" method="post">
+                                        <form id="addProductForm" action="manager?service=add" method="post">
                                             <input type="hidden" id="productId" name="productId" value="0">
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Product Name</label>
@@ -207,7 +207,7 @@
                                                 <label for="companyName" class="form-label">Company Name</label>
                                                 <input type="text" class="form-control" id="companyName" name="companyName" required>
                                             </div>
-             
+
                                             <div class="mb-3">
                                                 <label for="cateId" class="form-label">Category</label>
                                                 <select class="form-select" id="categId" name="cateId" required>
@@ -232,10 +232,10 @@
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-<!--                                            <div class="mb-3">
-                                                <label for="createDate" class="form-label">Create Date</label>
-                                                <input type="date" class="form-control" id="createDate" name="createDate" required>
-                                            </div>-->
+                                            <!--                                            <div class="mb-3">
+                                                                                            <label for="createDate" class="form-label">Create Date</label>
+                                                                                            <input type="date" class="form-control" id="createDate" name="createDate" required>
+                                                                                        </div>-->
                                             <div class="mb-3">
                                                 <label for="pathImage" class="form-label">PathImage</label>
                                                 <input type="text" class="form-control" id="pathImage" name="pathImage" required>
@@ -271,6 +271,54 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
+        <script>
+            document.getElementById('addProductForm').addEventListener('submit', function (event) {
+                var productName = document.getElementById('productName').value.trim();
+                var shortDes = document.getElementById('shortDes').value.trim();
+                var longDes = document.getElementById('longDes').value.trim();
+                var addDes = document.getElementById('addDes').value.trim();
+                var size = document.getElementById('size').value.trim();
+                var color = document.getElementById('color').value.trim();
+                var companyName = document.getElementById('companyName').value.trim();
+                var pathImage = document.getElementById('pathImage').value.trim();
+                
+                if (productName == '') {
+                    alert('Product name cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (shortDes == '') {
+                    alert('Short description cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (longDes == '') {
+                    alert('Long description cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (addDes == '') {
+                    alert('Address description cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (color == '') {
+                    alert('Color cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (size == '') {
+                    alert('Size cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (companyName == '') {
+                    alert('Company Name cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                if (pathImage == '') {
+                    alert('PathImageURL cannot be empty or contain only spaces.');
+                    event.preventDefault(); 
+                }
+                
+            });
+        </script>
+
+
     </body>
 
 </html>
