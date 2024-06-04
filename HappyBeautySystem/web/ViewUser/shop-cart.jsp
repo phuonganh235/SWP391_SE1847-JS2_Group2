@@ -1,4 +1,3 @@
-<%@page import="model.User"%>
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
 <%@page import="java.util.List"%>
@@ -6,11 +5,6 @@
 <%@page import="model.ProductCart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
-<%--<c:if test="${sessionScope.inforUserLogin == null}">
-    <c:redirect url = "login"/>
-</c:if>--%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -49,7 +43,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./home"><i class="fa fa-home"></i> Home</a>
+                            <a href="./index.html"><i class="fa fa-home"></i> Home</a>
                             <span>Shopping cart</span>
                         </div>
                     </div>
@@ -70,7 +64,6 @@
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
-                                        <th>Delete</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -107,7 +100,7 @@
                                         </td>
                                         <td class="cart__price sub_total" data-price="<%= subtotal%>" id="<%= cart.getCartId()%>">$<%= subtotal%></td>
                                         <td class="cart__close">
-                                            <a href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>&quantity=<%= cart.getQuantity()%>">
+                                            <a href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
                                                 <span class="icon_close"></span>
                                             </a>
                                         </td>
@@ -378,7 +371,7 @@
                                                 let price = +cell.innerHTML;
 //                                                cell.textContent = price.toFixed(2);
                                                 totalPrice += price;
-
+                                                
                                             });
                                             console.log(totalPrice);
                                             document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
