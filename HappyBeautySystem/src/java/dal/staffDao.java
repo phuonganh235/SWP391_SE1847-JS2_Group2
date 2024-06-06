@@ -32,7 +32,7 @@ public class staffDao extends DBContext {
                 int RoldeId = rs.getInt(3);
                 String gender = rs.getString(6);
                 String password = rs.getString(7);
-                Staff newStaff = new Staff(staffId, Name, email, phone, password, gender, RoldeId);
+                Staff newStaff = new Staff(staffId, Name, email, phone, gender, password, RoldeId);
                 vector.add(newStaff);
 
             }
@@ -52,12 +52,12 @@ public class staffDao extends DBContext {
             if (rs.next()) {
 
                 String Name = rs.getString(2);
-                String phone = rs.getString(3);
                 String email = rs.getString(4);
-                int RoldeId = rs.getInt(5);
+                String phone = rs.getString(5);
+                int RoldeId = rs.getInt(3);
                 String gender = rs.getString(6);
                 String password = rs.getString(7);
-                Staff newStaff = new Staff(staffid, Name, email, phone, password, gender, RoldeId);
+                Staff newStaff = new Staff(staffid, Name, email, phone, gender, password, RoldeId);
                 return newStaff;
             }
 
@@ -88,31 +88,31 @@ public class staffDao extends DBContext {
         return n;
     }
 
- public int updateStaff(Staff staff) {
-    int n = 0;
-    String sqlEdit = "UPDATE [dbo].[Staff]"
-            + "   SET [name] = ? "
-            + "      ,[email] = ? "
-            + "      ,[phone] = ?"
-            + "      ,[gender] = ?"
-            +"       ,[password] = ? "
-            + " WHERE [staffId] = ?";  // Sửa lỗi cú pháp
+    public int updateStaff(Staff staff) {
+        int n = 0;
+        String sqlEdit = "UPDATE [dbo].[Staff]"
+                + "   SET [name] = ? "
+                + "      ,[email] = ? "
+                + "      ,[phone] = ?"
+                + "      ,[gender] = ?"
+                + "       ,[password] = ? "
+                + " WHERE [staffId] = ?";  // Sửa lỗi cú pháp
 
-    try (PreparedStatement pre = connection.prepareStatement(sqlEdit)) {
-        pre.setString(1, staff.getName());
-        pre.setString(2, staff.getEmail());
-        pre.setString(3, staff.getPhone());
-        pre.setString(4, staff.getGender());
-        pre.setString(5, staff.getPassword());
-        pre.setInt(6, staff.getStaffId());  // Đặt staffId đúng vị trí
-        n = pre.executeUpdate();
-    } catch (SQLException ex) {
-        Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
+        try (PreparedStatement pre = connection.prepareStatement(sqlEdit)) {
+            pre.setString(1, staff.getName());
+            pre.setString(2, staff.getEmail());
+            pre.setString(3, staff.getPhone());
+            pre.setString(4, staff.getGender());
+            pre.setString(5, staff.getPassword());
+            pre.setInt(6, staff.getStaffId());  // Đặt staffId đúng vị trí
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
     }
-    return n;
-}
- 
-public void deleteStaff(int staffId) {
+
+    public void deleteStaff(int staffId) {
         String sql = "DELETE FROM Staff WHERE staffId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -123,15 +123,14 @@ public void deleteStaff(int staffId) {
         }
     }
 
-
     public Vector<Staff> serachStaffByName(String name) {
         Vector<Staff> vector = new Vector<Staff>();
         String sqlSerach = "select * from Staff where name like '%" + name + "%'";
-        
-            Statement statement;
+
+        Statement statement;
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                 ResultSet rs = statement.executeQuery(sqlSerach);
+            ResultSet rs = statement.executeQuery(sqlSerach);
             while (rs.next()) {
                 int staffId = rs.getInt(1);
                 String Name = rs.getString(2);
@@ -140,7 +139,7 @@ public void deleteStaff(int staffId) {
                 int RoldeId = rs.getInt(3);
                 String gender = rs.getString(6);
                 String password = rs.getString(7);
-                Staff newStaff = new Staff(staffId, Name, email, phone, password, gender, RoldeId);
+                Staff newStaff = new Staff(staffId, Name, email, phone, gender, password, RoldeId);
                 vector.add(newStaff);
             }
         } catch (SQLException ex) {
@@ -148,44 +147,40 @@ public void deleteStaff(int staffId) {
         }
         return vector;
     }
-     
 
-    
-    public boolean checkExistEmail(String email) {
+      public boolean checkExistEmail(String email) {
         String sql = "SELECT * FROM Staff WHERE email = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return false; //email has exist already
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true; // Email exists
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false; // Email does not exist
     }
-    
-       public boolean checkExistPassword(String password) {
+
+  public boolean checkExistPassword(String password) {
         String sql = "SELECT * FROM Staff WHERE password = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, password);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return false; //email has exist already
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true; // Password exists
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false; // Password does not exist
     }
 
-
-    public static void main(String[] args) {
-   
+     public static void main(String[] args) {
         staffDao dao = new staffDao();
-        System.out.println(dao.serachStaffByName("b"));
-        
+        boolean exists = dao.checkExistPassword("Hong23@2309456");
+        System.out.println("Email exists: " + exists);
     }
 }

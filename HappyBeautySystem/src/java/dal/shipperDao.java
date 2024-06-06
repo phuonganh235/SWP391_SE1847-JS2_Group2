@@ -48,7 +48,7 @@ public class shipperDao extends DBContext {
             ResultSet rs = pre.executeQuery();
             if (rs.next()) {
 
-                 String name = rs.getString(2);
+                String name = rs.getString(2);
                 String email = rs.getString(3);
                 String phone = rs.getString(4);
                 int RoleId = rs.getInt(5);
@@ -121,7 +121,7 @@ public class shipperDao extends DBContext {
         }
     }
 
-    public Vector<Shipper> serachStaffByName(String name) {
+    public Vector<Shipper> serachShipperByName(String name) {
         Vector<Shipper> vector = new Vector<Shipper>();
         String sqlSerach = "select * from Shipper where name like '%" + name + "%'";
 
@@ -145,42 +145,41 @@ public class shipperDao extends DBContext {
         }
         return vector;
     }
-    
-        public boolean checkExistEmail(String email) {
+
+    public boolean checkExistEmailShipper(String email) {
         String sql = "SELECT * FROM Shipper WHERE email = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return false; //email has exist already
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true; // Email exists
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
-    }
-    
-       public boolean checkExistPassword(String password) {
-        String sql = "SELECT * FROM Shipper WHERE password = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, password);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return false; //email has exist already
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
+        return false; // Email does not exist
     }
 
-      public static void main(String[] args) {
-   
+    public boolean checkExistPasswordShipper(String password) {
+        String sql = "SELECT * FROM Shipper WHERE password = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true; // Password exists
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Password does not exist
+    }
+
+    public static void main(String[] args) {
+
         shipperDao dao = new shipperDao();
-        System.out.println(dao.serachStaffByName("H"));
-        
+
     }
 
 }

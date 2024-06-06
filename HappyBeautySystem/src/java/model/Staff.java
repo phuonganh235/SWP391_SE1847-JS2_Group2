@@ -10,22 +10,24 @@ public class Staff {
     private String name;
     private String email;
     private String phone;
-    private String password;
     private String gender;
+    private String password;
     private int roleid;
 
     public Staff() {
     }
 
-    public Staff(int staffId, String name, String email, String phone, String password, String gender, int roleid) {
+    public Staff(int staffId, String name, String email, String phone, String gender, String password, int roleid) {
         this.staffId = staffId;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.password = password;
         this.gender = gender;
+        this.password = password;
         this.roleid = roleid;
     }
+
+  
 
     public int getStaffId() {
         return staffId;
