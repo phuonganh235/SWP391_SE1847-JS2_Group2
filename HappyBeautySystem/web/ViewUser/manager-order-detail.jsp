@@ -72,11 +72,12 @@
                         if (listOrderDetail != null && !listOrderDetail.isEmpty()) {
                             for (OrderDetail orderDetail : listOrderDetail) {
                                 Product product = dao.getProductById(orderDetail.getOrderID());
+                                String productName = (product != null) ? product.getProductName() : "Product not found";
                     %>
                     <tr>
-                        <td class="text-center"><%= product.getProductName()%></td>
-                        <td class="text-center"><%= orderDetail.getQuantity() %></td>
-                        <td class="text-center"><%= orderDetail.getPrice() *orderDetail.getQuantity() %></td>
+                        <td class="text-center"><%= productName %></td>
+                        <td class="text-center"><%= orderDetail.getQuantity()%></td>
+                        <td class="text-center"><%= orderDetail.getPrice() * orderDetail.getQuantity()%></td>
                     </tr>
                     <%
                         }

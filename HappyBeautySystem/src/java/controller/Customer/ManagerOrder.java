@@ -2,6 +2,7 @@ package controller.Customer;
 
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
+import dal.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,6 +28,7 @@ public class ManagerOrder extends HttpServlet {
         HttpSession session = request.getSession(true);
         OrderDAO orderDAO = new OrderDAO();
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+        ProductDAO productDAO = new ProductDAO();
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
@@ -44,6 +46,7 @@ public class ManagerOrder extends HttpServlet {
                     List<Order> listOrder;
                     switch (optionInt) {
                         case 0:
+                            request.setAttribute("op", "0");
                             RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/manager-order.jsp");
                             dispatcher.forward(request, response);
                             break;
@@ -90,6 +93,12 @@ public class ManagerOrder extends HttpServlet {
                 if (service.equals("delete")) {
                     String orderID = request.getParameter("orderid");
                     int odi = Integer.parseInt(orderID);
+                    //hoi
+                    List<OrderDetail> listOrderDetail = orderDetailDAO.getOrderDetailsByOrderId(odi);
+                    for (OrderDetail orderDetail : listOrderDetail) {
+                        productDAO.updateProductQuantityPlus(orderDetail.getProductID(), orderDetail.getQuantity());
+                    }
+                    //
                     orderDAO.deleteOrderAndDetails(odi);
                     response.sendRedirect("/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1");
                 }

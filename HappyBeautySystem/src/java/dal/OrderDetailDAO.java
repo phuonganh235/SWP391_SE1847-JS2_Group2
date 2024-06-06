@@ -49,9 +49,46 @@ public class OrderDetailDAO extends DBContext {
         return orderDetails;
     }
 
+    //Get order 
+    public OrderDetail getOrderDetailByOrderIdAndProductId(int orderId, int productId) {
+        OrderDetail orderDetail = null;
+        String sql = "SELECT OrderId, ProductId, Quantity, Price FROM OrderDetail WHERE OrderId = ? AND ProductId = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, orderId);
+            statement.setInt(2, productId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int quantity = resultSet.getInt("Quantity");
+                    float price = resultSet.getFloat("Price");
+                    orderDetail = new OrderDetail(orderId, productId, quantity, price);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetail;
+    }
+
+    // delete for orderID
+    public boolean deleteOrderDetailsByOrderId(int orderId) {
+        boolean isDeleted = false;
+        String sql = "DELETE FROM OrderDetail WHERE OrderId = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, orderId);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isDeleted;
+    }
+
+    //
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
-        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(4);
+        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(2003);
         for (OrderDetail li : lis) {
             System.out.println(li.getQuantity());
         }

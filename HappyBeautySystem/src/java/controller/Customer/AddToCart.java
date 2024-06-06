@@ -35,12 +35,12 @@ public class AddToCart extends HttpServlet {
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             // Add to Cart
-            if (service != null && service.equals("addToCart")) {
-                String idProduct = request.getParameter("id");
-                //chek login
-                if (inforUser == null) {
-                    response.sendRedirect("login");
-                } else {
+            if (inforUser == null) {
+                response.sendRedirect("login");
+            } else {
+                if (service != null && service.equals("addToCart")) {
+                    String idProduct = request.getParameter("id");
+                    //chek login
                     if (idProduct == null || idProduct.isEmpty()) {
                         out.println("Invalid product ID");
                         return;
@@ -69,55 +69,41 @@ public class AddToCart extends HttpServlet {
                         out.println("Invalid product ID format");
                         return;
                     }
+
                 }
             }
             // Show all cart
             if (service.equals("showCart")) {
                 //chek login
-                if (inforUser == null) {
-                    response.sendRedirect("login");
-                } else {
-                    int userId = inforUser.getUserId();
-                    List<Cart> listCart = cart.getAllCartsByUserId(userId);
-                    request.setAttribute("listCart", listCart);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
-                    dispatcher.forward(request, response);
-                }
+                int userId = inforUser.getUserId();
+                List<Cart> listCart = cart.getAllCartsByUserId(userId);
+                request.setAttribute("listCart", listCart);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
+                dispatcher.forward(request, response);
+
                 return;
             }
             // Delete multi cart
             if (service.equals("deleteCart")) {
                 //chek login
-                if (inforUser == null) {
-                    response.sendRedirect("login");
-                } else {
-                    String idProduct = request.getParameter("productId");
-                    int idProductInt = Integer.parseInt(idProduct);
-                    String userId = request.getParameter("userId");
-                    String quantity = request.getParameter("quantity");
-                    int quantityInt = Integer.parseInt(quantity);
-                    //
-                    daoProduct.updateProductQuantityPlus(idProductInt, quantityInt);
-                    //
-                    int idInt = Integer.parseInt(idProduct);
-                    int userIdInt = Integer.parseInt(userId);
-                    cart.deleteCart(idInt, userIdInt);
-                    response.sendRedirect("AddToCart?service=showCart");
-                }
+                String idProduct = request.getParameter("productId");
+                String userId = request.getParameter("userId");
+                String quantity = request.getParameter("quantity");
+                int idInt = Integer.parseInt(idProduct);
+                int userIdInt = Integer.parseInt(userId);
+                cart.deleteCart(idInt, userIdInt);
+                response.sendRedirect("AddToCart?service=showCart");
+
             }
             // Update quantity
             if (service.equals("updateQuantity")) {
-                //chek login
-                if (inforUser == null) {
-                    response.sendRedirect("login");
-                } else {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    int userId = Integer.parseInt(request.getParameter("userId"));
-                    int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    cart.updateQuantityChange(userId, productId, quantity);
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                cart.updateQuantityChange(userId, productId, quantity);
 
-                    response.getWriter().print("");
-                }
+                response.getWriter().print("");
+
             }
 
         } catch (Exception e) {
