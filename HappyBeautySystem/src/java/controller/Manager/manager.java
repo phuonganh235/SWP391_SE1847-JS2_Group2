@@ -45,7 +45,7 @@ public class manager extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            String productName = request.getParameter("productName");
+            String productName = request.getParameter("productName");  
             String shortDes = request.getParameter("shortDes");
             String longDes = request.getParameter("longDes");
             String addDes = request.getParameter("addDes");
