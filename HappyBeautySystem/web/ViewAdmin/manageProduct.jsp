@@ -116,8 +116,6 @@
                                         <th scope="col">AddDes</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Color</th>
                                         <th scope="col">CompName</th>
                                         <th scope="col">CategoryID</th>
                                         <th scope="col">SubCategoryID</th>
@@ -140,8 +138,6 @@
                                             <td>${product.addDes}</td>
                                             <td>${product.price}</td>
                                             <td>${product.quantity}</td>
-                                            <td>${product.size}</td>
-                                            <td>${product.color}</td>
                                             <td>${product.companyName}</td>
                                             <td>${product.cateId}</td>
                                             <td>${product.subCateId}</td>
@@ -169,23 +165,27 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="addProductForm" action="manager?service=add" method="post">
+                                        <form id="addProductForm" action="manager?service=add" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" id="productId" name="productId" value="0">
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Product Name</label>
                                                 <input type="text" class="form-control" id="productName" name="productName" required>
+                                                <span id="nameError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="shortDes" class="form-label">Short Description</label>
                                                 <textarea class="form-control" id="shortDes" name="shortDes" required></textarea>
+                                                <span id="shortDesError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="longDes" class="form-label">Long Description</label>
                                                 <textarea class="form-control" id="longDes" name="longDes" required></textarea>
+                                                <span id="longDesError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="addDes" class="form-label">Add Description</label>
                                                 <input type="text" class="form-control" id="addDes" name="addDes" required>
+                                                <span id="addDesError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="price" class="form-label">Price</label>
@@ -195,17 +195,12 @@
                                                 <label for="quantity" class="form-label">Quantity</label>
                                                 <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="size" class="form-label">Size</label>
-                                                <input type="text" class="form-control" id="size" name="size" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="color" class="form-label">Color</label>
-                                                <input type="text" class="form-control" id="color" name="color" required>
-                                            </div>
+                                            <input type="hidden" id="size" name="size" value="0">
+                                            <input type="hidden" id="color" name="color" value="0">
                                             <div class="mb-3">
                                                 <label for="companyName" class="form-label">Company Name</label>
                                                 <input type="text" class="form-control" id="companyName" name="companyName" required>
+                                                <span id="companyNameError" style="color: red;"></span>
                                             </div>
 
                                             <div class="mb-3">
@@ -232,13 +227,11 @@
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-                                            <!--                                            <div class="mb-3">
-                                                                                            <label for="createDate" class="form-label">Create Date</label>
-                                                                                            <input type="date" class="form-control" id="createDate" name="createDate" required>
-                                                                                        </div>-->
+                    
                                             <div class="mb-3">
                                                 <label for="pathImage" class="form-label">PathImage</label>
                                                 <input type="text" class="form-control" id="pathImage" name="pathImage" required>
+                                                <span id="pathImageError" style="color: red;"></span>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
@@ -272,50 +265,134 @@
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
         <script>
-            document.getElementById('addProductForm').addEventListener('submit', function (event) {
-                var productName = document.getElementById('productName').value.trim();
-                var shortDes = document.getElementById('shortDes').value.trim();
-                var longDes = document.getElementById('longDes').value.trim();
-                var addDes = document.getElementById('addDes').value.trim();
-                var size = document.getElementById('size').value.trim();
-                var color = document.getElementById('color').value.trim();
-                var companyName = document.getElementById('companyName').value.trim();
-                var pathImage = document.getElementById('pathImage').value.trim();
-                
-                if (productName == '') {
-                    alert('Product name cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
+            document.addEventListener("DOMContentLoaded", function () {
+                function formatFullName(name) {
+                    name = name.trim().replace(/\s+/g, ' ');
+                    return name;
                 }
-                if (shortDes == '') {
-                    alert('Short description cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (longDes == '') {
-                    alert('Long description cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (addDes == '') {
-                    alert('Address description cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (color == '') {
-                    alert('Color cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (size == '') {
-                    alert('Size cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (companyName == '') {
-                    alert('Company Name cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                if (pathImage == '') {
-                    alert('PathImageURL cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
-                
+
+                document.getElementById("productName").oninput = function () {
+                    var name = this.value;
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("nameError").innerHTML = "Product name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("nameError").innerHTML = "Product name should not start with a space.";
+                    } else {
+                        document.getElementById("nameError").innerHTML = "";
+                    }
+                };
+                document.getElementById("shortDes").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("shortDesError").innerHTML = "Short Description name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space.";
+                    } else {
+                        document.getElementById("shortDesError").innerHTML = "";
+                    }
+                };
+                document.getElementById("longDes").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("longDesError").innerHTML = "Long Description name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("longDesError").innerHTML = "Long Description should not start with a space.";
+                    } else {
+                        document.getElementById("longDesError").innerHTML = "";
+                    }
+                };
+                document.getElementById("addDes").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("addDesError").innerHTML = "Address Description name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("addDesError").innerHTML = "Address Description should not start with a space.";
+                    } else {
+                        document.getElementById("addDesError").innerHTML = "";
+                    }
+                };
+                document.getElementById("companyName").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("companyNameError").innerHTML = "Company name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("companyNameError").innerHTML = "Company name should not start with a space.";
+                    } else {
+                        document.getElementById("companyNameError").innerHTML = "";
+                    }
+                };
+                document.getElementById("pathImage").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("pathImageError").innerHTML = "PathImage must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space.";
+                    } else {
+                        document.getElementById("pathImageError").innerHTML = "";
+                    }
+                };
             });
+
+            
+            var numberFields = ["price", "quantity", "subCateId", "sold"];
+
+        numberFields.forEach(function(fieldId) {
+            var field = document.getElementById(fieldId);
+            field.addEventListener("input", function() {
+            if (this.value < 0) {
+                this.value = 0;
+                }
+             });
+        });
+
+    function validateForm() {
+        var isValid = true;
+
+        var name = document.getElementById("productName").value;
+        var shortDes = document.getElementById("shortDes").value;
+        var longDes = document.getElementById("longDes").value;
+        var addDes = document.getElementById("addDes").value;
+        var companyName = document.getElementById("companyName").value;
+        var pathImage = document.getElementById("pathImage").value;
+
+        name = name.trim().replace(/\s+/g, ' ');
+        document.getElementById("productName").value = name;
+
+        if (name === "" || /^\s/.test(name)) {
+            document.getElementById("nameError").innerHTML = "Product name should not start with a space and must not be empty.";
+            isValid = false;
+        }
+        if (shortDes === "" || /^\s/.test(shortDes)) {
+            document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space and must not be empty.";
+            isValid = false;
+        }
+        if (longDes === "" || /^\s/.test(longDes)) {
+            document.getElementById("longDesError").innerHTML = "Long Description should not start with a space and must not be empty.";
+            isValid = false;
+        }
+        if (addDes === "" || /^\s/.test(addDes)) {
+            document.getElementById("addDesError").innerHTML = "Address Description should not start with a space and must not be empty.";
+            isValid = false;
+        }
+        if (companyName === "" || /^\s/.test(companyName)) {
+            document.getElementById("companyNameError").innerHTML = "Company name should not start with a space and must not be empty.";
+            isValid = false;
+        }
+        if (pathImage === "" || /^\s/.test(pathImage)) {
+            document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space and must not be empty.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    
         </script>
 
 

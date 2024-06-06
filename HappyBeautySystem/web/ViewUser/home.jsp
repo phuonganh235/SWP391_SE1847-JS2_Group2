@@ -55,14 +55,14 @@
                         <div class="categories__item set-bg" data-setbg="ViewUser/img/shop/banner-3.jpg">
                             <div class="categories__text">
                                 <h4>Women’s skincare</h4>
-                                <p>358 items</p>
+                                <p>"Empower Your Glow: Discover the Best in Women's Skincare"</p>
                                 <a href="product">Shop now</a>
                             </div>
                         </div>
                         <div class="categories__item set-bg" data-setbg="ViewUser/img/shop/banner-7.jpg">
                             <div class="categories__text">
                                 <h4>Women’s makeup</h4>
-                                <p>358 items</p>
+                                <p>"Unleash Your Beauty: Elevate Your Look with Our Makeup"</p>
                                 <a href="product">Shop now</a>
                             </div>
                         </div>
@@ -91,12 +91,12 @@
                 <div class="row property__gallery">
                     <!-- Product New  -->
                     <c:forEach items="${requestScope.top8New}" var="p">
-                        <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+                        <div class="col-lg-3 col-md-4 col-sm-6 mix women" style="">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="">
                                     <div class="label new">New</div>
                                     <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                        <img src="${p.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand">
+                                        <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand">
 
                                         </span>
                                     </a>
@@ -170,7 +170,9 @@
         <!-- Trend Section Begin -->
         <section class="trend spad">
             <div class="container">
-                <div class="row">
+                <div class="row" style="
+            justify-content: center;
+            text-align: center;">
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="trend__content">
                             <div class="section-title">
@@ -179,13 +181,17 @@
                             <c:forEach items="${requestScope.topTrend}" var="p">
                                 <div class="trend__item">
                                     <div class="trend__item__pic">
-                                        <img style="
-                                             height: 90px;
-                                             width: 90px;
-                                             " src="${p.getPathImage()}" alt="">
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <img style="
+                                                 height: 90px;
+                                                 width: 90px;
+                                                 " src="${p.getPathImage()}" alt="">
+                                        </a>
                                     </div>
                                     <div class="trend__item__text">
-                                        <h6>${p.getProductName()}</h6>
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <h6>${p.getProductName()}</h6>
+                                        </a>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -208,13 +214,17 @@
                             <c:forEach items="${requestScope.topSeller}" var="p">
                                 <div class="trend__item">
                                     <div class="trend__item__pic">
-                                        <img style="
-                                             height: 90px;
-                                             width: 90px;
-                                             " src="${p.getPathImage()}" alt="">
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <img style="
+                                                 height: 90px;
+                                                 width: 90px;
+                                                 " src="${p.getPathImage()}" alt="">
+                                        </a>
                                     </div>
                                     <div class="trend__item__text">
-                                        <h6>${p.getProductName()}</h6>
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <h6>${p.getProductName()}</h6>
+                                        </a>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -229,12 +239,12 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-6">
+<!--                    <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="trend__content">
                             <div class="section-title">
                                 <h4>Feature 2</h4>
                             </div>
-                            <c:forEach items="${requestScope.topSeller}" var="p">
+                            <%--<c:forEach items="${requestScope.topSeller}" var="p">--%>
                                 <div class="trend__item">
                                     <div class="trend__item__pic">
                                         <img style="
@@ -254,9 +264,9 @@
                                         <div class="product__price">$${p.getPrice()}</div>
                                     </div>
                                 </div>
-                            </c:forEach>
+                            <%--</c:forEach>--%>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </section>
