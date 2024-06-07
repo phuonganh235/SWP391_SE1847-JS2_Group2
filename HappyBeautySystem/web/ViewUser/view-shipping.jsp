@@ -46,12 +46,12 @@
 
         <!-- Success Message Section Begin -->
         <div class="container status-container">
-            <h2>Order Status</h2>
-            <p>Your order is under processing. Please check your order status below.</p>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Ordered</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Confirmed</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Shipping to the buyer</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Delivered</a>
+            <h2>Manager Shipping</h2>
+            <p>Page to manage your shipping tasks</p>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Order Delivered</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Order Is Shipping</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Shipping Completed</a>
+
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->

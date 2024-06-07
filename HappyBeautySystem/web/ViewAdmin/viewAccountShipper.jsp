@@ -58,8 +58,8 @@
                         <i class="fa fa-bars"></i>
                     </a>
                     <!--                    search-->
-                    <form class="d-none d-md-flex ms-4" action="manageAccountAdmin?service=searchShipper" method="post">
-                        <input class="form-control border-0" type="search" placeholder="Search by name" name="search">
+                    <form class="d-none d-md-flex ms-4" action="manageAccountAdmin?service=searchShipper" method="post" >
+                        <input class="form-control border-0" type="search" placeholder="Search by name" name="search" value="${requestScope.valueSearchShipper}">
                         <button type="submit" class="btn btn-primary ms-2">Search</button>
                     </form>
                     <div class="navbar-nav align-items-center ms-auto">
@@ -141,56 +141,187 @@
                 </nav>
                 <!-- Navbar End -->
 
-                <!-- Table Start -->
+                <!-- list all staff Start -->
                 <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4 text-center">List Account of Shipper</h6>
-                                <h6 class="mb-4"><a href="manageAccountAdmin?service=ActionCreateShipper" >Create Account Shipper</a></h6>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">shipperId</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">phone</th>
-                                                <th scope="col">RoleId</th>
-                                                <th scope="col">gender</th>
-                                                <th scope="col">Password</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
+                    <div class="bg-light text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0 text-center"> Management account Shipper</h6>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAccountShipperModal">Add Account Shipper</button>
+                        </div>
+                        <!-- Load account Shipper -->
+                        <div class="table-responsive">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr class="text-dark">
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Gender</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${requestScope.dataShipper}" var="dataShipper">
+                                        <tr>
 
-                                        <c:forEach items="${requestScope.dataShipper}" var="s" >
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">${s.shipperId}</th>
-                                                    <td>${s.name}</td>
-                                                    <td>${s.email}</td>
-                                                    <td>${s.phone}</td>
-                                                    <td>${s.getRoleId() }</td>
-                                                    <td>${s.gender}</td>
-                                                    <td>${s.password}</td>
-                                                    <td>  
-                                                        <a href="manageAccountAdmin?service=updateShipper&id=${s.shipperId}"><i class="fas fa-user-edit"></i></a>
+                                            <td>${dataShipper.shipperId}</td>
+                                            <td>${dataShipper.name}</td>
+                                            <td>${dataShipper.email}</td>
+                                            <td>${dataShipper.phone}</td>
+                                            <td>${dataShipper.gender}</td>
+                                            <td>   <div class="password-container">
+                                                    <input type="password" class="form-control d-inline-block" id="password${dataShipper.shipperId}" value="${dataShipper.password}" readonly style="width: 85%; display: inline-block;">
+                                                    <button type="button" class="btn btn-sm btn-secondary" onclick="togglePassword('${dataShipper.shipperId}')">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div></td>
 
-                                                        <a href="#" onclick="doDeleteShipper('${s.shipperId}')"> <i class="fas fa-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </c:forEach>
-                                    </table>
+                                            <td>
+                                                <form action="manageAccountAdmin" method="post" style="display:inline;">
+                                                    <input type="hidden" name="service" value="updateShipper"/>
+                                                    <input type="hidden" name="id" value="${dataShipper.shipperId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="#" onclick="doDeleteShipper('${dataShipper.shipperId}')"> <i class="fas fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Add Account -->
+                        <div class="modal fade" id="addAccountShipperModal" tabindex="-1" aria-labelledby="addAccountShipperModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addAccountShipperModal">Add Account Shipper</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="redirectToListAllShipper()"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="addCategoryForm" action="manageAccountAdmin?service=insertShipper" method="post">
+
+                                            <div class="mb-3">
+                                                <label for="nameStaff" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control" id="nameStaff" name="name"value="${not empty param.name ? param.name : ''}" required>
+                                                <c:if test="${not empty errorName}">
+                                                    <div class="text-danger">${errorName}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input class="form-control" id="email" name="email" value="${not empty param.email ? param.email : ''}" required>
+                                                <c:if test="${not empty errorEmail}">
+                                                    <div class="text-danger">${errorEmail}</div>
+                                                </c:if>
+                                                <c:if test="${not empty errorEmailExit}">
+                                                    <div class="text-danger">${errorEmailExit}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone</label>
+                                                <input class="form-control" id="phone" name="phone" value="${not empty param.phone ? param.phone : ''}" required>
+                                                <c:if test="${not empty errorPhone}">
+                                                    <div class="text-danger">${errorPhone}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="gender" class="form-label">Gender</label>
+                                                <input class="form-control" id="gender" name="gender" value="${not empty param.gender ? param.gender : ''}" required>
+                                                <c:if test="${not empty errorGender}">
+                                                    <div class="text-danger">${errorGender}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" value="${not empty param.password ? param.password : ''}" required>
+
+                                                <c:if test="${not empty errorPassword}">
+                                                    <div class="text-danger">${errorPassword}</div>
+                                                </c:if>
+                                                <c:if test="${not empty errorPasswordExit}">
+                                                    <div class="text-danger">${errorPasswordExit}</div>
+                                                </c:if>
+                                            </div>
+
+
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- update account Shipper -->
+                        <div class="modal fade" id="updateAccountShipperModal" tabindex="-1" aria-labelledby="updateAccountShipperModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateAccountShipperModal">Update Account Staff</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="redirectToListAllShipper()"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <c:set value="${requestScope.dataShipperUpdate}" var="dataShipper"/>
+                                        <form id="updateShipperForm" action="manageAccountAdmin?service=eiditShipper" method="post">
+                                            <div class="form-group">
+                                                <label for="id">ID</label>
+                                                <input type="text" class="form-control" id="id" name="shipperId" value="${dataShipper.shipperId}" readonly="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateNameStaff">Full Name</label>
+                                                <input type="text" class="form-control" id="updateNameStaff" name="name" value="${param.name != null ? param.name : dataShipper.name}" required>
+                                                <c:if test="${not emptyerrorNameUpdateShipper}">
+                                                    <div class="text-danger">${errorNameUpdateShipper}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateEmail">Email</label>
+                                                <input type="email" class="form-control" id="updateEmail" name="email" value="${param.email != null ? param.email : dataShipper.email}" required>
+                                                <c:if test="${not empty errorEmailUpdateShipper}">
+                                                    <div class="text-danger">${errorEmailUpdateShipper}</div>
+                                                </c:if>
+                                                     <c:if test="${not empty errorEmailExitUpdateShipper}">
+                                                    <div class="text-danger">${errorEmailExitUpdateShipper}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updatePhone">Phone</label>
+                                                <input type="text" class="form-control" id="updatePhone" name="phone" value="${param.phone != null ? param.phone : dataShipper.phone}" required>
+                                                <c:if test="${not empty errorPhoneUpdateShipper}">
+                                                    <div class="text-danger">${errorPhoneUpdateShipper}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateGender">Gender</label>
+                                                <input type="text" class="form-control" id="updateGender" name="gender" value="${param.gender != null ? param.gender : dataShipper.gender}" required>
+                                                <c:if test="${not empty errorGenderUpdateShipper}">
+                                                    <div class="text-danger">${errorGenderUpdateShipper}</div>
+                                                </c:if>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updatePassword">Password</label>
+                                                <input type="password" class="form-control" id="updatePassword" name="password" value="${param.password != null ? param.password : dataShipper.password}" required>
+                                                <c:if test="${not empty errorPasswordUpdateShipper}">
+                                                    <div class="text-danger">${errorPasswordUpdateShipper}</div>
+                                                </c:if>
+                                                     <c:if test="${not empty errorPasswordExitUpdateShipper}">
+                                                    <div class="text-danger">${errorPasswordExitUpdateShipper}</div>
+                                                </c:if>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Update</button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <!-- Table End -->
-                <!-- Footer Start -->
-
-                <!-- Footer End -->
             </div>
             <!-- Content End -->
 
@@ -212,10 +343,39 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
         <script>function doDeleteShipper(shipperId) {
-                                                                if (confirm("are you sure to delete ShipperId = " + shipperId)) {
-                                                                    window.location = "manageAccountAdmin?service=deleteShipper&idShipper=" + shipperId;
-                                                                }
-                                                            }</script>
+                                                if (confirm("are you sure to delete ShipperId = " + shipperId)) {
+                                                    window.location = "manageAccountAdmin?service=deleteShipper&idShipper=" + shipperId;
+                                                }
+                                            }
+
+                                            $(document).ready(function () {
+                                                // Insert
+            <c:if test="${not empty error}">
+                                                $('#addAccountShipperModal').modal('show');
+            </c:if>
+                                                // Update
+            <c:if test="${not empty requestScope.dataShipperUpdate}">
+                                                $('#updateAccountShipperModal').modal('show');
+            </c:if>
+                                            });
+
+                                            function redirectToListAllShipper() {
+                                                window.location.href = 'manageAccountAdmin?service=ListAllShipper';
+                                            }
+
+                                            function togglePassword(id) {
+                                                var passwordField = document.getElementById('password' + id);
+                                                var passwordType = passwordField.getAttribute('type');
+                                                if (passwordType === 'password') {
+                                                    passwordField.setAttribute('type', 'text');
+                                                } else {
+                                                    passwordField.setAttribute('type', 'password');
+                                                }
+                                            }
+        </script>
+
+
+
     </body>
 
 </html>

@@ -20,7 +20,7 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
-        
+
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/elegant-icons.css" type="text/css">
@@ -29,6 +29,8 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+
+
     </head>
 
     <body>
@@ -59,7 +61,74 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-12">
                         <div class="shop__sidebar">
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    document.getElementById("text").oninput = function () {
+                                        var text = this.value;
+                                        if (text === "") {
+                                            document.getElementById("textError").innerHTML = "Text must not be empty.";
+                                        } else {
+                                            document.getElementById("textError").innerHTML = "";
+                                        }
+                                    };
+                                    document.getElementById("fromPrice").oninput = function () {
+                                        var fromPrice = this.value;
+                                        if (fromPrice === "") {
+                                            document.getElementById("priceError").innerHTML = "Please enter number!";
+                                        } else if (parseInt(fromPrice) < 0) { // check number < 0
+                                            document.getElementById("priceError").innerHTML = "From price must be > 0";
+                                        } else {
+                                            document.getElementById("priceError").innerHTML = "";
+                                        }
+                                    };
+                                    document.getElementById("toPrice").oninput = function () {
+                                        var fromPrice = this.value;
+                                        if (fromPrice === "") {
+                                            document.getElementById("priceError").innerHTML = "Please enter number!";
+                                        } else if (parseInt(fromPrice) < 0) { // Kiểm tra số âm
+                                            document.getElementById("priceError").innerHTML = "To price must be > 0";
+                                        } else {
+                                            document.getElementById("priceError").innerHTML = "";
+                                        }
+                                    };
+                                });
 
+                                function validateForm() {
+                                    var isValid = true;
+                                    var text = document.getElementById("text").value;
+                                    text = text.trim().replace(/\s+/g, ' ');
+                                    document.getElementById("text").value = text;
+                                    if (text === "" || /^\s/.test(text)) {
+                                        document.getElementById("textError").innerHTML = "Enter valid search keyword.";
+                                        isValid = false;
+                                    }
+                                    return isValid;
+                                }
+                            </script>
+                            <!--search bar-->
+                            <div class="sidebar__categories">
+
+                                <!--Search By Price-->
+                                <!--sidebar widget start-->
+                                <div class="sidebar_widget">
+                                    <div class="widget_list widget_categories">
+                                        <div class="section-title">
+                                            <h4>Search Product</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form action="product?service=search" method="post" onsubmit="return validateForm()">
+                                    <input style = "
+                                           border: 2px solid #BDBDBD;
+                                           border-radius: 10px;
+                                           overflow: hidden;" 
+                                           id="text" name="text" placeholder="Search Product..." type="text" value="${param.text}">
+                                    <button style="color: black; background-color: pink; border-radius: 40px;" 
+                                            type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
+                                    <span id="textError" style="color: red; font-size: 13px; font-weight: 500;  margin-top: 10px;"></span>
+                                </form>
+                            </div>
                             <div class="sidebar__categories">
                                 <!--List Category-->
                                 <!--sidebar widget start-->
@@ -94,7 +163,7 @@
                                 </div>
                             </div>
 
-                          
+
                             <div class="sidebar__categories">
 
                                 <!--Search By Price-->
@@ -109,32 +178,30 @@
 
                                 <form action="product?service=searchPrice" method="post" >
                                     <div class="categories__accordion">
-                                        <div class="card bg-light">
-                                            <div class="form-row">
-                                                <div class="col mb-3">
-                                                    <label for="fromPrice">From Price:</label>
-                                                    <input min = "0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
-                                                </div>
-                                                <div class="col mb-3">
-                                                    <label for="toPrice">To Price:</label>
-                                                    <input min = "0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
-                                                </div>
-                                                <div class="col-auto mb-3" style="padding-top: 12%">
-                                                    <button style="color: black; background-color: pink;" type="submit" class="btn btn-secondary btn-number">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
+                                        <div class="form-row">
+                                            <div class="col mb-3">
+                                                <label for="fromPrice">From Price:</label>
+                                                <input min = "0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
+                                            </div>
+                                            <div class="col mb-3">
+                                                <label for="toPrice">To Price:</label>
+                                                <input min = "0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
+                                            </div>
+                                            <div class="col-auto mb-3" style="padding-top: 12%">
+                                                <button style="color: black; background-color: pink;" type="submit" class="btn btn-secondary btn-number">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
                                             </div>
                                         </div>
+                                        <span id="priceError" style="color: red; font-size: 13px; font-weight: 500;"></span>
                                     </div>
                                 </form>
                             </div>
                             <!--sidebar widget end-->
-                            
-                           
+
                             <!--Sidebar sort start-->
                             <div class="sidebar__categories">
-                                <!--List Category-->
+                                <!--Sort product-->
                                 <!--sidebar widget start-->
                                 <div class="sidebar_widget">
                                     <div class="widget_list widget_categories">
@@ -171,31 +238,6 @@
 
                     <!--List Product-->
                     <div class="col-lg-9 col-md-12">
-                        <!--Sort Product start-->
-                        <!--                        <div>
-                                                    <h3 style="color: black;" class="toggle-list">Filter</h3>
-                                                    <ul id="circle-list" style="list-style-type: circle; display: none;">
-                                                        <li><a class="dropdown-item" href="product?action=sort&type=low">Prices range from low to high</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=high">Prices range from high to low</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=a-z">A-Z</li>
-                                                                                        <li class="dropdown-item" href="product?action=sort&type=z-a">Z-A</li>
-                                                    </ul>
-                                                </div>-->
-                        <!--Sort Product end -->
-                        <!--                        <div class="shop_toolbar_wrapper" style="border:none">
-                                                    <div class="dropdown ">
-                                                        <h3 style="color: black; background-color: pink;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Filter
-                                                        </h3>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Prices range from low to high</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=low">Prices range from low to high</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=high">Prices from high to low</a>
-                                                            <a class="dropdown-item" href="product?action=sort&type=a-z">A-Z</a>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
-                        <!--List product-->
                         <div class="row">
                             <c:forEach items="${requestScope.productList}" var="p">
                                 <div class="col-lg-4 col-md-6">
@@ -203,11 +245,12 @@
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <div class="label new">New</div>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
-                                                        <img src="${p.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a>
+                                                <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">
-                                                
+
                                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                                <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
+                                                        <span class="icon_bag_alt"></span></a></li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
@@ -236,14 +279,13 @@
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- Shop Section End -->
-        
+
         <!--footer area start-->
         <jsp:include page="footer.jsp"/>
         <!--footer area end-->
@@ -259,7 +301,7 @@
         <script src="ViewUser/js/owl.carousel.min.js"></script>
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
-        
+
     </body>
 
 </html>

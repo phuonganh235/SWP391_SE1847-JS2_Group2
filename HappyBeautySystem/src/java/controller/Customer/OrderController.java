@@ -38,41 +38,48 @@ public class OrderController extends HttpServlet {
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
-            // Show all cart
-            if (service.equals("showAll")) {
-                int userId = inforUserLogin.getUserId();  // Thay giá trị này khi có thông tin người dùng
-                List<Cart> listCart = cart.getAllCartsByUserId(userId);
-                request.setAttribute("listCart", listCart);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/checkout.jsp");
-                dispatcher.forward(request, response);
-                return;
-            }
-            // User confirm order
-            if (service.equals("confirmOrder")) {
-                String dateNow = commmon.getDateTimeNow();
-                String name = request.getParameter("name");
-                String address = request.getParameter("address");
-                String phone = request.getParameter("phone");
-                String idpayment = request.getParameter("paymentMethod");
-                int idPaymentInt = Integer.parseInt(idpayment);
-                Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, address, phone, idPaymentInt);
-                //add order
-                int idADD = daoOrder.insertOrderGetID(newOrder);
-                List<Cart> listCart = cart.getAllCartsByUserId(inforUserLogin.getUserId());
-                for (Cart cart1 : listCart) {
-                    //add order detail 
-                    Product pro = daoProduct.getProductById(cart1.getProductId());
-                    detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
-                    // update product
-                    daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
-
+            if (inforUserLogin == null) {
+                response.sendRedirect("login");
+            } else {
+                // Show all cart
+                if (service.equals("showAll")) {
+                    //chek login
+                    int userId = inforUserLogin.getUserId();  // Thay giá trị này khi có thông tin người dùng
+                    List<Cart> listCart = cart.getAllCartsByUserId(userId);
+                    request.setAttribute("listCart", listCart);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/checkout.jsp");
+                    dispatcher.forward(request, response);
+                    return;
                 }
-                // delete cart 
-                cart.deleteCartsByUserId(inforUserLogin.getUserId());
-                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
-                dispatcher.forward(request, response);
+                // User confirm order
+                if (service.equals("confirmOrder")) {
+
+                    String dateNow = commmon.getDateTimeNow();
+                    String name = request.getParameter("name");
+                    String address = request.getParameter("address");
+                    String phone = request.getParameter("phone");
+                    String idpayment = request.getParameter("paymentMethod");
+                    int idPaymentInt = Integer.parseInt(idpayment);
+                    Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, address, phone, idPaymentInt);
+                    //add order
+                    int idADD = daoOrder.insertOrderGetID(newOrder);
+                    List<Cart> listCart = cart.getAllCartsByUserId(inforUserLogin.getUserId());
+                    for (Cart cart1 : listCart) {
+                        //add order detail 
+                        Product pro = daoProduct.getProductById(cart1.getProductId());
+                        detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                        // update product
+                        daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+
+                    }
+                    // delete cart 
+                    cart.deleteCartsByUserId(inforUserLogin.getUserId());
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
+                    dispatcher.forward(request, response);
+                }
             }
         }
+
     }
 
     @Override

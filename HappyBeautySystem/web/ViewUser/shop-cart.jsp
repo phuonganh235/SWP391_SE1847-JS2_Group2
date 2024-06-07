@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                            <a href="./home"><i class="fa fa-home"></i> Home</a>
                             <span>Shopping cart</span>
                         </div>
                     </div>
@@ -82,9 +82,13 @@
                                     %>
                                     <tr>
                                         <td class="cart__product__item">
-                                            <img src="ViewUser/img/shop-cart/Ami.png" alt=""/>
+                                            <a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
+                                                <img style="
+                                                     height: 90px;
+                                                     width: 90px;
+                                                     " src="<%= pro.getPathImage()%>" alt=""></a>
                                             <div class="cart__product__item__title">
-                                                <h6><%= pro.getProductName()%></h6>
+                                                <h6><a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a></h6>
                                                 <div class="rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -371,7 +375,7 @@
                                                 let price = +cell.innerHTML;
 //                                                cell.textContent = price.toFixed(2);
                                                 totalPrice += price;
-                                                
+
                                             });
                                             console.log(totalPrice);
                                             document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);

@@ -42,8 +42,8 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
                             <a href="./home"><i class="fa fa-home"></i> Home</a>
-                            <a href="#">Women’s </a>
-                            <span>Essential structured blazer </span>
+                            <a href="/HappyBeautySystem/product">Product </a>
+                            <span>${Category.categoryName} </span>
                         </div>
                     </div>
                 </div>
@@ -85,14 +85,14 @@
 
                     <div class="col-lg-6">
                         <div class="product__details__pic">
-                            <img src="${ProductData.getPathImage()}" width="80%; height: auto;" alt="image product">
+                            <img src="${ProductData.getPathImage()}" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
-                        <%--<c:forEach items="${requestScope.ProductData}" var="p">--%>
                         <div class="product__details__text">
                             <h3>Name: ${ProductData.getProductName()}<span>Description: ${ProductData.getShortDes()}</span></h3>
+                            <h4 style="color: #008ce6; font-weight: bold">Brand: ${ProductData.getCompanyName()}</h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -101,21 +101,52 @@
                                 <i class="fa fa-star"></i>
                                 <span>( Reviews: ${countReview} )</span>
                             </div>
-                            <div class="product__details__price">Giá:$${ProductData.getPrice()}</div>
+                            <div class="product__details__price">Price: $${ProductData.getPrice()}</div>
                             <div class="">Category: ${requestScope.Category.categoryName}</div>
                             <p>${ProductData.getLongDes()}</p>
                             <div class="product__details__button">
                                 <div class="quantity">
                                     <span>Quantity: ${ProductData.getQuantity()}</span>
-                                    <div class="pro-qty">
-                                        <input min = "1" max = ${ProductData.getQuantity()} type="text" value="1">
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            document.getElementById("quantity").oninput = function () {
+                                                var quantity = this.value;
+                                                if (quantity === "") {
+                                                    document.getElementById("textError").innerHTML = "Please enter number!";
+                                                } else if (parseInt(quantity) < 1) { // check number < 1
+                                                    document.getElementById("textError").innerHTML = "Quantity must be greater than 0";
+                                                } else if (parseInt(quantity) > ${ProductData.getQuantity()}) { // check number < 1
+                                                    document.getElementById("textError").innerHTML = "Quantity must be less than or equal to ${ProductData.getQuantity()}";
+                                                } else {
+                                                    document.getElementById("textError").innerHTML = "";
+                                                }
+                                            };
+                                        });
+                                    </script>
+                                    <!--<div class="pro-qty">-->
+                                    <!--<div>-->
+                                        <input style ="border: 2px solid #fddfdf;
+                                               border-radius: 40px;
+                                               width: 120px;
+                                               height: 50px;
+                                               text-align: center;
+                                               background-color: #fddfdf;
+                                               box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);" 
+                                               min = "1" max = ${ProductData.getQuantity()} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" value="${param.quantity}">
+                                    <!--</div>-->
+                                    <div style="display: block; text-align: center;">
+                                        <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
                                     </div>
                                 </div>
-                                <a href="./ViewUser/shop-cart.jsp" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                                <ul>
+
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <div>
+                                  <ul>
                                     <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                     <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                                </ul>
+                                </ul>  
+                                </div>
+                                
                             </div>
                             <div class="product__details__widget">
                                 <ul>
@@ -157,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                    <%--</c:forEach>--%>
+
                     <div class="col-lg-12">
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
@@ -193,7 +224,7 @@
                                 <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
                                     <div class="label new">New</div>
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
-                                        <img src="${pc.getPathImage()}" width="100%; height: auto;" alt="image product"><span class="arrow_expand"></span></a>
+                                        <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                         <li><a href="#"><span class="icon_bag_alt"></span></a></li>

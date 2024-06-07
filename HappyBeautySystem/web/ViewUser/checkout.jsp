@@ -1,5 +1,3 @@
-
-
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
 <%@page import="java.util.List"%>
@@ -45,7 +43,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="home.jsp"><i class="fa fa-home"></i> Home</a>
+                            <a href="home"><i class="fa fa-home"></i> Home</a>
                             <span>Shopping cart</span>
                         </div>
                     </div>
@@ -133,24 +131,25 @@
                                     </ul>
                                 </div>
                                 <div class="checkout__order__widget">
-                                    <label for="check-payment">
+                                    <label for="check-payment-1">
                                         Mono
-                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="1">
+                                        <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
 
-                                    <label for="check-payment">
+                                    <label for="check-payment-2">
                                         VNPay
-                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="2">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="check-payment">
-                                        COD
-                                        <input type="checkbox" id="check-payment" name="paymentMethod" value="3">
+                                        <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
                                     </label>
 
+                                    <label for="check-payment-3">
+                                        COD
+                                        <input type="checkbox" id="check-payment-3" class="paymentMethod" name="paymentMethod" value="3">
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
+
                                 <button type="submit" class="site-btn">Place oder</button>
                             </div>
                         </div>

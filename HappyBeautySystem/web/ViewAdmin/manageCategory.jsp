@@ -146,15 +146,17 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="addCategoryForm" action="managercategory?service=add" method="post">
+                                        <form id="addCategoryForm" action="managercategory?service=add" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" id="categoryId" name="categoryId" value="0">
                                             <div class="mb-3">
-                                                <label for="productName" class="form-label">Category Name</label>
+                                                <label for="categoryName" class="form-label">Category Name</label>
                                                 <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                                                <span id="nameError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="shortDes" class="form-label">Category ImageUrl</label>
+                                                <label for="categoryImageUrl" class="form-label">Category ImageUrl</label>
                                                 <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
+                                                <span id="urlError" style="color: red;"></span>
                                             </div>
 
                                             <div class="mb-3">
@@ -194,18 +196,37 @@
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
         <script>
-            document.getElementById('addCategoryForm').addEventListener('submit', function (event) {
-                var categoryName = document.getElementById('categoryName').value.trim();
-                var categoryImg = document.getElementById('categoryImageUrl').value.trim();
-                if (categoryName == '') {
-                    alert('Category name cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
+            document.addEventListener("DOMContentLoaded", function () {
+                function formatFullName(name) {
+                    name = name.trim().replace(/\s+/g, ' ');
+                    return name;
                 }
-                if (categoryImg == '') {
-                    alert('Category ImageURL cannot be empty or contain only spaces.');
-                    event.preventDefault(); 
-                }
+
+                document.getElementById("categoryName").oninput = function () {
+                    var name = this.value; // Không cần loại bỏ dấu cách ở đây
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("nameError").innerHTML = "Category name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("nameError").innerHTML = "Category name should not start with a space.";
+                    } else {
+                        document.getElementById("nameError").innerHTML = "";
+                    }
+                };
+                document.getElementById("categoryImageUrl").oninput = function () {
+                    var name = this.value; 
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("urlError").innerHTML = "Category Image Url name must not be empty.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("urlError").innerHTML = "Category Image Url should not start with a space.";
+                    } else {
+                        document.getElementById("urlError").innerHTML = "";
+                    }
+                };
             });
+
+            
         </script>
     </body>
 
