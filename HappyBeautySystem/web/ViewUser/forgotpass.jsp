@@ -45,6 +45,10 @@
             .form-label span {
                 color: red;
             }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+            }
         </style>
     </head>
     <body>
@@ -56,10 +60,11 @@
                     to recover your password.
                 </h3>
             </div>
-            <form action="forgotpass" method="post">
+            <form id="resetForm" action="forgotpass" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email<span>*</span></label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required/>
+                    <div id="emailError" class="error-message"></div>
                 </div>
                 <div class="d-grid">
                     <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
@@ -70,5 +75,37 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+        <!-- JavaScript for email validation -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var emailInput = document.getElementById("email");
+                var emailError = document.getElementById("emailError");
+
+                emailInput.oninput = function() {
+                    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    var email = emailInput.value;
+
+                    if (!emailPattern.test(email)) {
+                        emailError.textContent = "Please enter a valid email address.";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                };
+
+                var form = document.getElementById("resetForm");
+                form.addEventListener("submit", function(event) {
+                    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    var email = emailInput.value;
+
+                    if (!emailPattern.test(email)) {
+                        emailError.textContent = "Please enter a valid email address.";
+                        event.preventDefault();
+                    } else {
+                        emailError.textContent = "";
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

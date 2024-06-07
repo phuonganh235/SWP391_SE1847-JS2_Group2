@@ -4,6 +4,7 @@ import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +36,24 @@ public class Login extends HttpServlet {
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
                     session.setAttribute("inforUserLogin", u);
+                    
+                    String remember = request.getParameter("remember-me");
+                    if ("on".equals(remember)) {
+                        Cookie userCookie = new Cookie("username", username);
+                        Cookie passCookie = new Cookie("password", password);
+                        userCookie.setMaxAge(60 * 60 * 24 * 7); // 1 week
+                        passCookie.setMaxAge(60 * 60 * 24 * 7); // 1 week
+                        response.addCookie(userCookie);
+                        response.addCookie(passCookie);
+                    } else {
+                        Cookie userCookie = new Cookie("username", "");
+                        Cookie passCookie = new Cookie("password", "");
+                        userCookie.setMaxAge(0);
+                        passCookie.setMaxAge(0);
+                        response.addCookie(userCookie);
+                        response.addCookie(passCookie);
+                    }
+                    
                     response.sendRedirect("home");
                     session.setAttribute("inforUser", u);
                 } else {// Handle incorrect login

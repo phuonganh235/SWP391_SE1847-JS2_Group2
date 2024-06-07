@@ -1,10 +1,21 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <%
     String check = (String) request.getAttribute("check");
+    Cookie[] cookies = request.getCookies();
+    String rememberedUsername = "";
+    String rememberedPassword = "";
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if ("username".equals(cookie.getName())) {
+                rememberedUsername = cookie.getValue();
+            }
+            if ("password".equals(cookie.getName())) {
+                rememberedPassword = cookie.getValue();
+            }
+        }
+    }
 %>
 <html>
     <head>
@@ -17,17 +28,23 @@
 
         <!-- Main css -->
         <link rel="stylesheet" href="ViewUser/css/authen/style.css">
+        <style>
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+                margin-top: 5px;
+            }
+        </style>
     </head>
     <body>
         <div class="main">
-            <!-- Sing in  Form -->
+            <!-- Sign in Form -->
             <section class="sign-in">
                 <div class="container">
-                    <div class="signin-content"> 
+                    <div class="signin-content">
 
                         <div class="signin-image">
-                            <figure><img src="ViewUser/img/authen/logo1.png" alt="sing up image"></figure>
-
+                            <figure><img src="ViewUser/img/authen/logo1.png" alt="sign up image"></figure>
                             <a href="home" class="signup-image-link">Back home</a>
                         </div>
 
@@ -37,31 +54,31 @@
                                 <div class="form-group">
                                     <label for="username">
                                         <i class="zmdi zmdi-account material-icons-name"></i>
-                                        <span>Username</span>
                                     </label>
-                                    <input type="text" name="username" id="username" placeholder="UserName"/>
+                                    <input type="text" name="username" id="username" placeholder="UserName" value="<%= rememberedUsername%>"/>
+                                    <div id="usernameError" class="error-message"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">
                                         <i class="zmdi zmdi-lock"></i>
-                                        <span>Password</span>
                                     </label>
-                                    <input type="password" name="password" id="password" placeholder="**********"/>
+                                    <input type="password" name="password" id="password" placeholder="**********" value="<%= rememberedPassword%>"/>
+                                    <div id="passwordError" class="error-message"></div>
                                 </div>
                                 <input type="hidden" name="service" value="login">
 
                                 <div class="form-group">
-                                    <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                    <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" <%= !rememberedUsername.isEmpty() ? "checked" : ""%> />
                                     <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
                                 </div>
                                 <c:choose>
                                     <c:when test="${check.equals('success')}">
-                                        ${'Success'}
                                         <c:redirect url="home"/>
                                         <br />
                                     </c:when>
                                     <c:when test="${check.equals('fail')}">
-                                        ${'<span class="badge badge-danger">Invalid Username or Password</span> <br/>'}
+                                        <span class="error-message">Invalid Username or Password</span>
+                                        <br/>
                                     </c:when>
                                     <c:otherwise>
                                         <br />
@@ -76,9 +93,7 @@
                             <div class="social-login">
                                 <span class="social-label">Or login with</span>
                                 <ul class="socials">
-                                    <!--                                    <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                                                        <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>-->
-                                    <li><a href="#" ><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                                    <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -88,5 +103,56 @@
         </div>
         <script src="ViewUser/vendor/jquery/jquery.min.js"></script>
         <script src="ViewUser/js/authen/main.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var usernameInput = document.getElementById("username");
+                var passwordInput = document.getElementById("password");
+
+                var usernameError = document.getElementById("usernameError");
+                var passwordError = document.getElementById("passwordError");
+
+                function validateUsername() {
+                    var username = usernameInput.value.trim();
+                    if (username === "") {
+                        usernameError.textContent = "Username must not be empty.";
+                        return false;
+                    } else if (username.length < 3 || username.length > 20) {
+                        usernameError.textContent = "Username must be between 3 and 20 characters.";
+                        return false;
+                    } else {
+                        usernameError.textContent = "";
+                        return true;
+                    }
+                }
+
+                function validatePassword() {
+                    var password = passwordInput.value;
+                    if (password === "") {
+                        passwordError.textContent = "Password must not be empty.";
+                        return false;
+                    } else if (password.length < 8) {
+                        passwordError.textContent = "Password must be at least 8 characters.";
+                        return false;
+                    } else {
+                        passwordError.textContent = "";
+                        return true;
+                    }
+                }
+
+                usernameInput.addEventListener("input", validateUsername);
+                passwordInput.addEventListener("input", validatePassword);
+
+                var form = document.getElementById("login-form");
+                form.addEventListener("submit", function (event) {
+                    var isUsernameValid = validateUsername();
+                    var isPasswordValid = validatePassword();
+
+                    if (!isUsernameValid || !isPasswordValid) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

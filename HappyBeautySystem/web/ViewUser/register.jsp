@@ -22,8 +22,10 @@
                     return name;
                 }
 
-
-
+                function formatAddress(address) {
+                    address = address.trim().replace(/\s+/g, ' ');
+                    return address;
+                }
 
                 document.getElementById("name").oninput = function () {
                     var name = this.value; // Không cần loại bỏ dấu cách ở đây
@@ -36,10 +38,6 @@
                         document.getElementById("nameError").innerHTML = "";
                     }
                 };
-
-
-
-
 
                 document.getElementById("username").oninput = function () {
                     var username = this.value;
@@ -56,6 +54,18 @@
                         document.getElementById("emailError").innerHTML = "Please enter a valid email address.";
                     } else {
                         document.getElementById("emailError").innerHTML = "";
+                    }
+                };
+
+                document.getElementById("address").oninput = function () {
+                    var address = this.value; // Không cần loại bỏ dấu cách ở đây
+                    this.value = address;
+                    if (address === "") {
+                        document.getElementById("addressError").innerHTML = "Address must not be empty.";
+                    } else if (/^\s/.test(address)) { // Corrected from name to address
+                        document.getElementById("addressError").innerHTML = "Address should not start with a space.";
+                    } else {
+                        document.getElementById("addressError").innerHTML = "";
                     }
                 };
 
@@ -94,6 +104,7 @@
                 var name = document.getElementById("name").value;
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
+                var address = document.getElementById("address").value;
                 var mobile = document.getElementById("mobile").value;
                 var password = document.getElementById("pass").value;
                 var re_password = document.getElementById("re_pass").value;
@@ -107,6 +118,10 @@
 
                 if (name === "" || /^\s/.test(name)) {
                     document.getElementById("nameError").innerHTML = "Full name should not start with a space and must not be empty.";
+                    isValid = false;
+                }
+                if (address === "" || /^\s/.test(address)) { 
+                    document.getElementById("addressError").innerHTML = "Address should not start with a space and must not be empty.";
                     isValid = false;
                 }
                 if (/\s/.test(username)) {
@@ -132,6 +147,7 @@
                 return isValid;
             }
         </script>
+
     </head>
     <body>
         <div class="main">

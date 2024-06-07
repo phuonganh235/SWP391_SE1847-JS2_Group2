@@ -55,6 +55,10 @@
                 color: red;
                 text-align: center;
             }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+            }
         </style>
     </head>
     <body>
@@ -63,10 +67,11 @@
                 <h2>Verify Your Email</h2>
                 <p>Please Enter The Verification Code We Sent To ${sessionScope.email}</p>
             </div>
-            <form action="validateotp" method="post">
+            <form id="verificationForm" action="validateotp" method="post">
                 <div class="mb-3">
                     <label for="verification-code" class="form-label">Verification Code <span>*</span></label>
                     <input type="text" class="form-control" name="verification-code" id="verification-code" placeholder="Enter Verification Code" maxlength="6" required />
+                    <div id="verificationCodeError" class="error-message"></div>
                 </div>
                 <div class="d-grid">
                     <button class="btn btn-primary btn-block" type="submit">Confirm</button>
@@ -74,10 +79,10 @@
             </form>
             <div class="mt-4">
                 <p>Don't Receive The Email?
-                    <form action="forgotpass" method="post" style="display: inline;">
-                        <input type="hidden" name="email" value="${sessionScope.email}">
-                        <button type="submit" style="background: none; border: none; padding: 0; color: #ff66a3; cursor: pointer;">Resend Email</button>
-                    </form>
+                <form action="forgotpass" method="post" style="display: inline;">
+                    <input type="hidden" name="email" value="${sessionScope.email}">
+                    <button type="submit" style="background: none; border: none; padding: 0; color: #ff66a3; cursor: pointer;">Resend Email</button>
+                </form>
                 </p>
             </div>
             <c:if test="${not empty param.mess}">
@@ -95,5 +100,41 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var verificationCodeInput = document.getElementById("verification-code");
+                var verificationCodeError = document.getElementById("verificationCodeError");
+
+                function validateVerificationCode() {
+                    var code = verificationCodeInput.value;
+                    if (code.trim() === "") {
+                        verificationCodeError.textContent = "Verification code must not be empty.";
+                        return false;
+                    } else if (/\s/.test(code)) {
+                        verificationCodeError.textContent = "Verification code should not contain spaces.";
+                        return false;
+                    } else if (!/^\d{6}$/.test(code)) {
+                        verificationCodeError.textContent = "Verification code must be a 6-digit number.";
+                        return false;
+                    } else {
+                        verificationCodeError.textContent = "";
+                        return true;
+                    }
+                }
+
+                verificationCodeInput.addEventListener("input", validateVerificationCode);
+
+                var form = document.getElementById("verificationForm");
+                form.addEventListener("submit", function (event) {
+                    if (!validateVerificationCode()) {
+                        event.preventDefault();
+                    } else {
+                        // If validation passes, submit the form
+                        this.submit();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
