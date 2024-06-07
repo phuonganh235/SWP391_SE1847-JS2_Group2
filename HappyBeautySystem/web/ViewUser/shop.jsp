@@ -63,14 +63,14 @@
                         <div class="shop__sidebar">
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
-                                    document.getElementById("text").oninput = function () {
-                                        var text = this.value;
-                                        if (text === "") {
-                                            document.getElementById("textError").innerHTML = "Text must not be empty.";
-                                        } else {
-                                            document.getElementById("textError").innerHTML = "";
-                                        }
-                                    };
+//                                    document.getElementById("text").oninput = function () {
+//                                        var text = this.value;
+//                                        if (text === "") {
+//                                            document.getElementById("textError").innerHTML = "Text must not be empty.";
+//                                        } else {
+//                                            document.getElementById("textError").innerHTML = "";
+//                                        }
+//                                    };
                                     document.getElementById("fromPrice").oninput = function () {
                                         var fromPrice = this.value;
                                         if (fromPrice === "") {
@@ -93,17 +93,17 @@
                                     };
                                 });
 
-                                function validateForm() {
-                                    var isValid = true;
-                                    var text = document.getElementById("text").value;
-                                    text = text.trim().replace(/\s+/g, ' ');
-                                    document.getElementById("text").value = text;
-                                    if (text === "" || /^\s/.test(text)) {
-                                        document.getElementById("textError").innerHTML = "Enter valid search keyword.";
-                                        isValid = false;
-                                    }
-                                    return isValid;
-                                }
+//                                function validateForm() {
+//                                    var isValid = true;
+//                                    var text = document.getElementById("text").value;
+//                                    text = text.trim().replace(/\s+/g, ' ');
+//                                    document.getElementById("text").value = text;
+//                                    if (text === "" || /^\s/.test(text)) {
+//                                        document.getElementById("textError").innerHTML = "Enter valid search keyword.";
+//                                        isValid = false;
+//                                    }
+//                                    return isValid;
+//                                }
                             </script>
                             <!--search bar-->
                             <div class="sidebar__categories">
