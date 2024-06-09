@@ -45,14 +45,14 @@
                     <ul>
                         <li class="active"><a href="home">Home</a></li>
                         <li><a href="./shop.html">About</a></li>
-                        <li><a href="#">Shop</a>
-                            <ul class="dropdown">
+                        <li><a href="product">Shop</a>
+<!--                            <ul class="dropdown">
                                 <li><a href="./product-details.html">Bodycare</a></li>
                                 <li><a href="./shop-cart.html">Skincare</a></li>
                                 <li><a href="./checkout.html">Haircare</a></li>
                                 <li><a href="./blog-details.html">Makerup</a></li>
                                 <li><a href="./blog-details.html">Perfume</a></li>
-                            </ul>
+                            </ul>-->
                         </li>
                         <li><a href="./blog.html">Blog</a></li>
                         <li><a href="./contact.html">Contact</a></li>

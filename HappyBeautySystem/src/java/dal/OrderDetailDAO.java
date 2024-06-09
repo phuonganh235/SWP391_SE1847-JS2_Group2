@@ -85,12 +85,51 @@ public class OrderDetailDAO extends DBContext {
         return isDeleted;
     }
 
+        //Get Total Money by Month 
+    public double getTotalMoneyByMonth(int month) {
+        double totalMoney = 0;
+        String sql = "SELECT SUM(od.Price * od.Quantity)\n"
+                + "FROM [Orders] o INNER JOIN [OrderDetail] od ON o.OrderId = od.OrderId\n"
+                + "WHERE MONTH(o.OrderDate) = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, month);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                totalMoney = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalMoney;
+    }
+    //Get total product
+    public int getTotalProductByCategory(int categoryId) {
+        int totalProduct = 0;
+        String sql = " SELECT SUM(od.Quantity) \n"
+                + " FROM OrderDetail od INNER JOIN Product p on od.ProductID = p.ProductId\n"
+                + " INNER JOIN Category c on c.CategoryId = p.CategoryId\n"
+                + " WHERE c.CategoryId = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, categoryId);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                totalProduct = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+    
     //
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
-        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(2003);
-        for (OrderDetail li : lis) {
-            System.out.println(li.getQuantity());
-        }
+//        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(2003);
+//        for (OrderDetail li : lis) {
+//            System.out.println(li.getQuantity());
+//        }
+        System.out.println(dao.getTotalProductByCategory(1));
     }
 }

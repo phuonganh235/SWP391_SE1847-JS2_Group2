@@ -1,5 +1,3 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -33,6 +31,17 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <style>
+            .chart-explanation {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 20px;
+                padding: 10px;
+                border-left: 4px solid #007bff;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+            }
+        </style>
     </head>
 
     <body>
@@ -138,62 +147,30 @@
                 <!-- Chart Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
-                        <div class="col-sm-12 col-xl-6">
+                        <div class="chart-explanation">The chart below displays the revenue for each month of the year. 
+                            Through this chart, you can observe the fluctuations in revenue over time 
+                            and identify the months with the highest and lowest revenue.</div>
+                        <div class="col-sm-12 col-xl-12">
                             <div class="bg-light rounded h-100 p-4">
                                 <h6 class="mb-4">Single Line Chart</h6>
                                 <canvas id="line-chart"></canvas>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Multiple Line Chart</h6>
-                                <canvas id="salse-revenue"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xl-6">
+
+                        <div class="chart-explanation">The chart below shows the number of products sold in each category. 
+                            The categories include Skincare, Makeup, Haircare, Fragrance, Bath & Body, 
+                            Men's Grooming, Beauty Tools, Oral Care, Nail Care, and Sun Care. 
+                            This chart allows you to see which category has the highest number of products sold.</div>
+                        <div class="col-sm-12 col-xl-12">
                             <div class="bg-light rounded h-100 p-4">
                                 <h6 class="mb-4">Single Bar Chart</h6>
                                 <canvas id="bar-chart"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Multiple Bar Chart</h6>
-                                <canvas id="worldwide-sales"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Pie Chart</h6>
-                                <canvas id="pie-chart"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Doughnut Chart</h6>
-                                <canvas id="doughnut-chart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Chart End -->
 
-
-                <!-- Footer Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="bg-light rounded-top p-4">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 text-center text-sm-start">
-                                &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                            </div>
-                            <div class="col-12 col-sm-6 text-center text-sm-end">
-                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer End -->
             </div>
             <!-- Content End -->
 
@@ -215,6 +192,56 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script  type="text/javascript">
+            // Single Line Chart
+            var ctx3 = $("#line-chart").get(0).getContext("2d");
+            var myChart3 = new Chart(ctx3, {
+                type: "line",
+                data: {
+                    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                    datasets: [{
+                            label: "Revenue",
+                            fill: false,
+                            backgroundColor: "rgba(0, 156, 255, .3)",
+                            data: [${requestScope.m1}, ${requestScope.m2}, ${requestScope.m3},
+            ${requestScope.m4}, ${requestScope.m5}, ${requestScope.m6},
+            ${requestScope.m7},${requestScope.m8},${requestScope.m9},
+            ${requestScope.m10},${requestScope.m11},${requestScope.m12}]
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+            // Single Bar Chart
+            var ctx4 = $("#bar-chart").get(0).getContext("2d");
+            var myChart4 = new Chart(ctx4, {
+                type: "bar",
+                data: {
+                    labels: ["Skincare", "Makeup", "Haircare", "Fragrance", "Bath & Body", "Men's Grooming", "Beauty Tools",
+                        "Oral Care", "Nail Care", "Sun Care"],
+                    datasets: [{
+                            label: "Quantity of Product",
+                            backgroundColor: [
+                                "rgba(0, 156, 255, .7)",
+                                "rgba(0, 156, 255, .6)",
+                                "rgba(0, 156, 255, .5)",
+                                "rgba(0, 156, 255, .4)",
+                                "rgba(0, 156, 255, .3)"
+                            ],
+                            data: [${requestScope.cat1}, ${requestScope.cat2}, ${requestScope.cat3},
+            ${requestScope.cat4}, ${requestScope.cat5}, ${requestScope.cat6},
+            ${requestScope.cat7},${requestScope.cat8},${requestScope.cat9},
+            ${requestScope.cat10}]
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        </script>
     </body>
 
 </html>

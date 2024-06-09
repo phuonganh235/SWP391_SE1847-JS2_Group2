@@ -97,7 +97,7 @@
 
             <c:choose>
                 <c:when test="${requestScope.mess == 'Update Success!'}">
-                    <p class="message"><a href="Home">${requestScope.mess}</a></p>
+                    <p class="message"><a href="home">${requestScope.mess}</a></p>
                     </c:when>
                     <c:otherwise>
                     <p class="message">${requestScope.mess}</p>
