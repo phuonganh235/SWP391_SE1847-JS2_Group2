@@ -44,6 +44,10 @@
         <servlet-name>chart</servlet-name>
         <servlet-class>controller.Manager.chart</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <servlet-class>controller.Manager.Dashboard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -87,5 +91,9 @@
     <servlet-mapping>
         <servlet-name>chart</servlet-name>
         <url-pattern>/chart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
 </web-app>

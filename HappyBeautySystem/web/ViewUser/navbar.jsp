@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/styleHome.css" type="text/css">
     </head>
+    
     <body>
         <!-- Page Preloder -->
        
@@ -43,7 +44,7 @@
                 </div>
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="home">Home</a></li>
+                        <li><a href="home">Home</a></li>
                         <li><a href="./shop.html">About</a></li>
                         <li><a href="product">Shop</a>
 <!--                            <ul class="dropdown">

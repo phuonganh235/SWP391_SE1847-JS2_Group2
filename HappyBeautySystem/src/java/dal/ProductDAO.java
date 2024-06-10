@@ -494,6 +494,22 @@ public class ProductDAO extends DBContext {
         return pList;
     }
     
+//    Count total products
+    public int countProduct() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count' FROM Product";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
     public int countReview(int id) {
         int count = 0;
         String sql = "SELECT COUNT(*) as 'count'\n"

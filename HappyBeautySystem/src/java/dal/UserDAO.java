@@ -218,6 +218,21 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+    
+//    Count numbers of users
+    public int CountUser() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count' FROM users where RoleId = '2' or RoleId = '2' ";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
 //    public static void main(String[] args) {
 //        UserDAO dao = new UserDAO();
 //        User newUser = new User(5, "Le Thi Binh", "", "", "", "", "", "", 2, "");
