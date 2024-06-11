@@ -252,8 +252,8 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-    
-        // Retrieves users by their roleId and statuss
+
+    // Retrieves users by their roleId and statuss
     public ArrayList<User> getUserByRoleIdAndStatus(int roleId, int statuss) {
         ArrayList<User> uList = new ArrayList<>();
         String sql = "SELECT * FROM Users WHERE RoleId = ? AND Statuss = ?";
@@ -282,5 +282,20 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
         return uList;
+    }
+
+    //    Count numbers of users
+    public int CountUser() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count' FROM users where RoleId = '2' or RoleId = '2' ";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
     }
 }

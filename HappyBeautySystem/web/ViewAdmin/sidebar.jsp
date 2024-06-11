@@ -66,8 +66,8 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-server"></i>Manager Order</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="/HappyBeautySystem/managerOrder?service=listAllOrder" class="dropdown-item">Order not yet confirmed</a>
-                            <a href="typography.jsp" class="dropdown-item">Order confirmed</a>
+                            <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Order not yet confirmed</a>
+                            <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2" class="dropdown-item">Order confirmed</a>
                         </div>
                     </div>
                     <a href="widget.jsp" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>

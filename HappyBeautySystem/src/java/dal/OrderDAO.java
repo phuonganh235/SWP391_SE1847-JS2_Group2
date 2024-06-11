@@ -162,6 +162,22 @@ public class OrderDAO extends DBContext {
 
         return isDeleted;
     }
+    //
+    public boolean updateOrderStatus(int orderId, int status) {
+        String sql = "UPDATE Orders SET Statuss = ? WHERE OrderId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, status);
+            pre.setInt(2, orderId);
+
+            int affectedRows = pre.executeUpdate();
+            return affectedRows > 0; // Returns true if the update was successful
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
 
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();

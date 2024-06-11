@@ -43,9 +43,16 @@ public class managerOrder extends HttpServlet {
                 dispatcher.forward(request, response);
             }
             if (service.equals("listAllOrder")) {
-                List<Order> listOrder = daoOrder.getOrdersByStatus(1);
-                request.setAttribute("listAllOrder", listOrder);
-                request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
+                int Statuss = Integer.parseInt(request.getParameter("status"));
+                if (Statuss == 1) {
+                    List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
+                    request.setAttribute("listAllOrder", listOrder);
+                    request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
+                } else {
+                    List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
+                    request.setAttribute("listAllOrder", listOrder);
+                    request.getRequestDispatcher("ViewAdmin/managerConfirmOrder.jsp").forward(request, response);
+                }
             }
             if (service.equals("viewConfirmOrder")) {
                 String orderID = request.getParameter("orderID");
@@ -68,7 +75,9 @@ public class managerOrder extends HttpServlet {
                 String dateNow = common.getDateTimeNow();
                 //staff ID session
                 daoUserShipOrder.addUserShipOrder(orderID, shipeerID, dateNow, 4);
-//
+                //
+                daoOrder.updateOrderStatus(orderID, 2);
+                //
                 List<Order> listOrder = daoOrder.getOrdersByStatus(1);
                 request.setAttribute("listAllOrder", listOrder);
                 request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);

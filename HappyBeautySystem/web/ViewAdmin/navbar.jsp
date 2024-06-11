@@ -1,8 +1,3 @@
-<%-- 
-    Document   : navbar
-    Created on : May 27, 2024, 12:07:12 AM
-    Author     : phuan
---%>
 
      <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                     <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
