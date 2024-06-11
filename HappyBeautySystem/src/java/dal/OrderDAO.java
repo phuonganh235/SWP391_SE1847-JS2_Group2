@@ -77,6 +77,68 @@ public class OrderDAO extends DBContext {
         return orders;
     }
 
+    // get order by  status
+    public List<Order> getOrdersByStatus(int status) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE Statuss = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, status);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrderId(rs.getInt("OrderId"));
+                    order.setUserId(rs.getInt("UserId"));
+                    order.setPaymentId(rs.getInt("PaymentId"));
+                    order.setOrderDate(rs.getString("OrderDate"));
+                    order.setIsCancel(rs.getBoolean("IsCancel"));
+                    order.setCustomerName(rs.getString("CustomerName"));
+                    order.setCustomerAddress(rs.getString("CustomerAddress"));
+                    order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                    order.setStatuss(rs.getInt("Statuss"));
+
+                    orders.add(order);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return orders;
+    }
+
+    // get order by order ID
+    public List<Order> getOrdersByOrderID(int ID) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE OrderId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, ID);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrderId(rs.getInt("OrderId"));
+                    order.setUserId(rs.getInt("UserId"));
+                    order.setPaymentId(rs.getInt("PaymentId"));
+                    order.setOrderDate(rs.getString("OrderDate"));
+                    order.setIsCancel(rs.getBoolean("IsCancel"));
+                    order.setCustomerName(rs.getString("CustomerName"));
+                    order.setCustomerAddress(rs.getString("CustomerAddress"));
+                    order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                    order.setStatuss(rs.getInt("Statuss"));
+
+                    orders.add(order);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return orders;
+    }
+
     //delete 
     public boolean deleteOrderAndDetails(int orderId) {
         String deleteOrderDetailSQL = "DELETE FROM OrderDetail WHERE OrderId = ?";
