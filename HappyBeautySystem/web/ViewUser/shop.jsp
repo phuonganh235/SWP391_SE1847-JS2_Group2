@@ -63,14 +63,10 @@
                         <div class="shop__sidebar">
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
-//                                    document.getElementById("text").oninput = function () {
-//                                        var text = this.value;
-//                                        if (text === "") {
-//                                            document.getElementById("textError").innerHTML = "Text must not be empty.";
-//                                        } else {
-//                                            document.getElementById("textError").innerHTML = "";
-//                                        }
-//                                    };
+                                    document.getElementById("text").oninput = function () {
+                                        var text = this.value;
+                                        text = text.trim().replace(/\s+/g, ' ');
+                                    };
                                     document.getElementById("fromPrice").oninput = function () {
                                         var fromPrice = this.value;
                                         if (fromPrice === "") {
@@ -93,42 +89,15 @@
                                     };
                                 });
 
-//                                function validateForm() {
-//                                    var isValid = true;
-//                                    var text = document.getElementById("text").value;
-//                                    text = text.trim().replace(/\s+/g, ' ');
-//                                    document.getElementById("text").value = text;
-//                                    if (text === "" || /^\s/.test(text)) {
-//                                        document.getElementById("textError").innerHTML = "Enter valid search keyword.";
-//                                        isValid = false;
-//                                    }
-//                                    return isValid;
-//                                }
+                                function validateForm() {
+                                    var isValid = true;
+                                    var text = document.getElementById("text").value;
+                                    text = text.trim().replace(/\s+/g, ' ');
+                                    document.getElementById("text").value = text;
+                                    return isValid;
+                                }
                             </script>
-                            <!--search bar-->
-                            <div class="sidebar__categories">
 
-                                <!--Search By Price-->
-                                <!--sidebar widget start-->
-                                <div class="sidebar_widget">
-                                    <div class="widget_list widget_categories">
-                                        <div class="section-title">
-                                            <h4>Search Product</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <form action="product?service=search" method="post" onsubmit="return validateForm()">
-                                    <input style = "
-                                           border: 2px solid #BDBDBD;
-                                           border-radius: 10px;
-                                           overflow: hidden;" 
-                                           id="text" name="text" placeholder="Search Product..." type="text" value="${param.text}">
-                                    <button style="color: black; background-color: pink; border-radius: 40px;" 
-                                            type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
-                                    <span id="textError" style="color: red; font-size: 13px; font-weight: 500;  margin-top: 10px;"></span>
-                                </form>
-                            </div>
                             <div class="sidebar__categories">
                                 <!--List Category-->
                                 <!--sidebar widget start-->
@@ -162,85 +131,116 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
+                    <!--Price Product-->
+                    <div class="col-lg-9 col-md-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <!--search bar-->
+                                <div class="sidebar__categories">
 
-                            <div class="sidebar__categories">
-
-                                <!--Search By Price-->
-                                <!--sidebar widget start-->
-                                <div class="sidebar_widget">
-                                    <div class="widget_list widget_categories">
-                                        <div class="section-title">
-                                            <h4>Shop by price</h4>
+                                    <!--Search By Price-->
+                                    <!--sidebar widget start-->
+                                    <div class="sidebar_widget">
+                                        <div class="widget_list widget_categories">
+                                            <div class="section-title">
+                                                <h4>Search Product</h4>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <form action="product?service=search" method="post" onsubmit="return validateForm()">
+                                        <input style = "
+                                               border: 2px solid #BDBDBD;
+                                               border-radius: 10px;
+                                               overflow: hidden;" 
+                                               id="text" name="text" placeholder="Enter search keyword..." type="text" value="${param.text}">
+                                        <button style="color: black; background-color: pink; border-radius: 40px;" 
+                                                type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
+                                        <!--<span id="textError" style="color: #008ce6; font-size: 13px; font-weight: 500;  margin-top: 10px;"></span>-->
+                                    </form>
                                 </div>
-
-                                <form action="product?service=searchPrice" method="post" >
-                                    <div class="categories__accordion">
-                                        <div class="form-row">
-                                            <div class="col mb-3">
-                                                <label for="fromPrice">From Price:</label>
-                                                <input min = "0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
-                                            </div>
-                                            <div class="col mb-3">
-                                                <label for="toPrice">To Price:</label>
-                                                <input min = "0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
-                                            </div>
-                                            <div class="col-auto mb-3" style="padding-top: 12%">
-                                                <button style="color: black; background-color: pink;" type="submit" class="btn btn-secondary btn-number">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="sidebar__categories">
+                                    <!--Search By Price-->
+                                    <!--sidebar widget start-->
+                                    <div class="sidebar_widget">
+                                        <div class="widget_list widget_categories">
+                                            <div class="section-title">
+                                                <h4>Shop by price</h4>
                                             </div>
                                         </div>
-                                        <span id="priceError" style="color: red; font-size: 13px; font-weight: 500;"></span>
                                     </div>
-                                </form>
+
+                                    <form action="product?service=searchPrice" method="post">
+                                        <div class="categories__accordion">
+                                            <div class="form-row">
+                                                <div style="margin-top: 7px; color: #9e9e9e">$</div>
+                                                <div class="col mb-3">
+                                                    <!--<label for="fromPrice">From Price:</label>-->
+                                                    <input min="0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
+                                                </div>
+                                                <div style="margin-top: 7px; color: #9e9e9e">-$</div>
+                                                <div class="col mb-3">
+                                                    <!--<label for="toPrice">To Price:</label>-->
+                                                    <input min="0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
+                                                </div>
+                                                <div class="col mb-3">
+                                                    <button style="color: black; background-color: pink;" type="submit" class="btn btn-secondary btn-number">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span id="priceError" style="color: red; font-size: 13px; font-weight: 500;"></span>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <!--sidebar widget end-->
-
                             <!--Sidebar sort start-->
-                            <div class="sidebar__categories">
-                                <!--Sort product-->
-                                <!--sidebar widget start-->
-                                <div class="sidebar_widget">
-                                    <div class="widget_list widget_categories">
-                                        <div class="section-title">
-                                            <h4>Sort Product</h4>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="sidebar__categories">
+                                    <!--Sort product-->
+                                    <!--sidebar widget start-->
+                                    <div class="sidebar_widget">
+                                        <div class="widget_list widget_categories">
+                                            <div class="section-title">
+                                                <h4>Sort Product</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-heading">
+                                            <a data-toggle="collapse" data-target="#collapseFive">Sort</a>
                                         </div>
                                     </div>
-
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Filter</a>
-                                    </div>
-                                </div>
-                                <!-- sidebar widget end-->
-                                <div class="categories__accordion">
-                                    <div class="accordion" id="accordionExample">
-                                        <div class="card">
-
-                                            <div id="collapseFive" class="collapse" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-                                                        <li><a  href="product?action=sort&type=low">Prices range from low to high</li>
-                                                        <li><a  href="product?action=sort&type=high">Prices range from high to low</li>
-                                                        <li><a  href="product?action=sort&type=a-z">A-Z</li>
-                                                        <li><a  href="product?action=sort&type=z-a">Z-A</li>
-                                                    </ul>
+                                    <!--sidebar widget end-->
+                                    <div class="categories__accordion">
+                                        <div class="accordion" id="accordionExample">
+                                            <div class="card">
+                                                <div id="collapseFive" class="collapse" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <ul>
+                                                            <li><a href="product?action=sort&type=low">Prices range from low to high</a></li>
+                                                            <li><a href="product?action=sort&type=high">Prices range from high to low</a></li>
+                                                            <li><a href="product?action=sort&type=a-z">A-Z</a></li>
+                                                            <li><a href="product?action=sort&type=z-a">Z-A</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                          
-                        </div>
-                    </div>
+                            </div>
 
-                    <!--List Product-->
-                    <div class="col-lg-9 col-md-12">
+                        </div>
+                        <!--List product-->
                         <div class="row">
                             <c:forEach items="${requestScope.productList}" var="p">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="product__item">                                         
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <div class="label new">New</div>
@@ -283,25 +283,26 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Shop Section End -->
+        </div>
+    </section>
+    <!-- Shop Section End -->
 
-        <!--footer area start-->
-        <jsp:include page="footer.jsp"/>
-        <!--footer area end-->
+    <!--footer area start-->
+    <jsp:include page="footer.jsp"/>
+    <!--footer area end-->
 
-        <!-- Js Plugins -->
-        <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
-        <script src="ViewUser/js/bootstrap.min.js"></script>
-        <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
-        <script src="ViewUser/js/jquery-ui.min.js"></script>
-        <script src="ViewUser/js/mixitup.min.js"></script>
-        <script src="ViewUser/js/jquery.countdown.min.js"></script>
-        <script src="ViewUser/js/jquery.slicknav.js"></script>
-        <script src="ViewUser/js/owl.carousel.min.js"></script>
-        <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
-        <script src="ViewUser/js/main.js"></script>
+    <!-- Js Plugins -->
+    <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
+    <script src="ViewUser/js/bootstrap.min.js"></script>
+    <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
+    <script src="ViewUser/js/jquery-ui.min.js"></script>
+    <script src="ViewUser/js/mixitup.min.js"></script>
+    <script src="ViewUser/js/jquery.countdown.min.js"></script>
+    <script src="ViewUser/js/jquery.slicknav.js"></script>
+    <script src="ViewUser/js/owl.carousel.min.js"></script>
+    <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
+    <script src="ViewUser/js/main.js"></script>
 
-    </body>
+</body>
 
 </html>

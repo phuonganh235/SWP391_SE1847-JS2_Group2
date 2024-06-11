@@ -239,7 +239,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <div class="product__price">${pc.getPrice()}</div>
+                                    <div class="product__price">$ ${pc.getPrice()}</div>
                                 </div>
                             </div>
                         </div>

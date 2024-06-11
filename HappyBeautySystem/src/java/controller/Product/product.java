@@ -59,10 +59,10 @@ public class product extends HttpServlet {
             ArrayList<Product> productList = d.getAllProduct();
             ArrayList<Category> categoryList = c.getAllCategories();
 //          Pagination
-            int page = 0, numperpage = 9;
+            int page = 0, numperpage = 6;
             int size = productList.size();
-            // Number of pages needed for each page with 9 product sections
-            int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);
+            // Number of pages needed for each page with 6 product sections
+            int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
             String xpage = request.getParameter("page");
             if (xpage == null) {
                 page = 1;
@@ -87,9 +87,9 @@ public class product extends HttpServlet {
             int category_id1 = Integer.parseInt(category_id);
             ArrayList<Product> productList = d.getProductByCategory(category_id1);
             ArrayList<Category> category = c.getAllCategories();
-            int page = 0, numperpage = 9;
+            int page = 0, numperpage = 6;
             int size = productList.size();
-            int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+            int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
             String xpage = request.getParameter("page");
             if (xpage == null) {
                 page = 1;
@@ -114,9 +114,9 @@ public class product extends HttpServlet {
                 ArrayList<Product> productList = d.getProductLow();
                 ArrayList<Category> category = c.getAllCategories();
 //              Pagination
-                int page = 0, numperpage = 9;
+                int page = 0, numperpage = 6;
                 int size = productList.size();
-                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -138,9 +138,9 @@ public class product extends HttpServlet {
                 ArrayList<Product> productList = d.getProductHigh();
                 ArrayList<Category> category = c.getAllCategories();
 //              Pagination
-                int page = 0, numperpage = 9;
+                int page = 0, numperpage = 6;
                 int size = productList.size();
-                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -161,9 +161,9 @@ public class product extends HttpServlet {
                 ArrayList<Product> productList = d.getProductAZ();
                 ArrayList<Category> category = c.getAllCategories();
 //              Pagination
-                int page = 0, numperpage = 9;
+                int page = 0, numperpage = 6;
                 int size = productList.size();
-                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -184,9 +184,9 @@ public class product extends HttpServlet {
                 ArrayList<Product> productList = d.getProductZA();
                 ArrayList<Category> category = c.getAllCategories();
 //              Pagination
-                int page = 0, numperpage = 9;
+                int page = 0, numperpage = 6;
                 int size = productList.size();
-                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//so trang
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -245,9 +245,9 @@ public class product extends HttpServlet {
 
             ArrayList<Category> category = c.getAllCategories();
 //            Pagination
-            int page = 0, numperpage = 9;
+            int page = 0, numperpage = 6;
             int size = productList.size();
-            int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//number of page
+            int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//number of page
             String xpage = request.getParameter("page");
             if (xpage == null) {
                 page = 1;
@@ -277,9 +277,9 @@ public class product extends HttpServlet {
                 to = (toPrice == null || toPrice.equals("")) ? null : Double.parseDouble(toPrice);
                 ArrayList<Product> listP = d.searchByPrice(from, to);
                 //            Pagination
-                int page = 0, numperpage = 9;
+                int page = 0, numperpage = 6;
                 int size = listP.size();
-                int num = (size % 9 == 0 ? (size / 9) : ((size / 9)) + 1);//number of page
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//number of page
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
