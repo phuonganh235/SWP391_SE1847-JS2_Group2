@@ -2,10 +2,6 @@ package model;
 
 import java.util.Date;
 
-/**
- *
- * @author admin
- */
 public class User {
     private int userId;
     private String name;
@@ -16,26 +12,14 @@ public class User {
     private String postCode;
     private String image;
     private int roleId;
-    private Date createDate;
+    private String createDate;
     private String password;
+    private int Statuss;
 
     public User() {
     }
-    
-       public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId,  String password) {
-        this.userId = userId;
-        this.name = name;
-        this.username = username;
-        this.mobile = mobile;
-        this.email = email;
-        this.address = address;
-        this.postCode = postCode;
-        this.image = image;
-        this.roleId = roleId;
-        this.password = password;
-    }
 
-    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, Date createDate, String password) {
+    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, String createDate, String password, int Statuss) {
         this.userId = userId;
         this.name = name;
         this.username = username;
@@ -47,6 +31,7 @@ public class User {
         this.roleId = roleId;
         this.createDate = createDate;
         this.password = password;
+        this.Statuss = Statuss;
     }
 
     public int getUserId() {
@@ -121,11 +106,11 @@ public class User {
         this.roleId = roleId;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
@@ -137,10 +122,19 @@ public class User {
         this.password = password;
     }
 
+    public int getStatuss() {
+        return Statuss;
+    }
+
+    public void setStatuss(int Statuss) {
+        this.Statuss = Statuss;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + '}';
+        return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + ", Statuss=" + Statuss + '}';
     }
+
 
     
 }

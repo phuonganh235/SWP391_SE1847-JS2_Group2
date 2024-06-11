@@ -36,7 +36,7 @@
     </head>
     <body>
 
-    
+
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
@@ -63,6 +63,13 @@
                             <a href="element.jsp" class="dropdown-item">Other Elements</a>
                         </div>
                     </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-server"></i>Manager Order</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/HappyBeautySystem/managerOrder?service=listAllOrder" class="dropdown-item">Order not yet confirmed</a>
+                            <a href="typography.jsp" class="dropdown-item">Order confirmed</a>
+                        </div>
+                    </div>
                     <a href="widget.jsp" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
                     <a href="manager" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Product</a>
                     <a href="managercategory" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Category</a>
@@ -78,7 +85,7 @@
                             <a href="blank.jsp" class="dropdown-item">Blank Page</a>
                         </div>
                     </div>
-                     <div class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>Manage Account</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="manageAccountAdmin?service=ListAllStaff" class="dropdown-item">View list account Staff</a>
@@ -90,6 +97,6 @@
         </div>
 
         <!-- Sidebar End -->
-        
+
     </body>
 </html>

@@ -1,10 +1,11 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+s
 <!DOCTYPE html>
 
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <title>Manage Product - Bootstrap Admin Template</title>
@@ -52,8 +53,7 @@
                     <a href="#" class="sidebar-toggler flex-shrink-0">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <!--   Seach Form    -->
-                    <form class="d-none d-md-flex ms-4" action="managercategory?service=search" method="post">
+                    <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
                         <input type="hidden" name="service" value="search">
                         <input class="form-control border-0" type="search" placeholder="Search" name="txt">
                         <button type="submit" class="btn btn-primary ms-2">Search</button>
@@ -95,40 +95,56 @@
                 </nav>
                 <!-- Navbar End -->
 
+                
+                
                 <!-- Product Management Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Category Management</h6>
-                            <a href="managercategory">Show All</a>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Category</button>
+                            <h6 class="mb-0">Order Management</h6>
                         </div>
-                        <!-- Load product Product -->
+                        <!-- Load Product -->
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead>
                                     <tr class="text-dark">
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">IsActive</th>
-                                        <th scope="col">Create Date</th>
+                                        <th scope="col">Name Customer</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">PhoneNumber</th>
+                                        <th scope="col">PaymentMethod</th>
+                                        <th scope="col">OrderDate</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listCat}" var="cat">
+                                    <c:forEach items="${listAllOrder}" var="order">
                                         <tr>
                                             <td><input class="form-check-input" type="checkbox"></td>
-                                            <td>${cat.categoryId}</td>
-                                            <td>${cat.categoryName}</td>
-                                            <td>${cat.categoryImageUrl}</td>
-                                            <td>${cat.isActive}</td>
-                                            <td>${cat.createDate}</td>
+                                            <td>${order.getCustomerName()}</td>
+                                            <td>${order.getCustomerAddress()}</td>
+                                            <td>${order.getCustomerPhoneNumber()}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="managercategory?service=update&id=${cat.categoryId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}">Delete</a>
+                                                <c:choose>
+                                                    <c:when test="${order.paymentId == 1}">
+                                                        MOMO
+                                                    </c:when>
+                                                    <c:when test="${order.paymentId == 2}">
+                                                        VNPAY
+                                                    </c:when>
+                                                    <c:when test="${order.paymentId == 3}">
+                                                        COD
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        Unknown
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+
+                                            <td>${order.getOrderDate()}</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Confirm</a>
+                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -136,42 +152,9 @@
                             </table>
                         </div>
 
-                        <!-- Add Category -->
-                        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="addProductModalLabel">Add Category</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="addCategoryForm" action="managercategory?service=add" method="post" onsubmit="return validateForm()">
-                                            <input type="hidden" id="categoryId" name="categoryId" value="0">
-                                            <div class="mb-3">
-                                                <label for="categoryName" class="form-label">Category Name</label>
-                                                <input type="text" class="form-control" id="categoryName" name="categoryName" required>
-                                                <span id="nameError" style="color: red;"></span>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="categoryImageUrl" class="form-label">Category ImageUrl</label>
-                                                <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
-                                                <span id="urlError" style="color: red;"></span>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="isActive" class="form-label">Is Active</label>
-                                                <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
+                
                 <!-- Product Management End -->
 
             </div>
@@ -194,39 +177,7 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                function formatFullName(name) {
-                    name = name.trim().replace(/\s+/g, ' ');
-                    return name;
-                }
 
-                document.getElementById("categoryName").oninput = function () {
-                    var name = this.value; // Không cần loại bỏ dấu cách ở đây
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("nameError").innerHTML = "Category name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("nameError").innerHTML = "Category name should not start with a space.";
-                    } else {
-                        document.getElementById("nameError").innerHTML = "";
-                    }
-                };
-                document.getElementById("categoryImageUrl").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("urlError").innerHTML = "Category Image Url name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("urlError").innerHTML = "Category Image Url should not start with a space.";
-                    } else {
-                        document.getElementById("urlError").innerHTML = "";
-                    }
-                };
-            });
-
-            
-        </script>
     </body>
 
 </html>

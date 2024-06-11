@@ -68,7 +68,6 @@ public class OrderDetailDAO extends DBContext {
         }
         return orderDetail;
     }
-
     // delete for orderID
     public boolean deleteOrderDetailsByOrderId(int orderId) {
         boolean isDeleted = false;

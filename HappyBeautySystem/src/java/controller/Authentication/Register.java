@@ -1,5 +1,6 @@
 package controller.Authentication;
 
+import common.CommonDAO;
 import dal.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -27,6 +28,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        CommonDAO daoDate = new CommonDAO();
         String name = request.getParameter("name");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -82,9 +84,8 @@ public class Register extends HttpServlet {
         u.setAddress(address);
         u.setPostCode(postCode);
         u.setRoleId(2);
-
-        java.util.Date today = new Date();
-        dao.register(name, username, password, mobile, email, address, postCode, new java.sql.Date(today.getTime()), 2);
+        String date = daoDate.getDateTimeNow();
+        dao.register(name, username, password, mobile, email, address, postCode, date, 2 ,1);
         session.setAttribute("message", "Register successfully, please enter Username and Password to login.");
         response.sendRedirect("login");
     }
