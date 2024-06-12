@@ -33,6 +33,31 @@
 
         <!-- Template Stylesheet -->
         <link href="ViewAdmin/css/style.css" rel="stylesheet">
+        
+        <!--Style image admin-->
+        <style>
+            .app-sidebar__user-avatar {
+                border-radius: 50% !important;
+                width: 80px; /* Match the inline style */
+                height: 80px; /* Match the inline style */
+                border: 4px solid #ff99cc; /* White border */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+                transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+            }
+
+            .app-sidebar__user-avatar:hover {
+                transform: scale(1.05); /* Slightly enlarge on hover */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+            }
+
+            .status-indicator {
+                width: 20px; /* Adjust size as needed */
+                height: 20px; /* Adjust size as needed */
+                background-color: #28a745; /* Success green color */
+                border: 2px solid #fff; /* White border */
+            }
+        </style>
+
     </head>
     <body>
 
@@ -40,12 +65,14 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="index.jsp" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                <a href="dashboard" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-table me-2"></i>DASHMIN</h3>
                 </a>
+
+
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="app-sidebar__user-avatar" src="ViewAdmin/img/user.jpg" alt="" style="width: 80px; height: 80px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
@@ -71,7 +98,13 @@
                         </div>
                     </div>
                     <a href="widget.jsp" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="manager" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Product</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-server"></i>Manager Product</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="manager" class="dropdown-item">All Product</a>
+                            <a href="manager?service=low" class="dropdown-item">Product low in stock</a>
+                        </div>
+                    </div>
                     <a href="managercategory" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Category</a>
                     <a href="form.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
                     <a href="table.jsp" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>

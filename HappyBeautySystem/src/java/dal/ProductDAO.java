@@ -207,7 +207,7 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
+
 //    Sellect the trending products 
     public ArrayList<Product> getTrendProduct() {
         ArrayList<Product> list = new ArrayList<>();
@@ -393,6 +393,7 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+
     // Adds a new product to the Product table in the database
     public void addProduct(Product product) {
         String sql = "INSERT INTO Product (ProductName, ShortDescription, LongDescription, AdditionalDescription, Price, Quantity, Size, Color, CompanyName, CategoryId, SubCategoryId, Sold, IsCustomized, IsActive, CreateDate, pathImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -459,6 +460,7 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
+
     //Search Product by name in dashboard
     public ArrayList<Product> searchProductByNameToManage(String productName) {
         ArrayList<Product> pList = new ArrayList<>();
@@ -493,7 +495,7 @@ public class ProductDAO extends DBContext {
         }
         return pList;
     }
-    
+
 //    Count total products
     public int countProduct() {
         int count = 0;
@@ -509,7 +511,7 @@ public class ProductDAO extends DBContext {
         }
         return count;
     }
-    
+
     public int countReview(int id) {
         int count = 0;
         String sql = "SELECT COUNT(*) as 'count'\n"
@@ -538,8 +540,8 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-        public void updateProductQuantityPlus(int productId, int quantityToUpdate) {
+
+    public void updateProductQuantityPlus(int productId, int quantityToUpdate) {
         String sql = "UPDATE Product SET Quantity = Quantity + ? WHERE ProductId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -551,6 +553,54 @@ public class ProductDAO extends DBContext {
         }
     }
 
+    //    Count numbers of products low in stock
+    public int CountLowStock() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count' FROM Product where Quantity < 50";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+    //    Get products low in stock
+    public ArrayList<Product> getProductLowStock() {
+        ArrayList<Product> pList = new ArrayList<>();
+        String sql = "SELECT * FROM Product where Quantity < 50";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product prd = new Product();
+                prd.setProductId(rs.getInt("ProductId"));
+                prd.setProductName(rs.getString("ProductName"));
+                prd.setShortDes(rs.getString("ShortDescription"));
+                prd.setLongDes(rs.getString("LongDescription"));
+                prd.setAddDes(rs.getString("AdditionalDescription"));
+                prd.setPrice(rs.getFloat("Price"));
+                prd.setQuantity(rs.getInt("Quantity"));
+                prd.setSize(rs.getString("Size"));
+                prd.setColor(rs.getString("Color"));
+                prd.setCompanyName(rs.getString("CompanyName"));
+                prd.setCateId(rs.getInt("CategoryId"));
+                prd.setSubCateId(rs.getInt("SubCategoryId"));
+                prd.setSold(rs.getInt("Sold"));
+                prd.setIsCustomized(rs.getBoolean("IsCustomized"));
+                prd.setIsActive(rs.getBoolean("IsCustomized"));
+                prd.setCreateDate(rs.getString("CreateDate"));
+                prd.setPathImage(rs.getString("pathImage"));
+                pList.add(prd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+        }
+        return pList;
+    }
+
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
@@ -559,18 +609,17 @@ public class ProductDAO extends DBContext {
 
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
-        Product pro = dao.getProductById(1);
-        System.out.println(pro.getProductName());
-
-        ArrayList<Product> pList = dao.getProductLow();
-//        ArrayList<Product> cList = dao.searchByPrice(15.22, 30.22);
-        ArrayList<Product> cList = dao.getNewProduct();
+//        Product pro = dao.getProductById(1);
+//        System.out.println(pro.getProductName());
+//
+        ArrayList<Product> pList = dao.getProductLowStock();
+////        ArrayList<Product> cList = dao.searchByPrice(15.22, 30.22);
+//        ArrayList<Product> cList = dao.getNewProduct();
 //        for (Product product : pList) {
 //            System.out.println(product);
 //        }
 //        Product p = dao.getProductById(1);
-//        int count = dao.countReview(1);
-        System.out.println(cList);
+        System.out.println(pList);
     }
 
 }

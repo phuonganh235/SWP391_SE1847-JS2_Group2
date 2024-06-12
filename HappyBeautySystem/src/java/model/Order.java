@@ -17,6 +17,15 @@ public class Order {
     public Order() {
     }
 
+    public Order(int OrderId, String CustomerName, String CustomerPhoneNumber, String CustomerAddress, String OrderDate, int Statuss) {
+        this.OrderId = OrderId;
+        this.CustomerName = CustomerName;
+        this.CustomerPhoneNumber = CustomerPhoneNumber;
+        this.CustomerAddress = CustomerAddress;
+        this.OrderDate = OrderDate;
+        this.Statuss = Statuss;
+    }
+
     public Order(int UserId, int PaymentId, String OrderDate, boolean IsCancel, String CustomerName, String CustomerAddress, String CustomerPhoneNumber, int Statuss) {
         this.UserId = UserId;
         this.PaymentId = PaymentId;

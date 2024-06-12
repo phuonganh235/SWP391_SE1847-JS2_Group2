@@ -162,6 +162,7 @@ public class OrderDAO extends DBContext {
 
         return isDeleted;
     }
+
     //
     public boolean updateOrderStatus(int orderId, int status) {
         String sql = "UPDATE Orders SET Statuss = ? WHERE OrderId = ?";
@@ -179,10 +180,42 @@ public class OrderDAO extends DBContext {
         return false;
     }
 
+    //    Count numbers of orders
+    public int CountOrder() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as 'count' FROM Orders";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+
+//    Get order today
+    public ArrayList<Order> getBillByDay() {
+        ArrayList<Order> list = new ArrayList<>();
+        String sql = "Select OrderId, CustomerName, CustomerPhoneNumber, CustomerAddress, "
+                + "  OrderDate, Statuss from [Orders] where CONVERT(Date, OrderDate) = CAST(GETDATE() AS Date)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(8);
-
-        System.out.println(check);
+        int n = dao.CountOrder();
+        
+        System.out.println(n);
     }
 }

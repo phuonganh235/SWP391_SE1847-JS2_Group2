@@ -113,6 +113,12 @@ public class manager extends HttpServlet {
             request.setAttribute("listP", searchProduct);
             request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
         }
+//        Product low in stock
+        if (service.equals("low")){
+            ArrayList<Product> lowProduct = dao.getProductLowStock();
+            request.setAttribute("listP", lowProduct);
+            request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
+        }
     }
 
     @Override
