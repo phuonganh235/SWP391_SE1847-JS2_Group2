@@ -85,7 +85,7 @@ public class Register extends HttpServlet {
         u.setPostCode(postCode);
         u.setRoleId(2);
         String date = daoDate.getDateTimeNow();
-        dao.register(name, username, password, mobile, email, address, postCode, date, 2 ,1);
+        dao.register(name, username, password, mobile, email, address, postCode, date, 2 ,1,"");
         session.setAttribute("message", "Register successfully, please enter Username and Password to login.");
         response.sendRedirect("login");
     }

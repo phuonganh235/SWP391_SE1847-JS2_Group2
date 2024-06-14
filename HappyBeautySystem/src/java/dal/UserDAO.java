@@ -3,7 +3,6 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.User;
@@ -30,7 +29,8 @@ public class UserDAO extends DBContext {
                 u.setRoleId(rs.getInt("RoleId"));
                 u.setCreateDate(rs.getString("CreateDate"));
                 u.setPassword(rs.getString("Password"));
-                u.setStatuss(rs.getInt("Statuss")); // Lấy giá trị trường Statuss
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
                 uList.add(u);
             }
         } catch (Exception e) {
@@ -60,7 +60,8 @@ public class UserDAO extends DBContext {
                         rs.getInt("RoleId"),
                         rs.getString("CreateDate"),
                         rs.getString("Password"),
-                        rs.getInt("Statuss") // Thêm giá trị Statuss vào constructor
+                        rs.getInt("Statuss"),
+                        rs.getString("DateOfBirth") // Lấy giá trị trường dateOfBirth
                 );
             }
         } catch (Exception e) {
@@ -82,7 +83,8 @@ public class UserDAO extends DBContext {
                         rs.getString("Email"), rs.getString("Address"),
                         rs.getString("PostCode"), rs.getString("ImageUrl"),
                         rs.getInt("RoleId"), rs.getString("CreateDate"),
-                        rs.getString("Password"), rs.getInt("Statuss")); // Thêm giá trị Statuss vào constructor
+                        rs.getString("Password"), rs.getInt("Statuss"),
+                        rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
                 return u;
             }
         } catch (Exception e) {
@@ -104,7 +106,8 @@ public class UserDAO extends DBContext {
                         rs.getString("Email"), rs.getString("Address"),
                         rs.getString("PostCode"), rs.getString("ImageUrl"),
                         rs.getInt("RoleId"), rs.getString("CreateDate"),
-                        rs.getString("Password"), rs.getInt("Statuss")); // Thêm giá trị Statuss vào constructor
+                        rs.getString("Password"), rs.getInt("Statuss"),
+                        rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
                 return u;
             }
         } catch (Exception e) {
@@ -130,8 +133,8 @@ public class UserDAO extends DBContext {
     }
 
     // Registers a new user with the provided details
-    public void register(String name, String username, String password, String mobile, String email, String address, String postCode, String createDate, int roleId, int statuss) {
-        String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void register(String name, String username, String password, String mobile, String email, String address, String postCode, String createDate, int roleId, int statuss, String dateOfBirth) {
+        String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, username);
@@ -143,6 +146,7 @@ public class UserDAO extends DBContext {
             ps.setString(8, createDate);
             ps.setString(9, password);
             ps.setInt(10, statuss);
+            ps.setString(11, dateOfBirth); // Thêm giá trị dateOfBirth
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,7 +178,8 @@ public class UserDAO extends DBContext {
                 + "      [Email] = ?,"
                 + "      [Address] = ?,"
                 + "      [PostCode] = ?,"
-                + "      [Statuss] = ?" // Thêm giá trị trường Statuss vào câu lệnh cập nhật
+                + "      [Statuss] = ?,"
+                + "      [DateOfBirth] = ?" // Thêm giá trị trường dateOfBirth vào câu lệnh cập nhật
                 + " WHERE [UserId] = ?";
 
         try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
@@ -184,7 +189,8 @@ public class UserDAO extends DBContext {
             pre.setString(4, user.getAddress());
             pre.setString(5, user.getPostCode());
             pre.setInt(6, user.getStatuss());
-            pre.setInt(7, user.getUserId());
+            pre.setString(7, user.getDateofbirth()); // Thêm giá trị dateOfBirth
+            pre.setInt(8, user.getUserId());
 
             n = pre.executeUpdate();
         } catch (Exception ex) {
@@ -204,53 +210,6 @@ public class UserDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    // Retrieves users by their roleId and statuss
-
-    public ArrayList<User> getUserByRoleIdAndStatuss(int roleId, int statuss) {
-        ArrayList<User> uList = new ArrayList<>();
-        String sql = "SELECT * FROM Users WHERE RoleId = ? AND Statuss = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, roleId);
-            ps.setInt(2, statuss);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                User u = new User();
-                u.setUserId(rs.getInt("UserId"));
-                u.setName(rs.getString("Name"));
-                u.setUsername(rs.getString("Username"));
-                u.setMobile(rs.getString("Mobile"));
-                u.setEmail(rs.getString("Email"));
-                u.setAddress(rs.getString("Address"));
-                u.setPostCode(rs.getString("PostCode"));
-                u.setImage(rs.getString("ImageUrl"));
-                u.setRoleId(rs.getInt("RoleId"));
-                u.setCreateDate(rs.getString("CreateDate"));
-                u.setPassword(rs.getString("Password"));
-                u.setStatuss(rs.getInt("Statuss"));
-                uList.add(u);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return uList;
-    }
-
-    // Method to check if user exists
-    public boolean userExists(String username) {
-        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     // Retrieves users by their roleId and statuss
@@ -276,12 +235,29 @@ public class UserDAO extends DBContext {
                 u.setCreateDate(rs.getString("CreateDate"));
                 u.setPassword(rs.getString("Password"));
                 u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
                 uList.add(u);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return uList;
+    }
+
+    // Method to check if user exists
+    public boolean userExists(String username) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     //    Count numbers of users

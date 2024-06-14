@@ -78,7 +78,7 @@ public class ManageAccount extends HttpServlet {
                     }
 
                     if (isValid) {
-                        User newUser = new User(userid, name, "", phone, email, address, postCode, "", 2, "", "", 1);
+                        User newUser = new User(userid, name, "", phone, email, address, postCode, "", 2, "", "", 1 ,"11-12-2003");
                         userDao.updateUser(newUser);
                         session.setAttribute("inforUserLogin", newUser); // Update the session attribute
                         request.setAttribute("account", newUser); // Set the updated user in the request scope

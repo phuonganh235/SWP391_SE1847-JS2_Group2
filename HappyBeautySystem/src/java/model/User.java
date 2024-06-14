@@ -15,11 +15,12 @@ public class User {
     private String createDate;
     private String password;
     private int Statuss;
+    private String dateofbirth;
 
     public User() {
     }
 
-    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, String createDate, String password, int Statuss) {
+    public User(int userId, String name, String username, String mobile, String email, String address, String postCode, String image, int roleId, String createDate, String password, int Statuss, String dateofbirth) {
         this.userId = userId;
         this.name = name;
         this.username = username;
@@ -32,6 +33,7 @@ public class User {
         this.createDate = createDate;
         this.password = password;
         this.Statuss = Statuss;
+        this.dateofbirth = dateofbirth;
     }
 
     public int getUserId() {
@@ -130,11 +132,20 @@ public class User {
         this.Statuss = Statuss;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + ", Statuss=" + Statuss + '}';
+    public String getDateofbirth() {
+        return dateofbirth;
     }
 
+    public void setDateofbirth(String dateofbirth) {
+        this.dateofbirth = dateofbirth;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + ", Statuss=" + Statuss + ", dateofbirth=" + dateofbirth + '}';
+    }
+
+    
 
     
 }
