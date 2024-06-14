@@ -29,8 +29,12 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
-
-
+        <style>
+            .label-container {
+                display: flex;
+                gap: 100px; /* Khoảng cách giữa các nhãn, có thể điều chỉnh */
+            }
+        </style>
     </head>
 
     <body>
@@ -243,7 +247,12 @@
                                 <div class="col-lg-4 col-md-4">
                                     <div class="product__item">                                         
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
-                                            <div class="label new">New</div>
+                                                <c:if test="${top8New.contains(p.getProductId())}">
+                                                    <div class="label new" style="border-radius: 10px;">New</div>
+                                                </c:if>
+                                                <c:if test="${lowInStock.contains(p.getProductId())}">
+                                                    <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                                </c:if>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
                                                 <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">

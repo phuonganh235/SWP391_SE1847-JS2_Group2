@@ -46,95 +46,7 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
-                        <input type="hidden" name="service" value="search">
-                        <input class="form-control border-0" type="search" placeholder="Search" name="txt">
-                        <button type="submit" class="btn btn-primary ms-2">Search</button>
-                    </form>
-                    <div class="navbar-nav align-items-center ms-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-envelope me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Message</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all message</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-bell me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Notificatin</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Profile updated</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">New user added</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Password changed</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all notifications</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">John Doe</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <jsp:include page="navbarAdmin.jsp"/>
                 <!-- Navbar End -->
 
                 <!-- Product Management Start -->
@@ -142,7 +54,12 @@
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">Product Management</h6>
-                            <a href="manager">Show All</a>
+                            <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
+                                <input type="hidden" name="service" value="search">
+                                <input class="form-control border-0" type="search" placeholder="Search" name="txt">
+                                <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
+                                        type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
+                            </form>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
                         </div>
                         <!-- Load Product -->
@@ -269,7 +186,7 @@
                                                 <label for="isActive" class="form-label">Is Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
-                    
+
                                             <div class="mb-3">
                                                 <label for="pathImage" class="form-label">PathImage</label>
                                                 <input type="text" class="form-control" id="pathImage" name="pathImage" required>
@@ -307,134 +224,134 @@
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                function formatFullName(name) {
-                    name = name.trim().replace(/\s+/g, ' ');
-                    return name;
-                }
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                function formatFullName(name) {
+                                                    name = name.trim().replace(/\s+/g, ' ');
+                                                    return name;
+                                                }
 
-                document.getElementById("productName").oninput = function () {
-                    var name = this.value;
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("nameError").innerHTML = "Product name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("nameError").innerHTML = "Product name should not start with a space.";
-                    } else {
-                        document.getElementById("nameError").innerHTML = "";
-                    }
-                };
-                document.getElementById("shortDes").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("shortDesError").innerHTML = "Short Description name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space.";
-                    } else {
-                        document.getElementById("shortDesError").innerHTML = "";
-                    }
-                };
-                document.getElementById("longDes").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("longDesError").innerHTML = "Long Description name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("longDesError").innerHTML = "Long Description should not start with a space.";
-                    } else {
-                        document.getElementById("longDesError").innerHTML = "";
-                    }
-                };
-                document.getElementById("addDes").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("addDesError").innerHTML = "Address Description name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("addDesError").innerHTML = "Address Description should not start with a space.";
-                    } else {
-                        document.getElementById("addDesError").innerHTML = "";
-                    }
-                };
-                document.getElementById("companyName").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("companyNameError").innerHTML = "Company name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("companyNameError").innerHTML = "Company name should not start with a space.";
-                    } else {
-                        document.getElementById("companyNameError").innerHTML = "";
-                    }
-                };
-                document.getElementById("pathImage").oninput = function () {
-                    var name = this.value; 
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("pathImageError").innerHTML = "PathImage must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space.";
-                    } else {
-                        document.getElementById("pathImageError").innerHTML = "";
-                    }
-                };
-            });
+                                                document.getElementById("productName").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("nameError").innerHTML = "Product name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("nameError").innerHTML = "Product name should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("nameError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("shortDes").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("shortDesError").innerHTML = "Short Description name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("shortDesError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("longDes").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("longDesError").innerHTML = "Long Description name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("longDesError").innerHTML = "Long Description should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("longDesError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("addDes").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("addDesError").innerHTML = "Address Description name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("addDesError").innerHTML = "Address Description should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("addDesError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("companyName").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("companyNameError").innerHTML = "Company name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("companyNameError").innerHTML = "Company name should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("companyNameError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("pathImage").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("pathImageError").innerHTML = "PathImage must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("pathImageError").innerHTML = "";
+                                                    }
+                                                };
+                                            });
 
-            
-            var numberFields = ["price", "quantity", "subCateId", "sold"];
 
-        numberFields.forEach(function(fieldId) {
-            var field = document.getElementById(fieldId);
-            field.addEventListener("input", function() {
-            if (this.value < 0) {
-                this.value = 0;
-                }
-             });
-        });
+                                            var numberFields = ["price", "quantity", "subCateId", "sold"];
 
-    function validateForm() {
-        var isValid = true;
+                                            numberFields.forEach(function (fieldId) {
+                                                var field = document.getElementById(fieldId);
+                                                field.addEventListener("input", function () {
+                                                    if (this.value < 0) {
+                                                        this.value = 0;
+                                                    }
+                                                });
+                                            });
 
-        var name = document.getElementById("productName").value;
-        var shortDes = document.getElementById("shortDes").value;
-        var longDes = document.getElementById("longDes").value;
-        var addDes = document.getElementById("addDes").value;
-        var companyName = document.getElementById("companyName").value;
-        var pathImage = document.getElementById("pathImage").value;
+                                            function validateForm() {
+                                                var isValid = true;
 
-        name = name.trim().replace(/\s+/g, ' ');
-        document.getElementById("productName").value = name;
+                                                var name = document.getElementById("productName").value;
+                                                var shortDes = document.getElementById("shortDes").value;
+                                                var longDes = document.getElementById("longDes").value;
+                                                var addDes = document.getElementById("addDes").value;
+                                                var companyName = document.getElementById("companyName").value;
+                                                var pathImage = document.getElementById("pathImage").value;
 
-        if (name === "" || /^\s/.test(name)) {
-            document.getElementById("nameError").innerHTML = "Product name should not start with a space and must not be empty.";
-            isValid = false;
-        }
-        if (shortDes === "" || /^\s/.test(shortDes)) {
-            document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space and must not be empty.";
-            isValid = false;
-        }
-        if (longDes === "" || /^\s/.test(longDes)) {
-            document.getElementById("longDesError").innerHTML = "Long Description should not start with a space and must not be empty.";
-            isValid = false;
-        }
-        if (addDes === "" || /^\s/.test(addDes)) {
-            document.getElementById("addDesError").innerHTML = "Address Description should not start with a space and must not be empty.";
-            isValid = false;
-        }
-        if (companyName === "" || /^\s/.test(companyName)) {
-            document.getElementById("companyNameError").innerHTML = "Company name should not start with a space and must not be empty.";
-            isValid = false;
-        }
-        if (pathImage === "" || /^\s/.test(pathImage)) {
-            document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space and must not be empty.";
-            isValid = false;
-        }
+                                                name = name.trim().replace(/\s+/g, ' ');
+                                                document.getElementById("productName").value = name;
 
-        return isValid;
-    }
+                                                if (name === "" || /^\s/.test(name)) {
+                                                    document.getElementById("nameError").innerHTML = "Product name should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
+                                                if (shortDes === "" || /^\s/.test(shortDes)) {
+                                                    document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
+                                                if (longDes === "" || /^\s/.test(longDes)) {
+                                                    document.getElementById("longDesError").innerHTML = "Long Description should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
+                                                if (addDes === "" || /^\s/.test(addDes)) {
+                                                    document.getElementById("addDesError").innerHTML = "Address Description should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
+                                                if (companyName === "" || /^\s/.test(companyName)) {
+                                                    document.getElementById("companyNameError").innerHTML = "Company name should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
+                                                if (pathImage === "" || /^\s/.test(pathImage)) {
+                                                    document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space and must not be empty.";
+                                                    isValid = false;
+                                                }
 
-    
+                                                return isValid;
+                                            }
+
+
         </script>
 
 

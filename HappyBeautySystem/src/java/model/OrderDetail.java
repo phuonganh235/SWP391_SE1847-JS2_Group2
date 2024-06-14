@@ -9,7 +9,7 @@ public class OrderDetail {
 
     public OrderDetail() {
     }
-
+    
     public OrderDetail(int OrderID, int ProductID, int Quantity, double Price) {
         this.OrderID = OrderID;
         this.ProductID = ProductID;

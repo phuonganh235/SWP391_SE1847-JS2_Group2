@@ -208,8 +208,8 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-//    Sellect the trending products 
-    public ArrayList<Product> getTrendProduct() {
+//    Sellect the Popular products 
+    public ArrayList<Product> getPopularProduct() {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "SELECT TOP 3 * FROM [dbo].[Product]\n"
                 + "ORDER BY Quantity DESC";
