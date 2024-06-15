@@ -13,8 +13,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import model.Category;
 import model.Product;
+import model.ProductImage;
 
 /**
  *
@@ -55,6 +58,8 @@ public class product extends HttpServlet {
 
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
+
+//        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
             ArrayList<Product> productList = d.getAllProduct();
             ArrayList<Category> categoryList = c.getAllCategories();
@@ -75,6 +80,14 @@ public class product extends HttpServlet {
             // The end index cannot exceed the number of products
             end = Math.min(page * numperpage, size);
             ArrayList<Product> productByPage = d.getListByPage(productList, start, end);
+            ArrayList<Product> productNew = d.getNewProduct();
+            // Save a list of IDs of new products
+            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+            ArrayList<Product> productLowInStock = d.getProductLowStock();
+            // Save a list of IDs of low products
+            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("lowInStock", lowProductIds);
+            request.setAttribute("top8New", newProductIds);
             request.setAttribute("page", page);
             request.setAttribute("num", num);
             request.setAttribute("productList", productByPage);
@@ -100,6 +113,14 @@ public class product extends HttpServlet {
             start = (page - 1) * numperpage;
             end = Math.min(page * numperpage, size);
             ArrayList<Product> product = d.getListByPage(productList, start, end);
+            ArrayList<Product> productNew = d.getNewProduct();
+            // Save a list of IDs of new products
+            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+            ArrayList<Product> productLowInStock = d.getProductLowStock();
+            // Save a list of IDs of low products
+            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("lowInStock", lowProductIds);
+            request.setAttribute("top8New", newProductIds);
             request.setAttribute("page", page);
             request.setAttribute("num", num);
             request.setAttribute("categoryList", category);
@@ -110,6 +131,14 @@ public class product extends HttpServlet {
 //        Sort Product
         if (action.equals("sort")) {
             String type = request.getParameter("type");
+            ArrayList<Product> productNew = d.getNewProduct();
+            // Save a list of IDs of new products
+            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("top8New", newProductIds);
+            ArrayList<Product> productLowInStock = d.getProductLowStock();
+            // Save a list of IDs of low products
+            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("lowInStock", lowProductIds);
             if (type.equals("low")) {
                 ArrayList<Product> productList = d.getProductLow();
                 ArrayList<Category> category = c.getAllCategories();
@@ -133,7 +162,7 @@ public class product extends HttpServlet {
                 request.setAttribute("productList", product);
                 request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
             }
-            
+
             if (type.equals("high")) {
                 ArrayList<Product> productList = d.getProductHigh();
                 ArrayList<Category> category = c.getAllCategories();
@@ -212,6 +241,8 @@ public class product extends HttpServlet {
             int productId = Integer.parseInt(product_id);
             int product_category = Integer.parseInt(request.getParameter("product_category"));
             CategoryDAO dao = new CategoryDAO();
+//            get image of one product
+            ArrayList<ProductImage> i = d.getProductImage(productId);
             int countReview = d.countReview(productId);
 
 //            Retrieve products by id
@@ -223,7 +254,7 @@ public class product extends HttpServlet {
 //           To retrieve the product category
             Category cat = dao.getCategoryById(product_category);
             request.setAttribute("Category", cat);
-
+            request.setAttribute("image", getPath(i));
             request.setAttribute("ProductData", product);
             request.setAttribute("countReview", countReview);
             request.setAttribute("ProductCategory", productByCategory);
@@ -232,11 +263,33 @@ public class product extends HttpServlet {
         }
     }
 
+//get Image url
+    public ArrayList<String> getPath(ArrayList<ProductImage> list) {
+        ArrayList<String> paths = new ArrayList<>();
+
+        for (ProductImage imageProduct : list) {
+            String path = imageProduct.getImageUrl();
+            // Remove all occurrences of the character "
+            path = path.replace("\"", "");
+            paths.add(path);
+        }
+
+        return paths;
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
+        ArrayList<Product> productNew = d.getNewProduct();
+        // Save a list of IDs of new products
+        List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+        request.setAttribute("top8New", newProductIds);
+        ArrayList<Product> productLowInStock = d.getProductLowStock();
+        // Save a list of IDs of low products
+        List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+        request.setAttribute("lowInStock", lowProductIds);
         String service = request.getParameter("service") == null ? "" : request.getParameter("service");
         if (service.equalsIgnoreCase("search")) {
             String text = request.getParameter("text");

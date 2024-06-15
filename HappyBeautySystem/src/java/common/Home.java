@@ -27,17 +27,17 @@ public class Home extends HttpServlet {
         String password = (String) session.getAttribute("password");
         
         ArrayList<Product> product = pDao.getNewProduct();
-        ArrayList<Product> productTrend = pDao.getTrendProduct();
+        ArrayList<Product> productPopular = pDao.getPopularProduct();
         ArrayList<Product> productSeller = pDao.getSellerProduct();
         
-        if(uDao.getRole(username, password) == 1){
-            request.getRequestDispatcher("managerList").include(request, response);
-            return;
-        }
+//        if(uDao.getRole(username, password) == 3){
+//            request.getRequestDispatcher("dashboard").forward(request, response);
+//        }else{
         request.setAttribute("top8New", product);
-        request.setAttribute("topTrend", productTrend);
+        request.setAttribute("topPopular", productPopular);
         request.setAttribute("topSeller", productSeller);
         request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
+//        }
     } 
 
     @Override

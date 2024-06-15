@@ -33,19 +33,21 @@ public class Dashboard extends HttpServlet {
             String username = (String) session.getAttribute("username");
             String password = (String) session.getAttribute("password");
 
-            if (uDao.getRole(username, password) == 2) {
+            if (uDao.getRole(username, password) == 3) {
                 int countproductReview = pDao.countReview(1);
                 int countCustomer = uDao.CountUser();
                 int countProduct = pDao.countProduct();
                 int countOrder = oDao.CountOrder();
                 int countLow = pDao.CountLowStock();
                 ArrayList<Order> billbyday = oDao.getBillByDay();
+                ArrayList<Order> top3Customer = oDao.getTop2Customer();
                 request.setAttribute("review", countproductReview);
                 request.setAttribute("user", countCustomer);
                 request.setAttribute("product", countProduct);
                 request.setAttribute("order", countOrder);
                 request.setAttribute("low", countLow);
                 request.setAttribute("billbyday", billbyday);
+                request.setAttribute("top3Customer", top3Customer);
 
 //                Chart
                 OrderDetailDAO dao = new OrderDetailDAO();

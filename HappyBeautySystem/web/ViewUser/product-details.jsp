@@ -56,38 +56,30 @@
             <div class="container">
                 <div class="row">
                     <!--Hiển thị chi tiết ảnh sp-->
-                    <!--                    <div class="col-lg-6">
-                                            <div class="product__details__pic">
-                                                <div class="product__details__pic__left product__thumb nice-scroll">
-                                                    <a class="pt active" href="#product-1">
-                                                        <img src="ViewUser/img/product/details/product-1.jpg" alt="">
-                                                    </a>
-                                                    <a class="pt" href="#product-2">
-                                                        <img src="img/product/details/thumb-2.jpg" alt="">
-                                                    </a>
-                                                    <a class="pt" href="#product-3">
-                                                        <img src="img/product/details/thumb-3.jpg" alt="">
-                                                    </a>
-                                                    <a class="pt" href="#product-4">
-                                                        <img src="img/product/details/thumb-4.jpg" alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product__details__slider__content">
-                                                    <div class="product__details__pic__slider owl-carousel">
-                                                        <img data-hash="product-1" class="product__big__img" src="ViewUser/img/product/details/product-1.jpg" alt="">
-                                                        <img data-hash="product-2" class="product__big__img" src="ViewUser/img/product/details/product-3.jpg" alt="">
-                                                        <img data-hash="product-3" class="product__big__img" src="ViewUser/img/product/details/product-2.jpg" alt="">
-                                                        <img data-hash="product-4" class="product__big__img" src="ViewUser/img/product/details/product-4.jpg" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
-
                     <div class="col-lg-6">
                         <div class="product__details__pic">
-                            <img src="${ProductData.getPathImage()}" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product">
+                            <div class="product__details__pic__left product__thumb nice-scroll">
+                                <c:forEach items="${image}" var="i">
+                                    <a class="pt" href="${i}">
+                                        <img style = "border-radius: 40px; height: 180px; width: 150px;" alt="image product" src="${i}" alt="">
+                                    </a>
+                                </c:forEach>
+                            </div>
+                            <div class="product__details__slider__content">
+                                <div class="product__details__pic__slider owl-carousel">
+                                    <img data-hash="product-1" class="product__big__img" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${ProductData.getPathImage()}" alt="">
+                                    <c:forEach items="${image}" var="i">
+                                        <img data-hash="product-1" class="product__big__img" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${i}" alt="">
+                                    </c:forEach>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!--                    <div class="col-lg-6">
+                                            <div class="product__details__pic">
+                                                <img src="${ProductData.getPathImage()}" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product">
+                                            </div>
+                                        </div>-->
 
                     <div class="col-lg-6">
                         <div class="product__details__text">
@@ -125,14 +117,14 @@
                                     </script>
                                     <!--<div class="pro-qty">-->
                                     <!--<div>-->
-                                        <input style ="border: 2px solid #fddfdf;
-                                               border-radius: 40px;
-                                               width: 120px;
-                                               height: 50px;
-                                               text-align: center;
-                                               background-color: #fddfdf;
-                                               box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);" 
-                                               min = "1" max = ${ProductData.getQuantity()} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" value="${param.quantity}">
+                                    <input style ="border: 2px solid #fddfdf;
+                                           border-radius: 40px;
+                                           width: 120px;
+                                           height: 50px;
+                                           text-align: center;
+                                           background-color: #fddfdf;
+                                           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);" 
+                                           min = "1" max = ${ProductData.getQuantity()} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" value="${param.quantity}">
                                     <!--</div>-->
                                     <div style="display: block; text-align: center;">
                                         <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
@@ -141,12 +133,12 @@
 
                                 <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                                 <div>
-                                  <ul>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                                </ul>  
+                                    <ul>
+                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                    </ul>  
                                 </div>
-                                
+
                             </div>
                             <div class="product__details__widget">
                                 <ul>

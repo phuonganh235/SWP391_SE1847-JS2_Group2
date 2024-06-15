@@ -94,7 +94,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 mix women" style="">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="">
-                                    <div class="label new">New</div>
+                                    <div class="label new" style="border-radius: 10px;">New</div>
                                     <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
                                         <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand">
 
@@ -176,9 +176,9 @@
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="trend__content">
                             <div class="section-title">
-                                <h4>Hot Trend</h4>
+                                <h4>Popular Product</h4>
                             </div>
-                            <c:forEach items="${requestScope.topTrend}" var="p">
+                            <c:forEach items="${requestScope.topPopular}" var="p">
                                 <div class="trend__item">
                                     <div class="trend__item__pic">
                                         <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">

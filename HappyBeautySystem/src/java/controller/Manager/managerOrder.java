@@ -82,6 +82,12 @@ public class managerOrder extends HttpServlet {
                 request.setAttribute("listAllOrder", listOrder);
                 request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
             }
+            if (service.equals("viewOrderToday")) {
+                // list order today
+                ArrayList<Order> orderToday = daoOrder.getBillByDay();
+                request.setAttribute("listAllOrder", orderToday);
+                request.getRequestDispatcher("ViewAdmin/viewOrderToday.jsp").forward(request, response);
+            }
         }
     }
 
