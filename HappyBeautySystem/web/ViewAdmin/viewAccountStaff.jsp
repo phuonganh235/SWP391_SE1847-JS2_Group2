@@ -49,21 +49,105 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <jsp:include page="navbarAdmin.jsp"/>
+                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                    </a>
+                    <a href="#" class="sidebar-toggler flex-shrink-0">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <!--                    search-->
+                    <form class="d-none d-md-flex ms-4" action="manageAccountAdmin?service=search" method="post">
+                        <input type="hidden" name="service" value="search">
+                        <input class="form-control border-0" type="search" placeholder="Search by name" name="search" value="${requestScope.valueSearch}">
+                        <button type="submit" class="btn btn-primary ms-2">Search</button>
+                    </form>
+                    <div class="navbar-nav align-items-center ms-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-envelope me-lg-2"></i>
+                                <span class="d-none d-lg-inline-flex">Message</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                            <small>15 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                            <small>15 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                        <div class="ms-2">
+                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                            <small>15 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item text-center">See all message</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-bell me-lg-2"></i>
+                                <span class="d-none d-lg-inline-flex">Notificatin</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                <a href="#" class="dropdown-item">
+                                    <h6 class="fw-normal mb-0">Profile updated</h6>
+                                    <small>15 minutes ago</small>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item">
+                                    <h6 class="fw-normal mb-0">New user added</h6>
+                                    <small>15 minutes ago</small>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item">
+                                    <h6 class="fw-normal mb-0">Password changed</h6>
+                                    <small>15 minutes ago</small>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a href="#" class="dropdown-item text-center">See all notifications</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                <span class="d-none d-lg-inline-flex">John Doe</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                <a href="#" class="dropdown-item">My Profile</a>
+                                <a href="#" class="dropdown-item">Settings</a>
+                                <a href="#" class="dropdown-item">Log Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
                 <!-- Navbar End -->
+
+
 
                 <!-- list all staff Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0 text-center"> Management account staff</h6>
-                            <!--                    search-->
-                            <form class="d-none d-md-flex ms-4" action="manageAccountAdmin?service=search" method="post">
-                                <input type="hidden" name="service" value="search">
-                                <input class="form-control border-0" type="search" placeholder="Search by name" name="search" value="${requestScope.valueSearch}">
-                                <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
-                                        type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
-                            </form>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAccountStaffModal">Add Account Staff</button>
                         </div>
                         <!-- Load account staff -->
@@ -72,12 +156,12 @@
                                 <thead>
                                     <tr class="text-dark">
                                         <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
+                                        <th scope="col">Full Name</th>
                                         <th scope="col">Phone</th>
-                                        <th scope="col">Gender</th>
-                                        <th scope="col">Password</th>
-
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">CreateDate</th>
+                                        <th scope="col">Birthday</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -85,27 +169,22 @@
                                     <c:forEach items="${requestScope.dataStaff}" var="dataStaff">
                                         <tr>
 
-                                            <td>${dataStaff.staffId}</td>
+                                            <td>${dataStaff.userId}</td>
                                             <td>${dataStaff.name}</td>
+                                            <td>${dataStaff.mobile}</td>
                                             <td>${dataStaff.email}</td>
-                                            <td>${dataStaff.phone}</td>
-                                            <td>${dataStaff.gender}</td>
-                                            <td>   <div class="password-container">
-                                                    <input type="password" class="form-control d-inline-block" id="password${dataStaff.staffId}" value="${dataStaff.password}" readonly style="width: 85%; display: inline-block;">
-                                                    <button type="button" class="btn btn-sm btn-secondary" onclick="togglePassword('${dataStaff.staffId}')">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                </div></td>
-
+                                            <td>${dataStaff.address}</td>
+                                            <td>${dataStaff.createDate}</td>
+                                            <td>${dataStaff.dateofbirth}</td>
                                             <td>
                                                 <form action="manageAccountAdmin" method="post" style="display:inline;">
                                                     <input type="hidden" name="service" value="update"/>
-                                                    <input type="hidden" name="id" value="${dataStaff.staffId}"/>
+                                                    <input type="hidden" name="id" value="${dataStaff.userId}"/>
                                                     <button type="submit" class="btn btn-sm btn-primary">
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>
                                                 </form>
-                                                <a href="#" onclick="doDeleteStaff('${dataStaff.staffId}')"> <i class="fas fa-trash-alt"></i></a>
+                                                <a href="#" onclick="doDeleteStaff('${dataStaff.userId}')"> <i class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -122,53 +201,52 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="redirectToListAllStaff()"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="addCategoryForm" action="manageAccountAdmin?service=insertStaff" method="post">
-
+                                        <form id="addStaffForm" action="manageAccountAdmin?service=insertStaff" method="post" >
                                             <div class="mb-3">
-                                                <label for="nameStaff" class="form-label">Full Name</label>
-                                                <input type="text" class="form-control" id="nameStaff" name="name"value="${not empty param.name ? param.name : ''}" required>
-                                                <c:if test="${not empty errorName}">
-                                                    <div class="text-danger">${errorName}</div>
+                                                <label for="name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control" id="name" name="name" value="${not empty param.name ? param.name : ''}" required>
+                                                <div id="nameError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">User Name</label>
+                                                <input type="text" class="form-control" id="username" name="username" value="${not empty param.username ? param.username : ''}"required>
+                                                <div id="usernameError" class="form-text text-danger fst-italic"></div>
+                                                <c:if test="${not empty requestScope.errorUsrNameExit}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        ${requestScope.errorUsrNameExit}
+                                                    </div>
                                                 </c:if>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input class="form-control" id="email" name="email" value="${not empty param.email ? param.email : ''}" required>
-                                                <c:if test="${not empty errorEmail}">
-                                                    <div class="text-danger">${errorEmail}</div>
-                                                </c:if>
-                                                <c:if test="${not empty errorEmailExit}">
-                                                    <div class="text-danger">${errorEmailExit}</div>
-                                                </c:if>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="phone" class="form-label">Phone</label>
-                                                <input class="form-control" id="phone" name="phone" value="${not empty param.phone ? param.phone : ''}" required>
-                                                <c:if test="${not empty errorPhone}">
-                                                    <div class="text-danger">${errorPhone}</div>
+                                                <input type="email" class="form-control" id="email" name="email" value="${not empty param.email ? param.email : ''}" required>
+                                                <div id="emailError" class="form-text text-danger fst-italic"></div>
+                                                <c:if test="${not empty requestScope.errorEmailExit}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        ${requestScope.errorEmailExit}
+                                                    </div>
                                                 </c:if>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="gender" class="form-label">Gender</label>
-                                                <input class="form-control" id="gender" name="gender" value="${not empty param.gender ? param.gender : ''}" required>
-                                                <c:if test="${not empty errorGender}">
-                                                    <div class="text-danger">${errorGender}</div>
-                                                </c:if>
+                                                <label for="mobile" class="form-label">Phone</label>
+                                                <input type="tel" class="form-control" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : ''}" required>
+                                                <div id="mobileError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address</label>
+                                                <input type="text" class="form-control" id="address" name="address" value="${not empty param.address ? param.address : ''}" required>
+                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="birth" class="form-label">Date of birth</label>
+                                                <input type="date" class="form-control" id="birth" name="birth" value="${not empty param.birth ? param.birth : ''}" required>
+                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
                                                 <input type="password" class="form-control" id="password" name="password" value="${not empty param.password ? param.password : ''}" required>
-
-                                                <c:if test="${not empty errorPassword}">
-                                                    <div class="text-danger">${errorPassword}</div>
-                                                </c:if>
-                                                <c:if test="${not empty errorPasswordExit}">
-                                                    <div class="text-danger">${errorPasswordExit}</div>
-                                                </c:if>
-
+                                                <div id="passwordError" class="form-text text-danger fst-italic"></div>
                                             </div>
-
-
                                             <button type="submit" class="btn btn-primary">Add</button>
                                         </form>
                                     </div>
@@ -189,53 +267,59 @@
                                         <form id="updateStaffForm" action="manageAccountAdmin?service=edit" method="post">
                                             <div class="form-group">
                                                 <label for="id">ID</label>
-                                                <input type="text" class="form-control" id="id" name="staffId" value="${staff.staffId}" readonly="">
+                                                <input type="text" class="form-control" id="id" name="staffId" value="${staff.userId}" readonly="">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="updateNameStaff">Full Name</label>
-                                                <input type="text" class="form-control" id="updateNameStaff" name="name" value="${param.name != null ? param.name : staff.name}" required>
-                                                <c:if test="${not emptyerrorNameUpdateStaff}">
-                                                    <div class="text-danger">${errorNameUpdateStaff}</div>
-                                                </c:if>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="updateEmail">Email</label>
-                                                <input type="email" class="form-control" id="updateEmail" name="email" value="${param.email != null ? param.email : staff.email}" required>
-                                                <c:if test="${not empty errorEmailUpdateStaff}">
-                                                    <div class="text-danger">${errorEmailUpdateStaff}</div>
-                                                </c:if>
-                                                <c:if test="${not empty errorEmailExitUpdateStaff}">
-                                                    <div class="text-danger">${errorEmailExitUpdateStaff}</div>
-                                                </c:if>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="updatePhone">Phone</label>
-                                                <input type="text" class="form-control" id="updatePhone" name="phone" value="${param.phone != null ? param.phone : staff.phone}" required>
-                                                <c:if test="${not empty errorPhoneUpdateStaff}">
-                                                    <div class="text-danger">${errorPhoneUpdateStaff}</div>
-                                                </c:if>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="updateGender">Gender</label>
-                                                <input type="text" class="form-control" id="updateGender" name="gender" value="${param.gender != null ? param.gender : staff.gender}" required>
-                                                <c:if test="${not empty errorGenderUpdateStaff}">
-                                                    <div class="text-danger">${errorGenderUpdateStaff}</div>
-                                                </c:if>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="updatePassword">Password</label>
-                                                <input type="password" class="form-control" id="updatePassword" name="password" value="${param.password != null ? param.password : staff.password}" required>
-                                                <c:if test="${not empty errorPasswordUpdateStaff}">
-                                                    <div class="text-danger">${errorPasswordUpdateStaff}</div>
-                                                </c:if>
-                                                <c:if test="${not empty errorPasswordExitUpdateStaff}">
-                                                    <div class="text-danger">${errorPasswordExitUpdateStaff}</div>
-                                                </c:if>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Update</button>
 
-
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control" id="name" name="name" value="${not empty param.name ? param.name : staff.name}" required>
+                                                <div id="nameError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">User Name</label>
+                                                <input type="text" class="form-control" id="username" name="username" value="${not empty param.username ? param.username : staff.username}"required>
+                                                <div id="usernameError" class="form-text text-danger fst-italic"></div>
+                                                <c:if test="${not empty requestScope.errorUsrNameExit}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        ${requestScope.errorUsrNameExit}
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="${not empty param.email ? param.email : staff.email}" required>
+                                                <div id="emailError" class="form-text text-danger fst-italic"></div>
+                                                <c:if test="${not empty requestScope.errorEmailExit}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        ${requestScope.errorEmailExit}
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="mobile" class="form-label">Phone</label>
+                                                <input type="tel" class="form-control" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : staff.mobile}" required>
+                                                <div id="mobileError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address</label>
+                                                <input type="text" class="form-control" id="address" name="address" value="${not empty param.address ? param.address : staff.address}" required>
+                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="birth" class="form-label">Date of birth</label>
+                                                <input type="date" class="form-control" id="birth" name="birth" value="${not empty param.birth ? param.birth : staff.dateofbirth}" required>
+                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" value="${not empty param.password ? param.password : staff.password}"  required>
+                                                <div id="passwordError" class="form-text text-danger fst-italic"></div>
+                                            </div>              
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-success" value="Update">
+                                            </div>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
@@ -265,16 +349,16 @@
         <script src="js/main.js"></script>
         <script>
                                             //function delete
-                                            function doDeleteStaff(staffId) {
-                                                if (confirm("are you sure to delete StaffID = " + staffId)) {
-                                                    window.location = "manageAccountAdmin?service=delete&id=" + staffId;
+                                            function doDeleteStaff(userId) {
+                                                if (confirm("are you sure to delete StaffID = " + userId)) {
+                                                    window.location = "manageAccountAdmin?service=delete&id=" + userId;
                                                 }
                                             }
 
 
                                             $(document).ready(function () {
                                                 // Insert
-            <c:if test="${not empty error}">
+            <c:if test="${not empty requestScope.errorUsrNameExit || not empty requestScope.errorEmailExit}">
                                                 $('#addAccountStaffModal').modal('show');
             </c:if>
                                                 // Update
@@ -296,6 +380,74 @@
                                             function redirectToListAllStaff() {
                                                 window.location.href = 'manageAccountAdmin?service=ListAllStaff';
                                             }
+                                            //validate form
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                                                var mobilePattern = /^(?:\+84|0)(3|5|7|8|9)[0-9]{8}$/;
+                                                var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+                                                document.getElementById("name").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("nameError").innerHTML = "Full name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("nameError").innerHTML = "Full name should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("nameError").innerHTML = "";
+                                                    }
+                                                };
+
+                                                document.getElementById("username").oninput = function () {
+                                                    var username = this.value;
+                                                    if (/\s/.test(username)) {
+                                                        document.getElementById("usernameError").innerHTML = "Username should not contain spaces.";
+                                                    } else {
+                                                        document.getElementById("usernameError").innerHTML = "";
+                                                    }
+                                                };
+
+                                                document.getElementById("email").oninput = function () {
+                                                    var email = this.value;
+                                                    if (!emailPattern.test(email)) {
+                                                        document.getElementById("emailError").innerHTML = "Please enter a valid email address.";
+                                                    } else {
+                                                        document.getElementById("emailError").innerHTML = "";
+                                                    }
+                                                };
+
+                                                document.getElementById("address").oninput = function () {
+                                                    var address = this.value;
+                                                    this.value = address;
+                                                    if (address === "") {
+                                                        document.getElementById("addressError").innerHTML = "Address must not be empty.";
+                                                    } else if (/^\s/.test(address)) {
+                                                        document.getElementById("addressError").innerHTML = "Address should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("addressError").innerHTML = "";
+                                                    }
+                                                };
+
+                                                document.getElementById("mobile").oninput = function () {
+                                                    var mobile = this.value;
+                                                    if (!mobilePattern.test(mobile)) {
+                                                        document.getElementById("mobileError").innerHTML = "Please enter a valid Vietnam mobile number.";
+                                                    } else {
+                                                        document.getElementById("mobileError").innerHTML = "";
+                                                    }
+                                                };
+
+                                                document.getElementById("password").oninput = function () {
+                                                    var password = this.value;
+                                                    if (!passwordPattern.test(password)) {
+                                                        document.getElementById("passwordError").innerHTML = "Password must be at least 8 characters long and include at least one letter, one number, and one special character.";
+                                                    } else {
+                                                        document.getElementById("passwordError").innerHTML = "";
+                                                    }
+                                                };
+                                            });
+
+
         </script>
     </body>
 
