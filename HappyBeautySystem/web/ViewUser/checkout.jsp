@@ -141,6 +141,8 @@
                                         VNPay
                                         <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
+                                     
+                                        <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
 
                                     <label for="check-payment-3">
