@@ -100,6 +100,7 @@
                                             <span class="top__text">Product</span>
                                             <span class="top__text__right">Total</span>
                                         </li>
+                                        
                                         <%
                                             List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
                                             double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal

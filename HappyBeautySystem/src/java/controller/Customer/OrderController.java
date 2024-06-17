@@ -1,5 +1,6 @@
 package controller.Customer;
 
+import com.google.gson.Gson;
 import common.CommonDAO;
 import dal.CartDAO;
 import dal.OrderDAO;
@@ -16,16 +17,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.AbstractList;
 import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 import model.Cart;
 import model.Order;
 import model.OrderDetail;
 import model.Product;
 import model.User;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 // ToanLV
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
-
+    private List<Cart> list = new ArrayList<Cart>();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,6 +42,8 @@ public class OrderController extends HttpServlet {
         ProductDAO daoProduct = new ProductDAO();
         OrderDetailDAO detailDAO = new OrderDetailDAO();
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
+        
+
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
             if (inforUserLogin == null) {
@@ -45,15 +53,19 @@ public class OrderController extends HttpServlet {
                 if (service.equals("showAll")) {
                     //chek login
                     int userId = inforUserLogin.getUserId();  // Thay giá trị này khi có thông tin người dùng
-                    List<Cart> listCart = cart.getAllCartsByUserId(userId);
-                    request.setAttribute("listCart", listCart);
+                    String[] listProductId = request.getParameterValues("id");
+                    List<Cart> vector = new ArrayList<Cart>();
+                    for (int i = 0; i < listProductId.length; i++) {
+                        vector.add(cart.getCartByUserIdAndProductId(userId, Integer.parseInt(listProductId[i])));
+                    }
+                    list = vector;
+                    request.setAttribute("listCart", vector);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/checkout.jsp");
                     dispatcher.forward(request, response);
                     return;
                 }
                 // User confirm order
                 if (service.equals("confirmOrder")) {
-
                     String dateNow = commmon.getDateTimeNow();
                     String name = request.getParameter("name");
                     String address = request.getParameter("address");
@@ -63,7 +75,7 @@ public class OrderController extends HttpServlet {
                     Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, address, phone, idPaymentInt);
                     //add order
                     int idADD = daoOrder.insertOrderGetID(newOrder);
-                    List<Cart> listCart = cart.getAllCartsByUserId(inforUserLogin.getUserId());
+                    List<Cart> listCart = list;
                     for (Cart cart1 : listCart) {
                         //add order detail 
                         Product pro = daoProduct.getProductById(cart1.getProductId());
@@ -73,9 +85,12 @@ public class OrderController extends HttpServlet {
 
                     }
                     // delete cart 
-                    cart.deleteCartsByUserId(inforUserLogin.getUserId());
+                    for (Cart cart1 : list) {
+                        cart.deleteCartByProductIdAndUserId(cart1.getProductId(),inforUserLogin.getUserId());
+                    }
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
                     dispatcher.forward(request, response);
+//                    response.getWriter().print(list);
                 }
             }
         }
