@@ -197,25 +197,85 @@ public class OrderDAO extends DBContext {
 
 //    Get order today
     public ArrayList<Order> getBillByDay() {
-        ArrayList<Order> list = new ArrayList<>();
-        String sql = "Select OrderId, CustomerName, CustomerPhoneNumber, CustomerAddress, "
-                + "  OrderDate, Statuss from [Orders] where CONVERT(Date, OrderDate) = CAST(GETDATE() AS Date)";
+        ArrayList<Order> orders = new ArrayList<>();
+        String sql = "Select * from [Orders] where CONVERT(Date, OrderDate) = CAST(GETDATE() AS Date)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                list.add(new Order(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6)));
+                Order order = new Order();
+                order.setOrderId(rs.getInt("OrderId"));
+                order.setUserId(rs.getInt("UserId"));
+                order.setPaymentId(rs.getInt("PaymentId"));
+                order.setOrderDate(rs.getString("OrderDate"));
+                order.setIsCancel(rs.getBoolean("IsCancel"));
+                order.setCustomerName(rs.getString("CustomerName"));
+                order.setCustomerAddress(rs.getString("CustomerAddress"));
+                order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                order.setStatuss(rs.getInt("Statuss"));
+                orders.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+//    Get top2 customeer buy the most
+    public ArrayList<Order> getTop2Customer() {
+        ArrayList<Order> list = new ArrayList<>();
+        String sql = "SELECT TOP 2 o.UserId, o.CustomerName\n"
+                + "FROM Orders o\n"
+                + "JOIN OrderDetail od ON o.OrderId = od.OrderID\n"
+                + "GROUP BY o.UserId, o.CustomerName\n"
+                + "ORDER BY SUM(od.Price * od.Quantity) DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
+    }
+
+    ////
+    // get order by orderID and status
+    public Order getOrderByOrderIdAndStatus(int orderID, int status) {
+        String sql = "SELECT * FROM Orders WHERE OrderId = ? AND Statuss = ?";
+        Order order = null;
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderID);
+            pre.setInt(2, status);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    order = new Order();
+                    order.setOrderId(rs.getInt("OrderId"));
+                    order.setUserId(rs.getInt("UserId"));
+                    order.setPaymentId(rs.getInt("PaymentId"));
+                    order.setOrderDate(rs.getString("OrderDate"));
+                    order.setIsCancel(rs.getBoolean("IsCancel"));
+                    order.setCustomerName(rs.getString("CustomerName"));
+                    order.setCustomerAddress(rs.getString("CustomerAddress"));
+                    order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                    order.setStatuss(rs.getInt("Statuss"));
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return order;
     }
 
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(8);
         int n = dao.CountOrder();
-        
-        System.out.println(n);
+
     }
 }

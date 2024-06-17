@@ -31,10 +31,10 @@
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/styleHome.css" type="text/css">
     </head>
-    
+
     <body>
         <!-- Page Preloder -->
-       
+
 
         <!-- Header Section Begin -->
         <header class="header">
@@ -47,13 +47,13 @@
                         <li><a href="home">Home</a></li>
                         <li><a href="./shop.html">About</a></li>
                         <li><a href="product">Shop</a>
-<!--                            <ul class="dropdown">
-                                <li><a href="./product-details.html">Bodycare</a></li>
-                                <li><a href="./shop-cart.html">Skincare</a></li>
-                                <li><a href="./checkout.html">Haircare</a></li>
-                                <li><a href="./blog-details.html">Makerup</a></li>
-                                <li><a href="./blog-details.html">Perfume</a></li>
-                            </ul>-->
+                            <!--                            <ul class="dropdown">
+                                                            <li><a href="./product-details.html">Bodycare</a></li>
+                                                            <li><a href="./shop-cart.html">Skincare</a></li>
+                                                            <li><a href="./checkout.html">Haircare</a></li>
+                                                            <li><a href="./blog-details.html">Makerup</a></li>
+                                                            <li><a href="./blog-details.html">Perfume</a></li>
+                                                        </ul>-->
                         </li>
                         <li><a href="./blog.html">Blog</a></li>
                         <li><a href="./contact.html">Contact</a></li>
@@ -73,6 +73,9 @@
                                     <ul class="dropdown">
                                         <li><a href="customerprofile?service=ViewProfile">View Profile</a></li>
                                         <li><a href="customerprofile?service=editprofile">Edit Profile</a></li>
+                                            <c:if test="${sessionScope.inforUserLogin.roleId == 3}">
+                                            <li><a href="dashboard">Manage</a></li>
+                                            </c:if>
                                         <li><a href="logout">Logout</a></li>
                                     </ul>
                                 </li>

@@ -84,7 +84,7 @@ public class OrderDetailDAO extends DBContext {
         return isDeleted;
     }
 
-        //Get Total Money by Month 
+    //Get Total Money by Month 
     public double getTotalMoneyByMonth(int month) {
         double totalMoney = 0;
         String sql = "SELECT SUM(od.Price * od.Quantity)\n"
@@ -121,7 +121,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return totalProduct;
     }
-    
+
     //
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();

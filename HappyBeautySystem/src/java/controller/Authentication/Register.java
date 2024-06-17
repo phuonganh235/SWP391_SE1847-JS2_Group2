@@ -69,7 +69,7 @@ public class Register extends HttpServlet {
             return;
         }
 
-        if (!dao.checkExistEmail(email)) {
+        if (dao.checkExistEmail(email,2)) {
             session.setAttribute("error", "Email already exists!");
             request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
             return;

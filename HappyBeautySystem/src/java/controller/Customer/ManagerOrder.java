@@ -43,6 +43,8 @@ public class ManagerOrder extends HttpServlet {
                     int optionInt = Integer.parseInt(option);
                     //
                     int userId = inforUser.getUserId();
+                     List<Order> o = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
+                    request.setAttribute("order_id", o.get(0));
                     List<Order> listOrder;
                     switch (optionInt) {
                         case 0:
