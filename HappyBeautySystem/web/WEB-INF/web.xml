@@ -48,6 +48,14 @@
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>controller.Manager.Dashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>About</servlet-name>
+        <servlet-class>common.AboutUs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>controller.Customer.OrderController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -95,5 +103,13 @@
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>About</servlet-name>
+        <url-pattern>/about</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/OrderController</url-pattern>
     </servlet-mapping>
 </web-app>
