@@ -26,6 +26,59 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <style>
+            /* style.css */
+
+            /* General body styling */
+            body {
+                font-family: 'Montserrat', sans-serif;
+                color: #333;
+                line-height: 1.6;
+                background-color: #f8f9fa;
+            }
+
+            /* About Us Section */
+            .about-us {
+                padding: 80px 0;
+                background: #fff;
+            }
+
+            .about-us h1 {
+                font-size: 48px;
+                font-weight: 800;
+                color: #333;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .about-us h2 {
+                font-size: 24px;
+                font-weight: 600;
+                color: #555;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+            .about-us__image img {
+                width: 100%;
+                border-radius: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .about-us__text h3 {
+                font-size: 28px;
+                font-weight: 700;
+                color: #222;
+                margin-bottom: 15px;
+            }
+
+            .about-us__text p {
+                font-size: 16px;
+                color: #666;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+        </style>
     </head>
 
     <body>
@@ -45,18 +98,16 @@
                             <img src="ViewUser\img\image_av.jpg" alt="About Us Image" style="width: 100%; border-radius: 20px;">
                         </div>
                     </div>
-                    <c:forEach var="about" items="${about}">
-
-                        <div class="col-lg-6">
-
+                    <div class="col-lg-6">
+                        <c:forEach var="about" items="${about}">
                             <div class="about-us__text">
                                 <h3>${about.title}</h3>
                                 <p>${about.content}</p>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
-
+                <h2 style="text-align: center;">HappyBeautySystem – Your Beauty, Our Passion.</h2>
             </div>
         </section>
         <!-- About Us Section End -->
@@ -113,21 +164,6 @@
         <script src="ViewUser/js/owl.carousel.min.js"></script>
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
-        <script type="importmap">
-            {
-            "imports": {
-            "@google/generative-ai": "https://esm.run/@google/generative-ai",
-            "markdown-it": "https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm"
-            }
-            }
-        </script>
-
-        <script type="module">
-import markdownIt from 'markdown-it';
-const md = markdownIt();
-let result = md.render('# markdown-it rulezz!');
-console.log(result)
-        </script>
     </body> 
 
 </html>
