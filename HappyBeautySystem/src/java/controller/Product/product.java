@@ -250,7 +250,14 @@ public class product extends HttpServlet {
 
 //            Get products with the same category: To get common products
             ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
-
+            ArrayList<Product> productNew = d.getNewProduct();
+            // Save a list of IDs of new products
+            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("top8New", newProductIds);
+            ArrayList<Product> productLowInStock = d.getProductLowStock();
+            // Save a list of IDs of low products
+            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("lowInStock", lowProductIds);
 //           To retrieve the product category
             Category cat = dao.getCategoryById(product_category);
             request.setAttribute("Category", cat);

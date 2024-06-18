@@ -247,12 +247,12 @@
                                 <div class="col-lg-4 col-md-4">
                                     <div class="product__item">                                         
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
-                                                <c:if test="${top8New.contains(p.getProductId())}">
-                                                    <div class="label new" style="border-radius: 10px;">New</div>
-                                                </c:if>
-                                                <c:if test="${lowInStock.contains(p.getProductId())}">
-                                                    <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
-                                                </c:if>
+                                            <c:if test="${top8New.contains(p.getProductId())}">
+                                                <div class="label new" style="border-radius: 10px;">New</div>
+                                            </c:if>
+                                            <c:if test="${lowInStock.contains(p.getProductId())}">
+                                                <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                            </c:if>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
                                                 <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">
@@ -277,16 +277,36 @@
                                     </div>
                                 </div>
                             </c:forEach>
-
-                            <!--Pagination-->
-                            <c:set var="page" value="${page}"/>
-                            <div class="col-lg-12 text-center">
-                                <div class="pagination__option">
-                                    <c:forEach begin="${1}" end="${num}" var="i">
-                                        <a href="product?page=${i}">${i}</a>
-                                    </c:forEach>
-
-                                </div>
+                        </div>
+                        <!--Pagination-->
+                        <c:set var="page" value="${page}"/>
+                        <c:set var="action" value="${param.action}"/>
+                        <c:set var="type" value="${param.type}"/>
+                        <c:set var="category_id" value="${param.category_id}"/>
+                        <div class="col-lg-12 text-center">
+                            <div class="pagination__option">
+                                <c:forEach begin="${1}" end="${num}" var="i">
+                                    <c:choose>
+                                        <c:when test="${action == 'sort' && type == 'low'}">
+                                            <a href="product?action=sort&type=low&page=${i}">${i}</a>
+                                        </c:when>
+                                        <c:when test="${action == 'sort' && type == 'high'}">
+                                            <a href="product?action=sort&type=high&page=${i}">${i}</a>
+                                        </c:when>
+                                        <c:when test="${action == 'sort' && type == 'a-z'}">
+                                            <a href="product?action=sort&type=a-z&page=${i}">${i}</a>
+                                        </c:when>
+                                        <c:when test="${action == 'sort' && type == 'z-a'}">
+                                            <a href="product?action=sort&type=z-a&page=${i}">${i}</a>
+                                        </c:when>
+                                        <c:when test="${action == 'listByCategory'}">
+                                            <a href="product?action=listByCategory&category_id=${category_id}&page=${i}">${i}</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="product?page=${i}">${i}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
