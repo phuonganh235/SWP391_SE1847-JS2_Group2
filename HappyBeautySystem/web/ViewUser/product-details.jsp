@@ -187,17 +187,41 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                                 </li>
-                                <li class="nav-item">
+<!--                                <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                                </li>
+                                </li>-->
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( ${countReview} )</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <h6>Description</h6>
+                                    <h5 style="font-weight: 600;text-transform: uppercase">Description</h5>
                                     <p>${ProductData.getLongDes()}</p>
+                                </div>
+                            </div>
+                                <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
+                                
+                                <div class="blog__details__comment">
+                                    <h5>${countReview} Review(s)</h5>
+                                    <a href="#" class="leave-btn">Leave a review</a>
+                                    
+                                    <c:forEach items="${feedback}" var="feedback">
+                                        <div class="blog__comment__item">
+                                            <div class="blog__comment__item__pic">
+                                                <img src="" alt="">
+                                            </div>
+                                            <div class="blog__comment__item__text">
+                                                <h6>${feedback.userId}</h6>
+                                                <p>${feedback.comment}</p>
+                                                <ul>
+                                                    <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
+                                                   
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+
                                 </div>
                             </div>
                         </div>

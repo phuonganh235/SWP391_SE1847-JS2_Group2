@@ -56,6 +56,14 @@
         <servlet-name>OrderController</servlet-name>
         <servlet-class>controller.Customer.OrderController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>manageAbout</servlet-name>
+        <servlet-class>controller.Manager.manageAbout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productFeedback</servlet-name>
+        <servlet-class>controller.Product.productFeedback</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -111,5 +119,9 @@
     <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
         <url-pattern>/OrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageAbout</servlet-name>
+        <url-pattern>/manageabout</url-pattern>
     </servlet-mapping>
 </web-app>
