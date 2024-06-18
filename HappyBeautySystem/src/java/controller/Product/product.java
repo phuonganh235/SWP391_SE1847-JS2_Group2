@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import model.Category;
 import model.Product;
 import model.ProductImage;
+import model.ProductSize;
 
 /**
  *
@@ -247,7 +248,9 @@ public class product extends HttpServlet {
 
 //            Retrieve products by id
             Product product = d.getProductById(productId);
-
+//            Get product size
+            ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
+            
 //            Get products with the same category: To get common products
             ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
             ArrayList<Product> productNew = d.getNewProduct();
@@ -262,6 +265,11 @@ public class product extends HttpServlet {
             Category cat = dao.getCategoryById(product_category);
             request.setAttribute("Category", cat);
             request.setAttribute("image", getPath(i));
+            request.setAttribute("sizeList", sizeList);
+//            Show first value of price and size, quantity
+            request.setAttribute("price", sizeList.get(0).getPrice());
+            request.setAttribute("size", sizeList.get(0).getSize());
+            request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
             request.setAttribute("ProductData", product);
             request.setAttribute("countReview", countReview);
             request.setAttribute("ProductCategory", productByCategory);
