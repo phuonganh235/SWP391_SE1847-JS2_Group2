@@ -59,8 +59,9 @@
                         <div class="shop__cart__table">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>Product</th>
+                                    <tr> 
+                                        <th></th>
+                                        <th style="margin-left :40px">Product</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
@@ -81,11 +82,13 @@
                                                     String formattedGranTotal = String.format("%.2f", granTotal);
                                     %>
                                     <tr>
+                                        <td><input type="checkbox" onclick="choose(<%= pro.getProductId()%>)"></td>
                                         <td class="cart__product__item">
                                             <a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
                                                 <img style="
                                                      height: 90px;
                                                      width: 90px;
+                                                     margin-left: 40px;
                                                      " src="<%= pro.getPathImage()%>" alt=""></a>
                                             <div class="cart__product__item__title">
                                                 <h6><a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a></h6>
@@ -149,8 +152,7 @@
                             <ul>
                                 <li>Total <span id="granTotal">$<%= granTotal%></span></li>
                             </ul>
-                            <a href="OrderController?service=showAll" class="primary-btn " style="background-color: green">Confirm Order</a>
-                        </div>
+                            <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Confirm Order</button></div>
                     </div>
                 </div>
             </div>
@@ -386,6 +388,31 @@
                                         }
                                     });
                                 }
+
+                                let listProcductIdChoose = [];
+                                function choose(productId) {
+                                    if (listProcductIdChoose.indexOf(productId) >= 0) {
+                                        listProcductIdChoose = listProcductIdChoose.filter(e => e !== productId);
+                                    } else {
+                                        listProcductIdChoose.push(productId);
+                                    }
+                                }
+
+                                function confirm(btn) {
+                                    if (listProcductIdChoose.length > 0) {
+                                        let link = "OrderController?service=showAll";
+                                        let idChoose = '';
+                                        for (let i = 0; i < listProcductIdChoose.length; i++) {
+                                            idChoose += '&id=' + listProcductIdChoose[i];
+                                        }
+                                        link += idChoose;
+                                        window.location.href = link;
+
+                                    }
+
+                                }
+
+
         </script>
 
     </body>

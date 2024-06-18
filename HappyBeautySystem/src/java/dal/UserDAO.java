@@ -2,6 +2,7 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,9 +11,9 @@ import model.User;
 public class UserDAO extends DBContext {
 
     // Retrieves all users from the Users table in the database
-    public ArrayList<User> getAllUser() {
+    public ArrayList<User> getAllUser(String sql) {
         ArrayList<User> uList = new ArrayList<>();
-        String sql = "SELECT * FROM Users";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -29,14 +30,101 @@ public class UserDAO extends DBContext {
                 u.setRoleId(rs.getInt("RoleId"));
                 u.setCreateDate(rs.getString("CreateDate"));
                 u.setPassword(rs.getString("Password"));
-                u.setStatuss(rs.getInt("Statuss"));
-                u.setDateofbirth(rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
+                u.setStatuss(rs.getInt("Statuss")); // Lấy giá trị trường Statuss
+                u.setDateofbirth(rs.getString("DateOfBirth"));
                 uList.add(u);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return uList;
+    }
+
+    public ArrayList<User> SearchStaffByName(String name) {
+        ArrayList<User> uList = new ArrayList<>();
+        String sql = "SELECT * FROM Users WHERE name LIKE ? AND RoleId = 4";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth"));
+                uList.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return uList;
+    }
+
+    public ArrayList<User> SearchShipperByName(String name) {
+        ArrayList<User> uList = new ArrayList<>();
+        String sql = "SELECT * FROM Users WHERE name LIKE ? AND RoleId =3";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth"));
+                uList.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return uList;
+    }
+
+    public int insertUser(User user) {
+        int n = 0;
+        PreparedStatement pre;
+        String sqlInsert = "INSERT INTO [dbo].[Users]([Name],[Username],[Mobile],[Email],[Address] ,[PostCode],[ImageUrl] ,[RoleId],[CreateDate] ,[Password] ,[Statuss],[DateOfBirth]) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            pre = connection.prepareStatement(sqlInsert);
+            pre.setString(1, user.getName());
+            pre.setString(2, user.getUsername());
+            pre.setString(3, user.getMobile());
+            pre.setString(4, user.getEmail());
+            pre.setString(5, user.getAddress());
+            pre.setString(6, user.getPostCode() != null ? user.getPostCode() : "");
+            pre.setString(7, user.getImage() != null ? user.getImage() : "");
+            pre.setInt(8, user.getRoleId());
+            pre.setString(9, user.getCreateDate());
+            pre.setString(10, user.getPassword());
+            pre.setInt(11, user.getStatuss());
+            pre.setString(12, user.getDateofbirth());
+            n = pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
     }
 
     // Authenticates a user with the provided username and password
@@ -117,19 +205,37 @@ public class UserDAO extends DBContext {
     }
 
     // Checks if an email already exists in the Users table
-    public boolean checkExistEmail(String email) {
-        String sql = "SELECT * FROM Users WHERE Email = ?";
+    public boolean checkExistEmail(String email, int roleId) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Email = ? and RoleId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, email);
+            ps.setInt(2, roleId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return false; // Email đã tồn tại
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Email already exists
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
+    }
+    // Method to check if user exists
+
+    public boolean userExists(String username, int roleId) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ? and RoleId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setInt(2, roleId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     // Registers a new user with the provided details
@@ -173,30 +279,45 @@ public class UserDAO extends DBContext {
     public int updateUser(User user) {
         int n = 0;
         String sqlUpdate = "UPDATE [dbo].[Users]"
-                + "   SET [Name] = ?,"
-                + "      [Mobile] = ?,"
-                + "      [Email] = ?,"
-                + "      [Address] = ?,"
-                + "      [PostCode] = ?,"
-                + "      [Statuss] = ?,"
-                + "      [DateOfBirth] = ?" // Thêm giá trị trường dateOfBirth vào câu lệnh cập nhật
+                + " SET [Name] = ?,"
+                + " [Username] = ?,"
+                + " [Mobile] = ?,"
+                + " [Email] = ?,"
+                + " [Address] = ?,"
+                + " [PostCode] = ?,"
+                + " [Password] = ?,"
+                + " [Statuss] = ?,"
+                + " [DateOfBirth] = ?"
                 + " WHERE [UserId] = ?";
 
         try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
             pre.setString(1, user.getName());
-            pre.setString(2, user.getMobile());
-            pre.setString(3, user.getEmail());
-            pre.setString(4, user.getAddress());
-            pre.setString(5, user.getPostCode());
-            pre.setInt(6, user.getStatuss());
-            pre.setString(7, user.getDateofbirth()); // Thêm giá trị dateOfBirth
-            pre.setInt(8, user.getUserId());
+            pre.setString(2, user.getUsername());
+            pre.setString(3, user.getMobile());
+            pre.setString(4, user.getEmail());
+            pre.setString(5, user.getAddress());
+            pre.setString(6, user.getPostCode());
+            pre.setString(7, user.getPassword());
+            pre.setInt(8, user.getStatuss());
+            pre.setString(9, user.getDateofbirth());
+            pre.setInt(10, user.getUserId());
 
             n = pre.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return n;
+    }
+
+    public void deleteStaff(int staffId) {
+        String sql = "DELETE FROM Users WHERE userId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, staffId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Change password when forgot or user wants to change their password
@@ -244,22 +365,6 @@ public class UserDAO extends DBContext {
         return uList;
     }
 
-    // Method to check if user exists
-    public boolean userExists(String username) {
-        String sql = "SELECT COUNT(*) FROM Users WHERE Username = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     //    Count numbers of users
     public int CountUser() {
         int count = 0;
@@ -274,4 +379,34 @@ public class UserDAO extends DBContext {
         }
         return count;
     }
+
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO();
+
+        // Create a new user
+    
+
+        // Tạo đối tượng User để kiểm tra
+        User user = new User();
+        user.setUserId(1050); // ID người dùng cần cập nhật
+        user.setName("Nguyen Van A");
+        user.setUsername("nguyenvana");
+        user.setMobile("0912345678");
+        user.setEmail("nguyenvana@example.com");
+        user.setAddress("123 Đường ABC, Quận 1");
+        user.setPostCode("700000");
+        user.setPassword("Passw0rd!");
+        user.setStatuss(1);
+        user.setDateofbirth("2000-01-01");
+
+        // Gọi hàm updateUser và in ra kết quả
+        int result = userDAO.updateUser(user);
+        if (result > 0) {
+            System.out.println("Cập nhật thành công!");
+        } else {
+            System.out.println("Cập nhật thất bại!");
+        }
+    }
 }
+
+
