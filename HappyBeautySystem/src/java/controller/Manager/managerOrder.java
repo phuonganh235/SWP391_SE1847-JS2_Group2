@@ -25,7 +25,7 @@ import model.User;
 
 @WebServlet(name = "managerOrder", urlPatterns = {"/managerOrder"})
 public class managerOrder extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -68,6 +68,25 @@ public class managerOrder extends HttpServlet {
                 request.setAttribute("customerInfor", user);
                 request.setAttribute("listShipper", listShipper);
                 request.getRequestDispatcher("ViewAdmin/confirmOrder.jsp").forward(request, response);
+            }
+            if (service.equals("viewDetailShipping")) {
+                String orderID = request.getParameter("orderID");
+                int orderIDInt = Integer.parseInt(orderID);
+                int orderDetailInt = Integer.parseInt(orderID);
+                String customerID = request.getParameter("CustomerID");
+                // list order detail
+                List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
+                // infor customer
+                User user = daoUser.getUserById(customerID);
+                //List Shiper
+                int idShipper = daoUserShipOrder.getUserIDByOrderID(orderIDInt);
+                
+                User newUser = daoUser.getUserById(""+idShipper);
+                
+                request.setAttribute("listOrderDetail", listOrderDetail);
+                request.setAttribute("customerInfor", user);
+                request.setAttribute("inforShipper", newUser);
+                request.getRequestDispatcher("ViewAdmin/viewDetailShipping.jsp").forward(request, response);
             }
             if (service.equals("confirm")) {
                 int orderID = Integer.parseInt(request.getParameter("OrderID"));

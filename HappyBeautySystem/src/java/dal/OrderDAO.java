@@ -139,6 +139,26 @@ public class OrderDAO extends DBContext {
         return orders;
     }
 
+    public int getUserIDByOrderID(int orderID) {
+        int userID = 0; // Giá trị mặc định nếu không tìm thấy
+
+        String sql = "SELECT UserId FROM Orders WHERE OrderId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderID);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    userID = rs.getInt("UserId");
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return userID;
+    }
+
     //delete 
     public boolean deleteOrderAndDetails(int orderId) {
         String deleteOrderDetailSQL = "DELETE FROM OrderDetail WHERE OrderId = ?";

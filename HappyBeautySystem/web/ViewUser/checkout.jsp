@@ -100,7 +100,7 @@
                                             <span class="top__text">Product</span>
                                             <span class="top__text__right">Total</span>
                                         </li>
-                                        
+
                                         <%
                                             List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
                                             double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal
@@ -127,8 +127,9 @@
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Subtotal <span>$<%= granTotal%></span></li>
-                                        <li>Total <span>$<%= granTotal%></span></li>
+                                        <li>Subtotal <span>$<%= String.format("%.2f", granTotal)%></span></li>
+                                        <li>Total <span>$<%= String.format("%.2f", granTotal)%></span></li>
+
                                     </ul>
                                 </div>
                                 <div class="checkout__order__widget">
@@ -142,7 +143,7 @@
                                         VNPay
                                         <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
-                                     
+
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
 

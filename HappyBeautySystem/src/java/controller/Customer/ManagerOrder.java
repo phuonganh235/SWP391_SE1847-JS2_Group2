@@ -41,48 +41,43 @@ public class ManagerOrder extends HttpServlet {
                 if (service.equals("managerOrder")) {
                     String option = request.getParameter("option");
                     int optionInt = Integer.parseInt(option);
-                    //
                     int userId = inforUser.getUserId();
-                     List<Order> o = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
-                    request.setAttribute("order_id", o.get(0));
-                    List<Order> listOrder;
+
+                    List<Order> listOrder = null;
                     switch (optionInt) {
                         case 0:
                             request.setAttribute("op", "0");
-                            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                            dispatcher.forward(request, response);
                             break;
                         case 1:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 1);
                             request.setAttribute("op", "1");
-                            request.setAttribute("listOrder", listOrder);
-                            RequestDispatcher dispatcher1 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                            dispatcher1.forward(request, response);
                             break;
                         case 2:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
-                            request.setAttribute("listOrder", listOrder);
                             request.setAttribute("op", "2");
-                            RequestDispatcher dispatcher2 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                            dispatcher2.forward(request, response);
                             break;
                         case 3:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 3);
-                            request.setAttribute("listOrder", listOrder);
                             request.setAttribute("op", "3");
-                            RequestDispatcher dispatcher3 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                            dispatcher3.forward(request, response);
                             break;
                         case 4:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 4);
-                            request.setAttribute("listOrder", listOrder);
                             request.setAttribute("op", "4");
-                            RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
-                            dispatcher4.forward(request, response);
                             break;
+                        default:
+                            // Handle invalid option
+                            response.sendRedirect("ViewUser/error.jsp");
+                            return;
                     }
+
+                    // Forward to JSP with list of orders if available
+                    if (listOrder != null) {
+                        request.setAttribute("listOrder", listOrder);
+                    }
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                    dispatcher.forward(request, response);
                 }
-                //detail
                 if (service.equals("orderDetail")) {
                     String orderID = request.getParameter("orderid");
                     int odi = Integer.parseInt(orderID);

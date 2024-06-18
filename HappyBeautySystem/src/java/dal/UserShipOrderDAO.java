@@ -41,7 +41,27 @@ public class UserShipOrderDAO extends DBContext {
         return orderIDs;
     }
 
-    public static void main(String[] args) {
+    public int getUserIDByOrderID(int orderID) {
+        int userID =0;
 
+        String sql = "SELECT UserId FROM User_Ship_Order WHERE OrderId = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, orderID);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                userID = rs.getInt("UserId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userID;
+    }
+
+    public static void main(String[] args) {
+        UserShipOrderDAO dao = new UserShipOrderDAO();
+        System.out.println(dao.getUserIDByOrderID(4008));;
     }
 }
