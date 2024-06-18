@@ -105,6 +105,7 @@
                         </div>
                     </div>
                     <a href="managercategory" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Category</a>
+                    <a href="manageabout" class="nav-link dropdown-toggle"><i class="far fa-file-alt me-2"></i>About Page</a>
                     <a href="form.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
                     <a href="table.jsp" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="manageCoupons?service=listAllCoupons" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Coupons</a>
