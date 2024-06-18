@@ -1,3 +1,4 @@
+<%@page import="dal.ProductDAO"%>
 <%@page import="model.OrderDetail"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.List"%>
@@ -57,62 +58,53 @@
         <!--        hh-->
         <!-- Order List Section Begin -->
         <div class="container">
-            <c:if test="${not empty op and op != '0'}">
-                <table class="order-list">
-                    <thead>
-                        <tr >
-                            <th class="text-center">Code</th>
-                            <th class="text-center">Customer Name</th>
-                            <th class="text-center">Phone Number</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            List<Order> listOrder = (List<Order>) request.getAttribute("listOrder");
-                            double granTotal = 0;
-                            String option = request.getParameter("option");
-                            int optionINT = Integer.parseInt(option);
-                            if (listOrder != null && !listOrder.isEmpty()) {
-                                for (Order order : listOrder) {
-                        %>
-                        <tr>
-                            <td class="text-center align-middle"><%= order.getOrderId()%></td>
-                            <td class="text-center align-middle"><%= order.getCustomerName()%></td>
-                            <td class="text-center align-middle"><%= order.getCustomerPhoneNumber()%></td>
-                            <td class="text-center align-middle"><%= order.getCustomerAddress()%></td>
-                            <td class="text-center">
-                                <%// Giả sử rằng thuộc tính status là một phần của đối tượng Order
-                                    if (optionINT == 2) {
-                                %>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
-                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>
-                                <!--                            Delete-->
-                                <%
-                                    }
-                                %>
-                            </td>
-                            <!--                            <td class="text-center align-middle">
-                                                            <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
-                                                            <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
-                                                        </td>-->    
-                        </tr>
-                        <%
-                            }
-                        } else {
-                        %>
-                        <tr>
-                            <td colspan="6" class="text-center">Your list is empty</td>
-                        </tr>
-                        <%
-                            }
-                        %>
-                    </tbody>
+            <div class="form-group text-center  ">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div>
+                        <p>Customer Name: <strong>${customerInfor.name}</strong></p>
+                        <p>Address: <strong>${customerInfor.address}</strong></p>
+                        <p>PhoneNumber: <strong>${customerInfor.mobile}</strong></p>
+                    </div>
+                </div>
+            </div>
 
+            <table class="order-list">
+                <thead>
+                    <tr >
+                        <th class="text-center">Product Name</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        ProductDAO dao = new ProductDAO();
+                        List<OrderDetail> listOrderDetail = (List<OrderDetail>) request.getAttribute("listDetail");
+                        double granTotal = 0;
+                        if (listOrderDetail != null && !listOrderDetail.isEmpty()) {
+                            for (OrderDetail orderDetail : listOrderDetail) {
+                                Product product = dao.getProductById(orderDetail.getProductID());
+                                String productName = (product != null) ? product.getProductName() : "Product not found";
+                    %>
+                    <tr>
+                        <td class="text-center"><%= productName%></td>
+                        <td class="text-center"><%= orderDetail.getQuantity()%></td>
+                        <td class="text-center"><%= orderDetail.getPrice() * orderDetail.getQuantity()%></td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr>
+                        <td colspan="3" class="text-center">No order details available</td>
+                    </tr>
+                    <%
+                        }
+                    %>
 
-                </table>
-            </c:if>
+                </tbody>
+                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
+            </table>
         </div>
         <!-- Order List Section End -->
 

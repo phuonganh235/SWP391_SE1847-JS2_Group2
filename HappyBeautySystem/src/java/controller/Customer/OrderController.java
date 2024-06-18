@@ -25,7 +25,7 @@ import java.util.List;
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
 
-    private List<Cart> list = new ArrayList<>();
+    private List<Cart> _list = new ArrayList<>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,15 +48,22 @@ public class OrderController extends HttpServlet {
                     int userId = inforUserLogin.getUserId();
                     String[] listProductId = request.getParameterValues("id");
                     List<Cart> vector = new ArrayList<>();
+
+                    // Lấy danh sách các sản phẩm từ giỏ hàng của userId
                     for (String id : listProductId) {
-                        vector.add(cart.getCartByUserIdAndProductId(userId, Integer.parseInt(id)));
+                        Cart cartItem = cart.getCartByUserIdAndProductId(userId, Integer.parseInt(id));
+                        if (cartItem != null) {
+                            vector.add(cartItem);
+                        }
                     }
-                    list = vector;
+                    _list = vector;
+                    // Đặt danh sách sản phẩm vào thuộc tính request để gửi tới checkout.jsp
                     request.setAttribute("listCart", vector);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/checkout.jsp");
                     dispatcher.forward(request, response);
                     return;
                 }
+
                 // User confirm order
                 if ("confirmOrder".equals(service)) {
                     String dateNow = common.getDateTimeNow();
@@ -69,7 +76,7 @@ public class OrderController extends HttpServlet {
 
                     //add order
                     int idADD = daoOrder.insertOrderGetID(newOrder);
-                    List<Cart> listCart = list;
+                    List<Cart> listCart = _list;
                     for (Cart cart1 : listCart) {
                         //add order detail
                         Product pro = daoProduct.getProductById(cart1.getProductId());
@@ -78,7 +85,7 @@ public class OrderController extends HttpServlet {
                         daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                     }
                     // delete cart
-                    for (Cart cart1 : list) {
+                    for (Cart cart1 : _list) {
                         cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                     }
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");

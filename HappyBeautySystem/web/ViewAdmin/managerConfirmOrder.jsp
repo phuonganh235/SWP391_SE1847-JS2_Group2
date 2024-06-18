@@ -1,7 +1,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-s
 <!DOCTYPE html>
 
 <html lang="en">
@@ -40,7 +39,7 @@ s
         <div class="container-xxl position-relative bg-white d-flex p-0">
 
             <!-- Sidebar Start -->
-            <jsp:include page="sidebar.jsp"/>
+            <jsp:include page="sidebar.jsp"/>   
             <!-- Sidebar End -->
 
             <!-- Content Start -->
@@ -101,6 +100,8 @@ s
 
                                             <td>${order.getOrderDate()}</td>
                                             <td>
+                                                <a class="btn btn-sm btn-primary" href="managerOrder?service=viewDetailShipping&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Detail</a>
+
 
                                                 <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
                                             </td>

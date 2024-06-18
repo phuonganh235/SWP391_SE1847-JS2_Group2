@@ -238,7 +238,12 @@
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
-                                    <div class="label new">New</div>
+                                    <c:if test="${top8New.contains(pc.getProductId())}">
+                                        <div class="label new" style="border-radius: 10px;">New</div>
+                                    </c:if>
+                                    <c:if test="${lowInStock.contains(pc.getProductId())}">
+                                        <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                    </c:if>
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">
