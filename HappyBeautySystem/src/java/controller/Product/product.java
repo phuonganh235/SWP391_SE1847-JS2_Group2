@@ -3,19 +3,23 @@ package controller.Product;
 import dal.CategoryDAO;
 import dal.FeedbackDAO;
 import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import model.Category;
 import model.Feedback;
 import model.Product;
 import model.ProductImage;
+import model.User;
 
 public class product extends HttpServlet {
 
@@ -44,7 +48,8 @@ public class product extends HttpServlet {
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
         FeedbackDAO f = new FeedbackDAO();
-
+        UserDAO u = new UserDAO();
+        
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
             ArrayList<Product> productList = d.getAllProduct();
@@ -252,6 +257,11 @@ public class product extends HttpServlet {
             //Feedback by productID
             int countReview = f.countReviewByProductId(productId);
             
+            ArrayList<User> user = u.getUserByProductId(productId);
+            ArrayList<User> user2 = u.getUserByProductId2(productId);
+//            request.setAttribute("user", user);
+            request.setAttribute("user", user2);
+            
             ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
             request.setAttribute("feedback", feedback);
             
@@ -286,6 +296,7 @@ public class product extends HttpServlet {
             throws ServletException, IOException {
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
+        FeedbackDAO f = new FeedbackDAO();
         ArrayList<Product> productNew = d.getNewProduct();
         // Save a list of IDs of new products
         List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
@@ -355,6 +366,16 @@ public class product extends HttpServlet {
                 e.printStackTrace();
             }
             request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+        }
+        if(service.equals("addfeedback")){
+            int productId = Integer.parseInt(request.getParameter("product_id"));
+            int user_id = Integer.parseInt(request.getParameter("user_id"));
+            int rating =Integer.parseInt(request.getParameter("rating"));
+            String comment = request.getParameter("comment");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String createDate = sdf.format(new Date());
+            f.addFeedback(new Feedback(productId, user_id, rating, comment, createDate));
+            request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
         }
 
     }
