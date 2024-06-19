@@ -19,7 +19,10 @@ import model.Category;
 import model.Feedback;
 import model.Product;
 import model.ProductImage;
+
 import model.User;
+
+import model.ProductSize;
 
 public class product extends HttpServlet {
 
@@ -237,7 +240,14 @@ public class product extends HttpServlet {
             
             //Retrieve products by id
             Product product = d.getProductById(productId);
+
+//            Get product size
+            ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
+            
+//            Get products with the same category: To get common products
+
             //Get products with the same category: To get common products
+
             ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
 
             // To retrieve the product category
@@ -267,6 +277,11 @@ public class product extends HttpServlet {
             
             request.setAttribute("Category", cat);
             request.setAttribute("image", getPath(i));
+            request.setAttribute("sizeList", sizeList);
+//            Show first value of price and size, quantity
+            request.setAttribute("price", sizeList.get(0).getPrice());
+            request.setAttribute("size", sizeList.get(0).getSize());
+            request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
             request.setAttribute("ProductData", product);
             request.setAttribute("countReview", countReview);
             request.setAttribute("ProductCategory", productByCategory);

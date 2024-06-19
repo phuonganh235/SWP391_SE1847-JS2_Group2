@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import model.Category;
 import model.Product;
 import model.ProductImage;
+import model.ProductSize;
 
 public class ProductDAO extends DBContext {
 
@@ -113,6 +114,31 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return pimList;
+    }
+
+    //    Get Size By productId
+    public ArrayList<ProductSize> getSizeByProductId(int pid) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<ProductSize> sizeList = new ArrayList<>();
+        String sql = "select * from ProductSize where ProductID=" + pid;
+        try {
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("productId");
+                String size = rs.getString("size");
+                float price = rs.getFloat("price");
+                int quantity = rs.getInt("quantity");
+
+                sizeList.add(new ProductSize(id, size, price, quantity));
+            }
+            return sizeList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sizeList;
     }
 
     // Retrieves a product by its ID from the Product table
@@ -567,6 +593,7 @@ public class ProductDAO extends DBContext {
         }
         return count;
     }
+
     //    Get products low in stock
     public ArrayList<Product> getProductLowStock() {
         ArrayList<Product> pList = new ArrayList<>();
@@ -605,21 +632,25 @@ public class ProductDAO extends DBContext {
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
 
-        dao.updateProductQuantityTru(1, 3);
+//        dao.updateProductQuantityTru(1, 3);
+        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
+        for (ProductSize productSize : pList) {
+            System.out.println(productSize);
+        }
 
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
 //        Product pro = dao.getProductById(1);
 //        System.out.println(pro.getProductName());
 //
-        ArrayList<Product> pList = dao.getProductLowStock();
+//        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
 ////        ArrayList<Product> cList = dao.searchByPrice(15.22, 30.22);
 //        ArrayList<Product> cList = dao.getNewProduct();
 //        for (Product product : pList) {
 //            System.out.println(product);
 //        }
 //        Product p = dao.getProductById(1);
-        System.out.println(pList);
+//        System.out.println(pList);
     }
 
 }

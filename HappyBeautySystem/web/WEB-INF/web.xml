@@ -64,6 +64,14 @@
         <servlet-name>productFeedback</servlet-name>
         <servlet-class>controller.Product.productFeedback</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Changepassword</servlet-name>
+        <servlet-class>controller.Authentication.Changepassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageCoupons</servlet-name>
+        <servlet-class>controller.Manager.manageCoupons</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -123,5 +131,13 @@
     <servlet-mapping>
         <servlet-name>manageAbout</servlet-name>
         <url-pattern>/manageabout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Changepassword</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageCoupons</servlet-name>
+        <url-pattern>/manageCoupons</url-pattern>
     </servlet-mapping>
 </web-app>
