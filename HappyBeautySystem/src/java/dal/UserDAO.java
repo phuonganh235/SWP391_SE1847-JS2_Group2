@@ -379,6 +379,48 @@ public class UserDAO extends DBContext {
         }
         return count;
     }
+    
+       public User getUser(int userId, String old_pass) {
+        try {
+            String sql = "select * from Users where UserId = ? and Password = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setString(2, old_pass);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+               User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); 
+                return u;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+     
+      public void changePassword(int userId, String new_pass1) {
+        try {
+            String sql =  "UPDATE Users SET Password = ? WHERE UserId = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, new_pass1);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    } 
 
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();

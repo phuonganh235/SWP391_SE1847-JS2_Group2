@@ -33,6 +33,14 @@
 
         <!-- Header Section Begin -->
         <jsp:include page="navbar.jsp"/>
+          <c:if test="${requestScope.errorOldpass != null}">
+            <script>
+                $(document).ready(function () {
+                    $('#ChangePasswordModal').modal('show');
+                    $('#oldPasswordError').text('${requestScope.errorOldpass}');
+                });
+            </script>
+        </c:if>
 
         <!-- Categories Section Begin -->
         <section class="categories">
