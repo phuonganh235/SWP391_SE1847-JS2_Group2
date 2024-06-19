@@ -28,7 +28,7 @@ public class AboutDAO extends DBContext {
     }
 
     public void updateAbout(About about) {
-        String sql = "UPDATE About SET Title = ?, Content = ?, ImageURL = ? WHERE AboutId = ?";
+        String sql = "UPDATE About SET Title = ?, Content = ?, ImageURL = ? WHERE AboutID = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, about.getTitle());
@@ -41,14 +41,53 @@ public class AboutDAO extends DBContext {
         }
     }
 
+    public void addAbout(About about) {
+        String sql = "INSERT INTO About (Title, Content, ImageURL) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, about.getTitle());
+            st.setString(2, about.getContent());
+            st.setString(3, about.getImageURL());
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAbout(int aboutId) {
+        String sql = "DELETE FROM About WHERE AboutID = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, aboutId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public About getAboutById(int aboutId) {
+        About about = null;
+        String sql = "SELECT * FROM About WHERE AboutId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, aboutId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                about = new About();
+                about.setAboutId(rs.getInt("AboutId"));
+                about.setTitle(rs.getString("Title"));
+                about.setContent(rs.getString("Content"));
+                about.setImageURL(rs.getString("ImageURL"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return about;
+    }
+    
     public static void main(String[] args) {
         AboutDAO dao = new AboutDAO();
-        dao.updateAbout(new About(1, "ABOUT US", "> Blockquotes can also be nested...\n"
-                + ">> ...by using additional greater-than signs right next to each other...\n"
-                + "> > > ...or with spaces between arrows.", "ViewUser\\img\\image_av.jpg"));
-        ArrayList<About> ab = dao.getAllAbouts();
-        for (About about : ab) {
-            System.out.println(about);
-        }
+        dao.updateAbout(new About(4, "c", "c", "c"));
+        
     }
 }

@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.Product;
 
 import dal.CategoryDAO;
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,24 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import model.Category;
+import model.Feedback;
 import model.Product;
 import model.ProductImage;
+import model.ProductSize;
 
-/**
- *
- * @author phthh
- */
 public class product extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -58,6 +44,7 @@ public class product extends HttpServlet {
 
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
+        FeedbackDAO f = new FeedbackDAO();
 
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
@@ -189,7 +176,7 @@ public class product extends HttpServlet {
             if (type.equals("a-z")) {
                 ArrayList<Product> productList = d.getProductAZ();
                 ArrayList<Category> category = c.getAllCategories();
-//              Pagination
+                //Pagination
                 int page = 0, numperpage = 6;
                 int size = productList.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
@@ -212,7 +199,7 @@ public class product extends HttpServlet {
             if (type.equals("z-a")) {
                 ArrayList<Product> productList = d.getProductZA();
                 ArrayList<Category> category = c.getAllCategories();
-//              Pagination
+                //Pagination
                 int page = 0, numperpage = 6;
                 int size = productList.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
@@ -234,36 +221,66 @@ public class product extends HttpServlet {
             }
         }
 
-//View Product detail
+        //View Product detail
         if (action.equalsIgnoreCase("productdetail")) {
             String product_id = request.getParameter("product_id");
 
             int productId = Integer.parseInt(product_id);
             int product_category = Integer.parseInt(request.getParameter("product_category"));
             CategoryDAO dao = new CategoryDAO();
-//            get image of one product
+            //get image of one product
             ArrayList<ProductImage> i = d.getProductImage(productId);
-            int countReview = d.countReview(productId);
-
-//            Retrieve products by id
+            
+            //Retrieve products by id
             Product product = d.getProductById(productId);
 
+//            Get product size
+            ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
+            
 //            Get products with the same category: To get common products
+
+            //Get products with the same category: To get common products
+
             ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
 
+            // To retrieve the product category
+
+            ArrayList<Product> productNew = d.getNewProduct();
+            // Save a list of IDs of new products
+            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("top8New", newProductIds);
+            ArrayList<Product> productLowInStock = d.getProductLowStock();
+            // Save a list of IDs of low products
+            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+            request.setAttribute("lowInStock", lowProductIds);
 //           To retrieve the product category
+
             Category cat = dao.getCategoryById(product_category);
+            
+            //Feedback by productID
+            int countReview = f.countReviewByProductId(productId);
+            
+            ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
+            request.setAttribute("feedback", feedback);
+            
             request.setAttribute("Category", cat);
             request.setAttribute("image", getPath(i));
+            request.setAttribute("sizeList", sizeList);
+//            Show first value of price and size, quantity
+            request.setAttribute("price", sizeList.get(0).getPrice());
+            request.setAttribute("size", sizeList.get(0).getSize());
+            request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
             request.setAttribute("ProductData", product);
             request.setAttribute("countReview", countReview);
             request.setAttribute("ProductCategory", productByCategory);
             request.setAttribute("Category", cat);
             request.getRequestDispatcher("/ViewUser/product-details.jsp").forward(request, response);
         }
+        
+        
     }
 
-//get Image url
+    //get Image url
     public ArrayList<String> getPath(ArrayList<ProductImage> list) {
         ArrayList<String> paths = new ArrayList<>();
 
@@ -297,7 +314,7 @@ public class product extends HttpServlet {
             request.setAttribute("productList", productList);
 
             ArrayList<Category> category = c.getAllCategories();
-//            Pagination
+            //Pagination
             int page = 0, numperpage = 6;
             int size = productList.size();
             int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//number of page

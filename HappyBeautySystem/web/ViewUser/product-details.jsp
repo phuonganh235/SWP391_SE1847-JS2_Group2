@@ -27,6 +27,25 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <style>
+            .button-holder button {
+                border: 2px solid #6699ff;
+                border-radius: 40px;
+                width: 70px;
+                height: 37px;
+                text-align: center;
+                background-color: #99ccff;
+                box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.3s, border-color 0.3s;
+            }
+
+            .button-holder button.active {
+                background-color: #ff99cc;
+                border-color: #f971cbda;
+                color: white;
+            }
+
+        </style>
     </head>
 
     <body>
@@ -61,25 +80,21 @@
                             <div class="product__details__pic__left product__thumb nice-scroll">
                                 <c:forEach items="${image}" var="i">
                                     <a class="pt" href="${i}">
-                                        <img style = "border-radius: 40px; height: 180px; width: 150px;" alt="image product" src="${i}" alt="">
+                                        <img style = "border: 4px solid #fddfdf; border-radius: 40px; height: 180px; width: 150px;" alt="image product" src="${i}" alt="">
                                     </a>
                                 </c:forEach>
+                                <img data-hash="product-1" class="product__big__img" style = "border: 4px solid #fddfdf; border-radius: 40px; height: 180px; width: 150px;" alt="image product" src="${ProductData.getPathImage()}" alt="">
                             </div>
                             <div class="product__details__slider__content">
                                 <div class="product__details__pic__slider owl-carousel">
-                                    <img data-hash="product-1" class="product__big__img" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${ProductData.getPathImage()}" alt="">
+                                    <img data-hash="product-1" class="product__big__img" style = "border: 4px solid #fddfdf; border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${ProductData.getPathImage()}" alt="">
                                     <c:forEach items="${image}" var="i">
-                                        <img data-hash="product-1" class="product__big__img" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${i}" alt="">
+                                        <img data-hash="product-1" class="product__big__img" style = "border: 4px solid #fddfdf; border-radius: 40px; height: 570px; width: 380px;" alt="image product" src="${i}" alt="">
                                     </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="col-lg-6">
-                                            <div class="product__details__pic">
-                                                <img src="${ProductData.getPathImage()}" style = "border-radius: 40px; height: 570px; width: 380px;" alt="image product">
-                                            </div>
-                                        </div>-->
 
                     <div class="col-lg-6">
                         <div class="product__details__text">
@@ -93,45 +108,50 @@
                                 <i class="fa fa-star"></i>
                                 <span>( Reviews: ${countReview} )</span>
                             </div>
-                            <div class="product__details__price">Price: $${ProductData.getPrice()}</div>
-                            <div class="">Category: ${requestScope.Category.categoryName}</div>
+                            <div id="field-price" class="product__details__price">Price: $ ${price}</div>
+
+                            <!--<div class="">Category: ${requestScope.Category.categoryName}</div>-->
                             <p>${ProductData.getLongDes()}</p>
+                            <div id="field-quantity" class="quantity" style="color: black; font-size: 13px; font-weight: 600;  margin-top: 15px;">
+                                Quantity: ${quantitySize}
+                            </div>
                             <div class="product__details__button">
-                                <div class="quantity">
-                                    <span>Quantity: ${ProductData.getQuantity()}</span>
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", function () {
-                                            document.getElementById("quantity").oninput = function () {
-                                                var quantity = this.value;
-                                                if (quantity === "") {
-                                                    document.getElementById("textError").innerHTML = "Please enter number!";
-                                                } else if (parseInt(quantity) < 1) { // check number < 1
-                                                    document.getElementById("textError").innerHTML = "Quantity must be greater than 0";
-                                                } else if (parseInt(quantity) > ${ProductData.getQuantity()}) { // check number < 1
-                                                    document.getElementById("textError").innerHTML = "Quantity must be less than or equal to ${ProductData.getQuantity()}";
-                                                } else {
-                                                    document.getElementById("textError").innerHTML = "";
-                                                }
-                                            };
-                                        });
-                                    </script>
-                                    <!--<div class="pro-qty">-->
-                                    <!--<div>-->
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        document.getElementById("quantity").oninput = function () {
+                                            var quantity = this.value;
+                                            var maxQuantity = parseInt(document.getElementById("quantity").getAttribute('max'));
+                                            if (quantity === "") {
+                                                document.getElementById("textError").innerHTML = "Please enter number!";
+                                            } else if (parseInt(quantity) < 1) { // check number < 1
+                                                document.getElementById("textError").innerHTML = "Quantity must be greater than 0";
+                                            } else if (parseInt(quantity) > maxQuantity) { // check number < 1
+                                                document.getElementById("textError").innerHTML = "Quantity must be less than or equal to " + maxQuantity;
+                                            } else {
+                                                document.getElementById("textError").innerHTML = "";
+                                            }
+                                        };
+                                    });
+                                </script>
+
+                                <div id="field-quantity">
                                     <input style ="border: 2px solid #fddfdf;
                                            border-radius: 40px;
                                            width: 120px;
                                            height: 50px;
                                            text-align: center;
                                            background-color: #fddfdf;
-                                           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);" 
-                                           min = "1" max = ${ProductData.getQuantity()} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" value="${param.quantity}">
-                                    <!--</div>-->
-                                    <div style="display: block; text-align: center;">
-                                        <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
-                                    </div>
+                                           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+                                           margin-bottom: 10px; margin-left: 25px" 
+                                           min = "1" max = ${quantitySize} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" >
                                 </div>
 
-                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <div style="display: block; text-align: center;">
+                                    <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
+                                </div>
+
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_bag_alt"></span> Add to cart</a>
                                 <div>
                                     <ul>
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -142,6 +162,7 @@
                             </div>
                             <div class="product__details__widget">
                                 <ul>
+
                                     <li>
                                         <span>Availability:</span>
                                         <div class="stock__checkbox">
@@ -162,16 +183,69 @@
                                             </label>
                                         </div>
                                     </li>
+                                    <script>
+                                        function updatePriceQuantity(element) {
+                                            // Get the price from the button's attribute, Update the price display
+                                            var price = parseFloat(element.getAttribute('price')).toFixed(2);
+                                            document.getElementById('field-price').innerHTML = 'Price: $ ' + price;
+                                            // Update the hidden price input
+                                            document.getElementById('price').value = price;
+
+                                            var quantitySize = element.getAttribute('quantitySize');
+                                            document.getElementById('field-quantity').innerHTML = 'Quantity: ' + quantitySize;
+                                            document.getElementById('field-quantity').setAttribute('quantitySize', quantitySize);
+                                            document.getElementById('quantity').setAttribute('max', quantitySize);
+
+                                            // Reset the quantity input field to its default value (1)
+                                            document.getElementById('quantity').value = 1;
+                                            // Update the hidden quantity input
+                                            document.getElementById('quantitySize').value = quantitySize;
+
+                                            // Update the hidden price input
+                                            document.getElementById('price').value = price;
+                                            // Get the size from the button's value
+                                            var size = element.getAttribute('value');
+                                            // Update the hidden size input
+                                            document.getElementById('size').value = size;
+                                            // Clear any existing error messages
+                                            document.getElementById('textError').innerHTML = "";
+
+                                            // Get all buttons
+                                            var buttons = document.querySelectorAll('.button-holder button');
+
+                                            // Remove the active class from all buttons
+                                            buttons.forEach(function (btn) {
+                                                btn.classList.remove('active');
+                                            });
+
+                                            // Add the active class to the clicked button
+                                            element.classList.add('active');
+                                        }
+                                        // Initialize the fields with the first button's attributes on page load
+                                        window.onload = function () {
+                                            var firstButton = document.querySelector('.button-holder button');
+                                            if (firstButton) {
+                                                updatePriceQuantity(firstButton);
+                                            }
+                                        }
+                                    </script>
                                     <li>
                                         <span>Available size:</span>
                                         <div class="size__btn">
-
-                                            <label for="l-btn">
-                                                <input type="radio" id="l-btn">
-                                                ${ProductData.getSize()}
-                                            </label>
+                                            <div class="button-holder">
+                                                <c:forEach items="${sizeList}" var="s">
+                                                    <button onclick="updatePriceQuantity(this)" value='${s.size}' price='${s.price}' quantitySize='${s.quantity}'
+                                                            class="${status.first ? 'active' : ''}">
+                                                        ${s.size}
+                                                    </button>
+                                                </c:forEach>
+                                            </div>
+                                            <input type="hidden" id="quantitySize" name="quantitySize" value="${quantitySize}" />
+                                            <input type="hidden" id="price" name="price" value="${price}" />
+                                            <input type="hidden" id="size" name="size" value="${size}" />
                                         </div>
                                     </li>
+
                                     <li>
                                         <span>Promotions:</span>
                                         <p>Free shipping</p>
@@ -187,17 +261,41 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                                 </li>
-                                <li class="nav-item">
+<!--                                <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                                </li>
+                                </li>-->
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( ${countReview} )</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <h6>Description</h6>
+                                    <h5 style="font-weight: 600;text-transform: uppercase">Description</h5>
                                     <p>${ProductData.getLongDes()}</p>
+                                </div>
+                            </div>
+                                <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
+                                
+                                <div class="blog__details__comment">
+                                    <h5>${countReview} Review(s)</h5>
+                                    <a href="#" class="leave-btn">Leave a review</a>
+                                    
+                                    <c:forEach items="${feedback}" var="feedback">
+                                        <div class="blog__comment__item">
+                                            <div class="blog__comment__item__pic">
+                                                <img src="" alt="">
+                                            </div>
+                                            <div class="blog__comment__item__text">
+                                                <h6>${feedback.userId}</h6>
+                                                <p>${feedback.comment}</p>
+                                                <ul>
+                                                    <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
+                                                   
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+
                                 </div>
                             </div>
                         </div>
@@ -214,7 +312,12 @@
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
-                                    <div class="label new">New</div>
+                                    <c:if test="${top8New.contains(pc.getProductId())}">
+                                        <div class="label new" style="border-radius: 10px;">New</div>
+                                    </c:if>
+                                    <c:if test="${lowInStock.contains(pc.getProductId())}">
+                                        <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                    </c:if>
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">

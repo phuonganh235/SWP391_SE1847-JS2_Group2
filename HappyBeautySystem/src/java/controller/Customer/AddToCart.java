@@ -95,15 +95,30 @@ public class AddToCart extends HttpServlet {
                 response.sendRedirect("AddToCart?service=showCart");
 
             }
-            // Update quantity
-            if (service.equals("updateQuantity")) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                int userId = Integer.parseInt(request.getParameter("userId"));
+//            if ("updateQuantity".equals(service)) {
+//                int productId = Integer.parseInt(request.getParameter("productId"));
+//                int userId = Integer.parseInt(request.getParameter("userId"));
+//                int quantity = Integer.parseInt(request.getParameter("quantity"));
+//
+//                // Assuming 'cart' is an instance of your Cart class
+//                cart.updateQuantityChange(userId, productId, quantity);
+//
+//                // Send empty response or any confirmation if needed
+//                response.getWriter().print("Quantity updated successfully");
+//            }
+            if ("updateQuantity".equals(service)) {
+                int cartId = Integer.parseInt(request.getParameter("cartId"));
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
-                cart.updateQuantityChange(userId, productId, quantity);
 
-                response.getWriter().print("");
+                // Assuming you retrieve price from database or request attributes
+                double price = Double.parseDouble(request.getParameter("price"));
 
+                // Update quantity in the database
+                CartDAO cartDAO = new CartDAO();
+                cartDAO.updateQuantity(cartId, quantity);
+
+                // Respond to the client (optional)
+                response.getWriter().print("Quantity updated successfully");
             }
 
         } catch (Exception e) {

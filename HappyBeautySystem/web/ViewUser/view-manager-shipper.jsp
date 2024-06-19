@@ -48,11 +48,11 @@
         <div class="container status-container">
             <h2>Tasks of a Shipper</h2>
             <p>Shippers play a crucial role in the logistics and delivery industry, ensuring that goods and packages reach their intended destinations safely and on time. Their responsibilities encompass a wide range of tasks, including but not limited to:</p>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Order Delivered</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Order Deceived</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Order Done</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Order Redelivery</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=5" class="btn btn-warning">Order Not Delivered</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Đơn nhận giao</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Hoàn thành</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Giao lại</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=5" class="btn btn-danger">Bị bom</a>
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->
@@ -61,52 +61,42 @@
                 <table class="order-list">
                     <thead>
                         <tr >
+                            <th class="text-center">Code</th>
                             <th class="text-center">Customer Name</th>
                             <th class="text-center">Phone Number</th>
-                            <th class="text-center">Order Date</th>
-                            <th class="text-center">Payment Method</th>
-                            <th class="text-center">Delete</th>
-                            <th class="text-center">Detail</th>
+                            <th class="text-center">Address</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
                             List<Order> listOrder = (List<Order>) request.getAttribute("listOrder");
                             double granTotal = 0;
+                            String option = request.getParameter("option");
+                            int optionINT = Integer.parseInt(option);
                             if (listOrder != null && !listOrder.isEmpty()) {
                                 for (Order order : listOrder) {
                         %>
                         <tr>
-                            <td class="text-center"><%= order.getCustomerName()%></td>
-                            <td class="text-center"><%= order.getCustomerPhoneNumber()%></td>
-                            <td class="text-center"><%= order.getOrderDate()%></td>
+                            <td class="text-center align-middle"><%= order.getOrderId()%></td>
+                            <td class="text-center align-middle"><%= order.getCustomerName()%></td>
+                            <td class="text-center align-middle"><%= order.getCustomerPhoneNumber()%></td>
+                            <td class="text-center align-middle"><%= order.getCustomerAddress()%></td>
                             <td class="text-center">
+                                <%// Giả sử rằng thuộc tính status là một phần của đối tượng Order
+                                    if (optionINT == 2) {
+                                %>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
+                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>
+                                <!--                            Delete-->
                                 <%
-                                    int paymentId = order.getPaymentId();
-                                    String paymentMethod = "";
-                                    if (paymentId == 1) {
-                                        paymentMethod = "Momo";
-                                    } else if (paymentId == 2) {
-                                        paymentMethod = "VNpay";
-                                    } else {
-                                        paymentMethod = "COD"; // Trường hợp phương thức thanh toán không xác định
                                     }
                                 %>
-                                <%= paymentMethod%>
                             </td>
-                            <td class="text-center">
-                                <%
-                                    int status = order.getStatuss(); // Giả sử rằng thuộc tính status là một phần của đối tượng Order
-                                    if (status == 1) {
-                                %>
-                                <!--                            Delete-->
-                                <a href="/HappyBeautySystem/ManagerOrder?service=delete&orderid=<%= order.getOrderId()%>"><i class="fa-solid fa-trash fs-1"></i></a>
-                                    <%
-                                        }
-                                    %>
-                            </td>
-                            <!--                        Detail-->
-                            <td class="text-center"><a href="/HappyBeautySystem/ManagerOrder?service=orderDetail&orderid=<%= order.getOrderId()%>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                            <!--                            <td class="text-center align-middle">
+                                                            <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
+                                                            <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
+                                                        </td>-->    
                         </tr>
                         <%
                             }
@@ -119,6 +109,8 @@
                             }
                         %>
                     </tbody>
+
+
                 </table>
             </c:if>
         </div>

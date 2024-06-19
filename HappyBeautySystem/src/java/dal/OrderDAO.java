@@ -139,6 +139,26 @@ public class OrderDAO extends DBContext {
         return orders;
     }
 
+    public int getUserIDByOrderID(int orderID) {
+        int userID = 0; // Giá trị mặc định nếu không tìm thấy
+
+        String sql = "SELECT UserId FROM Orders WHERE OrderId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderID);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    userID = rs.getInt("UserId");
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return userID;
+    }
+
     //delete 
     public boolean deleteOrderAndDetails(int orderId) {
         String deleteOrderDetailSQL = "DELETE FROM OrderDetail WHERE OrderId = ?";
@@ -241,11 +261,41 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
+    ////
+    // get order by orderID and status
+    public Order getOrderByOrderIdAndStatus(int orderID, int status) {
+        String sql = "SELECT * FROM Orders WHERE OrderId = ? AND Statuss = ?";
+        Order order = null;
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderID);
+            pre.setInt(2, status);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    order = new Order();
+                    order.setOrderId(rs.getInt("OrderId"));
+                    order.setUserId(rs.getInt("UserId"));
+                    order.setPaymentId(rs.getInt("PaymentId"));
+                    order.setOrderDate(rs.getString("OrderDate"));
+                    order.setIsCancel(rs.getBoolean("IsCancel"));
+                    order.setCustomerName(rs.getString("CustomerName"));
+                    order.setCustomerAddress(rs.getString("CustomerAddress"));
+                    order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                    order.setStatuss(rs.getInt("Statuss"));
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return order;
+    }
+
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(8);
         int n = dao.CountOrder();
-//        List<Order> list = dao.getOrdersByStatus(1);
-//        System.out.println(list);
+
     }
 }

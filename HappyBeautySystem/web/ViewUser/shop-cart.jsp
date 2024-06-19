@@ -34,7 +34,7 @@
 
     <body>
         <!-- Header Section Begin -->
-        <jsp:include page="navbar.jsp"/>
+        <jsp:include page="navbar.jsp" />
         <!-- Header Section End -->
 
         <!-- Breadcrumb Begin -->
@@ -60,7 +60,8 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
+                                        <th></th>
+                                        <th style="margin-left :40px">Product</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
@@ -70,25 +71,28 @@
                                 <tbody>
                                     <%
                                         List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
-                                        double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal
+                                        double granTotal = 0;
                                         if (listCart != null && !listCart.isEmpty()) {
                                             ProductDAO daoProduct = new ProductDAO();
                                             for (Cart cart : listCart) {
                                                 Product pro = daoProduct.getProductById(cart.getProductId());
                                                 if (pro != null) {
                                                     double subtotal = cart.getQuantity() * pro.getPrice();
-                                                    granTotal += subtotal;
+
                                                     String formattedGranTotal = String.format("%.2f", granTotal);
                                     %>
                                     <tr>
+                                        <td><input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.2f", subtotal)%>"
+                                                   onclick="updateTotal()"></td>
                                         <td class="cart__product__item">
-                                            <a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
-                                                <img style="
-                                                     height: 90px;
-                                                     width: 90px;
-                                                     " src="<%= pro.getPathImage()%>" alt=""></a>
+                                            <a
+                                                href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
+                                                <img style="height: 90px; width: 90px; margin-left: 40px;"
+                                                     src="<%= pro.getPathImage()%>" alt=""></a>
                                             <div class="cart__product__item__title">
-                                                <h6><a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a></h6>
+                                                <h6><a
+                                                        href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a>
+                                                </h6>
                                                 <div class="rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -98,13 +102,16 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price" data-price="<%= pro.getPrice()%>">$<%= pro.getPrice()%></td>
+                                        <td class="cart__price">$<%= String.format("%.2f", pro.getPrice())%></td>
                                         <td class="cart__quantity">
                                             <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
                                         </td>
-                                        <td class="cart__price sub_total" data-price="<%= subtotal%>" id="<%= cart.getCartId()%>">$<%= subtotal%></td>
+
+                                        <td class="cart__price sub_total" data-price="<%= String.format("%.2f", subtotal)%>"
+                                            id="subtotal-<%= cart.getCartId()%>">$<%= String.format("%.2f", subtotal)%></td>
                                         <td class="cart__close">
-                                            <a href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
+                                            <a
+                                                href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
                                                 <span class="icon_close"></span>
                                             </a>
                                         </td>
@@ -129,7 +136,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn">
-                            <a href="/HappyBeautySystem/home">Continue Shopping</a>
+                            <a href="product">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
@@ -147,13 +154,11 @@
                         <div class="cart__total__procced">
                             <h6>Cart total</h6>
                             <ul>
-                                <li>Total <span id="granTotal">$<%= granTotal%></span></li>
+                                <li>Total <span id="granTotal">$<%= String.format("%.2f", granTotal)%></span></li>
                             </ul>
-                            <a href="OrderController?service=showAll" class="primary-btn " style="background-color: green">Confirm Order</a>
-                        </div>
+                            <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Confirm Order</button></div>
                     </div>
                 </div>
-            </div>
         </section>
         <!-- Shop Cart Section End -->
 
@@ -218,34 +223,34 @@
         <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-7">
+                    <div class="col-lg-3 col-md-6 col-sm-7">
                         <div class="footer__about">
                             <div class="footer__logo">
-                                <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                                <a href="./index.html"><img src="ViewUser/img/footer-logo.png" alt=""></a>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 cilisis.</p>
                             <div class="footer__payment">
-                                <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
+                                <a href="#"><img src="ViewUser/img/payment/payment-1.png" alt=""></a>
+                                <a href="#"><img src="ViewUser/img/payment/payment-2.png" alt=""></a>
+                                <a href="#"><img src="ViewUser/img/payment/payment-3.png" alt=""></a>
+                                <a href="#"><img src="ViewUser/img/payment/payment-4.png" alt=""></a>
+                                <a href="#"><img src="ViewUser/img/payment/payment-5.png" alt=""></a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-5">
+                    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-5">
                         <div class="footer__widget">
                             <h6>Quick links</h6>
                             <ul>
                                 <li><a href="#">About</a></li>
-                                <li><a href="#">Blogs</a></li>
+                                <li><a href="#">Blog</a></li>
                                 <li><a href="#">Contact</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-4">
+                    <div class="col-lg-3 col-md-6 col-sm-7">
                         <div class="footer__widget">
                             <h6>Account</h6>
                             <ul>
@@ -256,46 +261,35 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-8 col-sm-8">
-                        <div class="footer__newslatter">
+                    <div class="col-lg-3 col-md-6 col-sm-7">
+                        <div class="footer__widget">
                             <h6>NEWSLETTER</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Email">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
-                            <div class="footer__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <div class="footer__newslatter">
+                                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                                <form action="#">
+                                    <input type="text" placeholder="Your email">
+                                    <button type="submit"><span class="icon_mail_alt"></span></button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         <div class="footer__copyright__text">
-                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+                            <p>
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script>
+                                All rights reserved | This template is made with <i class="fa fa-heart"
+                                                                                    aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                    target="_blank">Colorlib</a>
+                            </p>
                         </div>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                 </div>
             </div>
         </footer>
         <!-- Footer Section End -->
-
-        <!-- Search Begin -->
-        <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch">+</div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
-                </form>
-            </div>
-        </div>
-        <!-- Search End -->
 
         <!-- Js Plugins -->
         <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
@@ -309,84 +303,91 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    const priceCells = document.querySelectorAll('.cart__price');
-                                    priceCells.forEach(cell => {
-                                        const price = parseFloat(cell.getAttribute('data-price'));
-                                        cell.textContent = price.toFixed(2);
-                                    });
+                                    // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
+                                    let listProcductIdChoose = [];
 
-                                });
-        </script>
-        <!--        //CHANGE QUANTITY -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script>
+                                    function updateTotal() {
+                                        var checkboxes = document.querySelectorAll('.product-checkbox');
+                                        var total = 0;
+                                        checkboxes.forEach(function (checkbox) {
+                                            if (checkbox.checked) {
+                                                total += parseFloat(checkbox.dataset.price);
+                                            }
+                                        });
+                                        document.getElementById('granTotal').innerText = '$' + total.toFixed(2);
+                                    }
 
-                                function stringToObject(string) {
-                                    //Tách chuỗi ra thành các phần tử có key với value ví du:
-                                    // [name=abc,age=20,gender=male]
-                                    let keyValuePairs = string.split(", ");
-                                    let obj = {}; // tạo 1 obj rỗng
 
-                                    // duyệt mọi phần tử
-                                    for (let i = 0; i < keyValuePairs.length; i++) {
-                                        // Tạo 1 mảng chứa key - value,
-                                        // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
-                                        // để thêm vào obj
-                                        let keyValue = keyValuePairs[i].split("=");
 
-                                        // Mảng có 2 phần tử, 0: key, 1: value
-                                        let key = keyValue[0].trim();
-                                        let value = keyValue[1].trim();
 
-                                        // Check xem value có phải số hay không? nếu là số thì parse
-                                        if (!isNaN(value)) {
-                                            value = parseFloat(value);
+                                    function changeQuantity(position, obj_raw, price) {
+                                        let value = +position.value;
+                                        if (value <= 0) {
+                                            position.value = 1;
+
                                         }
+                                        console.log(typeof +position.value);
+                                        let obj = stringToObject(obj_raw);
+                                        console.log(obj)
+                                        console.log(price);
+                                        $.ajax({
+                                            url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
+                                            type: "POST",
+                                            success: function (data) {
+                                                let id = obj.cartId;
+                                                let total = document.getElementById(id);
+                                                total.innerHTML = price * position.value;
 
-                                        // thêm key-value vào obj
-                                        obj[key] = value;
-                                    }
-
-                                    return obj;
-                                }
-                                function changeQuantity(position, obj_raw, price) {
-                                    let value = +position.value;
-                                    if (value <= 0) {
-                                        position.value = 1;
-
-                                    }
-                                    console.log(typeof +position.value);
-                                    let obj = stringToObject(obj_raw);
-                                    console.log(obj)
-                                    console.log(price);
-                                    $.ajax({
-                                        url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
-                                        type: "POST",
-                                        success: function (data) {
-                                            let id = obj.cartId;
-                                            let total = document.getElementById(id);
-                                            total.innerHTML = price * position.value;
-
-                                            let priceCells = document.querySelectorAll('.sub_total');
-                                            let totalPrice = 0;
-                                            console.log(priceCells);
-                                            priceCells.forEach(cell => {
-                                                let price = +cell.innerHTML;
+                                                let priceCells = document.querySelectorAll('.sub_total');
+                                                let totalPrice = 0;
+                                                console.log(priceCells);
+                                                priceCells.forEach(cell => {
+                                                    let price = +cell.innerHTML;
 //                                                cell.textContent = price.toFixed(2);
-                                                totalPrice += price;
+                                                    totalPrice += price;
 
-                                            });
-                                            console.log(totalPrice);
-                                            document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
+                                                });
+                                                console.log(totalPrice);
+                                                document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
 
-                                        },
-                                        error: function (xhr, status, error) {
+                                            },
+                                            error: function (xhr, status, error) {
 
+                                            }
+                                        });
+                                    }
+
+
+
+                                    function confirm(btn) {
+                                        // Lấy danh sách các checkbox được chọn
+                                        var checkboxes = document.querySelectorAll('.product-checkbox:checked');
+                                        listProcductIdChoose = [];
+
+                                        checkboxes.forEach(function (checkbox) {
+                                            // Lấy id sản phẩm từ data-attribute của checkbox
+                                            var productId = checkbox.getAttribute('data-product-id');
+                                            listProcductIdChoose.push(productId); // Thêm id vào mảng listProcductIdChoose
+                                        });
+
+                                        if (listProcductIdChoose.length > 0) {
+                                            let link = "OrderController?service=showAll";
+                                            let params = new URLSearchParams();
+
+                                            // Thêm các id sản phẩm đã chọn vào params
+                                            for (let i = 0; i < listProcductIdChoose.length; i++) {
+                                                params.append('id', listProcductIdChoose[i]);
+                                            }
+
+                                            // Tạo URL với các tham số đã được thêm vào
+                                            link += '&' + params.toString();
+
+                                            // Chuyển hướng đến servlet với URL đã xây dựng
+                                            window.location.href = link;
                                         }
-                                    });
-                                }
+                                    }
         </script>
 
     </body>
+
 </html>
