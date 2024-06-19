@@ -108,7 +108,7 @@
                     <a href="manageabout" class="nav-link dropdown-toggle"><i class="far fa-file-alt me-2"></i>About Page</a>
                     <a href="form.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
                     <a href="table.jsp" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="manageCoupons?service=listAllCoupons" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Coupons</a>
+                    <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Coupons</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
