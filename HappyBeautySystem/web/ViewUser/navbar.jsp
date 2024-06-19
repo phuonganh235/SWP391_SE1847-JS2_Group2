@@ -85,8 +85,8 @@
 
                                     <ul class="dropdown">
                                         <li><a  type="button" data-toggle="modal"  data-target="#userProfileModal">User profile</a></li>
-                                            <c:if test="${sessionScope.inforUserLogin.roleId == 3}">
-                                            <li><a  href="dashboard">Manage</a></li>
+                                            <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                                            <li><a href="dashboard">Manage</a></li>
                                             </c:if>
                                         <li><a href="logout">Logout</a></li>
                                     </ul>
@@ -95,7 +95,7 @@
                         </nav>
                     </c:if>
                     <ul class="header__right__widget">
-                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="wishlist?service=showWishList"><span class="icon_heart_alt"></span></a></li>
                         <li><a href="AddToCart?service=showCart"><span class="fa fa-shopping-cart"></span></a></li>
                         <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa fa-bars"></i></a></li>
                     </ul>

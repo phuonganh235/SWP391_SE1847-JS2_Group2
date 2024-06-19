@@ -151,10 +151,10 @@
                                     <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
                                 </div>
 
-                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_cart"></span> Add to cart</a>
                                 <div>
                                     <ul>
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
                                         <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                                     </ul>  
                                 </div>
@@ -321,7 +321,7 @@
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="wishlist?service=addWishList&id=${pc.getProductId()}"><span class="icon_heart_alt"></span></a></li>
                                         <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>

@@ -68,6 +68,10 @@
         <servlet-name>Changepassword</servlet-name>
         <servlet-class>controller.Authentication.Changepassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FavouriteList</servlet-name>
+        <servlet-class>controller.Product.FavouriteList</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -131,5 +135,9 @@
     <servlet-mapping>
         <servlet-name>Changepassword</servlet-name>
         <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FavouriteList</servlet-name>
+        <url-pattern>/wishlist</url-pattern>
     </servlet-mapping>
 </web-app>

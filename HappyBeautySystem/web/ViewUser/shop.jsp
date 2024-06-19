@@ -257,9 +257,13 @@
                                                 <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">
 
-                                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                                <li><a href="wishlist?service=addWishList&id=${p.getProductId()}">
+                                                        <span class="icon_heart_alt"></span>
+                                                    </a>
+                                                </li>
                                                 <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
-                                                        <span class="icon_bag_alt"></span></a></li>
+                                                        <span class="icon_bag_alt"></span></a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
