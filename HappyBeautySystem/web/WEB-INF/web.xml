@@ -72,6 +72,10 @@
         <servlet-name>FavouriteList</servlet-name>
         <servlet-class>controller.Product.FavouriteList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>manageCoupons</servlet-name>
+        <servlet-class>controller.Manager.manageCoupons</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>staff</servlet-name>
         <url-pattern>/staff</url-pattern>
@@ -139,5 +143,9 @@
     <servlet-mapping>
         <servlet-name>FavouriteList</servlet-name>
         <url-pattern>/wishlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageCoupons</servlet-name>
+        <url-pattern>/manageCoupons</url-pattern>
     </servlet-mapping>
 </web-app>

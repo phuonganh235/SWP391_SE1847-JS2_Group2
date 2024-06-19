@@ -1,6 +1,7 @@
 package model;
 
 public class Feedback {
+
     private int feedbackId;
     private int productId;
     private int userId;
@@ -9,6 +10,14 @@ public class Feedback {
     private String createdAt;
 
     public Feedback() {
+    }
+
+    public Feedback(int productId, int userId, int rating, String comment, String createdAt) {
+        this.productId = productId;
+        this.userId = userId;
+        this.rating = rating;
+        this.comment = comment;
+        this.createdAt = createdAt;
     }
 
     public Feedback(int feedbackId, int productId, int userId, int rating, String comment, String createdAt) {
@@ -72,6 +81,5 @@ public class Feedback {
     public String toString() {
         return "Feedback{" + "feedbackId=" + feedbackId + ", productId=" + productId + ", userId=" + userId + ", rating=" + rating + ", comment=" + comment + ", createdAt=" + createdAt + '}';
     }
-    
-    
+
 }

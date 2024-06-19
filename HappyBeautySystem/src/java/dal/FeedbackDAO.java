@@ -132,8 +132,8 @@ public class FeedbackDAO extends DBContext {
     // Main method for testing
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
-        dao.addFeedback(new Feedback(2, 3, 5, 2,
-                "Very gooddd", "2-3-2024"));
+        dao.addFeedback(new Feedback(2, 1, 1016, 5,
+                "This product is very good bro. I love it", "2-22-2024"));
         ArrayList<Feedback> fb = dao.getAllFeedbacks();
         for (Feedback feedback : fb) {
             System.out.println(feedback);
