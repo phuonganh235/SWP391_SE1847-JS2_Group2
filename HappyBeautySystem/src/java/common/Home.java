@@ -29,6 +29,7 @@ public class Home extends HttpServlet {
         ArrayList<Product> product = pDao.getNewProduct();
         ArrayList<Product> productPopular = pDao.getPopularProduct();
         ArrayList<Product> productSeller = pDao.getSellerProduct();
+        ArrayList<Product> Favourite = pDao.getFavouriteProduct();
 //      Decentralize
         int role = uDao.getRole(username, password);
 
@@ -41,6 +42,7 @@ public class Home extends HttpServlet {
             request.setAttribute("top8New", product);
             request.setAttribute("topPopular", productPopular);
             request.setAttribute("topSeller", productSeller);
+            request.setAttribute("topFavourite", Favourite);
             request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
         }
     }

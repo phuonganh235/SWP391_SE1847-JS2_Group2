@@ -253,6 +253,31 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+    //    Sellect the best favourite products
+    public ArrayList<Product> getFavouriteProduct() {
+        ArrayList<Product> list = new ArrayList<>();
+        String sql = "WITH TopProducts AS (\n"
+                + "    SELECT TOP (3) [ProductId], COUNT(DISTINCT [UserId]) AS UserCount\n"
+                + "    FROM [Wishlist]\n"
+                + "    GROUP BY [ProductId]\n"
+                + "    ORDER BY UserCount DESC\n"
+                + ")\n"
+                + "SELECT * FROM [Product] p\n"
+                + "JOIN TopProducts tp ON p.[ProductId] = tp.[ProductId];";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     // Searches for products by category name
     public ArrayList<Product> searchProductByCategory(String text) {
         ArrayList<Product> list = new ArrayList<>();
@@ -647,7 +672,7 @@ public class ProductDAO extends DBContext {
         Product cList = dao.getProductById(1);
 //        ArrayList<Product> cList = dao.getNewProduct();
 //        for (Product product : cList) {
-            System.out.println(cList);
+        System.out.println(cList);
 //        }
 //        Product p = dao.getProductById(1);
 //        System.out.println(pList);
