@@ -644,10 +644,10 @@ public class ProductDAO extends DBContext {
 //        System.out.println(pro.getProductName());
 //
 //        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
-////        ArrayList<Product> cList = dao.searchByPrice(15.22, 30.22);
+        Product cList = dao.getProductById(1);
 //        ArrayList<Product> cList = dao.getNewProduct();
-//        for (Product product : pList) {
-//            System.out.println(product);
+//        for (Product product : cList) {
+            System.out.println(cList);
 //        }
 //        Product p = dao.getProductById(1);
 //        System.out.println(pList);

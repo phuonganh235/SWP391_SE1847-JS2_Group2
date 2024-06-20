@@ -151,10 +151,10 @@
                                     <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
                                 </div>
 
-                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_cart"></span> Add to cart</a>
                                 <div>
                                     <ul>
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
                                         <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                                     </ul>  
                                 </div>
@@ -261,9 +261,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                                 </li>
-<!--                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                                </li>-->
+                                <!--                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                                                                </li>-->
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( ${countReview} )</a>
                                 </li>
@@ -274,33 +274,62 @@
                                     <p>${ProductData.getLongDes()}</p>
                                 </div>
                             </div>
-                                <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
-                                
+                            <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
                                 <div class="blog__details__comment">
-                                    <h5>${countReview} Review(s)</h5>
-                                    <a href="#" class="leave-btn">Leave a review</a>
-                                    
+                                    <h1>Id: ${sessionScope.inforUserLogin.userId}</h1>
+                                    <h5>Write Comment</h5>
+                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your comment here..." required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="rating">Rating:</label>
+                                            <div id="rating">
+                                                <label>
+                                                    <input type="radio" name="rating" value="1" required> 1
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="rating" value="2"> 2
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="rating" value="3"> 3
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="rating" value="4"> 4
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="rating" value="5"> 5
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="site-btn">Submit Comment</button>
+                                    </form>
+                                    <h5 style="margin-top: 50px">${countReview} Comment(s)</h5>
                                     <c:forEach items="${feedback}" var="feedback">
                                         <div class="blog__comment__item">
                                             <div class="blog__comment__item__pic">
                                                 <img src="" alt="">
                                             </div>
                                             <div class="blog__comment__item__text">
-                                                <h6>${feedback.userId}</h6>
+                                                <c:forEach items="${user}" var="user">
+                                                    <c:if test="${feedback.userId == user.userId}">
+                                                        <h6>${user.name}</h6>
+                                                    </c:if>
+                                                </c:forEach>    
                                                 <p>${feedback.comment}</p>
                                                 <ul>
                                                     <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
-                                                   
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </c:forEach>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="related__title">
@@ -321,7 +350,7 @@
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="wishlist?service=addWishList&id=${pc.getProductId()}"><span class="icon_heart_alt"></span></a></li>
                                         <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
