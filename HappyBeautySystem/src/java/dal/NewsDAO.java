@@ -25,7 +25,7 @@ public class NewsDAO extends DBContext {
                 n.setUserID(rs.getInt("UserID"));
                 n.setIsActive(rs.getBoolean("IsActive"));
                 n.setUpdateTime(rs.getTimestamp("UpdateTime"));
-                n.setUserID(rs.getInt("CategoryID"));
+                n.setCategoryID(rs.getInt("CategoryID"));
                 nList.add(n);
             }
         } catch (Exception e) {
@@ -35,8 +35,8 @@ public class NewsDAO extends DBContext {
     }
 
     public void addNews(News news) {
-        String sql = "INSERT INTO [dbo].[News]([Title],[Content],[CreateTime],[ImageURL],[IsConfirmed],[UserID],[IsActive],[UpdateTime]\n" +
-"           ,[CategoryID])\n"
+        String sql = "INSERT INTO [dbo].[News]([Title],[Content],[CreateTime],[ImageURL],[IsConfirmed],[UserID],[IsActive],[UpdateTime]\n"
+                + "           ,[CategoryID])\n"
                 + "     VALUES(?,?,?,?,0,?,1,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -59,7 +59,7 @@ public class NewsDAO extends DBContext {
 
     public void updateNews(News news) {
         String sql = "UPDATE [dbo].[News] "
-                + "SET [Title] = ?, [Content] = ?, [CreateDate] = ?, [ImageURL] = ?, "
+                + "SET [Title] = ?, [Content] = ?, [CreateTime] = ?, [ImageURL] = ?, "
                 + "[IsConfirmed] = 0, [UserID] = ?, [IsActive] = 1, [UpdateTime] = ?, [CategoryID] = ?"
                 + "WHERE [NewsID] = ?";
         try {
@@ -93,6 +93,32 @@ public class NewsDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public News getNewsById(int newsId) {
+        News news = null;
+        String sql = "SELECT * FROM News WHERE NewsID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, newsId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                news = new News();
+                news.setNewsId(rs.getInt("NewsID"));
+                news.setTitle(rs.getString("Title"));
+                news.setContent(rs.getString("Content"));
+                news.setCreateTime(rs.getTimestamp("CreateTime"));
+                news.setImgUrl(rs.getString("ImageURL"));
+                news.setIsConfirm(rs.getBoolean("IsConfirmed"));
+                news.setUserID(rs.getInt("UserID"));
+                news.setIsActive(rs.getBoolean("IsActive"));
+                news.setUpdateTime(rs.getTimestamp("UpdateTime"));
+                news.setCategoryID(rs.getInt("CategoryID"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return news;
     }
 
     public static void main(String[] args) {
