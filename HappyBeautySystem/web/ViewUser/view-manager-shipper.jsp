@@ -49,10 +49,10 @@
             <h2>Tasks of a Shipper</h2>
             <p>Shippers play a crucial role in the logistics and delivery industry, ensuring that goods and packages reach their intended destinations safely and on time. Their responsibilities encompass a wide range of tasks, including but not limited to:</p>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Đơn nhận giao</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Hoàn thành</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Giao lại</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=5" class="btn btn-danger">Bị bom</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
+<!--        <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=5" class="btn btn-warning">Giao lại</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=6" class="btn btn-danger">Bị bom</a>-->
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->
@@ -83,8 +83,28 @@
                             <td class="text-center align-middle"><%= order.getCustomerPhoneNumber()%></td>
                             <td class="text-center align-middle"><%= order.getCustomerAddress()%></td>
                             <td class="text-center">
-                                <%// Giả sử rằng thuộc tính status là một phần của đối tượng Order
+                                <%// Giả sử rằng thuộc tính status là một phần của đối tượng OrderupdateStatusOrder
                                     if (optionINT == 2) {
+                                %>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=updateStatusOrder&orderID=<%= order.getOrderId()%>&status=3'">Confirm</button>
+                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>
+                                <!--                            Delete-->
+                                <%
+                                    }
+                                %>
+                                <!-- // Giả sử rằng thuộc tính status là một phần của đối tượng Order-->
+                                <%
+                                    if (optionINT == 3) {
+                                %>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=doneOrder&orderID=<%= order.getOrderId()%>'">Done</button>
+                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">ShipAgain</button>
+                                <!--                            Delete-->
+                                <%
+                                    }
+                                %>
+                                <!--/ Giả sử rằng thuộc tính status là một phần của đối tượng Order-->
+                                <%
+                                    if (optionINT == 4) {
                                 %>
                                 <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
                                 <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>

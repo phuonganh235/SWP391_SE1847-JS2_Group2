@@ -292,6 +292,26 @@ public class OrderDAO extends DBContext {
         return order;
     }
 
+    public int getStatusByOrderId(int orderID) {
+        int status = -1; // Giá trị mặc định nếu không tìm thấy dữ liệu
+
+        String sql = "SELECT Statuss FROM Orders WHERE OrderId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderID);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    status = rs.getInt("Statuss");
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return status;
+    }
+
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(8);

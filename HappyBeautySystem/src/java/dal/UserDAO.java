@@ -380,12 +380,24 @@ public class UserDAO extends DBContext {
         return count;
     }
 
+    public boolean updateUserStatus(int userId, int newStatus) {
+        String sql = "UPDATE Users SET Statuss = ? WHERE UserId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, newStatus);
+            ps.setInt(2, userId);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
 
         // Create a new user
-    
-
         // Tạo đối tượng User để kiểm tra
         User user = new User();
         user.setUserId(1050); // ID người dùng cần cập nhật
@@ -408,5 +420,3 @@ public class UserDAO extends DBContext {
         }
     }
 }
-
-
