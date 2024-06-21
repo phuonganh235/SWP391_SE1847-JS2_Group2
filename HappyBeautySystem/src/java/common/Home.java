@@ -17,7 +17,7 @@ public class Home extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
         UserDAO uDao = new UserDAO();
@@ -25,24 +25,31 @@ public class Home extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
-        
+
         ArrayList<Product> product = pDao.getNewProduct();
         ArrayList<Product> productPopular = pDao.getPopularProduct();
         ArrayList<Product> productSeller = pDao.getSellerProduct();
-        
-//        if(uDao.getRole(username, password) == 3){
-//            request.getRequestDispatcher("dashboard").forward(request, response);
-//        }else{
-        request.setAttribute("top8New", product);
-        request.setAttribute("topPopular", productPopular);
-        request.setAttribute("topSeller", productSeller);
-        request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
-//        }
-    } 
+        ArrayList<Product> Favourite = pDao.getFavouriteProduct();
+//      Decentralize
+        int role = uDao.getRole(username, password);
+
+        if (role == 1) {
+            request.getRequestDispatcher("dashboard").forward(request, response);
+//        } 
+//        else if (role == 3) {
+//            request.getRequestDispatcher("product").forward(request, response);
+        } else {
+            request.setAttribute("top8New", product);
+            request.setAttribute("topPopular", productPopular);
+            request.setAttribute("topSeller", productSeller);
+            request.setAttribute("topFavourite", Favourite);
+            request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
     }
