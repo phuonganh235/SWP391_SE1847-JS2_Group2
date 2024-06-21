@@ -174,7 +174,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           >
 
           <a
-            href="manageCoupons?service=listAllCoupons"
+            href="manageCoupons?service=listAllCoupon"
             class="nav-item nav-link"
             ><i class="fa fa-chart-bar me-2"></i>Manage Coupons</a
           >

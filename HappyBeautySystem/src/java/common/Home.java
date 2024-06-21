@@ -37,6 +37,8 @@ public class Home extends HttpServlet {
 //        } 
 //        else if (role == 3) {
 //            request.getRequestDispatcher("product").forward(request, response);
+        } else if (role == 4) {
+            request.getRequestDispatcher("staff").forward(request, response);
         } else {
             request.setAttribute("top8New", product);
             request.setAttribute("topPopular", productPopular);

@@ -34,6 +34,18 @@ public class News {
         this.categoryID = categoryID;
     }
 
+    public News(int newsId, String title, String content, Timestamp createTime, String imgUrl, boolean isConfirm, boolean isActive, Timestamp updateTime, int categoryID) {
+        this.newsId = newsId;
+        this.title = title;
+        this.content = content;
+        this.createTime = createTime;
+        this.imgUrl = imgUrl;
+        this.isConfirm = isConfirm;
+        this.isActive = isActive;
+        this.updateTime = updateTime;
+        this.categoryID = categoryID;
+    }
+
     public int getNewsId() {
         return newsId;
     }

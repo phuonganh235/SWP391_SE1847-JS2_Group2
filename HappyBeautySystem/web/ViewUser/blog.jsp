@@ -77,24 +77,26 @@
             <div class="container">
                 <div class="row">
                     <c:forEach var="news" items="${newsList}">
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="blog__item">
-                                <div class="blog__item__pic large__item">
-                                    <img src="${news.imgUrl}" alt="${news.title}">
-                                </div>
-                                <div class="blog__item__text">
-                                    <h6><a href="newsdetail?service=viewNewsDetail&newsID=${news.newsId}">${news.title}</a></h6>
-                                    <ul>
-                                        <li>${news.createTime}</li>
-                                        <li>Category: ${news.categoryID}</li>
-                                        <li>Updated: ${news.updateTime}</li>
-                                        <li>Active: ${news.isActive}</li>
-                                        <li>Confirmed: ${news.isConfirm}</li>
-                                    </ul>
-                                    <p>${news.content}</p>
+                        <c:if test="${news.isActive}">
+                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                <div class="blog__item">
+                                    <div class="blog__item__pic large__item">
+                                        <img src="${news.imgUrl}" alt="${news.title}">
+                                    </div>
+                                    <div class="blog__item__text">
+                                        <h6><a href="newsdetail?service=viewNewsDetail&newsID=${news.newsId}">${news.title}</a></h6>
+                                        <ul>
+                                            <li>${news.createTime}</li>
+                                            <li>Category: ${news.categoryID}</li>
+                                            <li>Updated: ${news.updateTime}</li>
+                                            <li>Active: ${news.isActive}</li>
+                                            <li>Confirmed: ${news.isConfirm}</li>
+                                        </ul>
+                                        <p>${news.content}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
                     </c:forEach>
                     <div class="col-lg-12 text-center">
                         <a href="#" class="primary-btn load-btn">Load more posts</a>

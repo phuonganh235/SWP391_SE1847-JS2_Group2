@@ -45,7 +45,7 @@ public class SendMail {
             mess.setFrom(new InternetAddress(fromEmail));
             mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mess.setSubject("User Email Verification");
-            mess.setText("Registered successfully.Please verify your account using this code: ");
+            mess.setText("Registered successfully.Please verify your account using this code: " + u.getCode());
             Transport.send(mess);
             test = true;
         }catch(Exception e){
@@ -80,15 +80,7 @@ public class SendMail {
             mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mess.setSubject(" Welcome to Happy Beauty WebPages!");
             String text = "Dear [" + name + "]\n"
-                    + "Congratulations! You have successfully registered an account on Happy Beauty WebPages. Welcome to our community!"
-                    + "\n" + "We are excited to have you on board and provide you with opportunities to explore and apply for various job positions. With our user-friendly platform and extensive job listings, we aim to make your job search journey efficient and rewarding.\n"
-                    + "Here are some key features you can access with your new account:\n"
-                    + "- Explore a wide range of job listings tailored to your preferences.\n"
-                    + "- Save and track your favorite job postings.\n"
-                    + "- Receive personalized job recommendations based on your profile.\n"
-                    + "- Connect with recruiters and potential employers.\n" + "If you have any questions or need assistance, feel free to reach out to our support team at [support email].\n"
-                    + "Once again, welcome to JobSearching WebPages! We wish you success in your job search journey.\n"
-                    + "Best regards,\n" + "ITJob.";
+                    + "Congratulations! You have successfully registered an account on Happy Beauty WebPages. Welcome to our community!";
 
             mess.setText(text);
             Transport.send(mess);

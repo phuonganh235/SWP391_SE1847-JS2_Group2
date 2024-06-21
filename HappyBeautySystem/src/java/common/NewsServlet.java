@@ -17,20 +17,30 @@ public class NewsServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        NewsDAO newsDAO = new NewsDAO();
-        String service = request.getParameter("service");
-        if(service == null || service.isEmpty()){
-            service = "viewAllNews";
+    response.setContentType("text/html;charset=UTF-8");
+    NewsDAO newsDAO = new NewsDAO();
+    String service = request.getParameter("service");
+    if(service == null || service.isEmpty()){
+        service = "viewAllNews";
+    }
+
+    if (service.equals("viewAllNews")) {
+        ArrayList<News> newsList = newsDAO.viewAllNews();
+
+        // Lọc ra các bài viết có isActive là true
+        ArrayList<News> filteredNewsList = new ArrayList<>();
+        for (News news : newsList) {
+            if (news.isIsActive()) {
+                filteredNewsList.add(news);
+            }
         }
 
-        if (service.equals("viewAllNews")) {
-            ArrayList<News> newsList = newsDAO.viewAllNews();
-            request.setAttribute("newsList", newsList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewUser/blog.jsp");
-            dispatcher.forward(request, response);
-        }
-    } 
+        request.setAttribute("newsList", filteredNewsList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewUser/blog.jsp");
+        dispatcher.forward(request, response);
+    }
+}
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

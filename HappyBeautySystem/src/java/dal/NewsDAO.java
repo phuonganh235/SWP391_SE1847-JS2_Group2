@@ -34,53 +34,58 @@ public class NewsDAO extends DBContext {
         return nList;
     }
 
-    public void addNews(News news) {
-        String sql = "INSERT INTO [dbo].[News]([Title],[Content],[CreateTime],[ImageURL],[IsConfirmed],[UserID],[IsActive],[UpdateTime]\n"
-                + "           ,[CategoryID])\n"
-                + "     VALUES(?,?,?,?,0,?,1,?,?)";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, news.getTitle());
-            ps.setString(2, news.getContent());
-            ps.setTimestamp(3, news.getCreateTime());
-            ps.setString(4, news.getImgUrl());
-            ps.setInt(5, news.getUserID());
-            if (news.getUpdateTime() != null) {
-                ps.setTimestamp(6, news.getUpdateTime());
-            } else {
-                ps.setNull(6, java.sql.Types.DATE);
-            }
-            ps.setInt(7, news.getCategoryID());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public boolean addNews(News news) {
+    String sql = "INSERT INTO [dbo].[News]([Title],[Content],[CreateTime],[ImageURL],[IsConfirmed],[UserID],[IsActive],[UpdateTime],[CategoryID])"
+               + " VALUES(?,?,?,?,0,?,1,?,?)";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, news.getTitle());
+        ps.setString(2, news.getContent());
+        ps.setTimestamp(3, news.getCreateTime());
+        ps.setString(4, news.getImgUrl());
+        ps.setInt(5, news.getUserID());
+        if (news.getUpdateTime() != null) {
+            ps.setTimestamp(6, news.getUpdateTime());
+        } else {
+            ps.setNull(6, java.sql.Types.TIMESTAMP);
         }
+        ps.setInt(7, news.getCategoryID());
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Return true if at least one row is affected
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false; // Return false if an exception occurs
     }
+}
 
-    public void updateNews(News news) {
-        String sql = "UPDATE [dbo].[News] "
-                + "SET [Title] = ?, [Content] = ?, [CreateTime] = ?, [ImageURL] = ?, "
-                + "[IsConfirmed] = 0, [UserID] = ?, [IsActive] = 1, [UpdateTime] = ?, [CategoryID] = ?"
-                + "WHERE [NewsID] = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, news.getTitle());
-            ps.setString(2, news.getContent());
-            ps.setTimestamp(3, news.getCreateTime());
-            ps.setString(4, news.getImgUrl());
-            ps.setInt(5, news.getUserID());
-            if (news.getUpdateTime() != null) {
-                ps.setTimestamp(6, news.getUpdateTime());
-            } else {
-                ps.setNull(6, java.sql.Types.TIMESTAMP);
-            }
-            ps.setInt(7, news.getCategoryID());
-            ps.setInt(8, news.getNewsId());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public boolean updateNews(News news) {
+    String sql = "UPDATE [dbo].[News] "
+            + "SET [Title] = ?, [Content] = ?, [CreateTime] = ?, [ImageURL] = ?, "
+            + "[IsConfirmed] = 0, [UserID] = ?, [IsActive] = 1, [UpdateTime] = ?, [CategoryID] = ? "
+            + "WHERE [NewsID] = ?";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, news.getTitle());
+        ps.setString(2, news.getContent());
+        ps.setTimestamp(3, news.getCreateTime());
+        ps.setString(4, news.getImgUrl());
+        ps.setInt(5, news.getUserID());
+        if (news.getUpdateTime() != null) {
+            ps.setTimestamp(6, news.getUpdateTime());
+        } else {
+            ps.setNull(6, java.sql.Types.TIMESTAMP);
         }
+        ps.setInt(7, news.getCategoryID());
+        ps.setInt(8, news.getNewsId());
+        
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0; // Trả về true nếu có ít nhất một dòng được cập nhật thành công
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false; // Trả về false nếu có lỗi xảy ra
     }
+}
+
 
     public void hideNews(int newsId) {
         String sql = "UPDATE [dbo].[News] "

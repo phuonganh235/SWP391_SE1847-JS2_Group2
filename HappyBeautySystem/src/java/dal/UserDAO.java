@@ -195,7 +195,7 @@ public class UserDAO extends DBContext {
                         rs.getString("PostCode"), rs.getString("ImageUrl"),
                         rs.getInt("RoleId"), rs.getString("CreateDate"),
                         rs.getString("Password"), rs.getInt("Statuss"),
-                        rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
+                        rs.getString("DateOfBirth"));
                 return u;
             }
         } catch (Exception e) {
