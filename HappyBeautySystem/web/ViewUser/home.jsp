@@ -33,7 +33,7 @@
 
         <!-- Header Section Begin -->
         <jsp:include page="navbar.jsp"/>
-          <c:if test="${requestScope.errorOldpass != null}">
+        <c:if test="${requestScope.errorOldpass != null}">
             <script>
                 $(document).ready(function () {
                     $('#ChangePasswordModal').modal('show');
@@ -179,8 +179,8 @@
         <section class="trend spad">
             <div class="container">
                 <div class="row" style="
-            justify-content: center;
-            text-align: center;">
+                     justify-content: center;
+                     text-align: center;">
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="trend__content">
                             <div class="section-title">
@@ -247,34 +247,34 @@
                         </div>
                     </div>
 
-<!--                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="trend__content">
-                            <div class="section-title">
-                                <h4>Feature 2</h4>
+                    <!--                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <div class="trend__content">
+                                                <div class="section-title">
+                                                    <h4>Feature 2</h4>
+                                                </div>
+                    <%--<c:forEach items="${requestScope.topSeller}" var="p">--%>
+                        <div class="trend__item">
+                            <div class="trend__item__pic">
+                                <img style="
+                                     height: 90px;
+                                     width: 90px;
+                                     " src="${p.getPathImage()}" alt="">
                             </div>
-                            <%--<c:forEach items="${requestScope.topSeller}" var="p">--%>
-                                <div class="trend__item">
-                                    <div class="trend__item__pic">
-                                        <img style="
-                                             height: 90px;
-                                             width: 90px;
-                                             " src="${p.getPathImage()}" alt="">
-                                    </div>
-                                    <div class="trend__item__text">
-                                        <h6>${p.getProductName()}</h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$${p.getPrice()}</div>
-                                    </div>
+                            <div class="trend__item__text">
+                                <h6>${p.getProductName()}</h6>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                 </div>
-                            <%--</c:forEach>--%>
+                                <div class="product__price">$${p.getPrice()}</div>
+                            </div>
                         </div>
-                    </div>-->
+                    <%--</c:forEach>--%>
+                </div>
+            </div>-->
                 </div>
             </div>
         </section>
@@ -334,4 +334,12 @@
         <script src="ViewUser/js/main.js"></script>
     </body>
 
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+        intent="WELCOME"
+        chat-title="AI-BYAN"
+        agent-id="0ab401ed-4696-442c-80cd-0d5e1b252b36"
+        language-code="en"
+        ></df-messenger>
 </html>

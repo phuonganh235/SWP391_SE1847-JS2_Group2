@@ -33,7 +33,7 @@ public class ProductDAO extends DBContext {
                 prd.setSubCateId(rs.getInt("SubCategoryId"));
                 prd.setSold(rs.getInt("Sold"));
                 prd.setIsCustomized(rs.getBoolean("IsCustomized"));
-                prd.setIsActive(rs.getBoolean("IsCustomized"));
+                prd.setIsActive(rs.getBoolean("IsActive"));
                 prd.setCreateDate(rs.getString("CreateDate"));
                 prd.setPathImage(rs.getString("pathImage"));
                 pList.add(prd);
@@ -627,6 +627,19 @@ public class ProductDAO extends DBContext {
         }
         return pList;
     }
+    
+    // Updates the IsActive status of a product in the Product table in the database by its ID
+    public void updateProductActiveStatus(int productId, boolean isActive) {
+        String sql = "UPDATE Product SET IsActive = ? WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setBoolean(1, isActive);
+            st.setInt(2, productId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 //    Test
     public static void main(String[] args) {
@@ -637,7 +650,7 @@ public class ProductDAO extends DBContext {
         for (ProductSize productSize : pList) {
             System.out.println(productSize);
         }
-
+        dao.updateProductActiveStatus(10, true);
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
 //        Product pro = dao.getProductById(1);

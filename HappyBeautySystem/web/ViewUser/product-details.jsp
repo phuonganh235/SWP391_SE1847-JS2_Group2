@@ -106,7 +106,7 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
-                                <span>( Reviews: ${countReview} )</span>
+                                <span>( Reviews: ${avgRating} )</span>
                             </div>
                             <div id="field-price" class="product__details__price">Price: $ ${price}</div>
 
@@ -276,29 +276,29 @@
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
                                 <div class="blog__details__comment">
-                                    <h1>Id: ${sessionScope.inforUserLogin.userId}</h1>
                                     <h5>Write Comment</h5>
                                     <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
                                         <div class="form-group">
                                             <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your comment here..." required></textarea>
+                                            <span id="nameError" style="color: red;"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="rating">Rating:</label>
                                             <div id="rating">
                                                 <label>
-                                                    <input type="radio" name="rating" value="1" required> 1
+                                                    <input type="radio" name="rating" value="1" required> &#9733;
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="rating" value="2"> 2
+                                                    <input type="radio" name="rating" value="2"> &#9733 &#9733
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="rating" value="3"> 3
+                                                    <input type="radio" name="rating" value="3"> &#9733 &#9733 &#9733
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="rating" value="4"> 4
+                                                    <input type="radio" name="rating" value="4"> &#9733 &#9733 &#9733 &#9733
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="rating" value="5"> 5
+                                                    <input type="radio" name="rating" value="5"> &#9733 &#9733 &#9733 &#9733 &#9733
                                                 </label>
                                             </div>
                                         </div>
@@ -388,6 +388,27 @@
         <script src="ViewUser/js/owl.carousel.min.js"></script>
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
+        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                function formatFullName(name) {
+                                                    name = name.trim().replace(/\s+/g, ' ');
+                                                    return name;
+                                                }
+
+                                                document.getElementById("comment").oninput = function () {
+                                                    var name = this.value; 
+                                                    this.value = name; 
+                                                    if (name === "") {
+                                                        document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                                                    } else {
+                                                        document.getElementById("nameError").innerHTML = "";
+                                                    }
+                                                };
+                                                
+                                            });
+        </script>
     </body>
 
 </html>

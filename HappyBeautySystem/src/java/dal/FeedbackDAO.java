@@ -74,6 +74,7 @@ public class FeedbackDAO extends DBContext {
             e.printStackTrace();
         }
     }
+
     // Counts the number of reviews in the Feedback table
     public int countReview() {
         String sql = "SELECT COUNT(*) FROM Feedback";
@@ -81,7 +82,7 @@ public class FeedbackDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1); 
+                return rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +113,7 @@ public class FeedbackDAO extends DBContext {
         }
         return feedbackList;
     }
-    
+
     // Counts the number of reviews for a specific product ID in the Feedback table
     public int countReviewByProductId(int productId) {
         String sql = "SELECT COUNT(*) FROM Feedback WHERE product_id = ?";
@@ -121,22 +122,42 @@ public class FeedbackDAO extends DBContext {
             st.setInt(1, productId);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1); 
+                return rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
-    
+
+    // Calculates the average rating for a specific product ID in the Feedback table
+    public double getAverageRatingByProductId(int productId) {
+        String sql = "SELECT ROUND(AVG(CAST(rating AS DECIMAL(10, 1))), 1)\n"
+                + "FROM Feedback\n"
+                + "WHERE product_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
     // Main method for testing
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
-        dao.addFeedback(new Feedback(2, 1, 1016, 5,
-                "This product is very good bro. I love it", "2-22-2024"));
-        ArrayList<Feedback> fb = dao.getAllFeedbacks();
-        for (Feedback feedback : fb) {
-            System.out.println(feedback);
-        }
+//        dao.addFeedback(new Feedback(2, 1, 1016, 5,
+//                "This product is very good bro. I love it", "2-22-2024"));
+//        ArrayList<Feedback> fb = dao.getAllFeedbacks();
+//        for (Feedback feedback : fb) {
+//            System.out.println(feedback);
+//        }
+        double averageRating = dao.getAverageRatingByProductId(1);
+        System.out.println("Average rating for product 1: " + averageRating);
     }
 }

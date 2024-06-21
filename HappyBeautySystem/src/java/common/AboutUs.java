@@ -22,7 +22,9 @@ public class AboutUs extends HttpServlet {
         }
         if (service.equals("listall")) {
             ArrayList<About> about = dao.getAllAbouts();
+            About about2 = dao.getAboutById(1);
             request.setAttribute("about", about);
+            request.setAttribute("about2", about2);
             request.getRequestDispatcher("/ViewUser/about.jsp").forward(request, response);
         }
         

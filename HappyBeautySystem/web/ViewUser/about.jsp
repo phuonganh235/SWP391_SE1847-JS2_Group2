@@ -95,7 +95,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="about-us__image">
-                            <img src="ViewUser\img\image_av.jpg" alt="About Us Image" style="width: 100%; border-radius: 20px;">
+                            <img src="${about2.imageURL}" alt="About Us Image" style="width: 100%; border-radius: 20px;">
                         </div>
                     </div>
                     <div class="col-lg-6">
