@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class product extends HttpServlet {
         CategoryDAO c = new CategoryDAO();
         FeedbackDAO f = new FeedbackDAO();
         UserDAO u = new UserDAO();
-        
+
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
             ArrayList<Product> productList = d.getAllProduct();
@@ -237,21 +238,18 @@ public class product extends HttpServlet {
             CategoryDAO dao = new CategoryDAO();
             //get image of one product
             ArrayList<ProductImage> i = d.getProductImage(productId);
-            
+
             //Retrieve products by id
             Product product = d.getProductById(productId);
 
 //            Get product size
             ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
-            
+
 //            Get products with the same category: To get common products
-
             //Get products with the same category: To get common products
-
             ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
 
             // To retrieve the product category
-
             ArrayList<Product> productNew = d.getNewProduct();
             // Save a list of IDs of new products
             List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
@@ -263,18 +261,21 @@ public class product extends HttpServlet {
 //           To retrieve the product category
 
             Category cat = dao.getCategoryById(product_category);
-            
+
             //Feedback by productID
             int countReview = f.countReviewByProductId(productId);
-            
+
             ArrayList<User> user = u.getUserByProductId(productId);
             ArrayList<User> user2 = u.getUserByProductId2(productId);
 //            request.setAttribute("user", user);
             request.setAttribute("user", user2);
-            
+
             ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
             request.setAttribute("feedback", feedback);
-            
+            //Get avg rating by productId
+            double avgRating = f.getAverageRatingByProductId(productId);
+            request.setAttribute("avgRating", avgRating);
+
             request.setAttribute("Category", cat);
             request.setAttribute("image", getPath(i));
             request.setAttribute("sizeList", sizeList);
@@ -288,8 +289,7 @@ public class product extends HttpServlet {
             request.setAttribute("Category", cat);
             request.getRequestDispatcher("/ViewUser/product-details.jsp").forward(request, response);
         }
-        
-        
+
     }
 
     //get Image url
@@ -313,6 +313,8 @@ public class product extends HttpServlet {
         CategoryDAO c = new CategoryDAO();
         FeedbackDAO f = new FeedbackDAO();
         ArrayList<Product> productNew = d.getNewProduct();
+        HttpSession session = request.getSession(true);
+        User inforUser = (User) session.getAttribute("inforUserLogin");
         // Save a list of IDs of new products
         List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
         request.setAttribute("top8New", newProductIds);
@@ -382,17 +384,21 @@ public class product extends HttpServlet {
             }
             request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         }
-        if(service.equals("addfeedback")){
-            int productId = Integer.parseInt(request.getParameter("product_id"));
-            int user_id = Integer.parseInt(request.getParameter("user_id"));
-            int rating =Integer.parseInt(request.getParameter("rating"));
-            String comment = request.getParameter("comment");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = sdf.format(new Date());
-            f.addFeedback(new Feedback(productId, user_id, rating, comment, createDate));
-            request.getRequestDispatcher("/ViewUser/home.jsp").forward(request, response);
-        }
 
+        if (inforUser == null) {
+            response.sendRedirect("login");
+        } else {
+            if (service.equals("addfeedback")) {
+                int productId = Integer.parseInt(request.getParameter("product_id"));
+                int user_id = Integer.parseInt(request.getParameter("user_id"));
+                int rating = Integer.parseInt(request.getParameter("rating"));
+                String comment = request.getParameter("comment");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String createDate = sdf.format(new Date());
+                f.addFeedback(new Feedback(productId, user_id, rating, comment, createDate));
+                response.sendRedirect("product");
+            }
+        }
     }
 
     @Override

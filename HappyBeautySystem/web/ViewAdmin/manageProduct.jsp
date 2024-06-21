@@ -70,15 +70,15 @@
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                         <th scope="col">ID</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">ShortDes</th>
-                                        <th scope="col">LongDes</th>
-                                        <th scope="col">AddDes</th>
+                                        <th scope="col">Short Description</th>
+                                        <th scope="col">Long Description</th>
+                                        <th scope="col">Address Description</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">CompName</th>
                                         <th scope="col">CategoryID</th>
                                         <th scope="col">SubCategoryID</th>
-                                        <th scope="col">Sold</th>
+                                        <th scope="col">In Stock</th>
                                         <th scope="col">IsCustomized</th>
                                         <th scope="col">IsActive</th>
                                         <th scope="col">CreateDate</th>
@@ -88,6 +88,7 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${listP}" var="product">
+
                                         <tr>
                                             <td><input class="form-check-input" type="checkbox"></td>
                                             <td>${product.productId}</td>
@@ -102,12 +103,28 @@
                                             <td>${product.subCateId}</td>
                                             <td>${product.sold}</td>
                                             <td>${product.isCustomized}</td>
-                                            <td>${product.isActive}</td>
+                                            <c:choose>
+                                                <c:when test="${product.isActive == true}">
+                                                    <td>Active</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>NonActive</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td>${product.createDate}</td>
                                             <td>${product.pathImage}</td>
                                             <td>
                                                 <a class="btn btn-sm btn-primary" href="manager?service=update&id=${product.productId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
+<!--                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>-->
+                                                <c:choose>
+                                                    <c:when test="${product.isActive == true}">
+                                                    <td><a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td><button class="btn btn-sm btn-danger" disabled>Delete</button></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -183,7 +200,7 @@
                                                 <input type="checkbox" class="form-check-input" id="isCustomized" name="isCustomized">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="isActive" class="form-label">Is Active</label>
+                                                <label for="isActive" class="form-label">Active</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
 

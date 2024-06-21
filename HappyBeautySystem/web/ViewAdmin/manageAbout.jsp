@@ -156,19 +156,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="about" items="${about}">
-                                    <tr>
-                                        <td><input class="form-check-input" type="checkbox"></td>
-                                        <td>${about.aboutId}</td>
-                                        <td>${about.title}</td>
-                                        <td>${about.content}</td>
-                                        <td>${about.imageURL}</td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary" href="manageabout?service=update&id=${about.aboutId}">Update</a>
-                                            <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}">Delete</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                    <c:forEach var="about" items="${about}">
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox"></td>
+                                            <td>${about.aboutId}</td>
+                                            <td>${about.title}</td>
+                                            <td>${about.content}</td>
+                                            <td>${about.imageURL}</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="manageabout?service=update&id=${about.aboutId}">Update</a>
+                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -186,16 +186,16 @@
                                             <div class="mb-3">
                                                 <label for="title" class="form-label">Title</label>
                                                 <input type="text" class="form-control" id="title" name="title" required>
-                                                <span id="nameError" style="color: red;"></span>
+                                                <span id="titleError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="content" class="form-label">Content</label>
                                                 <input type="text" class="form-control" id="content" name="content" required>
-                                                <span id="nameError" style="color: red;"></span>
+                                                <span id="contentError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="imageURL" class="form-label">About ImageUrl</label>
-                                                <textarea class="form-control" id="imageURL" name="imageURL" required></textarea>
+                                                <textarea class="form-control" id="imageURL" name="imageURL" ></textarea>
                                                 <span id="urlError" style="color: red;"></span>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save</button>
@@ -228,7 +228,37 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
+        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                function formatFullName(name) {
+                                                    name = name.trim().replace(/\s+/g, ' ');
+                                                    return name;
+                                                }
 
+                                                document.getElementById("title").oninput = function () {
+                                                    var name = this.value; 
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("titleError").innerHTML = "Title must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("titleError").innerHTML = "Title should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("titleError").innerHTML = "";
+                                                    }
+                                                };
+                                                document.getElementById("content").oninput = function () {
+                                                    var name = this.value;
+                                                    this.value = name;
+                                                    if (name === "") {
+                                                        document.getElementById("contentError").innerHTML = "Content name must not be empty.";
+                                                    } else if (/^\s/.test(name)) {
+                                                        document.getElementById("contentError").innerHTML = "Content should not start with a space.";
+                                                    } else {
+                                                        document.getElementById("contentError").innerHTML = "";
+                                                    }
+                                                };
+                                            });
+        </script>
     </body>
 
 </html>

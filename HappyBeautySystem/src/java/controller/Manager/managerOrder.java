@@ -25,7 +25,7 @@ import model.User;
 
 @WebServlet(name = "managerOrder", urlPatterns = {"/managerOrder"})
 public class managerOrder extends HttpServlet {
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -80,9 +80,9 @@ public class managerOrder extends HttpServlet {
                 User user = daoUser.getUserById(customerID);
                 //List Shiper
                 int idShipper = daoUserShipOrder.getUserIDByOrderID(orderIDInt);
-                
-                User newUser = daoUser.getUserById(""+idShipper);
-                
+
+                User newUser = daoUser.getUserById("" + idShipper);
+
                 request.setAttribute("listOrderDetail", listOrderDetail);
                 request.setAttribute("customerInfor", user);
                 request.setAttribute("inforShipper", newUser);

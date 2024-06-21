@@ -185,10 +185,13 @@
                 <div class="row" style="
                      justify-content: center;
                      text-align: center;">
+
                     <div class="col-lg-4 col-md-4 col-sm-6">
+
+                    <div class="col-lg-3 col-md-3 col-sm-4" style="margin-right: 100px">
                         <div class="trend__content">
                             <div class="section-title">
-                                <h4>Popular Product</h4>
+                                <h4>Recommend</h4>
                             </div>
                             <c:forEach items="${requestScope.topPopular}" var="p">
                                 <div class="trend__item">
@@ -218,7 +221,7 @@
                         </div>
                     </div>
                     <!--Top Best Seller Product-->
-                    <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="col-lg-3 col-md-3 col-sm-4">
                         <div class="trend__content">
                             <div class="section-title">
                                 <h4>Best Seller</h4>
@@ -279,6 +282,39 @@
                     <%--</c:forEach>--%>
                 </div>
             </div>-->
+                    <!--Top Best Favourite Product-->
+                    <div class="col-lg-3 col-md-3 col-sm-4" style="margin-left: 100px">
+                        <div class="trend__content">
+                            <div class="section-title">
+                                <h4>Favorite products</h4>
+                            </div>
+                            <c:forEach items="${requestScope.topFavourite}" var="p">
+                                <div class="trend__item">
+                                    <div class="trend__item__pic">
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <img style="
+                                                 height: 90px;
+                                                 width: 90px;
+                                                 " src="${p.getPathImage()}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="trend__item__text">
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <h6>${p.getProductName()}</h6>
+                                        </a>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product__price">$${p.getPrice()}</div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -338,4 +374,12 @@
         <script src="ViewUser/js/main.js"></script>
     </body>
 
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+        intent="WELCOME"
+        chat-title="AI-BYAN"
+        agent-id="0ab401ed-4696-442c-80cd-0d5e1b252b36"
+        language-code="en"
+        ></df-messenger>
 </html>

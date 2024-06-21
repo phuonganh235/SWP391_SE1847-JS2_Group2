@@ -64,7 +64,7 @@
                                     <textarea class="form-control" id="longDes" name="longDes" required>${product.longDes}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="addDes">Add Description</label>
+                                    <label for="addDes">Address Description</label>
                                     <input type="text" class="form-control" id="addDes" name="addDes" value="${product.addDes}" required>
                                 </div>
                                 <div class="form-group">
@@ -100,7 +100,7 @@
                                     <input type="number" class="form-control" id="subCateId" name="subCateId" value="${product.subCateId}" min="0" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sold">Sold</label>
+                                    <label for="sold">In Stock</label>
                                     <input type="number" class="form-control" id="sold" name="sold" value="${product.sold}" min="0" required>
                                 </div>
                                 <div class="form-group">
@@ -108,7 +108,7 @@
                                     <input type="checkbox" class="form-check-input" id="isCustomized" name="isCustomized" <c:if test="${product.isCustomized}">checked</c:if>>
                                     </div>
                                     <div class="form-group">
-                                        <label for="isActive">Is Active</label>
+                                        <label for="isActive">Active</label>
                                         <input type="checkbox" class="form-check-input" id="isActive" name="isActive" <c:if test="${product.isActive}">checked</c:if>>
                                     </div>
                                     <div class="form-group">
@@ -129,6 +129,7 @@
             </div>
         </div>
         <script src="ViewAdmin/js/manager.js" type="text/javascript"></script>
+        
     </body>
 </html>
 

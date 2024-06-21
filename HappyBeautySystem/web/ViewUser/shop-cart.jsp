@@ -317,9 +317,34 @@
                                         document.getElementById('granTotal').innerText = '$' + total.toFixed(2);
                                     }
 
+                                    function stringToObject(string) {
+                                        //Tách chuỗi ra thành các phần tử có key với value ví du:
+                                        // [name=abc,age=20,gender=male]
+                                        let keyValuePairs = string.split(", ");
+                                        let obj = {}; // tạo 1 obj rỗng
 
+                                        // duyệt mọi phần tử
+                                        for (let i = 0; i < keyValuePairs.length; i++) {
+                                            // Tạo 1 mảng chứa key - value,
+                                            // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
+                                            // để thêm vào obj
+                                            let keyValue = keyValuePairs[i].split("=");
 
+                                            // Mảng có 2 phần tử, 0: key, 1: value
+                                            let key = keyValue[0].trim();
+                                            let value = keyValue[1].trim();
 
+                                            // Check xem value có phải số hay không? nếu là số thì parse
+                                            if (!isNaN(value)) {
+                                                value = parseFloat(value);
+                                            }
+
+                                            // thêm key-value vào obj
+                                            obj[key] = value;
+                                        }
+
+                                        return obj;
+                                    }
                                     function changeQuantity(position, obj_raw, price) {
                                         let value = +position.value;
                                         if (value <= 0) {
@@ -335,7 +360,8 @@
                                             type: "POST",
                                             success: function (data) {
                                                 let id = obj.cartId;
-                                                let total = document.getElementById(id);
+                                                let total = document.getElementById('subtotal-'+id);
+                                                console.log(total);
                                                 total.innerHTML = price * position.value;
 
                                                 let priceCells = document.querySelectorAll('.sub_total');
