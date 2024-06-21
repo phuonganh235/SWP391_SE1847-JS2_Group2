@@ -10,24 +10,28 @@ public class News {
     private int newsId;
     private String title;
     private String content;
-    private Timestamp createdDate;
+    private Timestamp createTime;
     private String imgUrl;
     private boolean isConfirm;
     private int userID;
     private boolean isActive;
+    private Timestamp updateTime;
+    private int categoryID;
 
     public News() {
     }
 
-    public News(int newsId, String title, String content, Timestamp createdDate, String imgUrl, boolean isConfirm, int userID, boolean isActive) {
+    public News(int newsId, String title, String content, Timestamp createTime, String imgUrl, boolean isConfirm, int userID, boolean isActive, Timestamp updateTime, int categoryID) {
         this.newsId = newsId;
         this.title = title;
         this.content = content;
-        this.createdDate = createdDate;
+        this.createTime = createTime;
         this.imgUrl = imgUrl;
         this.isConfirm = isConfirm;
         this.userID = userID;
         this.isActive = isActive;
+        this.updateTime = updateTime;
+        this.categoryID = categoryID;
     }
 
     public int getNewsId() {
@@ -54,12 +58,12 @@ public class News {
         this.content = content;
     }
 
-    public Timestamp getCreatedDate() {
-        return createdDate;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getImgUrl() {
@@ -94,10 +98,25 @@ public class News {
         this.isActive = isActive;
     }
 
-    @Override
-    public String toString() {
-        return "News{" + "newsId=" + newsId + ", title=" + title + ", content=" + content + ", createdDate=" + createdDate + ", imgUrl=" + imgUrl + ", isConfirm=" + isConfirm + ", userID=" + userID + ", isActive=" + isActive + '}';
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" + "newsId=" + newsId + ", title=" + title + ", content=" + content + ", createTime=" + createTime + ", imgUrl=" + imgUrl + ", isConfirm=" + isConfirm + ", userID=" + userID + ", isActive=" + isActive + ", updateTime=" + updateTime + ", categoryID=" + categoryID + '}';
+    }
     
 }

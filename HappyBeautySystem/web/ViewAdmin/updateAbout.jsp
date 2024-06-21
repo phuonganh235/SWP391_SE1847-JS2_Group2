@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="imageURL">About Img</label>
-                                    <input type="text" class="form-control" id="imageURL" name="imageURL" value="${about.imageURL}" required>
+                                    <input type="text" class="form-control" id="imageURL" name="imageURL" value="${about.imageURL}" >
                                 </div>
 
                             </div>

@@ -103,7 +103,8 @@ public class manager extends HttpServlet {
         //Deleting a product
         if (service.equals("delete")) {
             int productId = Integer.parseInt(request.getParameter("id"));
-            dao.deleteProduct(productId);
+            
+            dao.updateProductActiveStatus(productId, false);
             response.sendRedirect("manager");
         }
         //Searching product by name

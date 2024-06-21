@@ -1,7 +1,7 @@
-package controller.Customer;
+package controller.Product;
 
 import common.CommonDAO;
-import dal.CartDAO;
+import dal.WishListDAO;
 
 import dal.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -15,14 +15,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cart;
+import model.WishList;
 import model.Product;
-import model.ProductCart;
+//import model.ProductCart;
 import model.User;
 
-// ToanLV
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
-public class AddToCart extends HttpServlet {
+public class FavouriteList extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,97 +28,89 @@ public class AddToCart extends HttpServlet {
         HttpSession session = request.getSession(true);
         ProductDAO daoProduct = new ProductDAO();
         CommonDAO commonDAO = new CommonDAO();
-        CartDAO cart = new CartDAO();
+        WishListDAO wishlist = new WishListDAO();
         String service = request.getParameter("service");
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
-            // Add to Cart
+            // Add to WishList
             if (inforUser == null) {
                 response.sendRedirect("login");
             } else {
-                if (service != null && service.equals("addToCart")) {
+                if (service != null && service.equals("addWishList")) {
                     String idProduct = request.getParameter("id");
                     //chek login
                     if (idProduct == null || idProduct.isEmpty()) {
                         out.println("Invalid product ID");
                         return;
                     }
-
                     try {
                         int idInt = Integer.parseInt(idProduct);
                         int userId = inforUser.getUserId();
-
-                        Cart checkCart = cart.getCartByUserIdAndProductId(userId, idInt);
-                        if (checkCart == null) {
-                            Product pro = daoProduct.getProductById(idInt);
-                            if (pro == null) {
-                                out.println("Product not found");
-                                return;
-                            }
-                            String dateTimeNow = commonDAO.getDateTimeNow();
-                            Cart newCartAdd = new Cart(pro.getProductId(), 1, userId, dateTimeNow);
-                            cart.addCart(newCartAdd);
-                        } else {
-                            cart.updateQuantity(userId, idInt);
+                        Product pro = daoProduct.getProductById(idInt);
+                        if (pro == null) {
+                            out.println("Product not found");
+                            return;
                         }
-                        response.sendRedirect("AddToCart?service=showCart");
+
+                        // Retrieve the user's current wishlist
+                        List<WishList> userWishlist = wishlist.getAllWishListByUserId(userId);
+
+                        // Check if the product is already in the wishlist
+                        boolean isProductInWishlist = false;
+                        for (WishList wish : userWishlist) {
+                            if (wish.getProductId() == pro.getProductId()) {
+                                isProductInWishlist = true;
+                                break;
+                            }
+                        }
+
+                        // If the product is not in the wishlist, add it
+                        if (!isProductInWishlist) {
+                            String dateTimeNow = commonDAO.getDateTimeNow();
+                            WishList newWishList = new WishList(pro.getProductId(), userId, dateTimeNow);
+                            wishlist.addWishList(newWishList);
+                        }
+                        
+                        response.sendRedirect("wishlist?service=showWishList");
                         return;
                     } catch (NumberFormatException e) {
                         out.println("Invalid product ID format");
                         return;
                     }
-
                 }
             }
-            // Show all cart
-            if (service.equals("showCart")) {
-                //chek login
+            // Show all wishlist
+            if (service.equals("showWishList")) {
+                // Chek login
                 int userId = inforUser.getUserId();
-                List<Cart> listCart = cart.getAllCartsByUserId(userId);
-                request.setAttribute("listCart", listCart);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
+                List<WishList> wishList = wishlist.getAllWishListByUserId(userId);
+                request.setAttribute("wishList", wishList);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/wishlist.jsp");
                 dispatcher.forward(request, response);
 
                 return;
             }
-            // Delete multi cart
-            if (service.equals("deleteCart")) {
+            // Delete all wishlist
+            if (service.equals("deleteAllWishList")) {
+                //chek login
+                int userId = inforUser.getUserId();
+//                String idProduct = request.getParameter("productId");
+//                String userId = request.getParameter("userId");
+//                int idInt = Integer.parseInt(idProduct);
+//                int userIdInt = Integer.parseInt(userId);
+                wishlist.deleteWishListByUserId(userId);
+                response.sendRedirect("wishlist?service=showWishList");
+            }
+            // Delete wishlist by productId and userId
+            if (service.equals("deleteWishList")) {
                 //chek login
                 String idProduct = request.getParameter("productId");
                 String userId = request.getParameter("userId");
-                String quantity = request.getParameter("quantity");
                 int idInt = Integer.parseInt(idProduct);
                 int userIdInt = Integer.parseInt(userId);
-                cart.deleteCart(idInt, userIdInt);
-                response.sendRedirect("AddToCart?service=showCart");
-
+                wishlist.deleteWishListByProductIdAndUserId(idInt, userIdInt);
+                response.sendRedirect("wishlist?service=showWishList");
             }
-            if ("updateQuantity".equals(service)) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-                // Assuming 'cart' is an instance of your Cart class
-                cart.updateQuantityChange(userId, productId, quantity);
-
-                // Send empty response or any confirmation if needed
-                response.getWriter().print("Quantity updated successfully");
-            }
-//            if ("updateQuantity".equals(service)) {
-//                int cartId = Integer.parseInt(request.getParameter("cartId"));
-//                int quantity = Integer.parseInt(request.getParameter("quantity"));
-//
-//                // Assuming you retrieve price from database or request attributes
-//                double price = Double.parseDouble(request.getParameter("price"));
-//
-//                // Update quantity in the database
-//                CartDAO cartDAO = new CartDAO();
-//                cartDAO.updateQuantity(cartId, quantity);
-//
-//                // Respond to the client (optional)
-//                response.getWriter().print("Quantity updated successfully");
-//            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -379,6 +379,114 @@ public class UserDAO extends DBContext {
         }
         return count;
     }
+    
+       public User getUser(int userId, String old_pass) {
+        try {
+            String sql = "select * from Users where UserId = ? and Password = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setString(2, old_pass);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+               User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); 
+                return u;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+     
+      public void changePassword(int userId, String new_pass1) {
+        try {
+            String sql =  "UPDATE Users SET Password = ? WHERE UserId = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, new_pass1);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    } 
+
+    public ArrayList<User> getUserByProductId(int productId) {
+        ArrayList<User> uList = new ArrayList<>();
+        String sql = "SELECT u.* FROM Users u \n"
+                + "INNER JOIN Cart c ON u.UserId = c.UserId \n"
+                + "INNER JOIN Product p ON p.ProductId = c.ProductId \n"
+                + "WHERE p.ProductId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); // Lấy giá trị trường DateOfBirth
+                uList.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return uList;
+    }
+
+    public ArrayList<User> getUserByProductId2(int productId) {
+        ArrayList<User> uList = new ArrayList<>();
+        String sql = "SELECT distinct u.* FROM Users u \n"
+                + "INNER JOIN Feedback f ON u.UserId = f.user_id \n"
+                + "INNER JOIN Product p ON p.ProductId = f.product_id \n"
+                + "where p.ProductId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("UserId"));
+                u.setName(rs.getString("Name"));
+                u.setUsername(rs.getString("Username"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setAddress(rs.getString("Address"));
+                u.setPostCode(rs.getString("PostCode"));
+                u.setImage(rs.getString("ImageUrl"));
+                u.setRoleId(rs.getInt("RoleId"));
+                u.setCreateDate(rs.getString("CreateDate"));
+                u.setPassword(rs.getString("Password"));
+                u.setStatuss(rs.getInt("Statuss"));
+                u.setDateofbirth(rs.getString("DateOfBirth")); // Lấy giá trị trường DateOfBirth
+                uList.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return uList;
+    }
 
     public boolean updateUserStatus(int userId, int newStatus) {
         String sql = "UPDATE Users SET Statuss = ? WHERE UserId = ?";
@@ -397,26 +505,29 @@ public class UserDAO extends DBContext {
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
 
+        User u = userDAO.login("sangtv", "sang@12234");
+        System.out.println(u);
+        System.out.println(userDAO.getUserByProductId(1));
         // Create a new user
         // Tạo đối tượng User để kiểm tra
-        User user = new User();
-        user.setUserId(1050); // ID người dùng cần cập nhật
-        user.setName("Nguyen Van A");
-        user.setUsername("nguyenvana");
-        user.setMobile("0912345678");
-        user.setEmail("nguyenvana@example.com");
-        user.setAddress("123 Đường ABC, Quận 1");
-        user.setPostCode("700000");
-        user.setPassword("Passw0rd!");
-        user.setStatuss(1);
-        user.setDateofbirth("2000-01-01");
-
-        // Gọi hàm updateUser và in ra kết quả
-        int result = userDAO.updateUser(user);
-        if (result > 0) {
-            System.out.println("Cập nhật thành công!");
-        } else {
-            System.out.println("Cập nhật thất bại!");
-        }
+//        User user = new User();
+//        user.setUserId(1050); // ID người dùng cần cập nhật
+//        user.setName("Nguyen Van A");
+//        user.setUsername("nguyenvana");
+//        user.setMobile("0912345678");
+//        user.setEmail("nguyenvana@example.com");
+//        user.setAddress("123 Đường ABC, Quận 1");
+//        user.setPostCode("700000");
+//        user.setPassword("Passw0rd!");
+//        user.setStatuss(1);
+//        user.setDateofbirth("2000-01-01");
+//
+//        // Gọi hàm updateUser và in ra kết quả
+//        int result = userDAO.updateUser(user);
+//        if (result > 0) {
+//            System.out.println("Cập nhật thành công!");
+//        } else {
+//            System.out.println("Cập nhật thất bại!");
+//        }
     }
 }

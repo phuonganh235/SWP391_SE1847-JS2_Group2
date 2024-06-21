@@ -136,7 +136,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn">
-                            <a href="/HappyBeautySystem/home">Continue Shopping</a>
+                            <a href="product">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
