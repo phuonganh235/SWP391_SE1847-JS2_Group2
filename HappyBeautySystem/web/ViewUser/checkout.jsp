@@ -61,7 +61,7 @@
                             here to enter your code.</h6>
                     </div>
                 </div>
-                <form action="OrderController?service=confirmOrder" class="checkout__form" method="post">
+                <form action="OrderController?service=confirmOrder" id="checkoutForm" class="checkout__form" method="post">
                     <div class="row">
                         <div class="col-lg-8">
                             <h5>Billing detail</h5>
@@ -143,7 +143,6 @@
                                         VNPay
                                         <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
-
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
 
@@ -316,6 +315,21 @@
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/jquery.nicescroll.min.js"></script>
         <script src="js/main.js"></script>
+        <script>
+                                        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+                                            if (document.querySelector('input[name="paymentMethod"]:checked').value === "2") {
+                                                e.preventDefault();
+
+                                                // Lưu thông tin khách hàng vào session
+                                                fetch('OrderController?service=saveOrderInfo', {
+                                                    method: 'POST',
+                                                    body: new FormData(this)
+                                                }).then(() => {
+                                                    this.submit();
+                                                });
+                                            }
+                                        });
+        </script>
     </body>
 
 </html>
