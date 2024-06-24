@@ -671,21 +671,21 @@ public class ProductDAO extends DBContext {
         ProductDAO dao = new ProductDAO();
 
 //        dao.updateProductQuantityTru(1, 3);
-        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
-        for (ProductSize productSize : pList) {
-            System.out.println(productSize);
-        }
-        dao.updateProductActiveStatus(10, true);
+//        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
+//        for (ProductSize productSize : pList) {
+//            System.out.println(productSize);
+//        }
+//        dao.updateProductActiveStatus(10, true);
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);
 //        Product pro = dao.getProductById(1);
 //        System.out.println(pro.getProductName());
 //
 //        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
-        Product cList = dao.getProductById(1);
+//        Product cList = dao.getProductById(1);
 //        ArrayList<Product> cList = dao.getNewProduct();
 //        for (Product product : cList) {
-        System.out.println(cList);
+//        System.out.println(cList);
 //        }
 //        Product p = dao.getProductById(1);
 //        System.out.println(pList);

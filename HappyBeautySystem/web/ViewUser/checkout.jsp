@@ -316,6 +316,7 @@
         <script src="js/jquery.nicescroll.min.js"></script>
         <script src="js/main.js"></script>
         <script>
+                                         // lay thong tin khanh hang khi thanh toan bang vnpay day ve servlet
                                         document.getElementById('checkoutForm').addEventListener('submit', function (e) {
                                             if (document.querySelector('input[name="paymentMethod"]:checked').value === "2") {
                                                 e.preventDefault();

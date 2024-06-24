@@ -195,6 +195,7 @@ public class OrderController extends HttpServlet {
                     }
 
                 }
+                // thanh toan thanh cong qua vnpay service tra ve thong tin thanh toan
                 if (service.equals("vnpay_return")) {
                     String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
                     if (vnp_ResponseCode.equals("00")) {
@@ -207,14 +208,17 @@ public class OrderController extends HttpServlet {
                         String dateNow = common.getDateTimeNow();
 
                         Order newOrder = new Order(inforUserLogin.getUserId(), 2, dateNow, true, name, address, phone, 1);
+                        //add order
                         int idADD = daoOrder.insertOrderGetID(newOrder);
+                        //add orrder detail
                         List<Cart> listCart = _list;
                         for (Cart cart1 : _list) {
                             Product pro = daoProduct.getProductById(cart1.getProductId());
                             detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                         }
-
+                       //delete cart
+                       
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                         }
