@@ -305,7 +305,6 @@
         <script>
                                     // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
                                     let listProcductIdChoose = [];
-
                                     function updateTotal() {
                                         var checkboxes = document.querySelectorAll('.product-checkbox');
                                         var total = 0;
@@ -318,100 +317,83 @@
                                     }
 
                                     function stringToObject(string) {
-                                        //Tách chuỗi ra thành các phần tử có key với value ví du:
-                                        // [name=abc,age=20,gender=male]
                                         let keyValuePairs = string.split(", ");
-                                        let obj = {}; // tạo 1 obj rỗng
+                                        let obj = {};
 
-                                        // duyệt mọi phần tử
                                         for (let i = 0; i < keyValuePairs.length; i++) {
-                                            // Tạo 1 mảng chứa key - value,
-                                            // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
-                                            // để thêm vào obj
                                             let keyValue = keyValuePairs[i].split("=");
-
-                                            // Mảng có 2 phần tử, 0: key, 1: value
                                             let key = keyValue[0].trim();
                                             let value = keyValue[1].trim();
 
-                                            // Check xem value có phải số hay không? nếu là số thì parse
                                             if (!isNaN(value)) {
                                                 value = parseFloat(value);
                                             }
 
-                                            // thêm key-value vào obj
                                             obj[key] = value;
                                         }
 
                                         return obj;
                                     }
+
                                     function changeQuantity(position, obj_raw, price) {
                                         let value = +position.value;
                                         if (value <= 0) {
                                             position.value = 1;
-
+                                            value = 1;
                                         }
-                                        console.log(typeof +position.value);
                                         let obj = stringToObject(obj_raw);
-                                        console.log(obj)
-                                        console.log(price);
                                         $.ajax({
-                                            url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + position.value,
+                                            url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + value,
                                             type: "POST",
                                             success: function (data) {
                                                 let id = obj.cartId;
-                                                let total = document.getElementById('subtotal-'+id);
-                                                console.log(total);
-                                                total.innerHTML = price * position.value;
+                                                let subtotalElement = document.getElementById('subtotal-' + id);
+                                                let newSubtotal = price * value;
+                                                subtotalElement.innerHTML = "$" + newSubtotal.toFixed(2);
+                                                subtotalElement.setAttribute('data-price', newSubtotal.toFixed(2));
 
-                                                let priceCells = document.querySelectorAll('.sub_total');
-                                                let totalPrice = 0;
-                                                console.log(priceCells);
-                                                priceCells.forEach(cell => {
-                                                    let price = +cell.innerHTML;
-//                                                cell.textContent = price.toFixed(2);
-                                                    totalPrice += price;
+                                                // Cập nhật lại data-price của checkbox tương ứng
+                                                var checkbox = document.querySelector('.product-checkbox[data-product-id="' + obj.productId + '"]');
+                                                if (checkbox) {
+                                                    checkbox.setAttribute('data-price', newSubtotal.toFixed(2));
+                                                }
 
-                                                });
-                                                console.log(totalPrice);
-                                                document.getElementById('granTotal').innerHTML = totalPrice.toFixed(2);
-
+                                                updateTotal();  // Gọi updateTotal để cập nhật tổng giá khi thay đổi số lượng
                                             },
                                             error: function (xhr, status, error) {
-
+                                                console.log(error);
                                             }
                                         });
                                     }
 
-
-
                                     function confirm(btn) {
-                                        // Lấy danh sách các checkbox được chọn
                                         var checkboxes = document.querySelectorAll('.product-checkbox:checked');
                                         listProcductIdChoose = [];
 
                                         checkboxes.forEach(function (checkbox) {
-                                            // Lấy id sản phẩm từ data-attribute của checkbox
                                             var productId = checkbox.getAttribute('data-product-id');
-                                            listProcductIdChoose.push(productId); // Thêm id vào mảng listProcductIdChoose
+                                            listProcductIdChoose.push(productId);
                                         });
 
                                         if (listProcductIdChoose.length > 0) {
                                             let link = "OrderController?service=showAll";
                                             let params = new URLSearchParams();
 
-                                            // Thêm các id sản phẩm đã chọn vào params
                                             for (let i = 0; i < listProcductIdChoose.length; i++) {
                                                 params.append('id', listProcductIdChoose[i]);
                                             }
 
-                                            // Tạo URL với các tham số đã được thêm vào
                                             link += '&' + params.toString();
-
-                                            // Chuyển hướng đến servlet với URL đã xây dựng
                                             window.location.href = link;
                                         }
                                     }
+
+// Gọi updateTotal ban đầu để đảm bảo tổng giá ban đầu là 0
+                                    updateTotal();
+
+
+
+
         </script>
 
     </body>
