@@ -123,7 +123,7 @@ public class OrderController extends HttpServlet {
                         String vnp_Command = "pay";
                         String orderType = "other";
                         long amount = 1000000 * 100;
-                        String bankCode = "VNBANK";
+                        String bankCode = "";
                         String vnp_TxnRef = ConfigVNpay.getRandomNumber(8);
                         String vnp_IpAddr = ConfigVNpay.getIpAddress(request);
                         String vnp_TmnCode = ConfigVNpay.vnp_TmnCode;
@@ -186,19 +186,22 @@ public class OrderController extends HttpServlet {
                                 }
                             }
                         }
+                        ConfigVNpay.transaction.put(vnp_TxnRef, 0);
                         String queryUrl = query.toString();
                         String vnp_SecureHash = ConfigVNpay.hmacSHA512(ConfigVNpay.secretKey, hashData.toString());
                         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
                         String paymentUrl = ConfigVNpay.vnp_PayUrl + "?" + queryUrl;
                         response.sendRedirect(paymentUrl);
+                   
                         return;
+                        
                     }
 
                 }
                 // thanh toan thanh cong qua vnpay service tra ve thong tin thanh toan
                 if (service.equals("vnpay_return")) {
                     String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
-                    if (vnp_ResponseCode.equals("00")) {
+                    if (vnp_ResponseCode.equals("00") && ConfigVNpay.transaction.getOrDefault(request.getParameter("vnp_TxnRef"), 1 ) == 0) {
                         // Payment successful
                         String vnp_TxnRef = request.getParameter("vnp_TxnRef");
                         String vnp_Amount = request.getParameter("vnp_Amount");
@@ -225,11 +228,14 @@ public class OrderController extends HttpServlet {
                         session.removeAttribute("orderName");
                         session.removeAttribute("orderAddress");
                         session.removeAttribute("orderPhone");
-
+                        ConfigVNpay.transaction.put(vnp_TxnRef, 1);
                         request.setAttribute("orderSuccess", true);
                         request.setAttribute("orderId", idADD);
                         RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
                         dispatcher.forward(request, response);
+                       
+                    }else{
+                        response.sendRedirect("home");
                     }
                 }
 

@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class ConfigVNpay {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_ReturnUrl = "http://localhost:9999/HappyBeautySystem/OrderController?service=vnpay_return";
+    public static Map<String,Integer> transaction = new HashMap<>();
     public static String vnp_TmnCode = "TNVPM89B";
     public static String secretKey = "15F8J0K8W53WB0LSQ4PJTE2RX27R0UA6";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";

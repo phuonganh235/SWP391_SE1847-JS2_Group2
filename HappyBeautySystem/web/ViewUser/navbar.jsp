@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/styleHome.css" type="text/css">
+
     </head>
 
     <body>
@@ -60,7 +61,7 @@
                     </ul>
                 </nav>
                 <div class="header__right">
-         
+
                     <c:if test="${sessionScope.inforUserLogin == null}">
                         <div class="header__right__auth">
                             <a href="login">Login</a>
@@ -104,17 +105,17 @@
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
             </div>
-            
-            
+
+
             <!-- User Profile -->
-            <div class="modal fade col-md-12" role="dialog" id="userProfileModal" style="padding-right: 18px ">
+            <div class="modal fade col-md-12" role="dialog" id="userProfileModal" style="  padding-right: 18px" >
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="border-radius: 10px; margin-top: 70px;">
                         <div class="modal-header">
                             <h2 class="text-center font-weight-bold" style="font-family: Arial;">User Profile</h2>
                         </div>
 
-                        <div class="modal-body">
+                        <div class="modal-body" style="background-color: #ffe6f2">
                             <section>
                                 <div class="container">
                                     <div class="row">
@@ -135,11 +136,12 @@
 
                                         <div class="col-md-8">
                                             <div class="p-3 py-5">
-                                                <form action="ManageAccount" method="post" enctype="multipart/form-data">
+                                                <form action="customerprofile" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
                                                             <label class="labels font-weight-bold" style="font-size: 20px;">Full Name</label>
-                                                            <input type="text" class="form-control" name="fullName" placeholder="Full Name" value="${sessionScope.inforUserLogin.name}">
+                                                            <input id="fullName" type="text" class="form-control" name="fullName" placeholder="Full Name" value="${sessionScope.inforUserLogin.name}">
+                                                            <span id="nameError" style="color: red;"></span>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="labels font-weight-bold" style="font-size: 20px;">Mobile</label>
@@ -202,7 +204,7 @@
                         <div class="modal-header">
                             <h1 style="text-align: center; font-size: 30px">Change password</h1>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="background-color: #ffe6f2">
                             <form action="changepassword" method="post" onsubmit="return validateForm()">
                                 <input type="hidden" name="userId" value="${sessionScope.inforUserLogin.userId}"/>
                                 <b>Enter old password</b>&nbsp;&nbsp;
@@ -224,70 +226,87 @@
                                 <center><button type="submit" class="btn btn-dark" style="padding-right: 160px;padding-left: 160px; border-radius: 100px;">update password</button></center>
                             </form>
                             <br><br>
-                            <a type="button" href="login" style="padding-left: 190px; text-decoration: none; border-radius: 100px;">back to login</a>
+
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            
+
         </header>
     </body>
     <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-                                    var newPassword = document.getElementById("new_pass");
-                                    var confirmPassword = document.getElementById("confirm_pass");
+        document.addEventListener("DOMContentLoaded", function () {
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            var newPassword = document.getElementById("new_pass");
+            var confirmPassword = document.getElementById("confirm_pass");
+            var fullName = document.getElementById('fullName');
 
-                                    newPassword.addEventListener("input", function () {
-                                        var password = this.value.trim();
-                                        var passwordError = document.getElementById("passwordError");
+            newPassword.addEventListener("input", function () {
+                var password = this.value.trim();
+                var passwordError = document.getElementById("passwordError");
 
-                                        if (password === "") {
-                                            passwordError.innerHTML = "Please enter a password (not all spaces).";
-                                        } else if (!passwordPattern.test(password)) {
-                                            passwordError.innerHTML = "Password must be at least 8 characters long and include at least one letter, one number, and one special character.";
-                                        } else {
-                                            passwordError.innerHTML = "";
-                                        }
-                                    });
+                if (password === "") {
+                    passwordError.innerHTML = "Please enter a password (not all spaces).";
+                } else if (!passwordPattern.test(password)) {
+                    passwordError.innerHTML = "Password must be at least 8 characters long and include at least one letter, one number, and one special character.";
+                } else {
+                    passwordError.innerHTML = "";
+                }
+            });
 
-                                    confirmPassword.addEventListener("input", function () {
-                                        var password = newPassword.value.trim();
-                                        var confirmPass = this.value.trim();
-                                        var confirmPasswordError = document.getElementById("confirmPasswordError");
+            confirmPassword.addEventListener("input", function () {
+                var password = newPassword.value.trim();
+                var confirmPass = this.value.trim();
+                var confirmPasswordError = document.getElementById("confirmPasswordError");
 
-                                        if (confirmPass === "") {
-                                            confirmPasswordError.innerHTML = "Please enter a password (not all spaces).";
-                                        } else if (password !== confirmPass) {
-                                            confirmPasswordError.innerHTML = "Passwords do not match.";
-                                        } else {
-                                            confirmPasswordError.innerHTML = "";
-                                        }
-                                    });
+                if (confirmPass === "") {
+                    confirmPasswordError.innerHTML = "Please enter a password (not all spaces).";
+                } else if (password !== confirmPass) {
+                    confirmPasswordError.innerHTML = "Passwords do not match.";
+                } else {
+                    confirmPasswordError.innerHTML = "";
+                }
+            });
 
-                                    function validateForm() {
-                                        var password = newPassword.value.trim();
-                                        var confirmPass = confirmPassword.value.trim();
+            fullName.addEventListener("input", function () {
+                var fullNameValue = this.value.trim();
+                var nameError = document.getElementById("nameError");
+                if (fullNameValue === "" || !fullNameValue.replace(/\s/g, '').length) {
+                    nameError.innerHTML = "Please enter a valid Name (not all spaces).";
+                } else {
+                    nameError.innerHTML = "";
+                }
+            });
 
-                                        if (password === "" || confirmPass === "") {
-                                            alert("Please enter a password (not all spaces).");
-                                            return false;
-                                        }
+            function validateForm() {
+                var password = newPassword.value.trim();
+                var confirmPass = confirmPassword.value.trim();
+                var fullName = document.getElementById('fullName').value;
 
-                                        if (password !== confirmPass) {
-                                            alert("Passwords do not match.");
-                                            return false;
-                                        }
+                if (password === "" || confirmPass === "") {
+                    alert("Please enter a password (not all spaces).");
+                    return false;
+                }
 
-                                        if (!passwordPattern.test(password)) {
-                                            alert("Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
-                                            return false;
-                                        }
+                if (password !== confirmPass) {
+                    alert("Passwords do not match.");
+                    return false;
+                }
 
-                                        return true;
-                                    }
-                                });
+                if (!passwordPattern.test(password)) {
+                    alert("Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
+                    return false;
+                }
+
+                if (fullName.trim() === '') {
+                    alert('Full Name không được để trống');
+                    return false;
+                }
+
+                return true;
+            }
+        });
     </script>
 </html>

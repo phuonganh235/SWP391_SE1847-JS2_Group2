@@ -309,6 +309,33 @@ public class UserDAO extends DBContext {
         return n;
     }
 
+    public int updateUserCustomer(User user) {
+        int n = 0;
+        String sqlUpdate = "UPDATE [dbo].[Users]"
+                + " SET [Name] = ?,"
+                + " [Mobile] = ?,"
+                + " [Email] = ?,"
+                + " [Address] = ?,"
+                + " [ImageUrl] = ?,"
+                + " [DateOfBirth] = ?"
+                + " WHERE [UserId] = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
+            pre.setString(1, user.getName());
+            pre.setString(2, user.getMobile());
+            pre.setString(3, user.getEmail());
+            pre.setString(4, user.getAddress());
+            pre.setString(5, user.getImage());
+            pre.setString(6, user.getDateofbirth());
+            pre.setInt(7, user.getUserId());
+
+            n = pre.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
     public void deleteStaff(int staffId) {
         String sql = "DELETE FROM Users WHERE userId = ?";
         try {
@@ -379,8 +406,8 @@ public class UserDAO extends DBContext {
         }
         return count;
     }
-    
-       public User getUser(int userId, String old_pass) {
+
+    public User getUser(int userId, String old_pass) {
         try {
             String sql = "select * from Users where UserId = ? and Password = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -388,7 +415,7 @@ public class UserDAO extends DBContext {
             ps.setString(2, old_pass);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-               User u = new User();
+                User u = new User();
                 u.setUserId(rs.getInt("UserId"));
                 u.setName(rs.getString("Name"));
                 u.setUsername(rs.getString("Username"));
@@ -401,7 +428,7 @@ public class UserDAO extends DBContext {
                 u.setCreateDate(rs.getString("CreateDate"));
                 u.setPassword(rs.getString("Password"));
                 u.setStatuss(rs.getInt("Statuss"));
-                u.setDateofbirth(rs.getString("DateOfBirth")); 
+                u.setDateofbirth(rs.getString("DateOfBirth"));
                 return u;
             }
         } catch (SQLException e) {
@@ -409,10 +436,10 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-     
-      public void changePassword(int userId, String new_pass1) {
+
+    public void changePassword(int userId, String new_pass1) {
         try {
-            String sql =  "UPDATE Users SET Password = ? WHERE UserId = ?";
+            String sql = "UPDATE Users SET Password = ? WHERE UserId = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, new_pass1);
             ps.setInt(2, userId);
@@ -420,7 +447,7 @@ public class UserDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
-    } 
+    }
 
     public ArrayList<User> getUserByProductId(int productId) {
         ArrayList<User> uList = new ArrayList<>();
@@ -505,29 +532,5 @@ public class UserDAO extends DBContext {
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
 
-        User u = userDAO.login("sangtv", "sang@12234");
-        System.out.println(u);
-        System.out.println(userDAO.getUserByProductId(1));
-        // Create a new user
-        // Tạo đối tượng User để kiểm tra
-//        User user = new User();
-//        user.setUserId(1050); // ID người dùng cần cập nhật
-//        user.setName("Nguyen Van A");
-//        user.setUsername("nguyenvana");
-//        user.setMobile("0912345678");
-//        user.setEmail("nguyenvana@example.com");
-//        user.setAddress("123 Đường ABC, Quận 1");
-//        user.setPostCode("700000");
-//        user.setPassword("Passw0rd!");
-//        user.setStatuss(1);
-//        user.setDateofbirth("2000-01-01");
-//
-//        // Gọi hàm updateUser và in ra kết quả
-//        int result = userDAO.updateUser(user);
-//        if (result > 0) {
-//            System.out.println("Cập nhật thành công!");
-//        } else {
-//            System.out.println("Cập nhật thất bại!");
-//        }
     }
 }

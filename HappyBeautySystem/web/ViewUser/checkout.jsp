@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="checkout__order__widget">
                                     <label for="check-payment-1">
-                                        Mono
+                                        COD
                                         <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
@@ -146,11 +146,7 @@
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
 
-                                    <label for="check-payment-3">
-                                        COD
-                                        <input type="checkbox" id="check-payment-3" class="paymentMethod" name="paymentMethod" value="3">
-                                        <span class="checkmark"></span>
-                                    </label>
+        
                                 </div>
 
                                 <button type="submit" class="site-btn">Place oder</button>
