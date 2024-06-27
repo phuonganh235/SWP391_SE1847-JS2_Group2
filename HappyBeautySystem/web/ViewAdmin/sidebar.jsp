@@ -128,18 +128,18 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               href="#"
               class="nav-link dropdown-toggle"
               data-bs-toggle="dropdown"
-              ><i class="fa fa-server"></i>Manager Order</a
+              ><i class="fa fa-server"></i>Quản lý đơn hàng</a
             >
             <div class="dropdown-menu bg-transparent border-0">
               <a
                 href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1"
                 class="dropdown-item"
-                >Order not yet confirmed</a
+                >Đơn hàng chưa xác nhận</a
               >
               <a
                 href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2"
                 class="dropdown-item"
-                >Order confirmed</a
+                >Đơn hàng đã xác nhận</a
               >
             </div>
           </div>

@@ -46,12 +46,12 @@
 
         <!-- Success Message Section Begin -->
         <div class="container status-container">
-            <h2>Order Detail For You</h2>
-            <p>This is your order details page</p>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Ordered</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Confirmed</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Shipping to the buyer</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Delivered</a>
+            <h2>Thông tin chi tiết đơn hàng của bạn</h2>
+            <p>Thông tin đầy đủ về đơn hàng</p>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1" class="btn btn-success">Đã đặt hàng</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Đã xác nhận</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Đang vận chuyển</a>
+            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Hoàn thành</a>
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->
@@ -59,9 +59,9 @@
             <table class="order-list">
                 <thead>
                     <tr >
-                        <th class="text-center">Product Name</th>
-                        <th class="text-center">Quantity</th>
-                        <th class="text-center">Total Price</th>
+                        <th class="text-center">Tên sản phẩm</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-center">Tổng tiền</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,11 +71,11 @@
                         double granTotal = 0;
                         if (listOrderDetail != null && !listOrderDetail.isEmpty()) {
                             for (OrderDetail orderDetail : listOrderDetail) {
-                                Product product = dao.getProductById(orderDetail.getOrderID());
+                                Product product = dao.getProductById(orderDetail.getProductID());
                                 String productName = (product != null) ? product.getProductName() : "Product not found";
                     %>
                     <tr>
-                        <td class="text-center"><%= productName %></td>
+                        <td class="text-center"><%= productName%></td>
                         <td class="text-center"><%= orderDetail.getQuantity()%></td>
                         <td class="text-center"><%= orderDetail.getPrice() * orderDetail.getQuantity()%></td>
                     </tr>
@@ -84,7 +84,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="3" class="text-center">No order details available</td>
+                        <td colspan="3" class="text-center">Không có thông tin</td>
                     </tr>
                     <%
                         }
@@ -96,73 +96,7 @@
         <!-- Order List Section End -->
         <!-- Footer Section Begin -->
         <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-7">
-                        <div class="footer__about">
-                            <div class="footer__logo">
-                                <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                cilisis.</p>
-                            <div class="footer__payment">
-                                <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-5">
-                        <div class="footer__widget">
-                            <h6>Quick links</h6>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-4">
-                        <div class="footer__widget">
-                            <h6>Account</h6>
-                            <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 col-sm-8">
-                        <div class="footer__newslatter">
-                            <h6>NEWSLETTER</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Email">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
-                            <div class="footer__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <div class="footer__copyright__text">
-                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-                        </div>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
+            <jsp:include page="footer.jsp"/>
         </footer>
         <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
         <script src="ViewUser/js/bootstrap.min.js"></script>

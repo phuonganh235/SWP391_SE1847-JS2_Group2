@@ -53,10 +53,10 @@ s
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Order Management</h6>
+                            <h6 class="mb-0">Quản lý danh sách đơn hàng chưa xác nhận</h6>
                             <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
                                 <input type="hidden" name="service" value="search">
-                                <input class="form-control border-0" type="search" placeholder="Search" name="txt">
+                                <input class="form-control border-0" type="search" placeholder="Tìm kiếm" name="txt">
                                 <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
                                         type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
                             </form>
@@ -67,12 +67,11 @@ s
                                 <thead>
                                     <tr class="text-dark">
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                        <th scope="col">Name Customer</th>
-                                        <th scope="col">Address</th>
-                                        <th scope="col">PhoneNumber</th>
-                                        <th scope="col">PaymentMethod</th>
-                                        <th scope="col">OrderDate</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col">Tên khách hàng</th>
+                                        <th scope="col">Địa chỉ</th>
+                                        <th scope="col">Số điện Thoại</th>
+                                        <th scope="col">Ngày mua hàng</th>
+                                        <th scope="col">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,27 +81,11 @@ s
                                             <td>${order.getCustomerName()}</td>
                                             <td>${order.getCustomerAddress()}</td>
                                             <td>${order.getCustomerPhoneNumber()}</td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${order.paymentId == 1}">
-                                                        MOMO
-                                                    </c:when>
-                                                    <c:when test="${order.paymentId == 2}">
-                                                        VNPAY
-                                                    </c:when>
-                                                    <c:when test="${order.paymentId == 3}">
-                                                        COD
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        Unknown
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
 
                                             <td>${order.getOrderDate()}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Confirm</a>
-                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Delete</a>
+                                                <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Xác nhận</a>
+                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Xóa</a>
                                             </td>
                                         </tr>
                                     </c:forEach>

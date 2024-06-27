@@ -116,24 +116,24 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Order Management</h6>
+                            <h6 class="mb-0">Trang chi tiết đơn hàng của khách hàng</h6>
                         </div>
 
                         <!-- Order Confirmation Form -->
                         <form action="managerOrder?service=confirm" method="post">
 
                             <div class="bg-white rounded p-4 mb-4">
-                                <h6 class="mb-3">Customer Details</h6>
+                                <h6 class="mb-3">Thông tin khách hàng</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerName">Name Customer</label>
+                                            <label for="customerName">Họ và Tên</label>
                                             <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.customerInfor.name}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerAddress">Address</label>
+                                            <label for="customerAddress">Địa chỉ</label>
                                             <input type="text" id="customerAddress" name="customerAddress" class="form-control" value="${requestScope.customerInfor.address}" readonly>
                                         </div>
                                     </div>
@@ -141,19 +141,19 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerPhoneNumber">Phone Number</label>
+                                            <label for="customerPhoneNumber">Số điện thoại</label>
                                             <input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control" value="${requestScope.customerInfor.mobile}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="orderDate">Order Date</label>
+                                            <label for="orderDate">Ngày mua</label>
                                             <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.customerInfor.createDate}" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="deliveryPerson">Select Delivery Person</label>
+                                    <label for="deliveryPerson">Chọn người giao hàng</label>
                                     <select id="deliveryPerson" name="ShipperID" class="form-control">
                                         <c:forEach items="${listShipper}" var="user">
                                             <option value="${user.userId}">${user.getName()}</option>
@@ -168,10 +168,9 @@
                                 <table class="table text-start align-middle table-bordered table-hover mb-0">
                                     <thead>
                                         <tr class="text-dark">
-                                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                            <th scope="col" class="text-center">Product Name</th>
-                                            <th scope="col" class="text-center">Quantity</th>
-                                            <th scope="col" class="text-center">Total Price</th>
+                                            <th scope="col" class="text-center">Tên sản phẩm</th>
+                                            <th scope="col" class="text-center">Số lượng</th>
+                                            <th scope="col" class="text-center">Tổng giá</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -181,15 +180,14 @@
                                             double granTotal = 0;
                                             if (listOrderDetail != null && !listOrderDetail.isEmpty()) {
                                         %>
-                                        
+
                                     <input type="hidden" name="OrderID" value="<%= listOrderDetail.get(0).getOrderID()%>" /> 
-                                    
+
                                     <%
                                         for (OrderDetail orderDetail : listOrderDetail) {
                                             Product product = dao.getProductById(orderDetail.getProductID());
                                     %>
                                     <tr>
-                                        <td><input class="form-check-input" type="checkbox" name="selectedOrders" value="${order.orderId}"></td>
                                         <td class="text-center"><%= product.getProductName()%></td>
                                         <td class="text-center"><%= orderDetail.getQuantity()%></td>
                                         <td class="text-center"><%= df.format(orderDetail.getPrice() * orderDetail.getQuantity())%></td>
@@ -200,7 +198,7 @@
                                     } else {
                                     %>
                                     <tr>
-                                        <td colspan="3" class="text-center">No order details available</td>
+                                        <td colspan="3" class="text-center">Không có thông tin</td>
                                     </tr>
                                     <%
                                         }
@@ -214,7 +212,7 @@
 
                             <!-- Submit Button -->
                             <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary">Confirm Orders</button>
+                                <button type="submit" class="btn btn-primary">Xác Nhận</button>
                             </div>
                         </form>
                     </div>

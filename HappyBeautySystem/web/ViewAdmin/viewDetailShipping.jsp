@@ -116,24 +116,24 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Order Management</h6>
+                            <h6 class="mb-0">Trang chi thiết thông tin giao hàng</h6>
                         </div>
 
                         <!-- Order Confirmation Form -->
                         <form action="managerOrder?service=confirm" method="post">
 
                             <div class="bg-white rounded p-4 mb-4">
-                                <h6 class="mb-3">Customer Details</h6>
+                                <h6 class="mb-3">Thông tin khách hàng</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerName">Name Customer</label>
+                                            <label for="customerName">Họ và Tên</label>
                                             <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.customerInfor.name}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerAddress">Address</label>
+                                            <label for="customerAddress">Địa chỉ</label>
                                             <input type="text" id="customerAddress" name="customerAddress" class="form-control" value="${requestScope.customerInfor.address}" readonly>
                                         </div>
                                     </div>
@@ -141,23 +141,23 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerPhoneNumber">Phone Number</label>
+                                            <label for="customerPhoneNumber">Số điện thoại</label>
                                             <input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control" value="${requestScope.customerInfor.mobile}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="orderDate">Order Date</label>
+                                            <label for="orderDate">Ngày mua hàng</label>
                                             <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.customerInfor.createDate}" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="deliveryPerson"><strong><font color="green">INFORMATION SHIPPER</strong></label>
+                                    <label for="deliveryPerson"><strong><font color="green">THÔNG TIN NGƯỜI GIAO HÀNG</strong></label>
                                     <div>
-                                        <p>Shipper Name: <strong>${inforShipper.name}</strong></p>
-                                        <p>Shipper Address: <strong>${inforShipper.address}</strong></p>
-                                        <p>Shipper PhoneNumber <strong>${inforShipper.mobile}</strong></p>
+                                        <p>Học và Tên :  <strong>${inforShipper.name}</strong></p>
+                                        <p>Địa chỉ : <strong>${inforShipper.address}</strong></p>
+                                        <p>Số điện thoại <strong>${inforShipper.mobile}</strong></p>
                                     </div>
 
                                 </div>
@@ -169,10 +169,9 @@
                                 <table class="table text-start align-middle table-bordered table-hover mb-0">
                                     <thead>
                                         <tr class="text-dark">
-                                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                            <th scope="col" class="text-center">Product Name</th>
-                                            <th scope="col" class="text-center">Quantity</th>
-                                            <th scope="col" class="text-center">Total Price</th>
+                                            <th scope="col" class="text-center">Tên sản phẩm</th>
+                                            <th scope="col" class="text-center">Số lượng</th>
+                                            <th scope="col" class="text-center">Tổng tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -190,7 +189,6 @@
                                             Product product = dao.getProductById(orderDetail.getProductID());
                                     %>
                                     <tr>
-                                        <td><input class="form-check-input" type="checkbox" name="selectedOrders" value="${order.orderId}"></td>
                                         <td class="text-center"><%= product.getProductName()%></td>
                                         <td class="text-center"><%= orderDetail.getQuantity()%></td>
                                         <td class="text-center"><%= df.format(orderDetail.getPrice() * orderDetail.getQuantity())%></td>

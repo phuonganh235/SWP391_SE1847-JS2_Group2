@@ -20,7 +20,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
-
+        <script src="https://esgoo.net/scripts/jquery.js"></script>
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/font-awesome.min.css" type="text/css">
@@ -30,6 +30,68 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <style type="text/css">
+            /* Container for the form to center and set max width */
+            /* Kích thước font cho thẻ h2 */
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 20px; /* Kích thước font mới, bạn có thể điều chỉnh lại theo ý muốn */
+                color: #333;
+            }
+
+            /* Style for form group to make input fields equal width */
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                width: 100%; /* Chiều rộng của form group sẽ là 100% */
+            }
+
+            /* Style for labels to add spacing */
+            .form-group label {
+                margin-bottom: 5px;
+                font-weight: bold;
+                font-size: 14px; /* Kích thước font cho nhãn */
+                color: #555;
+            }
+
+            /* Style for select and input elements to have equal width */
+            .css_select, .form-control {
+                width: 100%; /* Chiều rộng của select và input là 100% */
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background: #fff;
+                font-size: 14px; /* Kích thước font cho select và input */
+                box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            /* Hover and focus effects for the select elements */
+            .css_select:hover, .css_select:focus, .form-control:hover, .form-control:focus {
+                border-color: #888;
+                box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            }
+
+            /* Optional: Style the disabled select element to differentiate it */
+            .css_select[disabled] {
+                background: #e9ecef;
+                color: #6c757d;
+                cursor: not-allowed;
+            }
+
+            /* Style for input elements to match the select elements */
+            .form-control {
+                font-size: 14px; /* Kích thước font cho input */
+                color: #333;
+            }
+
+            /* Add margin to the bottom of the form control for spacing */
+            .form-control + .form-control {
+                margin-top: 15px;
+            }
+
+        </style>
     </head>
 
     <body>
@@ -43,8 +105,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="home"><i class="fa fa-home"></i> Home</a>
-                            <span>Shopping cart</span>
+                            <a href="home"><i class="fa fa-home"></i> Trang Chủ</a>
+                            <span>Thanh Toán</span>
                         </div>
                     </div>
                 </div>
@@ -55,50 +117,95 @@
         <!-- Checkout Section Begin -->
         <section class="checkout spad">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click
-                            here to enter your code.</h6>
-                    </div>
-                </div>
                 <form action="OrderController?service=confirmOrder" id="checkoutForm" class="checkout__form" method="post">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5>Billing detail</h5>
-                            <c:if test="${sessionScope.inforUserLogin != null}">  
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label for="fullName">Full Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="${sessionScope.inforUserLogin.getName()}" required>
-                                    </div>
 
-                                </div>
-                                <div class="row">
-
-                                    <div class="form-group">
-                                        <label for="categoryName"> Address</label>
-                                        <input type="text" class="form-control" id="address" name="address" value="${sessionScope.inforUserLogin.getAddress()}" required>
+                            <c:if test="${sessionScope.inforUserLogin != null}">
+                                <div class="form-container">
+                                    <h2>THÔNG TIN - CHI TIẾT - ĐƠN HÀNG</h2>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="fullName">Thành phố</label>
+                                            <select class="css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành" disabled>
+                                                <!-- Hà Nội sẽ được thêm vào từ JavaScript và bị vô hiệu hóa -->
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label for="categoryName">PhoneNumner</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.inforUserLogin.getMobile()}" required>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="categoryName">Quận / Huyện</label>
+                                            <select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện">
+                                                <option value="0">Quận / Huyện</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="categoryName">Phường / Xã</label>
+                                            <select class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã">
+                                                <option value="0">Phường / Xã</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="categoryName">Số điện thoại nhận hàng</label>
+                                            <input type="text" class="form-control" id="phone" name="Address" value="${sessionScope.inforUserLogin.getMobile()}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="categoryName">Địa chỉ chi tiết</label>
+                                            <input type="text" class="form-control" id="phone" name="Address" value="" required>
+                                        </div>
+                                    </div>
+                                    <h2>Đặt thời gian giao hàng</h2>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="categoryName">Ghi chú</label>
+                                            <input type="text" class="form-control" id="phone" name="phone" value="" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="fromTime">Từ</label>
+                                            <input type="time" class="form-control" id="fromTime" name="fromTime" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="toTime">Đến</label>
+                                            <input type="time" class="form-control" id="toTime" name="toTime" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="deliveryDate">Ngày</label>
+                                            <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
+                                        </div>
+                                    </div>
+                                    <div id="timeWarning" class="alert alert-danger" style="display:none;">
+                                        Ngoài thời gian làm việc (6:00 AM - 8:00 PM). Làm ơn chọn lại.
+                                    </div>
+                                    <div id="dateWarning" class="alert alert-danger" style="display:none;">
+                                        Không được chọn ngày ở quá khứ
                                     </div>
                                 </div>
                             </c:if>
+
                         </div>
 
 
 
                         <div class="col-lg-4">
                             <div class="checkout__order">
-                                <h5>Your order</h5>
+                                <h5>Đơn hàng của bạn</h5>
                                 <div class="checkout__order__product">
                                     <ul>
                                         <li>
-                                            <span class="top__text">Product</span>
-                                            <span class="top__text__right">Total</span>
+                                            <span class="top__text">Sản phẩm </span>
+                                            <span class="top__text__right">Tổng</span>
                                         </li>
 
                                         <%
@@ -113,7 +220,7 @@
                                                         granTotal += subtotal;
                                                         String formattedGranTotal = String.format("%.2f", granTotal);
                                         %>
-                                        <li><%= pro.getProductName()%> <span>$<%= pro.getPrice() * cart.getQuantity()%></span></li>
+                                        <li><%= pro.getProductName()%> <span><%= pro.getPrice() * cart.getQuantity()%></span></li>
                                             <%
                                                     }
                                                 }
@@ -127,14 +234,14 @@
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Subtotal <span>$<%= String.format("%.2f", granTotal)%></span></li>
-                                        <li>Total <span>$<%= String.format("%.2f", granTotal)%></span></li>
+                                        <li>Số tiền <span><%= String.format("%.2f", granTotal)%></span></li>
+                                        <li>Tổng tiền <span><%= String.format("%.2f", granTotal)%></span></li>
 
                                     </ul>
                                 </div>
                                 <div class="checkout__order__widget">
                                     <label for="check-payment-1">
-                                        COD
+                                        Mono
                                         <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
@@ -146,10 +253,14 @@
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
 
-        
+                                    <label for="check-payment-3">
+                                        COD
+                                        <input type="checkbox" id="check-payment-3" class="paymentMethod" name="paymentMethod" value="3">
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
 
-                                <button type="submit" class="site-btn">Place oder</button>
+                                <button type="submit" class="btn btn-success">Mua Hàng</button>
                             </div>
                         </div>
 
@@ -218,75 +329,7 @@
         <!-- Instagram End -->
 
         <!-- Footer Section Begin -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-7">
-                        <div class="footer__about">
-                            <div class="footer__logo">
-                                <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                cilisis.</p>
-                            <div class="footer__payment">
-                                <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                                <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-5">
-                        <div class="footer__widget">
-                            <h6>Quick links</h6>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-4">
-                        <div class="footer__widget">
-                            <h6>Account</h6>
-                            <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 col-sm-8">
-                        <div class="footer__newslatter">
-                            <h6>NEWSLETTER</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Email">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
-                            <div class="footer__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <div class="footer__copyright__text">
-                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-                        </div>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <jsp:include page="footer.jsp"/>
         <!-- Footer Section End -->
 
         <!-- Search Begin -->
@@ -312,20 +355,151 @@
         <script src="js/jquery.nicescroll.min.js"></script>
         <script src="js/main.js"></script>
         <script>
-                                         // lay thong tin khanh hang khi thanh toan bang vnpay day ve servlet
-                                        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
-                                            if (document.querySelector('input[name="paymentMethod"]:checked').value === "2") {
-                                                e.preventDefault();
+            $(document).ready(function () {
+                // Lấy ngày và giờ hiện tại
+                var now = new Date();
+                var currentHour = now.getHours();
 
-                                                // Lưu thông tin khách hàng vào session
-                                                fetch('OrderController?service=saveOrderInfo', {
-                                                    method: 'POST',
-                                                    body: new FormData(this)
-                                                }).then(() => {
-                                                    this.submit();
-                                                });
-                                            }
-                                        });
+                // Đặt giá trị min cho input type="time" từ 6 giờ sáng đến 8 giờ tối
+                var fromTimeInput = document.getElementById('fromTime');
+                var toTimeInput = document.getElementById('toTime');
+                var deliveryDateInput = document.getElementById('deliveryDate');
+
+                fromTimeInput.min = '08:00';
+                fromTimeInput.max = '22:00';
+
+                toTimeInput.min = '08:00';
+                toTimeInput.max = '22:00';
+
+                // Nếu giờ hiện tại nhỏ hơn 6 giờ sáng, giới hạn giờ bắt đầu từ 6 giờ sáng
+                if (currentHour < 6) {
+                    fromTimeInput.value = '06:00';
+                    toTimeInput.value = '08:00'; // Giới hạn giờ kết thúc là 8 giờ tối nếu hiện tại nhỏ hơn 6 giờ sáng
+                } else {
+                    fromTimeInput.value = formatTime(currentHour, now.getMinutes());
+                    toTimeInput.value = formatTime(currentHour, now.getMinutes() + 30); // Giới hạn mặc định là 30 phút sau giờ hiện tại nếu không đặt giới hạn
+                }
+
+                // Set giá trị min cho input type="date" để không cho chọn ngày trong quá khứ
+                var formattedToday = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+                deliveryDateInput.min = formattedToday;
+
+                // Xử lý sự kiện thay đổi giá trị của input "From"
+                fromTimeInput.addEventListener('input', function () {
+                    if (fromTimeInput.value < fromTimeInput.min || fromTimeInput.value > fromTimeInput.max) {
+                        $('#timeWarning').show();
+                    } else {
+                        $('#timeWarning').hide();
+                    }
+
+                    // Nếu giờ bắt đầu lớn hơn giờ kết thúc, đặt giờ kết thúc bằng giờ bắt đầu
+                    if (fromTimeInput.value > toTimeInput.value) {
+                        toTimeInput.value = fromTimeInput.value;
+                    }
+                });
+
+                // Xử lý sự kiện thay đổi giá trị của input "To"
+                toTimeInput.addEventListener('input', function () {
+                    if (toTimeInput.value < toTimeInput.min || toTimeInput.value > toTimeInput.max) {
+                        $('#timeWarning').show();
+                    } else {
+                        $('#timeWarning').hide();
+                    }
+
+                    // Nếu giờ kết thúc nhỏ hơn giờ bắt đầu, đặt giờ bắt đầu bằng giờ kết thúc
+                    if (toTimeInput.value < fromTimeInput.value) {
+                        fromTimeInput.value = toTimeInput.value;
+                    }
+                });
+
+                // Xử lý sự kiện thay đổi giá trị của input "Date"
+                deliveryDateInput.addEventListener('input', function () {
+                    if (deliveryDateInput.value < formattedToday) {
+                        $('#dateWarning').show();
+                    } else {
+                        $('#dateWarning').hide();
+                    }
+                });
+
+                // Format số giờ và phút thành chuỗi có hai chữ số
+                function formatTime(hours, minutes) {
+                    var displayHours = hours % 12;
+                    displayHours = displayHours ? displayHours : 12; // Nếu là 0 thì hiển thị là 12
+                    var formattedHours = displayHours < 10 ? '0' + displayHours : displayHours;
+                    var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                    return formattedHours + ':' + formattedMinutes;
+                }
+            });
+
+
+
+            document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+                if (document.querySelector('input[name="paymentMethod"]:checked').value === "2") {
+                    e.preventDefault();
+
+                    // Lưu thông tin khách hàng vào session
+                    fetch('OrderController?service=saveOrderInfo', {
+                        method: 'POST',
+                        body: new FormData(this)
+                    }).then(() => {
+                        this.submit();
+                    });
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                const hanoiId = "01"; // ID của Hà Nội
+
+                // Lấy dữ liệu quận huyện của Hà Nội khi tải trang
+                function loadHanoiDistricts() {
+                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + hanoiId + '.htm', function (data_quan) {
+                        if (data_quan.error == 0) {
+                            $("#quan").html('<option value="0">Chọn Quận / Huyện</option>');
+                            $("#phuong").html('<option value="0">Chọn Phường / Xã</option>');
+                            $.each(data_quan.data, function (key_quan, val_quan) {
+                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                            });
+                        }
+                    });
+                }
+
+                // Thêm Hà Nội vào danh sách tỉnh và vô hiệu hóa nó
+                $("#tinh").append('<option value="' + hanoiId + '" selected>Thành phố Hà Nội</option>').attr("disabled", true);
+
+                // Gọi hàm để tải quận huyện của Hà Nội khi trang được tải
+                loadHanoiDistricts();
+
+                // Khi thay đổi quận huyện
+                $("#quan").change(function (e) {
+                    var idquan = $(this).val();
+                    var selectedQuan = $("#quan option:selected").text();
+                    $("#selectedQuan").val(selectedQuan); // Cập nhật giá trị trường ẩn
+
+                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                        if (data_phuong.error == 0) {
+                            $("#phuong").html('<option value="0">Chose Ward</option>');
+                            $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                            });
+                        }
+                    });
+                });
+
+                // Khi thay đổi phường xã
+                $("#phuong").change(function (e) {
+                    var selectedPhuong = $("#phuong option:selected").text();
+                    $("#selectedPhuong").val(selectedPhuong); // Cập nhật giá trị trường ẩn
+                });
+
+                // Đảm bảo rằng các trường ẩn có giá trị trước khi gửi biểu mẫu
+                $("form").submit(function () {
+                    var selectedQuan = $("#quan option:selected").text();
+                    var selectedPhuong = $("#phuong option:selected").text();
+                    $("#selectedQuan").val(selectedQuan);
+                    $("#selectedPhuong").val(selectedPhuong);
+                });
+            });
         </script>
     </body>
 
