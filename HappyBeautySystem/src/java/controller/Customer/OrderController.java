@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import common.CommonDAO;
 import dal.CartDAO;
+import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.ProductDAO;
@@ -33,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import model.InforOrderDetail;
 
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
@@ -49,6 +51,7 @@ public class OrderController extends HttpServlet {
         ProductDAO daoProduct = new ProductDAO();
         OrderDetailDAO detailDAO = new OrderDetailDAO();
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
+        InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
 
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
@@ -75,31 +78,35 @@ public class OrderController extends HttpServlet {
                     dispatcher.forward(request, response);
                     return;
                 }
-                // luu thong tin khach hang vao sesion de tra ve khi thanh toan qua vnpay
-                if ("saveOrderInfo".equals(service)) {
-                    String name = request.getParameter("name");
-                    String address = request.getParameter("address");
-                    String phone = request.getParameter("phone");
-
-                    session.setAttribute("orderName", name);
-                    session.setAttribute("orderAddress", address);
-                    session.setAttribute("orderPhone", phone);
-
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    return;
-                }
 
                 // User confirm order
                 if ("confirmOrder".equals(service)) {
                     String dateNow = common.getDateTimeNow();
                     String name = request.getParameter("name");
-                    String address = request.getParameter("address");
+                    String nameCustomer = inforUserLogin.getUsername();
+                    //tinh
+                    String tinh = request.getParameter("tinh");
+                    //quan
+                    String quan = request.getParameter("quan");
+                    //phuong
+                    String phuong = request.getParameter("phuong");
+                    //chi tiet
+                    String chiTiet = request.getParameter("AddressDetail");
+                    //day du
+                    String addressFull = chiTiet + "-" + phuong + "-" + quan + "-" + tinh;
+                    //
+                    String ghiChu = request.getParameter("note");
+                    //
+                    String tu = request.getParameter("fromTime");
+                    //
+                    String den = request.getParameter("toTime");
+                    //
                     String phone = request.getParameter("phone");
                     String idpayment = request.getParameter("paymentMethod");
                     int idPaymentInt = Integer.parseInt(idpayment);
 
                     if (idPaymentInt == 1) {
-                        Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, address, phone, idPaymentInt);
+                        Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, addressFull, phone, idPaymentInt);
                         //add order
                         int idADD = daoOrder.insertOrderGetID(newOrder);
                         List<Cart> listCart = _list;
@@ -110,6 +117,9 @@ public class OrderController extends HttpServlet {
                             // update product
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                         }
+                        // add order infor detail
+                        InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, tinh, phuong, quan, chiTiet, ghiChu, tu, den);
+                        daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
                         // delete cart
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
@@ -118,7 +128,6 @@ public class OrderController extends HttpServlet {
                         dispatcher.forward(request, response);
                     }
                     if (idPaymentInt == 2) {
-//                        long totalCost = long.(request.getParameter("total_cost"));
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
                         String orderType = "other";
@@ -127,8 +136,8 @@ public class OrderController extends HttpServlet {
                         String vnp_TxnRef = ConfigVNpay.getRandomNumber(8);
                         String vnp_IpAddr = ConfigVNpay.getIpAddress(request);
                         String vnp_TmnCode = ConfigVNpay.vnp_TmnCode;
-                         session.setAttribute("orderName", name);
-                        session.setAttribute("orderAddress", address);
+                        session.setAttribute("orderName", name);
+                        session.setAttribute("orderAddress", addressFull);
                         session.setAttribute("orderPhone", phone);
 
                         Map<String, String> vnp_Params = new HashMap<>();
@@ -192,16 +201,17 @@ public class OrderController extends HttpServlet {
                         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
                         String paymentUrl = ConfigVNpay.vnp_PayUrl + "?" + queryUrl;
                         response.sendRedirect(paymentUrl);
-                   
+
                         return;
-                        
+
                     }
 
                 }
                 // thanh toan thanh cong qua vnpay service tra ve thong tin thanh toan
                 if (service.equals("vnpay_return")) {
+                    
                     String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
-                    if (vnp_ResponseCode.equals("00") && ConfigVNpay.transaction.getOrDefault(request.getParameter("vnp_TxnRef"), 1 ) == 0) {
+                    if (vnp_ResponseCode.equals("00") && ConfigVNpay.transaction.getOrDefault(request.getParameter("vnp_TxnRef"), 1) == 0) {
                         // Payment successful
                         String vnp_TxnRef = request.getParameter("vnp_TxnRef");
                         String vnp_Amount = request.getParameter("vnp_Amount");
@@ -220,21 +230,21 @@ public class OrderController extends HttpServlet {
                             detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                         }
-                       //delete cart
-                       
+                        //delete cart
+
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                         }
-                        session.removeAttribute("orderName");
-                        session.removeAttribute("orderAddress");
-                        session.removeAttribute("orderPhone");
+//                        session.removeAttribute("orderName");
+//                        session.removeAttribute("orderAddress");
+//                        session.removeAttribute("orderPhone");
                         ConfigVNpay.transaction.put(vnp_TxnRef, 1);
                         request.setAttribute("orderSuccess", true);
                         request.setAttribute("orderId", idADD);
                         RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
                         dispatcher.forward(request, response);
-                       
-                    }else{
+
+                    } else {
                         response.sendRedirect("home");
                     }
                 }

@@ -157,14 +157,14 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Địa chỉ chi tiết</label>
-                                            <input type="text" class="form-control" id="phone" name="Address" value="" required>
+                                            <input type="text" class="form-control" id="phone" name="AddressDetail" value="" required>
                                         </div>
                                     </div>
                                     <h2>Đặt thời gian giao hàng</h2>
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Ghi chú</label>
-                                            <input type="text" class="form-control" id="phone" name="phone" value="" required>
+                                            <input type="text" class="form-control" id="phone" name="note" value="" required>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -241,7 +241,7 @@
                                 </div>
                                 <div class="checkout__order__widget">
                                     <label for="check-payment-1">
-                                        Mono
+                                        COD
                                         <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
@@ -251,12 +251,6 @@
                                         <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
-                                    </label>
-
-                                    <label for="check-payment-3">
-                                        COD
-                                        <input type="checkbox" id="check-payment-3" class="paymentMethod" name="paymentMethod" value="3">
-                                        <span class="checkmark"></span>
                                     </label>
                                 </div>
 
@@ -433,19 +427,7 @@
 
 
 
-            document.getElementById('checkoutForm').addEventListener('submit', function (e) {
-                if (document.querySelector('input[name="paymentMethod"]:checked').value === "2") {
-                    e.preventDefault();
-
-                    // Lưu thông tin khách hàng vào session
-                    fetch('OrderController?service=saveOrderInfo', {
-                        method: 'POST',
-                        body: new FormData(this)
-                    }).then(() => {
-                        this.submit();
-                    });
-                }
-            });
+   
         </script>
         <script>
             $(document).ready(function () {

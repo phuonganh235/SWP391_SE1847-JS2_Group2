@@ -43,8 +43,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./home"><i class="fa fa-home"></i> Home</a>
-                            <span>Shopping cart</span>
+                            <a href="./home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Giỏ hàng</span>
                         </div>
                     </div>
                 </div>
@@ -61,10 +61,10 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th style="margin-left :40px">Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        <th style="margin-left :40px">Sản phẩm</th>
+                                        <th>Giá bán</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng tiền</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -102,13 +102,13 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">$<%= String.format("%.2f", pro.getPrice())%></td>
+                                        <td class="cart__price"><%= String.format("%.2f", pro.getPrice())%></td>
                                         <td class="cart__quantity">
                                             <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
                                         </td>
 
                                         <td class="cart__price sub_total" data-price="<%= String.format("%.2f", subtotal)%>"
-                                            id="subtotal-<%= cart.getCartId()%>">$<%= String.format("%.2f", subtotal)%></td>
+                                            id="subtotal-<%= cart.getCartId()%>"><%= String.format("%.2f", subtotal)%></td>
                                         <td class="cart__close">
                                             <a
                                                 href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
@@ -123,7 +123,7 @@
                                     } else {
                                     %>
                                     <tr>
-                                        <td colspan="5" class="text-center">Your cart is empty</td>
+                                        <td colspan="5" class="text-center">Giỏ hàng trống</td>
                                     </tr>
                                     <%
                                         }
@@ -136,27 +136,27 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn">
-                            <a href="product">Continue Shopping</a>
+                            <a href="product">Tiếp tục mua sắm</a>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="discount__content">
-                            <h6>Discount codes</h6>
+                            <h6>Mã giảm giá</h6>
                             <form action="#">
-                                <input type="text" placeholder="Enter your coupon code">
-                                <button type="submit" class="site-btn">Apply</button>
+                                <input type="text" placeholder="Nhập mã giảm giá của bạn">
+                                <button type="submit" class="site-btn">Áp dụng</button>
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-4 offset-lg-2">
                         <div class="cart__total__procced">
-                            <h6>Cart total</h6>
+                            <h6>Thông tin mua hàng</h6>
                             <ul>
-                                <li>Total <span id="granTotal">$<%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Tổng tiền <span id="granTotal">$<%= String.format("%.2f", granTotal)%></span></li>
                             </ul>
-                            <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Confirm Order</button></div>
+                            <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Xác nhận thanh toán</button></div>
                     </div>
                 </div>
         </section>
