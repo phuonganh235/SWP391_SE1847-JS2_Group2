@@ -66,8 +66,7 @@
                     <div class="footer__logo">
                         <a href="./index.html"><img src="ViewUser/img/logo.png" alt=""></a>
                     </div>
-                    <p>Welcome to HappyBeauty - the ideal destination for beauty care products specifically for women
-                        - where your care and beauty are our top priorities!</p>
+                    <p>Chào mừng bạn đến với HappyBeauty - điểm đến lý tưởng về các sản phẩm chăm sóc sắc đẹp dành riêng cho phụ nữ - nơi việc chăm sóc và làm đẹp của bạn là ưu tiên hàng đầu của chúng tôi!</p>
                     <div class="footer__payment">
                         <a href="#"><img src="ViewUser/img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="ViewUser/img/payment/payment-2.png" alt=""></a>
@@ -81,21 +80,21 @@
                 <div class="footer__widget">
                     <h6>Quick links</h6>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Giới thiệu</a></li>
+                        <li><a href="#">Bài viết</a></li>
+                        <li><a href="#">Liên lạc</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-4">
                 <div class="footer__widget">
-                    <h6>Account</h6>
+                    <h6>Tài khoản</h6>
                     <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Orders Tracking</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Tài khoản của tôi</a></li>
+                        <li><a href="#">Theo dõi đơn hàng</a></li>
+                        <li><a href="#">Thanh toán</a></li>
+                        <li><a href="#">Yêu thích</a></li>
                     </ul>
                 </div>
             </div>
@@ -104,7 +103,7 @@
                     <h6>NEWSLETTER</h6>
                     <form action="#">
                         <input type="text" placeholder="Email">
-                        <button type="submit" class="site-btn">Subscribe</button>
+                        <button type="submit" class="site-btn">Đăng ký</button>
                     </form>
                     <div class="footer__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -134,7 +133,7 @@
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
         <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+            <input type="text" id="search-input" placeholder="Tìm kiếm.....">
         </form>
     </div>
 </div>
