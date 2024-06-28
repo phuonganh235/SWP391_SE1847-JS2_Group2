@@ -1,5 +1,6 @@
 package controller.Staff;
 
+import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.UserDAO;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import model.InforOrderDetail;
 import model.Order;
 import model.OrderDetail;
 import model.User;
@@ -31,7 +33,9 @@ public class managerShipper extends HttpServlet {
         UserShipOrderDAO userShipOrderDAO = new UserShipOrderDAO();
         OrderDAO orderDAO = new OrderDAO();
         UserDAO daoUser = new UserDAO();
+        OrderDAO daoOrder = new OrderDAO();
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+        InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
         try (PrintWriter out = response.getWriter()) {
             if ("showTask".equals(service)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
@@ -119,8 +123,17 @@ public class managerShipper extends HttpServlet {
 
                 User newUser = daoUser.getUserById("" + idUder);
                 List<OrderDetail> list = orderDetailDAO.getOrderDetailsByOrderId(odi);
+
+                // 
+                //get infor order detail
+                InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(odi);
+                //get order
+                Order newOrder = daoOrder.getOrderById(odi);
+                //
+                request.setAttribute("informationOrder", newOrder);
                 request.setAttribute("listDetail", list);
                 request.setAttribute("customerInfor", newUser);
+                request.setAttribute("inforOrderDetail", ipOrderDetail);
                 RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/viewDetailShipping.jsp");
                 dispatcher4.forward(request, response);
             }

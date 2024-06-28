@@ -122,21 +122,23 @@
                         <!-- Order Confirmation Form -->
                         <form action="managerOrder?service=confirm" method="post">
 
+
                             <div class="bg-white rounded p-4 mb-4">
                                 <h6 class="mb-3">Thông tin khách hàng</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="customerName">Họ và Tên</label>
-                                            <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.customerInfor.name}" readonly>
+                                            <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.informationOrder.getCustomerName()}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerAddress">Địa chỉ</label>
-                                            <input type="text" id="customerAddress" name="customerAddress" class="form-control" value="${requestScope.customerInfor.address}" readonly>
+                                            <label for="customerName">Trạng thái</label>
+                                            <input type="text" id="customerName" name="customerName" class="form-control" value="Đã Xác Nhận" readonly>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -147,11 +149,28 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="orderDate">Ngày mua hàng</label>
-                                            <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.customerInfor.createDate}" readonly>
+                                            <label for="orderDate">Ngày mua</label>
+                                            <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.informationOrder.getOrderDate()}" readonly>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customerAddress">Địa chỉ nhận hàng</label>
+                                            <textarea id="customerAddress" name="customerAddress" class="form-control" rows="3" readonly>${requestScope.informationOrder.getCustomerAddress()}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customerAddress">Yêu Cầu của khách hàng</label>
+                                            <textarea id="note" name="note" class="form-control" rows="3" readonly> - Yêu Cầu : ${requestScope.inforOrderDetail.getNote()} ,  Thời gian nhận hàng từ : ${requestScope.inforOrderDetail.getFrom()} ->  ${requestScope.inforOrderDetail.getTo()}. Ngày ${requestScope.inforOrderDetail.getDateOrder()}  </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group">
                                     <label for="deliveryPerson"><strong><font color="green">THÔNG TIN NGƯỜI GIAO HÀNG</strong></label>
                                     <div>
@@ -241,7 +260,17 @@
 <script src="ViewAdmin/lib/tempusdominus/js/moment.min.js"></script>
 <script src="ViewAdmin/lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="ViewAdmin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script>
+    function formatTime(time) {
+        if (time && time.length > 8) { // Assuming time format HH:mm:ss.SSSSSSS
+            return time.substring(0, 8); // Extracts HH:mm:ss
+        }
+        return time;
+    }
 
+    // Call formatTime function to remove milliseconds
+    document.getElementById('note').value = document.getElementById('note').value.replace(/(\d{2}:\d{2}:\d{2})\.(\d{7})/g, '$1');
+</script>
 <!-- Template Javascript -->
 <script src="ViewAdmin/js/main.js"></script>
 

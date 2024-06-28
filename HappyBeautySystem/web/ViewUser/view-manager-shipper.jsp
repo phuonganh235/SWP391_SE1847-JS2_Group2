@@ -26,6 +26,21 @@
             src="https://kit.fontawesome.com/84a8258e0d.js"
             crossorigin="anonymous"
         ></script>
+        <style>
+            .btn-action {
+                margin-right: 10px; /* Khoảng cách giữa các nút */
+            }
+
+            .btn-action:hover {
+                opacity: 0.8; /* Hiệu ứng mờ khi di chuột vào */
+            }
+
+            .btn-container {
+                display: flex; /* Sử dụng flexbox để các nút nằm trên cùng một hàng */
+                align-items: center; /* Căn giữa các nút theo chiều dọc */
+            }
+        </style>
+
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
@@ -46,8 +61,8 @@
 
         <!-- Success Message Section Begin -->
         <div class="container status-container">
-            <h2>Tasks of a Shipper</h2>
-            <p>Shippers play a crucial role in the logistics and delivery industry, ensuring that goods and packages reach their intended destinations safely and on time. Their responsibilities encompass a wide range of tasks, including but not limited to:</p>
+            <h2>Danh Sách Đơn Nhiệm Vụ Của Shipper</h2>
+            <p>Mọi nhiệm vụ cảu ship được giao tại đây</p>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
@@ -61,11 +76,11 @@
                 <table class="order-list">
                     <thead>
                         <tr >
-                            <th class="text-center">Code</th>
-                            <th class="text-center">Customer Name</th>
-                            <th class="text-center">Phone Number</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Mã đơn hàng</th>
+                            <th class="text-center">Tên khách hàng</th>
+                            <th class="text-center">Số điện thoại</th>
+                            <th class="text-center">Địa chỉ</th>
+                            <th class="text-center">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,8 +101,11 @@
                                 <%// Giả sử rằng thuộc tính status là một phần của đối tượng OrderupdateStatusOrder
                                     if (optionINT == 2) {
                                 %>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=updateStatusOrder&orderID=<%= order.getOrderId()%>&status=3'">Confirm</button>
-                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>
+                                <div class="btn-container">
+                                    <button type="button" class="btn btn-primary btn-sm btn-action" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=updateStatusOrder&orderID=<%= order.getOrderId()%>&status=3'">Xác nhận</button>
+                                    <button type="button" class="btn btn-info btn-sm btn-action" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Chi tiết</button>
+                                </div>
+
                                 <!--                            Delete-->
                                 <%
                                     }
@@ -106,8 +124,8 @@
                                 <%
                                     if (optionINT == 4) {
                                 %>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
-                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Detail</button>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Xác nhận</button>
+                                <button type="button" class="btn btn-info" onclick="window.location.href = '/HappyBeautySystem/managerShipper?service=detailOrderShipping&orderid=<%= order.getOrderId()%>'">Chu tiết</button>
                                 <!--                            Delete-->
                                 <%
                                     }
@@ -123,7 +141,7 @@
                         } else {
                         %>
                         <tr>
-                            <td colspan="6" class="text-center">Your list is empty</td>
+                            <td colspan="6" class="text-center">Không có đơn hàng nào ở đây </td>
                         </tr>
                         <%
                             }

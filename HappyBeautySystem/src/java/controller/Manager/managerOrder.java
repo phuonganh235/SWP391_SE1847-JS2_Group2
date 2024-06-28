@@ -84,6 +84,11 @@ public class managerOrder extends HttpServlet {
                 int orderDetailInt = Integer.parseInt(orderID);
                 String customerID = request.getParameter("CustomerID");
                 // list order detail
+                //get order
+                Order newOrder = daoOrder.getOrderById(orderDetailInt);
+                //get infor order detail
+                InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
+                //List Shiper
                 List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
                 // infor customer
                 User user = daoUser.getUserById(customerID);
@@ -91,7 +96,8 @@ public class managerOrder extends HttpServlet {
                 int idShipper = daoUserShipOrder.getUserIDByOrderID(orderIDInt);
 
                 User newUser = daoUser.getUserById("" + idShipper);
-
+                request.setAttribute("informationOrder", newOrder);
+                request.setAttribute("inforOrderDetail", ipOrderDetail);
                 request.setAttribute("listOrderDetail", listOrderDetail);
                 request.setAttribute("customerInfor", user);
                 request.setAttribute("inforShipper", newUser);

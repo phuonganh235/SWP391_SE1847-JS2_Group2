@@ -127,6 +127,9 @@
 
                         <!-- Order Confirmation Form -->
                         <form action="managerOrder?service=confirm" method="post">
+                            
+                            
+                            
 
                             <div class="bg-white rounded p-4 mb-4">
                                 <h6 class="mb-3">Thông tin khách hàng</h6>
@@ -173,6 +176,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                        
+                                        
+                                        
+                                        
+                                        
                                 <div class="form-group">
                                     <label for="deliveryPerson">Chọn người giao hàng</label>
                                     <select id="deliveryPerson" name="ShipperID" class="form-control">

@@ -27,6 +27,34 @@
             src="https://kit.fontawesome.com/84a8258e0d.js"
             crossorigin="anonymous"
         ></script>
+        <style>
+            .form-group {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px; /* Khoảng cách từ phần tử trên cùng xuống form */
+            }
+
+            .form-group > div {
+                text-align: left; /* Căn chỉnh nội dung văn bản sang trái */
+                max-width: 600px; /* Độ rộng tối đa của phần tử */
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
+
+            .form-group p {
+                margin-bottom: 10px; /* Khoảng cách giữa các đoạn văn bản */
+            }
+
+            .form-group strong {
+                color: seagreen; /* Màu xanh lá cây cho văn bản in đậm */
+            }
+        </style>
+
+
+
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
@@ -46,24 +74,28 @@
 
 
         <!-- Success Message Section Begin -->
+        <!-- Success Message Section Begin -->
         <div class="container status-container">
-            <h2>Tasks of a Shipper</h2>
-            <p>Shippers play a crucial role in the logistics and delivery industry, ensuring that goods and packages reach their intended destinations safely and on time. Their responsibilities encompass a wide range of tasks, including but not limited to:</p>
+            <h2>Danh Sách Đơn Nhiệm Vụ Của Shipper</h2>
+            <p>Mọi nhiệm vụ cảu ship được giao tại đây</p>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=2" class="btn btn-danger">Đơn nhận giao</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=3" class="btn btn-info">Hoàn thành</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=4" class="btn btn-warning">Giao lại</a>
-            <a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=5" class="btn btn-danger">Bị bom</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
+            <!--        <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=5" class="btn btn-warning">Giao lại</a>
+                        <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=6" class="btn btn-danger">Bị bom</a>-->
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->
         <div class="container">
             <div class="form-group text-center  ">
                 <div class="d-flex justify-content-center align-items-center">
+
                     <div>
-                        <p>Customer Name: <strong>${customerInfor.name}</strong></p>
-                        <p>Address: <strong>${customerInfor.address}</strong></p>
-                        <p>PhoneNumber: <strong>${customerInfor.mobile}</strong></p>
+                        <h2><font color="red">CHI TIẾT -  YÊU CẦU</h2>
+                        <p>Tên khách hàng : <strong>${customerInfor.name}</strong></p>
+                        <p>Địa chỉ : <strong>${requestScope.informationOrder.getCustomerAddress()}</strong></p>
+                        <p>Số điện thoại :  <strong>${customerInfor.mobile}</strong></p>
+                        <p>Yêu cầu của khách hàng :  <strong> ${requestScope.inforOrderDetail.getNote()} ,  Thời gian nhận hàng từ : ${requestScope.inforOrderDetail.getFrom()} ->  ${requestScope.inforOrderDetail.getTo()}. Ngày ${requestScope.inforOrderDetail.getDateOrder()}  </strong></p>
                     </div>
                 </div>
             </div>
@@ -71,9 +103,9 @@
             <table class="order-list">
                 <thead>
                     <tr >
-                        <th class="text-center">Product Name</th>
-                        <th class="text-center">Quantity</th>
-                        <th class="text-center">Total Price</th>
+                        <th class="text-center">Tên sản phẩm</th>
+                        <th class="text-center">Giá bán</th>
+                        <th class="text-center">Tổng tiền</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,22 +121,24 @@
                     <tr>
                         <td class="text-center"><%= productName%></td>
                         <td class="text-center"><%= orderDetail.getQuantity()%></td>
-                        <td class="text-center"><%= orderDetail.getPrice() * orderDetail.getQuantity()%></td>
+                        <td class="text-center"><%= String.format("%.2f", orderDetail.getPrice() * orderDetail.getQuantity())%></td>
+
                     </tr>
                     <%
                         }
                     } else {
                     %>
                     <tr>
-                        <td colspan="3" class="text-center">No order details available</td>
+                        <td colspan="3" class="text-center">Không có thông tin ở đây</td>
                     </tr>
                     <%
                         }
                     %>
 
                 </tbody>
-                <button type="button" class="btn btn-primary" onclick="window.location.href = 'your_link_here'">Confirm</button>
             </table>
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '#'">Xác nhận đơn hàng </button>
+
         </div>
         <!-- Order List Section End -->
 
@@ -194,6 +228,17 @@
         <script src="ViewUser/js/owl.carousel.min.js"></script>
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
+        <script>
+                                function formatTime(time) {
+                                    if (time && time.length > 8) { // Assuming time format HH:mm:ss.SSSSSSS
+                                        return time.substring(0, 8); // Extracts HH:mm:ss
+                                    }
+                                    return time;
+                                }
+
+                                // Call formatTime function to remove milliseconds
+                                document.getElementById('note').value = document.getElementById('note').value.replace(/(\d{2}:\d{2}:\d{2})\.(\d{7})/g, '$1');
+        </script>
     </body>
 
 </html>
