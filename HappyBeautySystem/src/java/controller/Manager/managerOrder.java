@@ -1,6 +1,7 @@
 package controller.Manager;
 
 import common.CommonDAO;
+import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.UserDAO;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
+import model.InforOrderDetail;
 import model.Order;
 import model.OrderDetail;
 import model.Product;
@@ -34,6 +36,7 @@ public class managerOrder extends HttpServlet {
         OrderDetailDAO daoOrderDetail = new OrderDetailDAO();
         UserDAO daoUser = new UserDAO();
         UserShipOrderDAO daoUserShipOrder = new UserShipOrderDAO();
+        InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
         HttpSession session = request.getSession(true);
         User inforUser = (User) session.getAttribute("inforUserLogin");
         CommonDAO common = new CommonDAO();
@@ -62,11 +65,17 @@ public class managerOrder extends HttpServlet {
                 List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
                 // infor customer
                 User user = daoUser.getUserById(customerID);
+                //get order
+                Order newOrder = daoOrder.getOrderById(orderDetailInt);
+                //get infor order detail
+                InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
                 //List Shiper
                 List<User> listShipper = daoUser.getUserByRoleIdAndStatus(3, 3);
                 request.setAttribute("listOrderDetail", listOrderDetail);
                 request.setAttribute("customerInfor", user);
                 request.setAttribute("listShipper", listShipper);
+                request.setAttribute("informationOrder", newOrder);
+                request.setAttribute("inforOrderDetail", ipOrderDetail);
                 request.getRequestDispatcher("ViewAdmin/confirmOrder.jsp").forward(request, response);
             }
             if (service.equals("viewDetailShipping")) {

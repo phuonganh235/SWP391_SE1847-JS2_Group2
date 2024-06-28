@@ -81,7 +81,6 @@ s
                                             <td>${order.getCustomerName()}</td>
                                             <td>${order.getCustomerAddress()}</td>
                                             <td>${order.getCustomerPhoneNumber()}</td>
-
                                             <td>${order.getOrderDate()}</td>
                                             <td>
                                                 <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Xác nhận</a>

@@ -11,11 +11,12 @@ public class InforOrderDetail {
     private String Note;
     private String From;
     private String To;
+    private String dateOrder;
 
     public InforOrderDetail() {
     }
 
-    public InforOrderDetail(int ID, int OrderID, String City, String District, String Ward, String AddressDetail, String Note, String From, String To) {
+    public InforOrderDetail(int ID, int OrderID, String City, String District, String Ward, String AddressDetail, String Note, String From, String To, String dateOrder) {
         this.ID = ID;
         this.OrderID = OrderID;
         this.City = City;
@@ -25,9 +26,10 @@ public class InforOrderDetail {
         this.Note = Note;
         this.From = From;
         this.To = To;
+        this.dateOrder = dateOrder;
     }
 
-    public InforOrderDetail(int OrderID, String City, String District, String Ward, String AddressDetail, String Note, String From, String To) {
+    public InforOrderDetail(int OrderID, String City, String District, String Ward, String AddressDetail, String Note, String From, String To, String dateOrder) {
         this.OrderID = OrderID;
         this.City = City;
         this.District = District;
@@ -36,6 +38,7 @@ public class InforOrderDetail {
         this.Note = Note;
         this.From = From;
         this.To = To;
+        this.dateOrder = dateOrder;
     }
 
     public int getID() {
@@ -110,6 +113,14 @@ public class InforOrderDetail {
         this.To = To;
     }
 
-  
+    public String getDateOrder() {
+        return dateOrder;
+    }
+
+    public void setDateOrder(String dateOrder) {
+        this.dateOrder = dateOrder;
+    }
+
+   
 }
 

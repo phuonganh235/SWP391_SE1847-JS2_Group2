@@ -36,12 +36,12 @@
 
         <!-- Success Message Section Begin -->
         <div class="container success-container">
-            <h2>Order Successfull !!</h2>
-            <p>Thank you for your purchase. Your order will be confirmed by staff as soon as possible.</p>
-            <p><strong>Some shop purchasing regulations</strong></p>
-            <p>1. Orders can only be canceled when paying by COD and the order has not been confirmed!!</p>
-            <p>Please be responsible with your orders </p>
-            <a href="/HappyBeautySystem/home" class="site-btn">Continue shopping</a>
+            <h2>Mua hàng thành công !!</h2>
+            <p>Cảm ơn bạn đã mua hàng của chúng tôi . Chúng tôi sẽ sớm gửi đơn hàng đến bạn</p>
+            <p><strong>Một số quy định mua hàng của shop</strong></p>
+            <p>1. Bạn chỉ được hủy đơn hàng khi thanh toán bằng COD và đơn hàng chưa được shop xác nhận =</p>
+            <p>Cảm ơn bạn :)) </p>
+            <a href="/HappyBeautySystem/home" class="site-btn">Tiếp tục mua hàng</a>
         </div>
         <footer class="footer">
             <div class="container">

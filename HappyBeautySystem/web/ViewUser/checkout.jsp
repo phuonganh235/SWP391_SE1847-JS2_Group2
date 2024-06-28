@@ -194,7 +194,7 @@
                                 </div>
                             </c:if>
 
-                        </div>
+                        </div
 
 
 
@@ -253,7 +253,9 @@
                                         <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
                                     </label>
                                 </div>
-
+                                <input type="hidden" id="selectedQuan" name="selectedQuan">
+                                <input type="hidden" id="selectedPhuong" name="selectedPhuong">
+                                
                                 <button type="submit" class="btn btn-success">Mua Hàng</button>
                             </div>
                         </div>
@@ -427,7 +429,7 @@
 
 
 
-   
+
         </script>
         <script>
             $(document).ready(function () {
@@ -460,7 +462,7 @@
 
                     $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
                         if (data_phuong.error == 0) {
-                            $("#phuong").html('<option value="0">Chose Ward</option>');
+                            $("#phuong").html('<option value="0">Chọn phường / xã </option>');
                             $.each(data_phuong.data, function (key_phuong, val_phuong) {
                                 $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
                             });

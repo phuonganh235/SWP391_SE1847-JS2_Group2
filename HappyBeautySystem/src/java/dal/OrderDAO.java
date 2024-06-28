@@ -312,6 +312,32 @@ public class OrderDAO extends DBContext {
         return status;
     }
 
+    public Order getOrderById(int orderId) {
+        Order order = null;
+        String sql = "SELECT OrderID, UserId, PaymentId, OrderDate, IsCancel, CustomerName, CustomerAddress, CustomerPhoneNumber, Statuss FROM Orders WHERE OrderID = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, orderId);
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    order = new Order();
+                    order.setOrderId(rs.getInt("OrderID"));
+                    order.setUserId(rs.getInt("UserId"));
+                    order.setPaymentId(rs.getInt("PaymentId"));
+                    order.setOrderDate(rs.getString("OrderDate"));
+                    order.setIsCancel(rs.getBoolean("IsCancel"));
+                    order.setCustomerName(rs.getString("CustomerName"));
+                    order.setCustomerAddress(rs.getString("CustomerAddress"));
+                    order.setCustomerPhoneNumber(rs.getString("CustomerPhoneNumber"));
+                    order.setStatuss(rs.getInt("Statuss"));
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return order;
+    }
+
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(8);

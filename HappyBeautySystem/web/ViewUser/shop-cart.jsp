@@ -154,7 +154,7 @@
                         <div class="cart__total__procced">
                             <h6>Thông tin mua hàng</h6>
                             <ul>
-                                <li>Tổng tiền <span id="granTotal">$<%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Tổng tiền <span id="granTotal"><%= String.format("%.2f", granTotal)%></span></li>
                             </ul>
                             <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Xác nhận thanh toán</button></div>
                     </div>
@@ -313,7 +313,7 @@
                                                 total += parseFloat(checkbox.dataset.price);
                                             }
                                         });
-                                        document.getElementById('granTotal').innerText = '$' + total.toFixed(2);
+                                        document.getElementById('granTotal').innerText = total.toFixed(2);
                                     }
 
                                     function stringToObject(string) {
@@ -349,7 +349,7 @@
                                                 let id = obj.cartId;
                                                 let subtotalElement = document.getElementById('subtotal-' + id);
                                                 let newSubtotal = price * value;
-                                                subtotalElement.innerHTML = "$" + newSubtotal.toFixed(2);
+                                                subtotalElement.innerHTML = newSubtotal.toFixed(2);
                                                 subtotalElement.setAttribute('data-price', newSubtotal.toFixed(2));
 
                                                 // Cập nhật lại data-price của checkbox tương ứng

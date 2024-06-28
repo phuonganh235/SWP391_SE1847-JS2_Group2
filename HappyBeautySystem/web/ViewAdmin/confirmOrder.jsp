@@ -21,7 +21,13 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
-
+        <style>
+            .form-control.long-text {
+                white-space: pre-wrap; /* Chuyển đổi dòng mới */
+                overflow: hidden; /* Ẩn nội dung tràn */
+                text-overflow: ellipsis; /* Thêm dấu chấm lửng (...) */
+            }
+        </style>
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
 
@@ -128,15 +134,16 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="customerName">Họ và Tên</label>
-                                            <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.customerInfor.name}" readonly>
+                                            <input type="text" id="customerName" name="customerName" class="form-control" value="${requestScope.informationOrder.getCustomerName()}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="customerAddress">Địa chỉ</label>
-                                            <input type="text" id="customerAddress" name="customerAddress" class="form-control" value="${requestScope.customerInfor.address}" readonly>
+                                            <label for="customerName">Trạng thái</label>
+                                            <input type="text" id="customerName" name="customerName" class="form-control" value="Chưa Xác Nhận" readonly>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -148,7 +155,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="orderDate">Ngày mua</label>
-                                            <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.customerInfor.createDate}" readonly>
+                                            <input type="text" id="orderDate" name="orderDate" class="form-control" value="${requestScope.informationOrder.getOrderDate()}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customerAddress">Địa chỉ nhận hàng</label>
+                                            <textarea id="customerAddress" name="customerAddress" class="form-control" rows="3" readonly>${requestScope.informationOrder.getCustomerAddress()}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="customerAddress">Yêu Cầu của khách hàng</label>
+                                            <textarea id="note" name="note" class="form-control" rows="3" readonly> - Yêu Cầu : ${requestScope.inforOrderDetail.getNote()} ,  Thời gian nhận hàng từ : ${requestScope.inforOrderDetail.getFrom()} ->  ${requestScope.inforOrderDetail.getTo()}. Ngày ${requestScope.inforOrderDetail.getDateOrder()}  </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -244,6 +265,17 @@
 <!-- Template Javascript -->
 <script src="ViewAdmin/js/main.js"></script>
 
+<script>
+    function formatTime(time) {
+        if (time && time.length > 8) { // Assuming time format HH:mm:ss.SSSSSSS
+            return time.substring(0, 8); // Extracts HH:mm:ss
+        }
+        return time;
+    }
+
+    // Call formatTime function to remove milliseconds
+    document.getElementById('note').value = document.getElementById('note').value.replace(/(\d{2}:\d{2}:\d{2})\.(\d{7})/g, '$1');
+</script>
 </body>
 
 </html>

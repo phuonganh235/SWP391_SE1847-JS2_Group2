@@ -236,7 +236,7 @@
                                                 }
 
                                                 document.getElementById("title").oninput = function () {
-                                                    var name = this.value; 
+                                                    var name = this.value;
                                                     this.value = name;
                                                     if (name === "") {
                                                         document.getElementById("titleError").innerHTML = "Title must not be empty.";

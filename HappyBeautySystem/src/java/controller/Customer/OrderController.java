@@ -82,25 +82,26 @@ public class OrderController extends HttpServlet {
                 // User confirm order
                 if ("confirmOrder".equals(service)) {
                     String dateNow = common.getDateTimeNow();
-                    String name = request.getParameter("name");
+                    String name = inforUserLogin.getName();
                     String nameCustomer = inforUserLogin.getUsername();
                     //tinh
                     String tinh = request.getParameter("tinh");
-                    //quan
-                    String quan = request.getParameter("quan");
-                    //phuong
-                    String phuong = request.getParameter("phuong");
+                    //
+                    String selectedQuan = request.getParameter("selectedQuan");
+                    String selectedPhuong = request.getParameter("selectedPhuong");
+                    //
                     //chi tiet
                     String chiTiet = request.getParameter("AddressDetail");
                     //day du
-                    String addressFull = chiTiet + "-" + phuong + "-" + quan + "-" + tinh;
+                    String addressFull = chiTiet + "-" + selectedPhuong + "-" + selectedQuan + "-" + "Thành Phố Hà Nội";
                     //
                     String ghiChu = request.getParameter("note");
                     //
                     String tu = request.getParameter("fromTime");
                     //
                     String den = request.getParameter("toTime");
-                    //
+                    //date 
+                    String date = request.getParameter("deliveryDate");
                     String phone = request.getParameter("phone");
                     String idpayment = request.getParameter("paymentMethod");
                     int idPaymentInt = Integer.parseInt(idpayment);
@@ -118,7 +119,7 @@ public class OrderController extends HttpServlet {
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                         }
                         // add order infor detail
-                        InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, tinh, phuong, quan, chiTiet, ghiChu, tu, den);
+                        InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
                         daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
                         // delete cart
                         for (Cart cart1 : _list) {
@@ -209,7 +210,7 @@ public class OrderController extends HttpServlet {
                 }
                 // thanh toan thanh cong qua vnpay service tra ve thong tin thanh toan
                 if (service.equals("vnpay_return")) {
-                    
+
                     String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
                     if (vnp_ResponseCode.equals("00") && ConfigVNpay.transaction.getOrDefault(request.getParameter("vnp_TxnRef"), 1) == 0) {
                         // Payment successful
