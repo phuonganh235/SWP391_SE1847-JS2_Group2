@@ -374,12 +374,12 @@
         <script src="ViewUser/js/main.js"></script>
     </body>
 
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <!--Chatbot-->
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <df-messenger
         intent="WELCOME"
-        chat-title="AI-BYAN"
-        agent-id="0ab401ed-4696-442c-80cd-0d5e1b252b36"
-        language-code="en"
+        chat-title="HappyBeautySystem"
+        agent-id="cc8fd10b-488f-4ebb-a442-953e6ecafe27"
+        language-code="vi"
         ></df-messenger>
 </html>
