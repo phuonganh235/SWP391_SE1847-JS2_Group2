@@ -31,8 +31,15 @@ public class FeedbackDAO extends DBContext {
     }
 
     // Adds a new feedback to the Feedback table in the database
-    public void addFeedback(Feedback feedback) {
-        String sql = "INSERT INTO Feedback (product_id, user_id, rating, comment, created_at) VALUES (?, ?, ?, ?, ?)";
+    public void addFeedback2(Feedback feedback) {
+        String sql = "INSERT INTO Feedback (product_id, user_id, rating, comment, created_at)\n"
+                + "SELECT ?, ?, ?, ?, ?\n"
+                + "WHERE EXISTS (\n"
+                + "    SELECT 1\n"
+                + "    FROM Feedback f\n"
+                + "    WHERE f.user_id = ?\n"
+                + "      AND f.product_id = ?\n"
+                + ");";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, feedback.getProductId());
@@ -40,6 +47,8 @@ public class FeedbackDAO extends DBContext {
             st.setInt(3, feedback.getRating());
             st.setString(4, feedback.getComment());
             st.setString(5, feedback.getCreatedAt());
+            st.setInt(6, feedback.getUserId());
+            st.setInt(7, feedback.getProductId());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,13 +160,12 @@ public class FeedbackDAO extends DBContext {
     // Main method for testing
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
-//        dao.addFeedback(new Feedback(2, 1, 1016, 5,
-//                "This product is very good bro. I love it", "2-22-2024"));
-//        ArrayList<Feedback> fb = dao.getAllFeedbacks();
-//        for (Feedback feedback : fb) {
-//            System.out.println(feedback);
-//        }
-        double averageRating = dao.getAverageRatingByProductId(1);
-        System.out.println("Average rating for product 1: " + averageRating);
+        dao.addFeedback2(new Feedback(2, 1, 16, 5,
+                "This product is very good bro. I love it552", "2-2-2024"));
+        ArrayList<Feedback> fb = dao.getAllFeedbacks();
+        for (Feedback feedback : fb) {
+            System.out.println(feedback);
+        }
+
     }
 }

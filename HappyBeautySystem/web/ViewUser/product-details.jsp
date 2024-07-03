@@ -277,7 +277,7 @@
                             <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
                                 <div class="blog__details__comment">
                                     <h5>Write Comment</h5>
-                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
+                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&product_category=${ProductData.getCateId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
                                         <div class="form-group">
                                             <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your comment here..." required></textarea>
                                             <span id="nameError" style="color: red;"></span>
@@ -319,7 +319,6 @@
                                                 <p>${feedback.comment}</p>
                                                 <ul>
                                                     <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
-
                                                 </ul>
                                             </div>
                                         </div>
@@ -389,25 +388,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                            document.addEventListener("DOMContentLoaded", function () {
-                                                function formatFullName(name) {
-                                                    name = name.trim().replace(/\s+/g, ' ');
-                                                    return name;
-                                                }
+                                                        document.addEventListener("DOMContentLoaded", function () {
+                                                            function formatFullName(name) {
+                                                                name = name.trim().replace(/\s+/g, ' ');
+                                                                return name;
+                                                            }
 
-                                                document.getElementById("comment").oninput = function () {
-                                                    var name = this.value; 
-                                                    this.value = name; 
-                                                    if (name === "") {
-                                                        document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-                                                    } else if (/^\s/.test(name)) {
-                                                        document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-                                                    } else {
-                                                        document.getElementById("nameError").innerHTML = "";
-                                                    }
-                                                };
-                                                
-                                            });
+                                                            document.getElementById("comment").oninput = function () {
+                                                                var name = this.value;
+                                                                this.value = name;
+                                                                if (name === "") {
+                                                                    document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                                                                } else if (/^\s/.test(name)) {
+                                                                    document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                                                                } else {
+                                                                    document.getElementById("nameError").innerHTML = "";
+                                                                }
+                                                            };
+
+                                                        });
         </script>
     </body>
 
