@@ -50,8 +50,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="home"><i class="fa fa-home"></i> Home</a>
-                            <span>Shop</span>
+                            <a href="home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Cửa hàng</span>
                         </div>
                     </div>
                 </div>
@@ -74,9 +74,9 @@
                                     document.getElementById("fromPrice").oninput = function () {
                                         var fromPrice = this.value;
                                         if (fromPrice === "") {
-                                            document.getElementById("priceError").innerHTML = "Please enter number!";
+                                            document.getElementById("priceError").innerHTML = "Vui lòng nhập số!";
                                         } else if (parseInt(fromPrice) < 0) { // check number < 0
-                                            document.getElementById("priceError").innerHTML = "From price must be > 0";
+                                            document.getElementById("priceError").innerHTML = "Giá nhỏ nhất > 0";
                                         } else {
                                             document.getElementById("priceError").innerHTML = "";
                                         }
@@ -84,9 +84,9 @@
                                     document.getElementById("toPrice").oninput = function () {
                                         var fromPrice = this.value;
                                         if (fromPrice === "") {
-                                            document.getElementById("priceError").innerHTML = "Please enter number!";
+                                            document.getElementById("priceError").innerHTML = "Vui lòng nhập số!";
                                         } else if (parseInt(fromPrice) < 0) { // Kiểm tra số âm
-                                            document.getElementById("priceError").innerHTML = "To price must be > 0";
+                                            document.getElementById("priceError").innerHTML = "Giá lớn nhất > 0";
                                         } else {
                                             document.getElementById("priceError").innerHTML = "";
                                         }
@@ -108,12 +108,12 @@
                                 <div class="sidebar_widget">
                                     <div class="widget_list widget_categories">
                                         <div class="section-title">
-                                            <h4>Shop By Categories</h4>
+                                            <h4>Phân loại</h4>
                                         </div>
                                     </div>
 
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">List Category</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">Danh sách loại hàng</a>
                                     </div>
                                 </div>
                                 <!-- sidebar widget end-->
@@ -124,7 +124,7 @@
                                             <div id="collapseFive" class="h" data-parent="#accordionExample">
                                                 <div class="card-body">
                                                     <ul>
-                                                        <li><a href="product">All</a></li>
+                                                        <li><a href="product">Tất cả</a></li>
                                                             <c:forEach items="${categoryList}" var="c">
                                                             <li><a href="product?action=listByCategory&category_id=${c.categoryId}">${c.categoryName}</a></li>
                                                             </c:forEach>
@@ -144,13 +144,12 @@
                             <div class="col-lg-4 col-md-6">
                                 <!--search bar-->
                                 <div class="sidebar__categories">
-
                                     <!--Search By Price-->
                                     <!--sidebar widget start-->
                                     <div class="sidebar_widget">
                                         <div class="widget_list widget_categories">
                                             <div class="section-title">
-                                                <h4>Search Product</h4>
+                                                <h4>Tìm kiếm</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -160,10 +159,9 @@
                                                border: 2px solid #BDBDBD;
                                                border-radius: 10px;
                                                overflow: hidden;" 
-                                               id="text" name="text" placeholder="Enter search keyword..." type="text" value="${param.text}">
+                                               id="text" name="text" placeholder="Nhập từ khóa tìm kiếm..." type="text" value="${param.text}">
                                         <button style="color: black; background-color: pink; border-radius: 40px;" 
                                                 type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
-                                        <!--<span id="textError" style="color: #008ce6; font-size: 13px; font-weight: 500;  margin-top: 10px;"></span>-->
                                     </form>
                                 </div>
                             </div>
@@ -174,7 +172,7 @@
                                     <div class="sidebar_widget">
                                         <div class="widget_list widget_categories">
                                             <div class="section-title">
-                                                <h4>Shop by price</h4>
+                                                <h4>Lọc theo giá</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -182,16 +180,15 @@
                                     <form action="product?service=searchPrice" method="post">
                                         <div class="categories__accordion">
                                             <div class="form-row">
-                                                <div style="margin-top: 7px; color: #9e9e9e">$</div>
                                                 <div class="col mb-3">
-                                                    <!--<label for="fromPrice">From Price:</label>-->
-                                                    <input min="0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Min" value="${param.fromPrice}">
+                                                    <input min="0" id="fromPrice" name="fromPrice" type="number" class="form-control" placeholder="Từ" value="${param.fromPrice}">
                                                 </div>
-                                                <div style="margin-top: 7px; color: #9e9e9e">-$</div>
+                                                <div style="margin-top: 7px; color: #9e9e9e">đ-</div>
                                                 <div class="col mb-3">
-                                                    <!--<label for="toPrice">To Price:</label>-->
-                                                    <input min="0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Max" value="${param.toPrice}">
+                                                    <input min="0" id="toPrice" name="toPrice" type="number" class="form-control" placeholder="Đến" value="${param.toPrice}">
                                                 </div>
+                                                <div style="margin-top: 7px; color: #9e9e9e">đ</div>
+
                                                 <div class="col mb-3">
                                                     <button style="color: black; background-color: pink;" type="submit" class="btn btn-secondary btn-number">
                                                         <i class="fa fa-search"></i>
@@ -212,12 +209,12 @@
                                     <div class="sidebar_widget">
                                         <div class="widget_list widget_categories">
                                             <div class="section-title">
-                                                <h4>Sort Product</h4>
+                                                <h4>Sắp xếp</h4>
                                             </div>
                                         </div>
 
                                         <div class="card-heading">
-                                            <a data-toggle="collapse" data-target="#collapseFive">Sort</a>
+                                            <a data-toggle="collapse" data-target="#collapseFive">Thứ Tự</a>
                                         </div>
                                     </div>
                                     <!--sidebar widget end-->
@@ -227,8 +224,8 @@
                                                 <div id="collapseFive" class="collapse" data-parent="#accordionExample">
                                                     <div class="card-body">
                                                         <ul>
-                                                            <li><a href="product?action=sort&type=low">Prices range from low to high</a></li>
-                                                            <li><a href="product?action=sort&type=high">Prices range from high to low</a></li>
+                                                            <li><a href="product?action=sort&type=low">Giá tăng dần</a></li>
+                                                            <li><a href="product?action=sort&type=high">Giá giảm dần</a></li>
                                                             <li><a href="product?action=sort&type=a-z">A-Z</a></li>
                                                             <li><a href="product?action=sort&type=z-a">Z-A</a></li>
                                                         </ul>
@@ -248,10 +245,10 @@
                                     <div class="product__item">                                         
                                         <div class="product__item__pic set-bg" data-setbg="ViewUser/img/shop/shop-7.jpg">
                                             <c:if test="${top8New.contains(p.getProductId())}">
-                                                <div class="label new" style="border-radius: 10px;">New</div>
+                                                <div class="label new" style="border-radius: 10px;">Mới</div>
                                             </c:if>
                                             <c:if test="${lowInStock.contains(p.getProductId())}">
-                                                <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                                <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Sắp hết hàng</div>
                                             </c:if>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
                                                 <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
@@ -267,16 +264,10 @@
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
-                                            <h5><a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
-                                            <h6>${p.getShortDes()}</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="product__price">Price: $${p.getPrice()}</div>
+                                            <h5><a style="color: black; font-size: 18px; font-weight: 350;" href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
+                                            <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
+                                            
+                                            <div class="product__price" style="color: #ea5d8c; font-size: 18px;">${p.getPrice()} VNĐ</div>
                                         </div>
                                     </div>
                                 </div>

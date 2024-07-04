@@ -211,9 +211,9 @@
                             <div class="bg-success rounded d-flex align-items-center p-3">
                                 <a href=""><i class="fa fa-users fa-3x text-white"></i></a>
                                 <div class="ms-3" style="text-align: left">
-                                    <h5 class="mb-3"><a href="#" style="color: aquamarine">Total Customers</a></h5>
-                                    <h6 class="mb-0" style="color: white"><b>${requestScope.user} Customers</b></h6>
-                                    <span style="color: aquamarine; font-size: 12px">Total number of managed customers.</span>
+                                    <h5 class="mb-3"><a href="#" style="color: aquamarine">Tổng số khách hàng</a></h5>
+                                    <h6 class="mb-0" style="color: white"><b>${requestScope.user} khách hàng</b></h6>
+                                    <span style="color: aquamarine; font-size: 12px">Tổng số khách hàng được quản lý.</span>
                                 </div>
 
                             </div>
@@ -222,9 +222,9 @@
                             <div class="bg-primary rounded d-flex align-items-center p-3">
                                 <a href="manager"><i class="fa fa-database fa-3x text-white"></i></a>
                                 <div class="ms-3" style="text-align: left">
-                                    <h5 class="mb-3"><a href="manager" style="color: #e6f5ff">Total Products</a></h5>
-                                    <h6 class="mb-0" style="color: white"><b>${requestScope.product} Products</b></h6>
-                                    <span style="color: #e6f5ff; font-size: 12px">Total number of products managed.</span>
+                                    <h5 class="mb-3"><a href="manager" style="color: #e6f5ff">Tổng số sản phẩm</a></h5>
+                                    <h6 class="mb-0" style="color: white"><b>${requestScope.product} sản phẩm</b></h6>
+                                    <span style="color: #e6f5ff; font-size: 12px">Tổng số sản phẩm được quản lý.</span>
                                 </div>
                             </div>
                         </div>
@@ -232,9 +232,9 @@
                             <div class="bg-warning rounded d-flex align-items-center p-3">
                                 <a href=""><i class="fa fa-shopping-bag fa-3x text-white"></i></a>
                                 <div class="ms-3" style="text-align: left">
-                                    <h5 class="mb-3" style="color: #fcf8e3">Total Orders</h5>
-                                    <h6 class="mb-0" style="color: white"><b>${requestScope.order} Orders</b></h6>
-                                    <span style="color: #fcf8e3; font-size: 12px">Total number of sales invoices for the month.</span>
+                                    <h5 class="mb-3" style="color: #fcf8e3">Tổng số đơn hàng</h5>
+                                    <h6 class="mb-0" style="color: white"><b>${requestScope.order} đơn hàng</b></h6>
+                                    <span style="color: #fcf8e3; font-size: 12px">Tổng số hóa đơn bán hàng trong tháng.</span>
                                 </div>
                             </div>
                         </div>
@@ -242,9 +242,9 @@
                             <div class="bg-danger rounded d-flex align-items-center p-3">
                                 <a href="manager?service=low"><i class="fa fa-exclamation-triangle fa-3x text-white"></i></a>
                                 <div class="ms-3" style="text-align: left">
-                                    <h5 class="mb-3" style="color: #f5c6cb">Low in stock</h5>
-                                    <h6 class="mb-0" style="color: white"><b>${requestScope.low} Products</b></h6>
-                                    <span style="color: #f5c6cb; font-size: 12px">The warning number of products is out of stock and needs to be added.</span>
+                                    <h5 class="mb-3" style="color: #f5c6cb">Sắp hết hàng</h5>
+                                    <h6 class="mb-0" style="color: white"><b>${requestScope.low} sản phẩm</b></h6>
+                                    <span style="color: #f5c6cb; font-size: 12px">Cảnh báo sản phẩm sắp hết hàng cần bổ sung.</span>
                                 </div>
                             </div>
                         </div>
@@ -258,8 +258,8 @@
                         <div class="col-sm-12 col-xl-6">
                             <div class="bg-light rounded h-100 p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Revenue Chart</h6>
-                                    <a href="chart">Show more</a>
+                                    <h6 class="mb-0">Biểu đồ doanh thu</h6>
+                                    <a href="chart">Chi tiết</a>
                                 </div>
                                 <canvas id="line-chart"></canvas>
                             </div>
@@ -267,14 +267,14 @@
                         <!--Top2 customer buy most start-->
                         <div class="col-sm-12 col-xl-6">
                             <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4" style="color: #ffd700; font-size: 20px; text-align: center">Top 2 Loyalty Customer</h6>
+                                <h6 class="mb-4" style="color: #ffd700; font-size: 20px; text-align: center">Top 2 khách hàng thân thiết</h6>
                                 <div class="owl-carousel testimonial-carousel">
                                     <c:forEach items="${top3Customer}" var="t3">
                                         <div class="testimonial-item text-center">
                                             <img class="img-fluid rounded-circle mx-auto mb-4" src="ViewAdmin/img/topcustomer.png" style="width: 100px; height: 100px;">
                                             <h5 class="mb-1" style="color: #494f54">${t3.getCustomerName()}</h5>
                                             <p>ID: ${t3.getUserId()}</p>
-                                            <p class="mb-0">Highlight our loyal customers</p>
+                                            <p class="mb-0">Khách hàng thân thiết của cửa hàng</p>
                                         </div>
                                     </c:forEach>
                                 </div>
@@ -292,8 +292,8 @@
                         <div class="col-sm-12 col-xl-6">
                             <div class="bg-light text-center rounded p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Quantity Chart</h6>
-                                    <a href="chart">Show more</a>
+                                    <h6 class="mb-0">Biểu đồ số lượng</h6>
+                                    <a href="chart">Chi tiết</a>
                                 </div>
                                 <canvas id="bar-chart"></canvas>
                             </div>
@@ -302,8 +302,8 @@
                         <div class="col-sm-12 col-md-6 col-xl-6">
                             <div class="h-100 bg-light rounded p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Calender</h6>
-                                    <a href="/HappyBeautySystem/managerOrder?service=viewOrderToday">Show Order Today</a>
+                                    <h6 class="mb-0">Lịch</h6>
+                                    <a href="/HappyBeautySystem/managerOrder?service=viewOrderToday">Xem đơn hàng hôm nay</a>
                                 </div>
                                 <div id="calender"></div>
                             </div>
@@ -321,7 +321,7 @@
                                 <a href="#">HappyBeauty</a>
                             </div>
                             <div class="col-12 col-sm-6 text-center text-sm-end">
-                                Designed By Group 2
+                                Thiết kế bởi nhóm 2
                             </div>
                         </div>
                     </div>
