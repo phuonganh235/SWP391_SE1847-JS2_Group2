@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-
     <servlet>
         <servlet-name>manager</servlet-name>
         <servlet-class>controller.Manager.manager</servlet-class>
@@ -73,6 +72,10 @@
         <servlet-name>manageCoupons</servlet-name>
         <servlet-class>controller.Manager.manageCoupons</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Coupons</servlet-name>
+        <servlet-class>common.Coupons</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -140,5 +143,9 @@
     <servlet-mapping>
         <servlet-name>manageCoupons</servlet-name>
         <url-pattern>/manageCoupons</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Coupons</servlet-name>
+        <url-pattern>/coupon</url-pattern>
     </servlet-mapping>
 </web-app>

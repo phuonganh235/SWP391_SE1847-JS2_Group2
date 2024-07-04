@@ -4,29 +4,38 @@
  */
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+
 /**
  *
  * @author phuan
  */
 public class Coupons {
-   private int couponsId;
-   private String code;
-   private String description;
-   private double discountAmount;
-   private String startDate;
-   private String endDate;
-   private int isActive;
+
+    private int couponsId;
+    private String code;
+    private String description;
+    private double discountAmount;
+    private String startDate;
+    private String endDate;
+    private int quantity;
+    private int isActive;
 
     public Coupons() {
     }
 
-    public Coupons(int couponsId, String code, String description, double discountAmount, String startDate, String endDate, int isActive) {
+    public Coupons(int couponsId, String code, String description, double discountAmount, String startDate, String endDate, int quantity, int isActive) {
         this.couponsId = couponsId;
         this.code = code;
         this.description = description;
         this.discountAmount = discountAmount;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.quantity = quantity;
         this.isActive = isActive;
     }
 
@@ -78,6 +87,14 @@ public class Coupons {
         this.endDate = endDate;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public int getIsActive() {
         return isActive;
     }
@@ -85,6 +102,12 @@ public class Coupons {
     public void setIsActive(int isActive) {
         this.isActive = isActive;
     }
-   
-   
+
+    @Override
+    public String toString() {
+        return "Coupons{" + "couponsId=" + couponsId + ", code=" + code + ", description=" + description + ", discountAmount=" + discountAmount + ", startDate=" + startDate + ", endDate=" + endDate + ", quantity=" + quantity + ", isActive=" + isActive + '}';
+    }
+
+
+
 }

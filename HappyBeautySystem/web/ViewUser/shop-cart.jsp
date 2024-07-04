@@ -144,17 +144,21 @@
                     <div class="col-lg-6">
                         <div class="discount__content">
                             <h6>Mã giảm giá</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Nhập mã giảm giá của bạn">
-                                <button type="submit" class="site-btn">Áp dụng</button>
+                            <form action="#" id="couponForm">
+                                <input type="text" id="couponCode"  placeholder="Nhập mã giảm giá của bạn">
+                                <input type="hidden" name="couponCode" id="appliedCouponCode" value="">
+                                <button type="button" onclick="applyCoupon()" class="site-btn">Áp dụng</button>
                             </form>
+                            <p id="couponMessage"></p>
                         </div>
                     </div>
                     <div class="col-lg-4 offset-lg-2">
                         <div class="cart__total__procced">
                             <h6>Thông tin mua hàng</h6>
                             <ul>
-                                <li>Tổng tiền <span id="granTotal"><%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Tạm tính  <span id="originalTotal"><%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Giảm giá <span id="discountAmount">0.00</span></li>
+                                <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.2f", granTotal)%></span></li>
                             </ul>
                             <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Xác nhận thanh toán</button></div>
                     </div>
@@ -313,8 +317,23 @@
                                                 total += parseFloat(checkbox.dataset.price);
                                             }
                                         });
-                                        document.getElementById('granTotal').innerText = total.toFixed(2);
+                                        document.getElementById('originalTotal').innerText = total.toFixed(2);
+
+                                        // Apply discount
+                                        var discountAmount = total * currentDiscount;
+                                        var finalTotal = total - discountAmount;
+                                        if (finalTotal < 0)
+                                            finalTotal = 0; // Ensure total is not negative
+
+                                        document.getElementById('discountAmount').innerText = discountAmount.toFixed(2);
+                                        document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
+                                        sessionStorage.setItem('cartTotal', finalTotal.toFixed(2));
+                                        sessionStorage.setItem('cartDiscount', discountAmount.toFixed(2));
                                     }
+
+                                    document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
+                                        checkbox.addEventListener('change', updateTotal);
+                                    });
 
                                     function stringToObject(string) {
                                         let keyValuePairs = string.split(", ");
@@ -382,6 +401,12 @@
                                             for (let i = 0; i < listProcductIdChoose.length; i++) {
                                                 params.append('id', listProcductIdChoose[i]);
                                             }
+                                            if (appliedCouponCode) {
+                                                params.append('couponCode', appliedCouponCode);
+                                            }
+                                            // đẩy tổng tiền và số tiền giảm giá sang trang check out note: annp
+                                            link += '&total=' + sessionStorage.getItem('cartTotal');
+                                            link += '&discount=' + sessionStorage.getItem('cartDiscount');
 
                                             link += '&' + params.toString();
                                             window.location.href = link;
@@ -394,6 +419,39 @@
 
 
 
+        </script>
+
+        <!--        xu ly ma giam gia-->
+        <script>
+            let appliedCouponCode = ''; // Biến để lưu mã giảm giá đã áp dụng
+            let currentDiscount = 0; // Biến để lưu giá trị giảm giá hiện tại
+            function applyCoupon() {
+                var couponCode = document.getElementById('couponCode').value;
+                $.ajax({
+                    url: "coupon?service=checkCoupon",
+                    type: "POST",
+                    data: {couponCode: couponCode},
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.valid) {
+                            document.getElementById('couponMessage').innerHTML = "Mã giảm giá hợp lệ. Giảm " + result.discountAmount + "%";
+                            currentDiscount = parseFloat(result.discountAmount) / 100;
+                            appliedCouponCode = couponCode;
+                            document.getElementById('appliedCouponCode').value = couponCode;
+                            updateTotal();
+                        } else {
+                            document.getElementById('couponMessage').innerHTML = "Mã giảm giá không hợp lệ hoặc đã hết hạn.";
+                            currentDiscount = 0;
+                            appliedCouponCode = '';
+                            updateTotal();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error);
+                        document.getElementById('couponMessage').innerHTML = "Có lỗi xảy ra khi kiểm tra mã giảm giá.";
+                    }
+                });
+            }
         </script>
 
     </body>

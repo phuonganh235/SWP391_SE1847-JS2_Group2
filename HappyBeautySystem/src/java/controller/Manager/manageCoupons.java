@@ -32,12 +32,6 @@ public class manageCoupons extends HttpServlet {
 
         CouponsDAO couponDao = new CouponsDAO();
         try (PrintWriter out = response.getWriter()) {
-//           int count = couponDao.getTotalCoupon();
-//           int endPage = count/3;
-//           if(count % 3 != 0){
-//           endPage++;
-//           }
-//           request.setAttribute("endP", endPage);
 
             String service = request.getParameter("service");
             if (service == null) {
@@ -56,13 +50,12 @@ public class manageCoupons extends HttpServlet {
                 double discountAmount = Double.parseDouble(request.getParameter("discountAmount"));
                 String startDateStr = request.getParameter("startDate");
                 String endDateStr = request.getParameter("endDate");
-                String isActiveStr = request.getParameter("isActive");
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                int isActive = (quantity > 0) ? 1 : 0;
 
                 if (code == null || code.isEmpty()) {
                     code = generateRandomCouponCode();
                 }
-
-                int isActive = (isActiveStr != null && isActiveStr.equals("on")) ? 1 : 0;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime startDate = LocalDateTime.parse(startDateStr, formatter);
                 LocalDateTime endDate = LocalDateTime.parse(endDateStr, formatter);
@@ -70,7 +63,7 @@ public class manageCoupons extends HttpServlet {
                 java.sql.Timestamp endTimestamp = java.sql.Timestamp.valueOf(endDate);
                 String startDateString = startTimestamp.toString();
                 String endDateString = endTimestamp.toString();
-                Coupons coupon = new Coupons(0, code, description, discountAmount, startDateString, endDateString, isActive);
+                Coupons coupon = new Coupons(0, code, description, discountAmount, startDateString, endDateString, quantity, isActive);
                 couponDao.insertCoupons(coupon);
                 response.sendRedirect("manageCoupons?service=listAllCoupon");
             }
@@ -88,13 +81,13 @@ public class manageCoupons extends HttpServlet {
                 double discountAmount = Double.parseDouble(request.getParameter("discountAmount"));
                 String startDateStr = request.getParameter("startDate");
                 String endDateStr = request.getParameter("endDate");
-                String isActiveStr = request.getParameter("isActive");
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
 
                 if (code == null || code.isEmpty()) {
                     code = generateRandomCouponCode();
                 }
 
-                int isActive = (isActiveStr != null && isActiveStr.equals("on")) ? 1 : 0;
+                int isActive = (quantity > 0) ? 1 : 0;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime startDate = LocalDateTime.parse(startDateStr, formatter);
                 LocalDateTime endDate = LocalDateTime.parse(endDateStr, formatter);
@@ -102,36 +95,22 @@ public class manageCoupons extends HttpServlet {
                 java.sql.Timestamp endTimestamp = java.sql.Timestamp.valueOf(endDate);
                 String startDateString = startTimestamp.toString();
                 String endDateString = endTimestamp.toString();
-                Coupons coupon = new Coupons(idCoupon, code, description, discountAmount, startDateString, endDateString, isActive);
+                Coupons coupon = new Coupons(idCoupon, code, description, discountAmount, startDateString, endDateString, quantity, isActive);
                 couponDao.updateCoupon(coupon);
                 response.sendRedirect("manageCoupons?service=listAllCoupon");
             }
-            
-            if(service.equals("delete")){
-                 String id_raw = request.getParameter("id");
+
+            if (service.equals("delete")) {
+                String id_raw = request.getParameter("id");
                 int id;
                 try {
                     id = Integer.parseInt(id_raw);
-                   couponDao.deleteCoupon(id);
+                    couponDao.deleteCoupon(id);
                     request.getRequestDispatcher("manageCoupons?service=listAllCoupon").forward(request, response);
                 } catch (NumberFormatException e) {
                 }
             }
-            
-            if(service.equals("search")){
-                String search = request.getParameter("search");
-                int count = couponDao.count(search);
-                int pageSize = 6;
-                int endPage = 0;
-                endPage = count / pageSize;
-                if(count % pageSize != 0){
-                endPage++;
-                }
-                request.setAttribute("end",  endPage);
-                request.getRequestDispatcher("manageCoupons?service=listAllCoupon").forward(request, response);
-            
 
-            }
         }
     }
 

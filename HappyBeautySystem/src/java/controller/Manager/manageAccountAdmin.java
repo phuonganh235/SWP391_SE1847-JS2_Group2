@@ -36,7 +36,6 @@ public class manageAccountAdmin extends HttpServlet {
                 return;
             }
             //Manage Account Staff begin
-
             // view Account Staff
             if (service.equals("ListAllStaff")) {
                 ArrayList<User> getAllUser = userDao.getAllUser("SELECT * FROM Users where RoleId = 4");
