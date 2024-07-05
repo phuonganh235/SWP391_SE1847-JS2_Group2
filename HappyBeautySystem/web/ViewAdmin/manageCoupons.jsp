@@ -4,6 +4,7 @@
     Author     : phuan
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,11 +36,46 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <!-- datatable -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <style>
             .circle {
                 height: 10px;
                 width: 10px;
                 border-radius: 50%;
+            }
+            #couponTable {
+                width: 100% !important;
+                margin-bottom: 1rem;
+                color: #212529;
+                border-collapse: collapse;
+            }
+            #couponTable th,
+            #couponTable td {
+                padding: 0.75rem;
+                vertical-align: top;
+                border-top: 1px solid #dee2e6;
+            }
+            #couponTable thead th {
+                vertical-align: bottom;
+                border-bottom: 2px solid #dee2e6;
+                background-color: #f8f9fa;
+            }
+            #couponTable tbody tr:nth-of-type(odd) {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+            #couponTable tbody tr:hover {
+                background-color: rgba(0, 0, 0, 0.075);
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button {
+                padding: 0.5em 1em;
+                margin-left: 2px;
+                border: 1px solid #ddd;
+                background-color: #f8f9fa;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                background-color: #007bff;
+                color: black !important;
             }
         </style>
     </head>
@@ -55,55 +91,65 @@
                 <!-- Navbar Start -->
                 <jsp:include page="navbarAdmin.jsp"/>
                 <!-- Navbar End -->
-
-                <div class="container-fluid rounded row align-items-center" style="margin-top: 1% !important; margin-bottom: 1% !important">
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCouponModal">Add</button>
-                    </div>
-                    <div class="col-md-6">
-                        <form action="sale-dashboard" class="d-flex align-items-center">
-                            <label for="start" class="me-2">Start date:</label>
-                            <input class="form-control me-2" type="date" id="start" name="start" value="${start}">
-                            <label for="end" class="me-2">End date:</label>
-                            <input class="form-control me-2" type="date" id="end" name="end" value="${end}">
-                            <input class="btn btn-danger me-2" type="submit" value="Filter">
-                        </form>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
-                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}" ${status == null ? "selected" : ""}>Status</option>
-                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=1" ${status == 1 ? "selected" : ""}>appear</option>
-                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=0" ${status == 0 ? "selected" : ""}>hidden</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3 d-flex justify-content-end">
-                        <form class="d-flex" action="manageCoupons?service=search" method="post">
-                            <input type="hidden" name="service" value="search">
-                            <input class="form-control border-0 me-2" type="search" placeholder="Search" name="txt">
-                            <button style="color: black; background-color: #99ccff; border-radius: 40px;" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-
-
-                </div>
+                <!--
+                                <div class="container-fluid rounded row align-items-center" style="margin-top: 1% !important; margin-bottom: 1% !important">
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCouponModal">Add</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form action="sale-dashboard" class="d-flex align-items-center">
+                                            <label for="start" class="me-2">Start date:</label>
+                                            <input class="form-control me-2" type="date" id="start" name="start" value="${start}">
+                                            <label for="end" class="me-2">End date:</label>
+                                            <input class="form-control me-2" type="date" id="end" name="end" value="${end}">
+                                            <input class="btn btn-danger me-2" type="submit" value="Filter">
+                                        </form>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
+                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}" ${status == null ? "selected" : ""}>Status</option>
+                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=1" ${status == 1 ? "selected" : ""}>appear</option>
+                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=0" ${status == 0 ? "selected" : ""}>hidden</option>
+                                        </select>
+                                    </div>
+                
+                                    <div class="col-md-3 d-flex justify-content-end">
+                                        <form class="d-flex" action="manageCoupons?service=search" method="post">
+                                            <input type="hidden" name="service" value="search">
+                                            <input class="form-control border-0 me-2" type="search" placeholder="Search" name="txt">
+                                            <button style="color: black; background-color: #99ccff; border-radius: 40px;" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                        </form>
+                                    </div>
+                
+                
+                                </div>-->
 
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
 
                         <!-- Load account staff -->
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCouponModal">
+                                   Thêm mã giảm giá
+                                </button>
+                                <div class="d-flex" style="margin-top: 10px">
+                                    <input class="form-control border-0 me-2" id="searchInput" type="text" placeholder="Tìm kiếm">
+                                    <button style="color: black; background-color: #99ccff; border-radius: 40px;" id="searchButton" class="btn btn-outline-secondary" ><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                            <table class="table text-start align-middle table-bordered table-hover mb-0 " id="couponTable">
                                 <thead>
                                     <tr class="text-dark">
-                                        <th>CouponId</th>
-                                        <th>CouponCode</th>
-                                        <th>Description</th>
-                                        <th>DiscountCoupons</th>
-                                        <th>Start date</th>
-                                        <th>End date</th>
-                                        <th>isActive</th>
-                                        <th >Action</th>
+                                        <th>Mã phiếu giảm giá</th>
+                                        <th>Mã giảm giá</th>
+                                        <th>Miêu tả</th>
+                                        <th>Giá trị</th>
+                                        <th>Ngày bắt đầu</th>
+                                        <th>Ngày kết thúc</th>
+                                        <th>Số lượng</th>
+                                        <th>Trạng thái</th>
+                                        <th >Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,6 +161,7 @@
                                             <td>${co.discountAmount}</td>                                      
                                             <td>${co.startDate}</td>                                 
                                             <td>${co.endDate}</td>
+                                            <td>${co.quantity}</td>
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${co.isActive == 1}">
@@ -147,58 +194,60 @@
 
 
                 </div>
-                          <c:set var="page" value="${page}"/>
-                            <div class="col-lg-12 text-center">
-                                <div class="pagination__option">
-                                    <c:forEach begin="${1}" end="${num}" var="i">
-                                        <a href="product?page=${i}">${i}</a>
-                                    </c:forEach>
+                <c:set var="page" value="${page}"/>
+                <div class="col-lg-12 text-center">
+                    <div class="pagination__option">
+                        <c:forEach begin="${1}" end="${num}" var="i">
+                            <a href="product?page=${i}">${i}</a>
+                        </c:forEach>
 
-                                </div>
-                            </div>
+                    </div>
+                </div>
 
-        </div>
             </div>
-  
+        </div>
+
         <!-- Add Coupons Modal -->
         <div class="modal fade" id="addCouponModal" tabindex="-1" aria-labelledby="addCouponModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCouponModalLabel">Add Coupon</h5>
+                        <h5 class="modal-title" id="addCouponModalLabel">Thêm mã giảm giá</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="couponForm" action="manageCoupons?service=insert" method="post">
+                        <form id="updateCouponForm" action="manageCoupons?service=insert" method="post">
                             <div class="mb-3">
-                                <label for="couponCode" class="form-label">Coupon Code</label>
+                                <label for="couponCode" class="form-label">Mã giảm giá</label>
                                 <input type="text" class="form-control" id="couponCode" name="couponCode" >
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label">Miêu tả</label>
                                 <input type="text" class="form-control" id="description" name="description" required>
                                 <div id="descriptionError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="discountAmount" class="form-label">Discount Amount</label>
+                                <label for="discountAmount" class="form-label">Giá trị</label>
                                 <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
                                 <div id="discountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="startDate" class="form-label">Start Date</label>
+                                <label for="startDate" class="form-label">Ngày bắt đầu</label>
                                 <input type="datetime-local" class="form-control" id="startDate" name="startDate" required>
                                 <div id="startDateError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="endDate" class="form-label">End Date</label>
+                                <label for="endDate" class="form-label">Ngày kết thúc</label>
                                 <input type="datetime-local" class="form-control" id="endDate" name="endDate" required>
                                 <div id="endDateError" class="form-text text-danger fst-italic"></div>
                             </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
-                                <label class="form-check-label" for="isActive">Active</label>
+                            <div class="mb-3 ">
+                                <label class="form-label" for="quantity">Số lượng</label>
+                                <input type="number" class="form-control"  id="quantity" name="quantity">
+                                <div id="quantityError" class="form-text text-danger fst-italic"></div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                            <button type="submit" class="btn btn-primary">Thêm</button>
                         </form>
                     </div>
                 </div>
@@ -210,50 +259,55 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateCouponModal">Update Coupon</h5>
+                        <h5 class="modal-title" id="updateCouponModal">Sửa mã giảm giá</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <c:set value="${requestScope.CouponIdUpdate}" var="couponUpdate"/>
-                        <form id="couponForm" action="manageCoupons?service=edit" method="post">
-                             <div class="mb-3">
-                                <label for="couponid" class="form-label">Coupon Id</label>
+                        <form id="updateCouponForm" action="manageCoupons?service=edit" method="post">
+                            <div class="mb-3">
+    
+                                <label for="couponid" class="form-label">Mã phiếu giảm giá</label>
                                 <input type="text" class="form-control" id="couponid" name="couponid" value="${couponUpdate.couponsId}">
                             </div>
                             <div class="mb-3">
-                                <label for="couponCode" class="form-label">Coupon Code</label>
-                                <input type="text" class="form-control" id="couponCode" name="couponCode" value="${couponUpdate.code}">
+                                <label for="updateCouponCode" class="form-label">Mã giảm giá</label>
+                                <input type="text" class="form-control" id="updateCouponCode" name="couponCode" value="${couponUpdate.code}">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description" value="${couponUpdate.description}" required>
-                                <div id="descriptionError" class="form-text text-danger fst-italic"></div>
+                                <label for="updateDescription" class="form-label">Miêu tả</label>
+                                <input type="text" class="form-control" id="updateDescription" name="description" value="${couponUpdate.description}" required>
+                                <div id="updateDescriptionError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="discountAmount" class="form-label">Discount Amount</label>
-                                <input type="number" class="form-control" id="discountAmount" name="discountAmount" value="${couponUpdate.discountAmount}"  required>
-                                <div id="discountAmountError" class="form-text text-danger fst-italic"></div>
+                                <label for="updateDiscountAmount" class="form-label">Giá trị</label>
+                                <input type="number" class="form-control" id="updateDiscountAmount" name="discountAmount" value="${couponUpdate.discountAmount}"  required>
+                                <div id="updateDiscountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="startDate" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" id="startDate" name="startDate" value="${couponUpdate.startDate}"  required>
-                                <div id="startDateError" class="form-text text-danger fst-italic"></div>
+                                <label for="updateStartDate" class="form-label">Ngày bắt đầu</label>
+                                <input type="datetime-local" class="form-control" id="updateStartDate" name="startDate" value="${couponUpdate.startDate}"  required>
+                                <div id="updateStartDateError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="endDate" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="endDate" name="endDate" value="${couponUpdate.endDate}"  required>
-                                <div id="endDateError" class="form-text text-danger fst-italic"></div>
+                                <label for="updateEndDate" class="form-label">Ngày kết thúc</label>
+                                <input type="datetime-local" class="form-control" id="updateEndDate" name="endDate" value="${couponUpdate.endDate}"  required>
+                                <div id="updateEndDateError" class="form-text text-danger fst-italic"></div>
                             </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="isActive" name="isActive" ${couponUpdate.isActive == 1 ? 'checked' : ''}>
-                                <label class="form-check-label" for="isActive">Active</label>
+                            <div class="mb-3">
+                                <label class="form-label" for="updateQuantity">Số lượng</label>
+                                <input type="number" class="form-control"  id="updateQuantity" name="quantity" value="${couponUpdate.quantity}" >
+                                <div id="updateQuantityError" class="form-text text-danger fst-italic"></div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                            <button type="submit" class="btn btn-primary">Sửa</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -265,95 +319,221 @@
         <script src="lib/tempusdominus/js/moment.min.js"></script>
         <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        <!-- js datatable -->
         <script>
-            
-                //function delete
-                                            function doDeleteCoupon(couponsId) {
-                                                if (confirm("are you sure to delete couponId = " + couponsId)) {
-                                                    window.location = "manageCoupons?service=delete&id=" + couponsId;
-                                                }
-                                            }
+                                                    $(document).ready(function () {
+                                                        var table = $('#couponTable').DataTable({
+                                                            "pageLength": 5,
+                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                            "order": [[0, "asc"]],
+                                                            "columnDefs": [
+                                                                {"orderable": false, "targets": 8}
+                                                            ],
+                                                            "dom": '<"top"l>rt<"bottom"ip><"clear">', // Ẩn thanh tìm kiếm mặc định
+                                                            "language": {
+                                                                "lengthMenu": "Show _MENU_ entries",
+                                                                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                                                                "paginate": {
+                                                                    "first": "First",
+                                                                    "last": "Last",
+                                                                    "next": "Next",
+                                                                    "previous": "Previous"
+                                                                }
+                                                            }
+                                                        });
 
-                            $(document).ready(function () {
-                                // Update
-            <c:if test="${not empty requestScope.CouponIdUpdate}">
-                                $('#updateCouponModal').modal('show');
-            </c:if>
-                            });
+                                                        // Kết nối thanh tìm kiếm tùy chỉnh với DataTable
+                                                        $('#searchInput').on('keyup', function () {
+                                                            table.search(this.value).draw();
+                                                        });
 
+                                                        // Xử lý tìm kiếm khi nhấn nút tìm kiếm
+                                                        $('#searchButton').on('click', function () {
+                                                            table.search($('#searchInput').val()).draw();
+                                                        });
 
-
-
-
-                            document.addEventListener("DOMContentLoaded", function () {
-
-                                function validateDescription() {
-                                    var description = document.getElementById("description").value;
-                                    if (/^\s*$/.test(description)) {
-                                        document.getElementById("descriptionError").innerHTML = "Description should not contain only spaces.";
-                                        return false;
-                                    } else {
-                                        document.getElementById("descriptionError").innerHTML = "";
-                                        return true;
-                                    }
-                                }
-
-                                function validateDiscountAmount() {
-                                    var discountAmount = parseFloat(document.getElementById("discountAmount").value);
-                                    if (isNaN(discountAmount) || discountAmount <= 0) {
-                                        document.getElementById("discountAmountError").innerHTML = "Discount amount must be a positive number.";
-                                        return false;
-                                    } else {
-                                        document.getElementById("discountAmountError").innerHTML = "";
-                                        return true;
-                                    }
-                                }
-
-                                function validateStartDate() {
-                                    var startDate = document.getElementById("startDate").value;
-                                    if (!startDate) {
-                                        document.getElementById("startDateError").innerHTML = "Start date must not be empty.";
-                                        return false;
-                                    } else {
-                                        document.getElementById("startDateError").innerHTML = "";
-                                        return true;
-                                    }
-                                }
-
-                                function validateEndDate() {
-                                    var startDate = document.getElementById("startDate").value;
-                                    var endDate = document.getElementById("endDate").value;
-                                    if (!endDate) {
-                                        document.getElementById("endDateError").innerHTML = "End date must not be empty.";
-                                        return false;
-                                    } else if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
-                                        document.getElementById("endDateError").innerHTML = "End date should not be before start date.";
-                                        return false;
-                                    } else {
-                                        document.getElementById("endDateError").innerHTML = "";
-                                        return true;
-                                    }
-                                }
-
-                                document.getElementById("description").oninput = validateDescription;
-                                document.getElementById("discountAmount").oninput = validateDiscountAmount;
-                                document.getElementById("startDate").oninput = function () {
-                                    validateStartDate();
-                                    validateEndDate();
-                                };
-                                document.getElementById("endDate").oninput = validateEndDate;
-
-                                document.getElementById("couponForm").onsubmit = function (event) {
-                                    if (!validateDescription() || !validateDiscountAmount() || !validateStartDate() || !validateEndDate()) {
-                                        event.preventDefault();
-                                    }
-                                };
-
-                            });
+                                                        // Xử lý tìm kiếm khi nhấn Enter trong ô tìm kiếm
+                                                        $('#searchInput').on('keypress', function (e) {
+                                                            if (e.which == 13) {  // 13 là mã phím cho Enter
+                                                                table.search(this.value).draw();
+                                                            }
+                                                        });
+                                                    });
         </script>
+
+        <script>
+
+            //function delete
+            function doDeleteCoupon(couponsId) {
+                if (confirm("bạn có chắc chắn muốn xóa mã phiếu giảm giá là= " + couponsId)) {
+                    window.location = "manageCoupons?service=delete&id=" + couponsId;
+                }
+            }
+
+            $(document).ready(function () {
+                // Update
+            <c:if test="${not empty requestScope.CouponIdUpdate}">
+                $('#updateCouponModal').modal('show');
+            </c:if>
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+
+                function validateDescription() {
+                    var description = document.getElementById("description").value;
+                    if (/^\s*$/.test(description)) {
+                        document.getElementById("descriptionError").innerHTML = "Mô tả không được chỉ chứa toàn khoảng trắng";
+                        return false;
+                    } else {
+                        document.getElementById("descriptionError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateDiscountAmount() {
+                    var discountAmount = parseFloat(document.getElementById("discountAmount").value);
+                    if (isNaN(discountAmount) || discountAmount <= 0) {
+                        document.getElementById("discountAmountError").innerHTML = "giá trị giảm giá phải là số dương.";
+                        return false;
+                    } else {
+                        document.getElementById("discountAmountError").innerHTML = "";
+                        return true;
+                    }
+                }
+                function validateQuantity() {
+                    var quantity = parseFloat(document.getElementById("quantity").value);
+                    if (isNaN(quantity) || quantity <= 0) {
+                        document.getElementById("quantityError").innerHTML = "Số lượng  giảm giá phải là số dương.";
+                        return false;
+                    } else {
+                        document.getElementById("quantityError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateStartDate() {
+                    var startDate = document.getElementById("startDate").value;
+                    if (!startDate) {
+                        document.getElementById("startDateError").innerHTML = "Ngày bắt đầu không được để trống.";
+                        return false;
+                    } else {
+                        document.getElementById("startDateError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateEndDate() {
+                    var startDate = document.getElementById("startDate").value;
+                    var endDate = document.getElementById("endDate").value;
+                    if (!endDate) {
+                        document.getElementById("endDateError").innerHTML = "Ngày kết thúc không được để trống.";
+                        return false;
+                    } else if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+                        document.getElementById("endDateError").innerHTML = "Ngày kết thúc không được trước ngày bắt đầu.";
+                        return false;
+                    } else {
+                        document.getElementById("endDateError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                document.getElementById("description").oninput = validateDescription;
+
+                document.getElementById("discountAmount").oninput = validateDiscountAmount;
+                document.getElementById("startDate").oninput = function () {
+                    validateStartDate();
+                    validateEndDate();
+                };
+                document.getElementById("endDate").oninput = validateEndDate;
+                document.getElementById("quantity").oninput = validateQuantity;
+                document.getElementById("couponForm").onsubmit = function (event) {
+                    if (!validateDescription() || !validateDiscountAmount() || !validateStartDate() || !validateEndDate() || !validateQuantity()) {
+                        event.preventDefault();
+                    }
+                };
+            });
+        </script>
+        
+         <script>
+                 document.addEventListener("DOMContentLoaded", function () {
+                function validateDescription() {
+                    var description = document.getElementById("updateDescription").value;
+                    if (/^\s*$/.test(description)) {
+                        document.getElementById("updateDescriptionError").innerHTML = "Mô tả không được chỉ chứa toàn khoảng trắng.";
+                        return false;
+                    } else {
+                        document.getElementById("updateDescriptionError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateDiscountAmount() {
+                    var discountAmount = parseFloat(document.getElementById("updateDiscountAmount").value);
+                    if (isNaN(discountAmount) || discountAmount <= 0) {
+                        document.getElementById("updateDiscountAmountError").innerHTML = "giá trị giảm giá phải là số dương.";
+                        return false;
+                    } else {
+                        document.getElementById("updateDiscountAmountError").innerHTML = "";
+                        return true;
+                    }
+                }
+                function validateQuantity() {
+                    var quantity = parseFloat(document.getElementById("updateQuantity").value);
+                    if (isNaN(quantity) || quantity < 0) {
+                        document.getElementById("updateQuantityError").innerHTML = "Số lượng  giảm giá phải là số dương.";
+                        return false;
+                    } else {
+                        document.getElementById("updateQuantityError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateStartDate() {
+                    var startDate = document.getElementById("updateStartDate").value;
+                    if (!startDate) {
+                        document.getElementById("updateStartDateError").innerHTML = "Ngày bắt đầu không được để trống.";
+                        return false;
+                    } else {
+                        document.getElementById("updateStartDateError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                function validateEndDate() {
+                    var startDate = document.getElementById("updateStartDate").value;
+                    var endDate = document.getElementById("updateEndDate").value;
+                    if (!endDate) {
+                        document.getElementById("updateEndDateError").innerHTML = "Ngày kết thúc không được để trống.";
+                        return false;
+                    } else if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+                        document.getElementById("updateEndDateError").innerHTML = "Ngày kết thúc không được trước ngày bắt đầu.";
+                        return false;
+                    } else {
+                        document.getElementById("updateEndDateError").innerHTML = "";
+                        return true;
+                    }
+                }
+
+                document.getElementById("updateDescription").oninput = validateDescription;
+
+                document.getElementById("updateDiscountAmount").oninput = validateDiscountAmount;
+                document.getElementById("updateStartDate").oninput = function () {
+                    validateStartDate();
+                    validateEndDate();
+                };
+                document.getElementById("updateEndDate").oninput = validateEndDate;
+                document.getElementById("updateQuantity").oninput = validateQuantity;
+                document.getElementById("updateCouponForm").onsubmit = function (event) {
+                    if (!validateDescription() || !validateDiscountAmount() || !validateStartDate() || !validateEndDate() || !validateQuantity()) {
+                        event.preventDefault();
+                    }
+                };
+            });
+    </script>
     </body>
 
 </html>

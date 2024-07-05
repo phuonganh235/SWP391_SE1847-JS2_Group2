@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import common.CommonDAO;
 import dal.CartDAO;
+import dal.CouponsDAO;
 import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
@@ -125,10 +126,19 @@ public class OrderController extends HttpServlet {
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                         }
+                        String couponCode = request.getParameter("couponCode");
+                        if (couponCode != null && !couponCode.isEmpty()) {
+                            CouponsDAO couponDAO = new CouponsDAO();
+                            couponDAO.updateCouponQuantity(couponCode);
+                        }
                         RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
                         dispatcher.forward(request, response);
                     }
                     if (idPaymentInt == 2) {
+                        String couponCode = request.getParameter("couponCode");
+                        if (couponCode != null && !couponCode.isEmpty()) {
+                            session.setAttribute("couponCode", couponCode);
+                        }
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
                         String orderType = "other";
@@ -236,12 +246,18 @@ public class OrderController extends HttpServlet {
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                         }
-//                        session.removeAttribute("orderName");
-//                        session.removeAttribute("orderAddress");
-//                        session.removeAttribute("orderPhone");
+                        session.removeAttribute("orderName");
+                        session.removeAttribute("orderAddress");
+                        session.removeAttribute("orderPhone");
                         ConfigVNpay.transaction.put(vnp_TxnRef, 1);
                         request.setAttribute("orderSuccess", true);
                         request.setAttribute("orderId", idADD);
+                        String couponCode = (String) session.getAttribute("couponCode");
+                        if (couponCode != null && !couponCode.isEmpty()) {
+                            CouponsDAO couponDAO = new CouponsDAO();
+                            couponDAO.updateCouponQuantity(couponCode);
+                            session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
+                        }
                         RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
                         dispatcher.forward(request, response);
 
@@ -252,15 +268,6 @@ public class OrderController extends HttpServlet {
 
             }
         }
-    }
-
-    private long calculateTotalAmount(List<Cart> cartItems) {
-        long total = 0;
-        for (Cart item : cartItems) {
-            Product product = new ProductDAO().getProductById(item.getProductId());
-            total += product.getPrice() * item.getQuantity();
-        }
-        return total;
     }
 
     @Override
