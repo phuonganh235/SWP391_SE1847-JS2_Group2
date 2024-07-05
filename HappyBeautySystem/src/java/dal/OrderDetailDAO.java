@@ -68,6 +68,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return orderDetail;
     }
+
     // delete for orderID
     public boolean deleteOrderDetailsByOrderId(int orderId) {
         boolean isDeleted = false;
@@ -102,6 +103,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return totalMoney;
     }
+
     //Get total product
     public int getTotalProductByCategory(int categoryId) {
         int totalProduct = 0;
@@ -123,12 +125,51 @@ public class OrderDetailDAO extends DBContext {
     }
 
     //
+    public double getTotalMoneyByDay(String date) {
+        double totalMoney = 0;
+        String sql = "SELECT SUM(od.Price * od.Quantity) "
+                + "FROM Orders o INNER JOIN OrderDetail od ON o.OrderId = od.OrderId "
+                + "WHERE CAST(o.OrderDate AS DATE) = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, date);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                totalMoney = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalMoney;
+    }
+    //Get total money by week
+    public double getTotalMoneyByWeek(int week, int year) {
+        double totalMoney = 0;
+        String sql = "SELECT SUM(od.Price * od.Quantity) "
+                + "FROM [Orders] o INNER JOIN [OrderDetail] od ON o.OrderId = od.OrderId "
+                + "WHERE DATEPART(week, o.OrderDate) = ? AND DATEPART(year, o.OrderDate) = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, week);
+            pre.setInt(2, year);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                totalMoney = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalMoney;
+    }
+
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
 //        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(2003);
 //        for (OrderDetail li : lis) {
 //            System.out.println(li.getQuantity());
 //        }
-        System.out.println(dao.getTotalProductByCategory(1));
+        double totalMoneyByWeek = dao.getTotalMoneyByWeek(26, 2024);
+        System.out.println("Total money by week: " + totalMoneyByWeek);
+        
     }
 }
