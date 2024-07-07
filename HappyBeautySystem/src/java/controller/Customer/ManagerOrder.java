@@ -47,22 +47,27 @@ public class ManagerOrder extends HttpServlet {
                     switch (optionInt) {
                         case 0:
                             request.setAttribute("op", "0");
+                            request.setAttribute("op", "0");
                             break;
                         case 1:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 1);
                             request.setAttribute("op", "1");
+                            request.setAttribute("ch", "1");
                             break;
                         case 2:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 2);
                             request.setAttribute("op", "2");
+                            request.setAttribute("ch", "2");
                             break;
                         case 3:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 3);
                             request.setAttribute("op", "3");
+                            request.setAttribute("ch", "3");
                             break;
                         case 4:
                             listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 4);
                             request.setAttribute("op", "4");
+                            request.setAttribute("ch", "4");
                             break;
                         default:
                             // Handle invalid option

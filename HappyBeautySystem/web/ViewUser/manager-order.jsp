@@ -69,18 +69,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:if test="${ch == '1'}">
-                        <h2>Các đơn hàng đã đặt</h2>
-                    </c:if>
-                    <c:if test="${ch == '2'}">
-                        <h2>Các đơn hàng đã được xác nhận</h2>
-                    </c:if>
-                    <c:if test="${ch == '3'}">
-                        <h2>Các đơn hàng đang giao</h2>
-                    </c:if>
-                    <c:if test="${ch == '4'}">
-                        <h2>Các đơn hàng đã hoàn thành</h2>
-                    </c:if>
+                        <c:choose>
+                            <c:when test="${ch == '1'}">
+                            <h2><strong>Các đơn hàng đã đặt</h2>
+                        </c:when>
+                        <c:when test="${ch == '2'}">
+                            <h2><strong>Các đơn hàng đã được xác nhận</h2>
+                        </c:when>
+                        <c:when test="${ch == '3'}">
+                            <h2><strong>Các đơn hàng đang giao</strong></h2>
+                        </c:when>
+                        <c:when test="${ch == '4'}">
+                            <h2><strong>Các đơn hàng đã hoàn thành</h2>
+                        </c:when>
+                        <c:otherwise>
+                            <h2>Trạng thái đơn hàng không xác định</h2>
+                        </c:otherwise>
+                    </c:choose>
+
                     <%
                         List<Order> listOrder = (List<Order>) request.getAttribute("listOrder");
                         double granTotal = 0;
@@ -97,11 +103,9 @@
                                 int paymentId = order.getPaymentId();
                                 String paymentMethod = "";
                                 if (paymentId == 1) {
-                                    paymentMethod = "Momo";
+                                    paymentMethod = "COD";
                                 } else if (paymentId == 2) {
                                     paymentMethod = "VNpay";
-                                } else {
-                                    paymentMethod = "COD"; // Trường hợp phương thức thanh toán không xác định
                                 }
                             %>
                             <%= paymentMethod%>

@@ -151,7 +151,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Số điện thoại nhận hàng</label>
-                                            <input type="text" class="form-control" id="phone" name="Address" value="${sessionScope.inforUserLogin.getMobile()}" required>
+                                            <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.inforUserLogin.getMobile()}" required>
                                         </div>
                                     </div>
                                     <div class="row">

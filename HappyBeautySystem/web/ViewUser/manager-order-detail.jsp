@@ -7,6 +7,8 @@
 <%@ page isErrorPage="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.text.DecimalFormat" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -77,7 +79,12 @@
                     <tr>
                         <td class="text-center"><%= productName%></td>
                         <td class="text-center"><%= orderDetail.getQuantity()%></td>
-                        <td class="text-center"><%= orderDetail.getPrice() * orderDetail.getQuantity()%></td>
+                        <%
+                            DecimalFormat df = new DecimalFormat("#.00");
+                            double totalPrice = orderDetail.getPrice() * orderDetail.getQuantity();
+                            String formattedPrice = df.format(totalPrice);
+                        %>
+                        <td class="text-center"><%= formattedPrice%></td>
                     </tr>
                     <%
                         }

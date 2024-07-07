@@ -1,6 +1,7 @@
 package controller.Staff;
 
 import dal.InforOrderDetailDAO;
+import dal.NoteShipDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.UserDAO;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.InforOrderDetail;
+import model.NoteShip;
 import model.Order;
 import model.OrderDetail;
 import model.User;
@@ -36,6 +38,8 @@ public class managerShipper extends HttpServlet {
         OrderDAO daoOrder = new OrderDAO();
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
         InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
+        InforOrderDetailDAO daoInfor = new InforOrderDetailDAO();
+        NoteShipDAO noteShipDAO = new NoteShipDAO();
         try (PrintWriter out = response.getWriter()) {
             if ("showTask".equals(service)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
@@ -83,7 +87,7 @@ public class managerShipper extends HttpServlet {
                             }
                         }
                         request.setAttribute("op", "1");
-                        request.setAttribute("option", "2");
+                        request.setAttribute("option", "3");
                         request.setAttribute("listOrder", listOrder);
                         RequestDispatcher dispatcher2 = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
                         dispatcher2.forward(request, response);
@@ -97,17 +101,38 @@ public class managerShipper extends HttpServlet {
                             }
                         }
                         request.setAttribute("op", "1");
-                        request.setAttribute("option", "2");
+                        request.setAttribute("option", "4");
                         request.setAttribute("listOrder", listOrder);
                         RequestDispatcher dispatcher3 = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
                         dispatcher3.forward(request, response);
                         break;
                     case 5:
-                        listOrder = orderDAO.getOrdersByUserIdAndStatus(userId, 4);
+                        listOrderID = userShipOrderDAO.getOrderIDsByUserID(userId);
+                        for (int i = 0; i < listOrderID.size(); i++) {
+                            Order newOrder = orderDAO.getOrderByOrderIdAndStatus(listOrderID.get(i), 5);
+                            if (newOrder != null) {
+                                listOrder.add(newOrder);
+                            }
+                        }
+                        request.setAttribute("op", "1");
+                        request.setAttribute("option", "5");
                         request.setAttribute("listOrder", listOrder);
-                        request.setAttribute("op", "4");
-                        RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/manager-order.jsp");
+                        RequestDispatcher dispatcher4 = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
                         dispatcher4.forward(request, response);
+                        break;
+                    case 6:
+                        listOrderID = userShipOrderDAO.getOrderIDsByUserID(userId);
+                        for (int i = 0; i < listOrderID.size(); i++) {
+                            Order newOrder = orderDAO.getOrderByOrderIdAndStatus(listOrderID.get(i), 6);
+                            if (newOrder != null) {
+                                listOrder.add(newOrder);
+                            }
+                        }
+                        request.setAttribute("op", "1");
+                        request.setAttribute("option", "5");
+                        request.setAttribute("listOrder", listOrder);
+                        RequestDispatcher dispatcher5 = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
+                        dispatcher5.forward(request, response);
                         break;
                     default:
                         // Handle invalid option
@@ -143,30 +168,39 @@ public class managerShipper extends HttpServlet {
                 orderDAO.updateOrderStatus(orderID, status);
                 int idUser = inforUser.getUserId();
                 daoUser.updateUserStatus(idUser, 4);
+                if (status == 6) {
+                    int userId = inforUser.getUserId();
+                    daoUser.updateUserStatus(userId, 3);
+                }
                 response.sendRedirect("managerShipper?service=ListTask&option=2");
             }
             if (service.equals("doneOrder")) {
                 int orderID = Integer.parseInt(request.getParameter("orderID"));
                 orderDAO.updateOrderStatus(orderID, 4);
                 int userId = inforUser.getUserId();
-                List<Integer> listOrderID = userShipOrderDAO.getOrderIDsByUserID(userId);
-                List<Integer> listStatus = new ArrayList<>();
-                int i = 0;
-                for (Integer integer : listOrderID) {
-                    int newsStatus = orderDAO.getStatusByOrderId(integer);
-                    listStatus.add(newsStatus);
-                }
-                for (Integer listStatu : listStatus) {
-                    if (listStatu == 4) {
-                        i++;
-                    }
-                }
-                if (i == 0) {
-                    daoUser.updateUserStatus(userId, 3);
-                } else {
-                    daoUser.updateUserStatus(userId, 4);
-                }
+                daoUser.updateUserStatus(userId, 3);
                 response.sendRedirect("managerShipper?service=ListTask&option=4");
+            }
+            if (service.equals("shipAgain")) {
+                int orderID = Integer.parseInt(request.getParameter("orderid"));
+                request.setAttribute("orderID", orderID);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/view-note-shipagain.jsp");
+                dispatcher.forward(request, response);
+            }
+            if (service.equals("AddNoteShipAgain")) {
+
+                int userId = inforUser.getUserId();
+                List<Order> listOrder = new ArrayList<>();
+                List<NoteShip> listContent = new ArrayList<>();
+                List<Integer> listOrderID = userShipOrderDAO.getOrderIDsByUserID(userId);
+
+                int orderID = Integer.parseInt(request.getParameter("orderID"));
+                String content = request.getParameter("reason");
+                daoInfor.updateNoteByOrderID(orderID, "-" + content);
+                //
+                daoUser.updateUserStatus(userId, 3);
+                orderDAO.updateOrderStatus(orderID, 5);
+                response.sendRedirect("managerShipper?service=ListTask&option=5");
             }
 
         }

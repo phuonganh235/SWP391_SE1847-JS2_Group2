@@ -81,8 +81,8 @@
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
-            <!--        <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=5" class="btn btn-warning">Giao lại</a>
-                        <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=6" class="btn btn-danger">Bị bom</a>-->
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=5" class="btn btn-warning">Giao lại</a>
+            <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=6" class="btn btn-danger">Bị bom</a>
         </div>
         <!--        hh-->
         <!-- Order List Section Begin -->
@@ -93,9 +93,11 @@
                     <div>
                         <h2><font color="red">CHI TIẾT -  YÊU CẦU</h2>
                         <p>Tên khách hàng : <strong>${customerInfor.name}</strong></p>
-                        <p>Địa chỉ : <strong>${requestScope.informationOrder.getCustomerAddress()}</strong></p>
+                        <p>Địa chỉ : <strong>${requestScope.informationOrder.getCustomerAddress()}  </strong></p>
                         <p>Số điện thoại :  <strong>${customerInfor.mobile}</strong></p>
-                        <p>Yêu cầu của khách hàng :  <strong> ${requestScope.inforOrderDetail.getNote()} ,  Thời gian nhận hàng từ : ${requestScope.inforOrderDetail.getFrom()} ->  ${requestScope.inforOrderDetail.getTo()}. Ngày ${requestScope.inforOrderDetail.getDateOrder()}  </strong></p>
+                        <p>Yêu cầu của khách hàng :  <strong> ${requestScope.inforOrderDetail.getNote()}</strong></p>
+                        <p>Thời gian hẹn nhận : <strong> Từ ${requestScope.inforOrderDetail.getFrom()} đến ${requestScope.inforOrderDetail.getTo()} </strong></p>
+                        <p>Ngày hẹn nhận : <strong>${requestScope.inforOrderDetail.getDateOrder()}  </strong></p>
                     </div>
                 </div>
             </div>
@@ -137,7 +139,7 @@
 
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary" onclick="window.location.href = '#'">Xác nhận đơn hàng </button>
+            <!--            <button type="button" class="btn btn-primary" onclick="window.location.href = '#'">Xác nhận đơn hàng </button>-->
 
         </div>
         <!-- Order List Section End -->
@@ -229,16 +231,23 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                function formatTime(time) {
-                                    if (time && time.length > 8) { // Assuming time format HH:mm:ss.SSSSSSS
-                                        return time.substring(0, 8); // Extracts HH:mm:ss
-                                    }
-                                    return time;
-                                }
+                                        function formatTime(time) {
+                                            if (time && time.length > 8) { // Assuming time format HH:mm:ss.SSSSSSS
+                                                return time.substring(0, 8); // Extracts HH:mm:ss
+                                            }
+                                            return time;
+                                        }
 
-                                // Call formatTime function to remove milliseconds
-                                document.getElementById('note').value = document.getElementById('note').value.replace(/(\d{2}:\d{2}:\d{2})\.(\d{7})/g, '$1');
+                                        // Lấy giá trị thời gian từ phần tử input
+                                        var noteValue = document.getElementById('note').value;
+
+                                        // Loại bỏ millisecond từ giá trị thời gian
+                                        var formattedNote = noteValue.replace(/(\d{2}:\d{2}:\d{2})\.\d{7}/g, '$1');
+
+                                        // Gán giá trị đã xử lý vào phần tử input
+                                        document.getElementById('note').value = formattedNote;
         </script>
+
     </body>
 
 </html>
