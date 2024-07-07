@@ -41,6 +41,50 @@
                 background-color: #f8f9fa;
                 border-radius: 4px;
             }
+            .filterBox {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .filterBox label {
+                margin-right: 10px;
+                font-weight: bold;
+            }
+
+            .filterBox input[type="date"],
+
+            .filterBox a {
+                margin-right: 10px;
+            }
+            .filterBox button {
+                padding: 10px 20px; /* Kích thước padding để nút lớn hơn */
+                background-color: #007bff;
+                color: #fff;
+                border: 1px solid #007bff;
+                border-radius: 4px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            .filterBox button:hover {
+                background-color: #0056b3; /* Đổi màu nền khi hover */
+            }
+            .filterBox a {
+                display: inline-block;
+                padding: 8px 16px;
+                margin-right: 10px;
+                color: #007bff;
+                text-decoration: none;
+                border: 1px solid #007bff;
+                border-radius: 4px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            .filterBox a:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
+
         </style>
     </head>
 
@@ -49,131 +93,52 @@
             <!-- Sidebar Start -->
             <jsp:include page="sidebar.jsp"/>
             <!-- Sidebar End -->
-
-
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <form class="d-none d-md-flex ms-4">
-                        <input class="form-control border-0" type="search" placeholder="Search">
-                    </form>
-                    <div class="navbar-nav align-items-center ms-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-envelope me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Message</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all message</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-bell me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Notificatin</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Profile updated</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">New user added</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Password changed</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all notifications</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">John Doe</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <jsp:include page="navbarAdmin.jsp"/>
                 <!-- Navbar End -->
-
 
                 <!-- Chart Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
-                        <div class="chart-explanation">The chart below displays the revenue for each month of the year. 
-                            Through this chart, you can observe the fluctuations in revenue over time 
-                            and identify the months with the highest and lowest revenue.</div>
-                        <div class="col-sm-12 col-xl-12">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Single Line Chart</h6>
-                                <canvas id="line-chart"></canvas>
-                            </div>
+                        <div class="chart-explanation">Biểu đồ này hiển thị doanh thu theo tháng và
+                            theo ngày của hệ thống. Nó cho phép quản trị viên theo dõi và phân tích
+                            sự biến động của doanh thu theo thời gian.
+                        </div>
+                        <!--Filter by date-->
+                        <div class="filterBox">
+                            <a href="chart?service=listDay">Ngày</a>
+                            <a href="chart?service=listMonth">Tháng</a>
+                            <label for="startDate">Bắt đầu:</label>
+                            <input type="date" id="startDate">
+                            <label for="endDate">Kết thúc:</label>
+                            <input type="date" id="endDate">
+                            <button onclick="applyDateFilter()">Áp dụng</button>
                         </div>
 
-                        <div class="chart-explanation">The chart below shows the number of products sold in each category. 
-                            The categories include Skincare, Makeup, Haircare, Fragrance, Bath & Body, 
-                            Men's Grooming, Beauty Tools, Oral Care, Nail Care, and Sun Care. 
-                            This chart allows you to see which category has the highest number of products sold.</div>
-                        <div class="col-sm-12 col-xl-12">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Single Bar Chart</h6>
-                                <canvas id="bar-chart"></canvas>
+                        <c:if test="${chartType == 'month'}">
+                            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h6 class="mb-4">Biểu đồ doanh thu theo tháng</h6>
+                                    <canvas id="line-chart"></canvas>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
+                        <c:if test="${chartType == 'day'}">
+                            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h6 class="mb-4">Biểu đồ doanh thu theo ngày</h6>
+                                    <canvas id="bar-chart"></canvas>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
                 <!-- Chart End -->
 
             </div>
             <!-- Content End -->
-
 
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -193,54 +158,105 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-        <script  type="text/javascript">
-            // Single Line Chart
-            var ctx3 = $("#line-chart").get(0).getContext("2d");
-            var myChart3 = new Chart(ctx3, {
-                type: "line",
-                data: {
-                    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-                    datasets: [{
-                            label: "Revenue",
-                            fill: false,
-                            backgroundColor: "rgba(0, 156, 255, .3)",
-                            data: [${requestScope.m1}, ${requestScope.m2}, ${requestScope.m3},
-            ${requestScope.m4}, ${requestScope.m5}, ${requestScope.m6},
-            ${requestScope.m7},${requestScope.m8},${requestScope.m9},
-            ${requestScope.m10},${requestScope.m11},${requestScope.m12}]
-                        }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
+        <script type="text/javascript">
+                                // Initialize the data for the charts
+                                var originalData = [
+            <c:forEach var="revenue" items="${revenueList}">
+                ${revenue},
+            </c:forEach>
+                                ];
 
-            // Single Bar Chart
-            var ctx4 = $("#bar-chart").get(0).getContext("2d");
-            var myChart4 = new Chart(ctx4, {
-                type: "bar",
-                data: {
-                    labels: ["Skincare", "Makeup", "Haircare", "Fragrance", "Bath & Body", "Men's Grooming", "Beauty Tools",
-                        "Oral Care", "Nail Care", "Sun Care"],
-                    datasets: [{
-                            label: "Quantity of Product",
-                            backgroundColor: [
-                                "rgba(0, 156, 255, .7)",
-                                "rgba(0, 156, 255, .6)",
-                                "rgba(0, 156, 255, .5)",
-                                "rgba(0, 156, 255, .4)",
-                                "rgba(0, 156, 255, .3)"
-                            ],
-                            data: [${requestScope.cat1}, ${requestScope.cat2}, ${requestScope.cat3},
-            ${requestScope.cat4}, ${requestScope.cat5}, ${requestScope.cat6},
-            ${requestScope.cat7},${requestScope.cat8},${requestScope.cat9},
-            ${requestScope.cat10}]
-                        }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
+                                var originalData2 = [
+            <c:forEach var="revenue" items="${revenueListByDay}">
+                ${revenue},
+            </c:forEach>
+                                ];
+
+            <c:if test="${chartType == 'month'}">
+                                var ctx3 = $("#line-chart").get(0).getContext("2d");
+                                var myChart3 = new Chart(ctx3, {
+                                    type: "bar",
+                                    data: {
+                                        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                                        datasets: [{
+                                                label: "Doanh thu",
+                                                fill: false,
+                                                backgroundColor: "rgba(0, 156, 255, .3)",
+                                                data: originalData
+                                            }]
+                                    },
+                                    options: {
+                                        responsive: true
+                                    }
+                                });
+            </c:if>
+
+            <c:if test="${chartType == 'day'}">
+                                var ctx3 = $("#bar-chart").get(0).getContext("2d");
+                                var dates = [
+                <c:forEach var="date" items="${dateList}">
+                                    '${date}',
+                </c:forEach>
+                                ];
+                                var myChart3 = new Chart(ctx3, {
+                                    type: "bar",
+                                    data: {
+                                        labels: dates,
+                                        datasets: [{
+                                                label: "Doanh thu",
+                                                fill: false,
+                                                backgroundColor: "rgba(0, 156, 255, .3)",
+                                                data: originalData2
+                                            }]
+                                    },
+                                    options: {
+                                        responsive: true
+                                    }
+                                });
+            </c:if>
+
+                                function applyDateFilter() {
+                                    var startDate = document.getElementById('startDate').value;
+                                    var endDate = document.getElementById('endDate').value;
+
+                                    // Filter for monthly chart
+            <c:if test="${chartType == 'month'}">
+                                    var startMonth = startDate ? new Date(startDate).getMonth() + 1 : 1;
+                                    var endMonth = endDate ? new Date(endDate).getMonth() + 1 : 12;
+
+                                    var filteredData = originalData.slice(startMonth - 1, endMonth);
+
+                                    myChart3.data.labels = Array.from({length: endMonth - startMonth + 1}, (v, i) => (i + startMonth).toString());
+                                    myChart3.data.datasets[0].data = filteredData;
+                                    myChart3.update();
+            </c:if>
+
+                                    // Filter for daily chart
+            <c:if test="${chartType == 'day'}">
+                                    var filteredDates = [];
+                                    var filteredData2 = [];
+
+                                    if (startDate && endDate) {
+                                        var startDateObj = new Date(startDate);
+                                        var endDateObj = new Date(endDate);
+
+                                        for (var i = 0; i < dates.length; i++) {
+                                            var currentDate = new Date(dates[i]);
+                                            if (currentDate >= startDateObj && currentDate <= endDateObj) {
+                                                filteredDates.push(dates[i]);
+                                                filteredData2.push(originalData2[i]);
+                                            }
+                                        }
+                                    } else {
+                                        filteredDates = dates;
+                                        filteredData2 = originalData2;
+                                    }
+
+                                    myChart3.data.labels = filteredDates;
+                                    myChart3.data.datasets[0].data = filteredData2;
+                                    myChart3.update();
+            </c:if>
+                                }
         </script>
     </body>
 
