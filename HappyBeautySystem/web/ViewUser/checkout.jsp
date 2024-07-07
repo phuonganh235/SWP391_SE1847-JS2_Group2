@@ -210,15 +210,16 @@
 
                                         <%
                                             List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
-                                            double granTotal = 0; // Khai báo và gán giá trị mặc định cho biến granTotal
+                                            // lấy giá trị đơn hàng và số tiền giảm ở bên shop_cart
+                                            // annp them
+                                            double cartTotal = Double.parseDouble(request.getParameter("total"));
+                                            double cartDiscount = Double.parseDouble(request.getParameter("discount"));
                                             if (listCart != null && !listCart.isEmpty()) {
                                                 ProductDAO daoProduct = new ProductDAO();
                                                 for (Cart cart : listCart) {
                                                     Product pro = daoProduct.getProductById(cart.getProductId());
                                                     if (pro != null) {
-                                                        double subtotal = cart.getQuantity() * pro.getPrice();
-                                                        granTotal += subtotal;
-                                                        String formattedGranTotal = String.format("%.2f", granTotal);
+
                                         %>
                                         <li><%= pro.getProductName()%> <span><%= pro.getPrice() * cart.getQuantity()%></span></li>
                                             <%
@@ -234,8 +235,9 @@
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Số tiền <span><%= String.format("%.2f", granTotal)%></span></li>
-                                        <li>Tổng tiền <span><%= String.format("%.2f", granTotal)%></span></li>
+                                        <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount)%></span></li>
+                                        <li>Giảm giá <span><%= String.format("%.2f", cartDiscount)%></span></li>
+                                        <li>Tổng tiền <span><%= String.format("%.2f", cartTotal)%></span></li>
 
                                     </ul>
                                 </div>
@@ -250,241 +252,250 @@
                                         VNPay
                                         <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
                                         <span class="checkmark"></span>
-                                        <input type="hidden" name="total_cost" value="<%= granTotal%>"/>
+                                        <input type="hidden" name="total_cost" value="<%= cartTotal%>"/>
                                     </label>
                                 </div>
                                 <input type="hidden" id="selectedQuan" name="selectedQuan">
                                 <input type="hidden" id="selectedPhuong" name="selectedPhuong">
-                                
+                                <input type="hidden" name="couponCode" id="appliedCouponCode" value="">
                                 <button type="submit" class="btn btn-success">Mua Hàng</button>
                             </div>
                         </div>
 
-
-                    </div>
                 </form>
-            </div>
-        </section>
-        <!-- Checkout Section End -->
 
-        <!-- Instagram Begin -->
-        <div class="instagram">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+    <!-- Instagram Begin -->
+    <div class="instagram">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
+                        <div class="instagram__text">
+                            <i class="fa fa-instagram"></i>
+                            <a href="#">@ ashion_shop</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Instagram End -->
+    </div>
+    <!-- Instagram End -->
 
-        <!-- Footer Section Begin -->
-        <jsp:include page="footer.jsp"/>
-        <!-- Footer Section End -->
+    <!-- Footer Section Begin -->
+    <jsp:include page="footer.jsp"/>
+    <!-- Footer Section End -->
 
-        <!-- Search Begin -->
-        <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch">+</div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
-                </form>
-            </div>
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
         </div>
-        <!-- Search End -->
+    </div>
+    <!-- Search End -->
 
-        <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/jquery.countdown.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.nicescroll.min.js"></script>
-        <script src="js/main.js"></script>
-        <script>
-            $(document).ready(function () {
-                // Lấy ngày và giờ hiện tại
-                var now = new Date();
-                var currentHour = now.getHours();
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Lấy ngày và giờ hiện tại
+            var now = new Date();
+            var currentHour = now.getHours();
 
-                // Đặt giá trị min cho input type="time" từ 6 giờ sáng đến 8 giờ tối
-                var fromTimeInput = document.getElementById('fromTime');
-                var toTimeInput = document.getElementById('toTime');
-                var deliveryDateInput = document.getElementById('deliveryDate');
+            // Đặt giá trị min cho input type="time" từ 6 giờ sáng đến 8 giờ tối
+            var fromTimeInput = document.getElementById('fromTime');
+            var toTimeInput = document.getElementById('toTime');
+            var deliveryDateInput = document.getElementById('deliveryDate');
 
-                fromTimeInput.min = '08:00';
-                fromTimeInput.max = '22:00';
+            fromTimeInput.min = '08:00';
+            fromTimeInput.max = '22:00';
 
-                toTimeInput.min = '08:00';
-                toTimeInput.max = '22:00';
+            toTimeInput.min = '08:00';
+            toTimeInput.max = '22:00';
 
-                // Nếu giờ hiện tại nhỏ hơn 6 giờ sáng, giới hạn giờ bắt đầu từ 6 giờ sáng
-                if (currentHour < 6) {
-                    fromTimeInput.value = '06:00';
-                    toTimeInput.value = '08:00'; // Giới hạn giờ kết thúc là 8 giờ tối nếu hiện tại nhỏ hơn 6 giờ sáng
+            // Nếu giờ hiện tại nhỏ hơn 6 giờ sáng, giới hạn giờ bắt đầu từ 6 giờ sáng
+            if (currentHour < 6) {
+                fromTimeInput.value = '06:00';
+                toTimeInput.value = '08:00'; // Giới hạn giờ kết thúc là 8 giờ tối nếu hiện tại nhỏ hơn 6 giờ sáng
+            } else {
+                fromTimeInput.value = formatTime(currentHour, now.getMinutes());
+                toTimeInput.value = formatTime(currentHour, now.getMinutes() + 30); // Giới hạn mặc định là 30 phút sau giờ hiện tại nếu không đặt giới hạn
+            }
+
+            // Set giá trị min cho input type="date" để không cho chọn ngày trong quá khứ
+            var formattedToday = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+            deliveryDateInput.min = formattedToday;
+
+            // Xử lý sự kiện thay đổi giá trị của input "From"
+            fromTimeInput.addEventListener('input', function () {
+                if (fromTimeInput.value < fromTimeInput.min || fromTimeInput.value > fromTimeInput.max) {
+                    $('#timeWarning').show();
                 } else {
-                    fromTimeInput.value = formatTime(currentHour, now.getMinutes());
-                    toTimeInput.value = formatTime(currentHour, now.getMinutes() + 30); // Giới hạn mặc định là 30 phút sau giờ hiện tại nếu không đặt giới hạn
+                    $('#timeWarning').hide();
                 }
 
-                // Set giá trị min cho input type="date" để không cho chọn ngày trong quá khứ
-                var formattedToday = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
-                deliveryDateInput.min = formattedToday;
-
-                // Xử lý sự kiện thay đổi giá trị của input "From"
-                fromTimeInput.addEventListener('input', function () {
-                    if (fromTimeInput.value < fromTimeInput.min || fromTimeInput.value > fromTimeInput.max) {
-                        $('#timeWarning').show();
-                    } else {
-                        $('#timeWarning').hide();
-                    }
-
-                    // Nếu giờ bắt đầu lớn hơn giờ kết thúc, đặt giờ kết thúc bằng giờ bắt đầu
-                    if (fromTimeInput.value > toTimeInput.value) {
-                        toTimeInput.value = fromTimeInput.value;
-                    }
-                });
-
-                // Xử lý sự kiện thay đổi giá trị của input "To"
-                toTimeInput.addEventListener('input', function () {
-                    if (toTimeInput.value < toTimeInput.min || toTimeInput.value > toTimeInput.max) {
-                        $('#timeWarning').show();
-                    } else {
-                        $('#timeWarning').hide();
-                    }
-
-                    // Nếu giờ kết thúc nhỏ hơn giờ bắt đầu, đặt giờ bắt đầu bằng giờ kết thúc
-                    if (toTimeInput.value < fromTimeInput.value) {
-                        fromTimeInput.value = toTimeInput.value;
-                    }
-                });
-
-                // Xử lý sự kiện thay đổi giá trị của input "Date"
-                deliveryDateInput.addEventListener('input', function () {
-                    if (deliveryDateInput.value < formattedToday) {
-                        $('#dateWarning').show();
-                    } else {
-                        $('#dateWarning').hide();
-                    }
-                });
-
-                // Format số giờ và phút thành chuỗi có hai chữ số
-                function formatTime(hours, minutes) {
-                    var displayHours = hours % 12;
-                    displayHours = displayHours ? displayHours : 12; // Nếu là 0 thì hiển thị là 12
-                    var formattedHours = displayHours < 10 ? '0' + displayHours : displayHours;
-                    var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                    return formattedHours + ':' + formattedMinutes;
+                // Nếu giờ bắt đầu lớn hơn giờ kết thúc, đặt giờ kết thúc bằng giờ bắt đầu
+                if (fromTimeInput.value > toTimeInput.value) {
+                    toTimeInput.value = fromTimeInput.value;
                 }
             });
 
-
-
-
-        </script>
-        <script>
-            $(document).ready(function () {
-                const hanoiId = "01"; // ID của Hà Nội
-
-                // Lấy dữ liệu quận huyện của Hà Nội khi tải trang
-                function loadHanoiDistricts() {
-                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + hanoiId + '.htm', function (data_quan) {
-                        if (data_quan.error == 0) {
-                            $("#quan").html('<option value="0">Chọn Quận / Huyện</option>');
-                            $("#phuong").html('<option value="0">Chọn Phường / Xã</option>');
-                            $.each(data_quan.data, function (key_quan, val_quan) {
-                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-                            });
-                        }
-                    });
+            // Xử lý sự kiện thay đổi giá trị của input "To"
+            toTimeInput.addEventListener('input', function () {
+                if (toTimeInput.value < toTimeInput.min || toTimeInput.value > toTimeInput.max) {
+                    $('#timeWarning').show();
+                } else {
+                    $('#timeWarning').hide();
                 }
 
-                // Thêm Hà Nội vào danh sách tỉnh và vô hiệu hóa nó
-                $("#tinh").append('<option value="' + hanoiId + '" selected>Thành phố Hà Nội</option>').attr("disabled", true);
+                // Nếu giờ kết thúc nhỏ hơn giờ bắt đầu, đặt giờ bắt đầu bằng giờ kết thúc
+                if (toTimeInput.value < fromTimeInput.value) {
+                    fromTimeInput.value = toTimeInput.value;
+                }
+            });
 
-                // Gọi hàm để tải quận huyện của Hà Nội khi trang được tải
-                loadHanoiDistricts();
+            // Xử lý sự kiện thay đổi giá trị của input "Date"
+            deliveryDateInput.addEventListener('input', function () {
+                if (deliveryDateInput.value < formattedToday) {
+                    $('#dateWarning').show();
+                } else {
+                    $('#dateWarning').hide();
+                }
+            });
 
-                // Khi thay đổi quận huyện
-                $("#quan").change(function (e) {
-                    var idquan = $(this).val();
-                    var selectedQuan = $("#quan option:selected").text();
-                    $("#selectedQuan").val(selectedQuan); // Cập nhật giá trị trường ẩn
+            // Format số giờ và phút thành chuỗi có hai chữ số
+            function formatTime(hours, minutes) {
+                var displayHours = hours % 12;
+                displayHours = displayHours ? displayHours : 12; // Nếu là 0 thì hiển thị là 12
+                var formattedHours = displayHours < 10 ? '0' + displayHours : displayHours;
+                var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                return formattedHours + ':' + formattedMinutes;
+            }
+        });
 
-                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
-                        if (data_phuong.error == 0) {
-                            $("#phuong").html('<option value="0">Chọn phường / xã </option>');
-                            $.each(data_phuong.data, function (key_phuong, val_phuong) {
-                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                            });
-                        }
-                    });
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            const hanoiId = "01"; // ID của Hà Nội
+
+            // Lấy dữ liệu quận huyện của Hà Nội khi tải trang
+            function loadHanoiDistricts() {
+                $.getJSON('https://esgoo.net/api-tinhthanh/2/' + hanoiId + '.htm', function (data_quan) {
+                    if (data_quan.error == 0) {
+                        $("#quan").html('<option value="0">Chọn Quận / Huyện</option>');
+                        $("#phuong").html('<option value="0">Chọn Phường / Xã</option>');
+                        $.each(data_quan.data, function (key_quan, val_quan) {
+                            $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                        });
+                    }
                 });
+            }
 
-                // Khi thay đổi phường xã
-                $("#phuong").change(function (e) {
-                    var selectedPhuong = $("#phuong option:selected").text();
-                    $("#selectedPhuong").val(selectedPhuong); // Cập nhật giá trị trường ẩn
-                });
+            // Thêm Hà Nội vào danh sách tỉnh và vô hiệu hóa nó
+            $("#tinh").append('<option value="' + hanoiId + '" selected>Thành phố Hà Nội</option>').attr("disabled", true);
 
-                // Đảm bảo rằng các trường ẩn có giá trị trước khi gửi biểu mẫu
-                $("form").submit(function () {
-                    var selectedQuan = $("#quan option:selected").text();
-                    var selectedPhuong = $("#phuong option:selected").text();
-                    $("#selectedQuan").val(selectedQuan);
-                    $("#selectedPhuong").val(selectedPhuong);
+            // Gọi hàm để tải quận huyện của Hà Nội khi trang được tải
+            loadHanoiDistricts();
+
+            // Khi thay đổi quận huyện
+            $("#quan").change(function (e) {
+                var idquan = $(this).val();
+                var selectedQuan = $("#quan option:selected").text();
+                $("#selectedQuan").val(selectedQuan); // Cập nhật giá trị trường ẩn
+
+                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                    if (data_phuong.error == 0) {
+                        $("#phuong").html('<option value="0">Chọn phường / xã </option>');
+                        $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                            $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                        });
+                    }
                 });
             });
-        </script>
-    </body>
+
+            // Khi thay đổi phường xã
+            $("#phuong").change(function (e) {
+                var selectedPhuong = $("#phuong option:selected").text();
+                $("#selectedPhuong").val(selectedPhuong); // Cập nhật giá trị trường ẩn
+            });
+
+            // Đảm bảo rằng các trường ẩn có giá trị trước khi gửi biểu mẫu
+            $("form").submit(function () {
+                var selectedQuan = $("#quan option:selected").text();
+                var selectedPhuong = $("#phuong option:selected").text();
+                $("#selectedQuan").val(selectedQuan);
+                $("#selectedPhuong").val(selectedPhuong);
+            });
+        });
+        
+        
+        $(document).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const couponCode = urlParams.get('couponCode');
+    if (couponCode) {
+        document.getElementById('appliedCouponCode').value = couponCode;
+    }
+});
+    </script>
+</body>
 
 </html>

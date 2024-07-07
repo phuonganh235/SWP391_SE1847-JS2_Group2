@@ -17,6 +17,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&family=Sacramento&display=swap" rel="stylesheet">
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
@@ -28,7 +29,6 @@
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
     </head>
-
     <body>
 
         <!-- Header Section Begin -->
@@ -51,9 +51,9 @@
                              data-setbg="ViewUser/img/shop/banner-5.jpg">
                             <div class="categories__text">
                                 <h1>HappyBeauty</h1>
-                                <p style="color: black">Welcome to HappyBeauty, the ideal destination for beauty care products specifically for women
-                                    - where your care and beauty are our top priorities!</p>
-                                <a href="product">Shop now</a>
+                                <p style="color: black">Chào mừng bạn đến với HappyBeauty, điểm đến lý tưởng về các sản phẩm chăm sóc sắc đẹp dành riêng cho phụ nữ 
+                                    - nơi việc chăm sóc và làm đẹp của bạn là ưu tiên hàng đầu của chúng tôi!</p>
+                                <a href="product">Mua sắm ngay</a>
                             </div>
                         </div>
                     </div>
@@ -62,16 +62,18 @@
                         <!--<div class="col-lg-6 col-md-6 col-sm-6 p-0">-->
                         <div class="categories__item set-bg" data-setbg="ViewUser/img/shop/banner-3.jpg">
                             <div class="categories__text">
-                                <h4>Women’s skincare</h4>
-                                <p>"Empower Your Glow: Discover the Best in Women's Skincare"</p>
-                                <a href="product">Shop now</a>
+                                <h4 style="font-family: 'Dancing Script', cursive; font-size: 40px">Chăm sóc cho làn da tươi trẻ</h4>
+                                <p>"Trao quyền cho sự tỏa sáng của bạn: </p>
+                                <p> Khám phá những điều tốt nhất trong chăm sóc da của phụ nữ"</p>
+                                <a href="product">Mua sắm ngay</a>
                             </div>
                         </div>
                         <div class="categories__item set-bg" data-setbg="ViewUser/img/shop/banner-7.jpg">
                             <div class="categories__text">
-                                <h4>Women’s makeup</h4>
-                                <p>"Unleash Your Beauty: Elevate Your Look with Our Makeup"</p>
-                                <a href="product">Shop now</a>
+                                <h4 style="font-family: 'Dancing Script', cursive; font-size: 40px">Hoàn thiện vẻ đẹp của bạn</h4>
+                                <p>"Giải phóng vẻ đẹp của bạn: </p>
+                                <p> Nâng tầm vẻ ngoài của bạn với cách trang điểm của chúng tôi"</p>
+                                <a href="product">Mua sắm ngay</a>
                             </div>
                         </div>
                     </div>
@@ -86,12 +88,12 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
                         <div class="section-title">
-                            <h4>New products</h4>
+                            <h4>Sản phẩm mới</h4>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-8">
                         <ul class="filter__controls">
-                            <li class="active" data-filter="*"><a href="/HappyBeautySystem/product">View more product here</a></li>
+                            <li class="active" data-filter="*"><a href="/HappyBeautySystem/product">Xem thêm sản phẩm tại đây</a></li>
                         </ul>
                     </div>
                 </div>
@@ -102,7 +104,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 mix women" style="">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="">
-                                    <div class="label new" style="border-radius: 10px;">New</div>
+                                    <div class="label new" style="border-radius: 10px;">Mới</div>
                                     <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
                                         <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand">
 
@@ -126,15 +128,12 @@
                                     <!--                                                //-->
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h6>
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="product__price">Price: $${p.getPrice()}</div>
+                                    <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                        <h6 style="color: black; font-size: 18px; font-weight: 500;">${p.getProductName()}</h6>
+                                    </a>
+                                    <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
+                                    
+                                    <div class="product__price" style="color: #ea5d8c;">${p.getPrice()} VNĐ</div>
                                 </div>
                             </div>
                         </div>
@@ -153,23 +152,23 @@
                         <div class="banner__slider owl-carousel">
                             <div class="banner__item">
                                 <div class="banner__text">
-                                    <span>The Skincare Collection</span>
-                                    <h1>Discover Radiant Skin</h1>
-                                    <a href="product">Shop now</a>
+                                    <span>Bộ sưu tập sản phẩm chăm sóc da</span>
+                                    <h1 style="font-family: 'Dancing Script', cursive;">Khám phá làn da tươi trẻ</h1>
+                                    <a href="product">Mua sắm ngay</a>
                                 </div>
                             </div>
                             <div class="banner__item">
                                 <div class="banner__text">
-                                    <span>The Makeup Collection</span>
-                                    <h1>Makeup Magic Starts Here</h1>
-                                    <a href="product">Shop now</a>
+                                    <span>Bộ sưu tập sản phẩm trang điểm</span>
+                                    <h1 style="font-family: 'Dancing Script', cursive;">Nơi sự diệu kì của trang điểm bắt đầu</h1>
+                                    <a href="product">Mua sắm ngay</a>
                                 </div>
                             </div>
                             <div class="banner__item">
                                 <div class="banner__text">
-                                    <span>The Bath&Body Collection</span>
-                                    <h1>Unwind with Our Bath & Body Collection</h1>
-                                    <a href="product">Shop now</a>
+                                    <span>Bộ sưu tập chắm sóc cơ thể</span>
+                                    <h1 style="font-family: 'Dancing Script', cursive;">Mang tới làn da mềm mịn và quyến rũ.</h1>
+                                    <a href="product">Mua sắm ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -186,12 +185,10 @@
                      justify-content: center;
                      text-align: center;">
 
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-
                     <div class="col-lg-3 col-md-3 col-sm-4" style="margin-right: 100px">
                         <div class="trend__content">
                             <div class="section-title">
-                                <h4>Recommend</h4>
+                                <h4>Đề xuất</h4>
                             </div>
                             <c:forEach items="${requestScope.topPopular}" var="p">
                                 <div class="trend__item">
@@ -205,16 +202,11 @@
                                     </div>
                                     <div class="trend__item__text">
                                         <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                            <h6>${p.getProductName()}</h6>
+                                            <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$${p.getPrice()}</div>
+                                        <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
+                                       
+                                        <div class="product__price" style="color: #ea5d8c; font-size: 13px;">${p.getPrice()} VNĐ</div>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -224,7 +216,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-4">
                         <div class="trend__content">
                             <div class="section-title">
-                                <h4>Best Seller</h4>
+                                <h4>Bán chạy</h4>
                             </div>
                             <c:forEach items="${requestScope.topSeller}" var="p">
                                 <div class="trend__item">
@@ -238,55 +230,22 @@
                                     </div>
                                     <div class="trend__item__text">
                                         <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                            <h6>${p.getProductName()}</h6>
+                                            <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$${p.getPrice()}</div>
+                                        <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
+                                        
+                                        <div class="product__price" style="color: #ea5d8c; font-size: 13px;">${p.getPrice()} VNĐ</div>
                                     </div>
                                 </div>
                             </c:forEach>
                         </div>
                     </div>
 
-                    <!--                    <div class="col-lg-4 col-md-4 col-sm-6">
-                                            <div class="trend__content">
-                                                <div class="section-title">
-                                                    <h4>Feature 2</h4>
-                                                </div>
-                    <%--<c:forEach items="${requestScope.topSeller}" var="p">--%>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img style="
-                                     height: 90px;
-                                     width: 90px;
-                                     " src="${p.getPathImage()}" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>${p.getProductName()}</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$${p.getPrice()}</div>
-                            </div>
-                        </div>
-                    <%--</c:forEach>--%>
-                </div>
-            </div>-->
-                    <!--Top Best Favourite Product-->
+                    <!--Top favourite Product-->
                     <div class="col-lg-3 col-md-3 col-sm-4" style="margin-left: 100px">
                         <div class="trend__content">
                             <div class="section-title">
-                                <h4>Favorite products</h4>
+                                <h4>Được yêu thích</h4>
                             </div>
                             <c:forEach items="${requestScope.topFavourite}" var="p">
                                 <div class="trend__item">
@@ -300,16 +259,11 @@
                                     </div>
                                     <div class="trend__item__text">
                                         <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                            <h6>${p.getProductName()}</h6>
+                                            <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$${p.getPrice()}</div>
+                                        <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
+                                        
+                                        <div class="product__price" style="color: #ea5d8c; font-size: 13px;">${p.getPrice()} VNĐ</div>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -327,29 +281,29 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="services__item">
                             <i class="fa fa-car"></i>
-                            <h6>Free Shipping</h6>
-                            <p>For all oder over $99</p>
+                            <h6>Miễn phí giao hàng</h6>
+                            <p>Cho tất cả đơn hàng</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="services__item">
                             <i class="fa fa-money"></i>
-                            <h6>Money Back Guarantee</h6>
-                            <p>If good have Problems</p>
+                            <h6>Đảm bảo hoàn lại tiền</h6>
+                            <p>Nếu sản phẩm gặp vấn đề</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="services__item">
                             <i class="fa fa-support"></i>
-                            <h6>Online Support 24/7</h6>
-                            <p>Dedicated support</p>
+                            <h6>Chăm sóc trực tuyến 24/7</h6>
+                            <p>Hỗ trợ nhiệt tình</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="services__item">
                             <i class="fa fa-headphones"></i>
-                            <h6>Payment Secure</h6>
-                            <p>100% secure payment</p>
+                            <h6>Thanh toán an toàn</h6>
+                            <p>100% thanh toán an toàn</p>
                         </div>
                     </div>
                 </div>
@@ -374,12 +328,12 @@
         <script src="ViewUser/js/main.js"></script>
     </body>
 
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <!--Chatbot-->
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <df-messenger
         intent="WELCOME"
-        chat-title="AI-BYAN"
-        agent-id="0ab401ed-4696-442c-80cd-0d5e1b252b36"
-        language-code="en"
+        chat-title="HappyBeautySystem"
+        agent-id="cc8fd10b-488f-4ebb-a442-953e6ecafe27"
+        language-code="vi"
         ></df-messenger>
 </html>

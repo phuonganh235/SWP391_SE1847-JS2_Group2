@@ -16,6 +16,15 @@ public class User {
     private String password;
     private int Statuss;
     private String dateofbirth;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public User() {
     }
@@ -143,9 +152,5 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "userId=" + userId + ", name=" + name + ", username=" + username + ", mobile=" + mobile + ", email=" + email + ", address=" + address + ", postCode=" + postCode + ", image=" + image + ", roleId=" + roleId + ", createDate=" + createDate + ", password=" + password + ", Statuss=" + Statuss + ", dateofbirth=" + dateofbirth + '}';
-    }
-
-    
-
-    
+}
 }

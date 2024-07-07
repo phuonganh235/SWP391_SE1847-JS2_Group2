@@ -93,7 +93,7 @@
                             <div class="social-login">
                                 <span class="social-label">Or login with</span>
                                 <ul class="socials">
-                                    <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                                    <li><a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/HappyBeautySystem/LoginGoogle&response_type=code&client_id=476100370923-o65hi8ub2g7m0nn9iqkk4gguhv1h80nk.apps.googleusercontent.com&approval_prompt=force"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                                 </ul>
                             </div>
                         </div>

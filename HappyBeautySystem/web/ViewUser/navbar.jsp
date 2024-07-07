@@ -45,9 +45,9 @@
                 </div>
                 <nav class="header__menu">
                     <ul>
-                        <li><a href="home">Home</a></li>
-                        <li><a href="about">About</a></li>
-                        <li><a href="product">Shop</a>
+                        <li><a href="home">Trang chủ</a></li>
+                        <li><a href="about">Giới thiệu</a></li>
+                        <li><a href="product">Sản phẩm</a>
                             <!--                            <ul class="dropdown">
                                                             <li><a href="./product-details.html">Bodycare</a></li>
                                                             <li><a href="./shop-cart.html">Skincare</a></li>
@@ -56,16 +56,17 @@
                                                             <li><a href="./blog-details.html">Perfume</a></li>
                                                         </ul>-->
                         </li>
-                        <li><a href="news">News</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a href="news">Tin mới</a></li>
+                        <li><a href="./contact.html">Liên Hệ</a></li>
+                        <li><a href="coupon">Mã giảm giá</a></li>
                     </ul>
                 </nav>
                 <div class="header__right">
 
                     <c:if test="${sessionScope.inforUserLogin == null}">
                         <div class="header__right__auth">
-                            <a href="login">Login</a>
-                            <a href="register">Register</a>
+                            <a href="login">Đăng Nhập</a>
+                            <a href="register">Dăng kí</a>
                         </div>
                     </c:if>
                     <c:if test="${sessionScope.inforUserLogin != null}">
@@ -85,11 +86,11 @@
                                     </button>
 
                                     <ul class="dropdown">
-                                        <li><a  type="button" data-toggle="modal"  data-target="#userProfileModal">User profile</a></li>
+                                        <li><a  type="button" data-toggle="modal"  data-target="#userProfileModal">Thông tin cá nhân</a></li>
                                             <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
-                                            <li><a href="dashboard">Manage</a></li>
+                                            <li><a href="dashboard">Quản lý</a></li>
                                             </c:if>
-                                        <li><a href="logout">Logout</a></li>
+                                        <li><a href="logout">Đăng xuất</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -112,7 +113,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="border-radius: 10px; margin-top: 70px;">
                         <div class="modal-header">
-                            <h2 class="text-center font-weight-bold" style="font-family: Arial;">User Profile</h2>
+                            <h2 class="text-center font-weight-bold" style="font-family: Arial;">Thông tin cá nhân</h2>
                         </div>
 
                         <div class="modal-body" style="background-color: #ffe6f2">
@@ -139,18 +140,18 @@
                                                 <form action="customerprofile" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Full Name</label>
+                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Họ và tên</label>
                                                             <input id="fullName" type="text" class="form-control" name="fullName" placeholder="Full Name" value="${sessionScope.inforUserLogin.name}">
                                                             <span id="nameError" style="color: red;"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Mobile</label>
+                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Số điện thoại</label>
                                                             <input type="text" class="form-control" name="mobile" placeholder="Mobile" value="${sessionScope.inforUserLogin.mobile}">
                                                         </div>
                                                     </div>
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Address</label>
+                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Địa chỉ</label>
                                                             <input type="text" class="form-control" name="address" placeholder="Address" value="${sessionScope.inforUserLogin.address}">
                                                         </div>
                                                         <div class="col-md-6">
@@ -160,11 +161,11 @@
                                                     </div>
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Avatar</label>
+                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Ảnh đại diện</label>
                                                             <input type="file" class="form-control" name="avatar" placeholder="Avatar" value="${sessionScope.inforUserLogin.image}">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Birth</label>
+                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Ngày sinh</label>
                                                             <input type="date" class="form-control" name="birth" placeholder="Birth" value="${sessionScope.inforUserLogin.dateofbirth}">
                                                         </div>
                                                     </div>
@@ -172,16 +173,16 @@
                                                     <div class="row mt-4">
 
                                                         <div class="col-md-6">
-                                                            <button class="btn btn-dark" type="submit">Save</button>
+                                                            <button class="btn btn-dark" type="submit">Lưu</button>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-3">
                                                         <div class="col-md-6 text-right">
-                                                            <button class="btn btn-dark btn-sm" type="button" data-toggle="modal" data-dismiss="modal" data-target="#ChangePasswordModal">Change Password</button>
+                                                            <button class="btn btn-dark btn-sm" type="button" data-toggle="modal" data-dismiss="modal" data-target="#ChangePasswordModal">Thay đổi mật khẩu</button>
                                                         </div>
 
                                                         <div class="col-md-6 text-right">
-                                                            <a href="home"><button class="btn btn-dark" type="button">Home</button></a>
+                                                            <a href="home"><button class="btn btn-dark" type="button">Trang chủ</button></a>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -202,28 +203,28 @@
                 <div class="modal-dialog">
                     <div class="modal-content" style="border-radius: 10px; margin-top: 80px;">
                         <div class="modal-header">
-                            <h1 style="text-align: center; font-size: 30px">Change password</h1>
+                            <h1 style="text-align: center; font-size: 30px">Thay đổi mật khẩu</h1>
                         </div>
                         <div class="modal-body" style="background-color: #ffe6f2">
                             <form action="changepassword" method="post" onsubmit="return validateForm()">
                                 <input type="hidden" name="userId" value="${sessionScope.inforUserLogin.userId}"/>
-                                <b>Enter old password</b>&nbsp;&nbsp;
+                                <b>Nhập mật khẩu cũ</b>&nbsp;&nbsp;
                                 <div class="form-group">
-                                    <input name="old_pass" type="password" class="form-control" placeholder="Enter old password" style="border-radius: 100px;" required>
+                                    <input name="old_pass" type="password" class="form-control" placeholder="Nhập mật khẩu cũ" style="border-radius: 100px;" required>
                                     <span id="oldPasswordError" style="color: red;"></span>
                                 </div>
-                                <b>Enter New password</b>&nbsp;&nbsp;
+                                <b>Nhập mật khẩu mới </b>&nbsp;&nbsp;
                                 <div class="form-group">
-                                    <input name="new_pass" type="password" id="new_pass" class="form-control" placeholder="Enter New password" style="border-radius: 100px;" required>
+                                    <input name="new_pass" type="password" id="new_pass" class="form-control" placeholder="Nhập mật khẩu mới" style="border-radius: 100px;" required>
                                     <span id="passwordError" style="color: red;"></span>
                                 </div>
-                                <b>Enter the new password again</b>&nbsp;&nbsp;
+                                <b>xác nhận lại mật khẩu mới</b>&nbsp;&nbsp;
                                 <div class="form-group">
-                                    <input name="confirm_pass" type="password" id="confirm_pass" class="form-control" placeholder="Enter the new password again" style="border-radius: 100px;" required>
+                                    <input name="confirm_pass" type="password" id="confirm_pass" class="form-control" placeholder="xác nhận lại mật khẩu mới" style="border-radius: 100px;" required>
                                     <span id="confirmPasswordError" style="color: red;"></span>
                                 </div>
                                 <br>
-                                <center><button type="submit" class="btn btn-dark" style="padding-right: 160px;padding-left: 160px; border-radius: 100px;">update password</button></center>
+                                <center><button type="submit" class="btn btn-dark" style="padding-right: 160px;padding-left: 160px; border-radius: 100px;">Thay đổi mật khẩu</button></center>
                             </form>
                             <br><br>
 
@@ -248,9 +249,9 @@
                 var passwordError = document.getElementById("passwordError");
 
                 if (password === "") {
-                    passwordError.innerHTML = "Please enter a password (not all spaces).";
+                    passwordError.innerHTML = "Mật khẩu không được để toàn khoảng Trắng.";
                 } else if (!passwordPattern.test(password)) {
-                    passwordError.innerHTML = "Password must be at least 8 characters long and include at least one letter, one number, and one special character.";
+                    passwordError.innerHTML = "Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.";
                 } else {
                     passwordError.innerHTML = "";
                 }
@@ -262,9 +263,9 @@
                 var confirmPasswordError = document.getElementById("confirmPasswordError");
 
                 if (confirmPass === "") {
-                    confirmPasswordError.innerHTML = "Please enter a password (not all spaces).";
+                    confirmPasswordError.innerHTML = "Mật khẩu không được để toàn khoảng Trắng.";
                 } else if (password !== confirmPass) {
-                    confirmPasswordError.innerHTML = "Passwords do not match.";
+                    confirmPasswordError.innerHTML = "Mất khẩu không hợp lệ.";
                 } else {
                     confirmPasswordError.innerHTML = "";
                 }
@@ -274,7 +275,7 @@
                 var fullNameValue = this.value.trim();
                 var nameError = document.getElementById("nameError");
                 if (fullNameValue === "" || !fullNameValue.replace(/\s/g, '').length) {
-                    nameError.innerHTML = "Please enter a valid Name (not all spaces).";
+                    nameError.innerHTML = "Họ và tên không được để toàn khoảng Trắng.";
                 } else {
                     nameError.innerHTML = "";
                 }
@@ -286,22 +287,22 @@
                 var fullName = document.getElementById('fullName').value;
 
                 if (password === "" || confirmPass === "") {
-                    alert("Please enter a password (not all spaces).");
+                    alert("Mật khẩu không được để trống");
                     return false;
                 }
 
                 if (password !== confirmPass) {
-                    alert("Passwords do not match.");
+                    alert("Mất khẩu không hợp lệ.");
                     return false;
                 }
 
                 if (!passwordPattern.test(password)) {
-                    alert("Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
+                    alert("Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.");
                     return false;
                 }
 
                 if (fullName.trim() === '') {
-                    alert('Full Name không được để trống');
+                    alert('Họ và tên không được để toàn khoảng Trắng');
                     return false;
                 }
 

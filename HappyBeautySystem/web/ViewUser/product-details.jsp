@@ -60,8 +60,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./home"><i class="fa fa-home"></i> Home</a>
-                            <a href="/HappyBeautySystem/product">Product </a>
+                            <a href="./home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <a href="/HappyBeautySystem/product">Sản phẩm </a>
                             <span>${Category.categoryName} </span>
                         </div>
                     </div>
@@ -98,83 +98,30 @@
 
                     <div class="col-lg-6">
                         <div class="product__details__text">
-                            <h3>Name: ${ProductData.getProductName()}<span>Description: ${ProductData.getShortDes()}</span></h3>
-                            <h4 style="color: #008ce6; font-weight: bold">Brand: ${ProductData.getCompanyName()}</h4>
+                            <h3>${ProductData.getProductName()}</h3>
+                            <h4 style="color: #008ce6; font-weight: bold">Hãng: ${ProductData.getCompanyName()}</h4>
                             <div class="rating">
+                                <span style="color: #ddb100; font-weight: bold; font-size: 14px">${avgRating}  </span>
                                 <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span>( Reviews: ${avgRating} )</span>
-                            </div>
-                            <div id="field-price" class="product__details__price">Price: $ ${price}</div>
 
-                            <!--<div class="">Category: ${requestScope.Category.categoryName}</div>-->
+                                <span>(</span><span style="color: black; font-size: 13px">${countReview}</span><span>Đánh Giá )</span>
+                            </div>
+                            <span>Mô tả: ${ProductData.getShortDes()}</span>
+
+                            <div id="field-price" class="product__details__price">Giá: ${price} VNĐ</div>
+
+                            <div style="color: black; font-weight: bold">Hướng dẫn sử dụng:</div>
                             <p>${ProductData.getLongDes()}</p>
-                            <div id="field-quantity" class="quantity" style="color: black; font-size: 13px; font-weight: 600;  margin-top: 15px;">
-                                Quantity: ${quantitySize}
-                            </div>
-                            <div class="product__details__button">
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        document.getElementById("quantity").oninput = function () {
-                                            var quantity = this.value;
-                                            var maxQuantity = parseInt(document.getElementById("quantity").getAttribute('max'));
-                                            if (quantity === "") {
-                                                document.getElementById("textError").innerHTML = "Please enter number!";
-                                            } else if (parseInt(quantity) < 1) { // check number < 1
-                                                document.getElementById("textError").innerHTML = "Quantity must be greater than 0";
-                                            } else if (parseInt(quantity) > maxQuantity) { // check number < 1
-                                                document.getElementById("textError").innerHTML = "Quantity must be less than or equal to " + maxQuantity;
-                                            } else {
-                                                document.getElementById("textError").innerHTML = "";
-                                            }
-                                        };
-                                    });
-                                </script>
-
-                                <div id="field-quantity">
-                                    <input style ="border: 2px solid #fddfdf;
-                                           border-radius: 40px;
-                                           width: 120px;
-                                           height: 50px;
-                                           text-align: center;
-                                           background-color: #fddfdf;
-                                           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-                                           margin-bottom: 10px; margin-left: 25px" 
-                                           min = "1" max = ${quantitySize} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" >
-                                </div>
-
-                                <div style="display: block; text-align: center;">
-                                    <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
-                                </div>
-
-                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_cart"></span> Add to cart</a>
-                                <div>
-                                    <ul>
-                                        <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                                    </ul>  
-                                </div>
-
-                            </div>
                             <div class="product__details__widget">
                                 <ul>
-
                                     <li>
-                                        <span>Availability:</span>
-                                        <div class="stock__checkbox">
-                                            <label for="stockin">
-                                                In Stock
-                                                <input type="checkbox" id="stockin">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                        <span>Trạng thái:</span>
+                                        <div class="stock__checkbox" id="stock-status">
+                                            <!--Status-->
                                         </div>
                                     </li>
                                     <li>
-                                        <span>Available color:</span>
+                                        <span>Màu:</span>
                                         <div class="color__checkbox">
 
                                             <label for="grey">
@@ -186,13 +133,13 @@
                                     <script>
                                         function updatePriceQuantity(element) {
                                             // Get the price from the button's attribute, Update the price display
-                                            var price = parseFloat(element.getAttribute('price')).toFixed(2);
-                                            document.getElementById('field-price').innerHTML = 'Price: $ ' + price;
+                                            var price = parseFloat(element.getAttribute('price')).toFixed(0);
+                                            document.getElementById('field-price').innerHTML = 'Giá: ' + price + ' VNĐ';
                                             // Update the hidden price input
                                             document.getElementById('price').value = price;
 
                                             var quantitySize = element.getAttribute('quantitySize');
-                                            document.getElementById('field-quantity').innerHTML = 'Quantity: ' + quantitySize;
+                                            document.getElementById('field-quantity').innerHTML = 'Số lượng: ' + quantitySize;
                                             document.getElementById('field-quantity').setAttribute('quantitySize', quantitySize);
                                             document.getElementById('quantity').setAttribute('max', quantitySize);
 
@@ -220,6 +167,13 @@
 
                                             // Add the active class to the clicked button
                                             element.classList.add('active');
+                                            // Update the stock status based on quantitySize
+                                            var stockStatusElement = document.getElementById('stock-status');
+                                            if (quantitySize > 0) {
+                                                stockStatusElement.innerHTML = '<p style="color: #2bba00; font-weight: bold">Còn hàng</p>';
+                                            } else {
+                                                stockStatusElement.innerHTML = '<p style="color: #ea0b4e; font-weight: bold">Hết hàng</p>';
+                                            }
                                         }
                                         // Initialize the fields with the first button's attributes on page load
                                         window.onload = function () {
@@ -230,7 +184,7 @@
                                         }
                                     </script>
                                     <li>
-                                        <span>Available size:</span>
+                                        <span>Kích cỡ:</span>
                                         <div class="size__btn">
                                             <div class="button-holder">
                                                 <c:forEach items="${sizeList}" var="s">
@@ -247,11 +201,61 @@
                                     </li>
 
                                     <li>
-                                        <span>Promotions:</span>
-                                        <p>Free shipping</p>
+                                        <span>Vận chuyển:</span>
+                                        <p style="color: #2bba00; font-weight: bold">Miễn phí giao hàng</p>
                                     </li>
                                 </ul>
                             </div>
+                            <hr></hr>
+                            <div id="field-quantity" class="quantity" style="color: black; font-size: 13px; font-weight: 600;  margin-top: 15px;">
+                                Số lượng: ${quantitySize}
+                            </div>
+                            <div class="product__details__button">
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        document.getElementById("quantity").oninput = function () {
+                                            var quantity = this.value;
+                                            var maxQuantity = parseInt(document.getElementById("quantity").getAttribute('max'));
+                                            if (quantity === "") {
+                                                document.getElementById("textError").innerHTML = "Vui lòng nhập số!";
+                                            } else if (parseInt(quantity) < 1) { // check number < 1
+                                                document.getElementById("textError").innerHTML = "Số lượng lớn hơn 0";
+                                            } else if (parseInt(quantity) > maxQuantity) { // check number < 1
+                                                document.getElementById("textError").innerHTML = "Số lượng phải lớn hơn hoặc bằng " + maxQuantity;
+                                            } else {
+                                                document.getElementById("textError").innerHTML = "";
+                                            }
+                                        };
+                                    });
+                                </script>
+
+                                <div id="field-quantity">
+                                    <input style ="border: 2px solid #fddfdf;
+                                           border-radius: 40px;
+                                           width: 120px;
+                                           height: 50px;
+                                           text-align: center;
+                                           background-color: #fddfdf;
+                                           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+                                           margin-bottom: 10px; margin-left: 50px" 
+                                           min = "1" max = ${quantitySize} id="quantity" name="quantity" type="number" class="form-control" placeholder="1" >
+                                </div>
+
+                                <div style="display: block; text-align: center;">
+                                    <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
+                                </div>
+
+                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_cart"></span> Thêm vào giỏ hàng</a>
+                                <div style="margin-top: 19px;">
+                                    <ul>
+                                        <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
+                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                    </ul>  
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
 
@@ -259,31 +263,31 @@
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả chi tiết</a>
                                 </li>
                                 <!--                                <li class="nav-item">
                                                                     <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
                                                                 </li>-->
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( ${countReview} )</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá sản phẩm ( ${countReview} )</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <h5 style="font-weight: 600;text-transform: uppercase">Description</h5>
+                                    <h5 style="font-weight: 600;text-transform: uppercase">Mô tả chi tiết</h5>
                                     <p>${ProductData.getLongDes()}</p>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
                                 <div class="blog__details__comment">
-                                    <h5>Write Comment</h5>
-                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
+                                    <h5>Viết Đánh Giá</h5>
+                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&product_category=${ProductData.getCateId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
                                         <div class="form-group">
-                                            <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your comment here..." required></textarea>
+                                            <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Viết đánh giá của quý khách ở đây..." required></textarea>
                                             <span id="nameError" style="color: red;"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="rating">Rating:</label>
+                                            <label for="rating">Mức độ hài lòng:</label>
                                             <div id="rating">
                                                 <label>
                                                     <input type="radio" name="rating" value="1" required> &#9733;
@@ -302,9 +306,9 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="site-btn">Submit Comment</button>
+                                        <button type="submit" class="site-btn">Gửi đánh giá</button>
                                     </form>
-                                    <h5 style="margin-top: 50px">${countReview} Comment(s)</h5>
+                                    <h5 style="margin-top: 50px">${countReview} Đánh Giá</h5>
                                     <c:forEach items="${feedback}" var="feedback">
                                         <div class="blog__comment__item">
                                             <div class="blog__comment__item__pic">
@@ -333,7 +337,7 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="related__title">
-                            <h5>RELATED PRODUCTS</h5>
+                            <h5>SẢN PHẨM LIÊN QUAN</h5>
                         </div>
                     </div>
                     <!--Similar product-->
@@ -342,10 +346,10 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
                                     <c:if test="${top8New.contains(pc.getProductId())}">
-                                        <div class="label new" style="border-radius: 10px;">New</div>
+                                        <div class="label new" style="border-radius: 10px;">Mới</div>
                                     </c:if>
                                     <c:if test="${lowInStock.contains(pc.getProductId())}">
-                                        <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Low In Stock</div>
+                                        <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Sắp hết hàng</div>
                                     </c:if>
                                     <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
@@ -355,15 +359,12 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="product?action=productdetail&product_id=${pc.getProductId()}">${pc.getProductName()}</a></h6>
+                                    <h5><a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">${pc.getProductName()}</a></h5>
                                     <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                        <span style="color: #ddb100; font-weight: bold; font-size: 14px">${avgRating}  </span>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <div class="product__price">$ ${pc.getPrice()}</div>
+                                    <div class="product__price" style="color: #ea5d8c; font-size: 16px;">${pc.getPrice()} VNĐ</div>
                                 </div>
                             </div>
                         </div>
@@ -389,25 +390,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                            document.addEventListener("DOMContentLoaded", function () {
-                                                function formatFullName(name) {
-                                                    name = name.trim().replace(/\s+/g, ' ');
-                                                    return name;
-                                                }
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        function formatFullName(name) {
+                                            name = name.trim().replace(/\s+/g, ' ');
+                                            return name;
+                                        }
 
-                                                document.getElementById("comment").oninput = function () {
-                                                    var name = this.value; 
-                                                    this.value = name; 
-                                                    if (name === "") {
-                                                        document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-                                                    } else if (/^\s/.test(name)) {
-                                                        document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-                                                    } else {
-                                                        document.getElementById("nameError").innerHTML = "";
-                                                    }
-                                                };
-                                                
-                                            });
+                                        document.getElementById("comment").oninput = function () {
+                                            var name = this.value;
+                                            this.value = name;
+                                            if (name === "") {
+                                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                                            } else if (/^\s/.test(name)) {
+                                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                                            } else {
+                                                document.getElementById("nameError").innerHTML = "";
+                                            }
+                                        };
+
+                                    });
         </script>
     </body>
 

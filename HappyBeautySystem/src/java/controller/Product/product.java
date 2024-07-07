@@ -390,13 +390,14 @@ public class product extends HttpServlet {
         } else {
             if (service.equals("addfeedback")) {
                 int productId = Integer.parseInt(request.getParameter("product_id"));
+                int catId = Integer.parseInt(request.getParameter("product_category"));
                 int user_id = Integer.parseInt(request.getParameter("user_id"));
                 int rating = Integer.parseInt(request.getParameter("rating"));
                 String comment = request.getParameter("comment");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String createDate = sdf.format(new Date());
-                f.addFeedback(new Feedback(productId, user_id, rating, comment, createDate));
-                response.sendRedirect("product");
+                f.addFeedback2(new Feedback(productId, user_id, rating, comment, createDate));
+                response.sendRedirect("product?action=productdetail&product_id=" + productId + "&product_category=" + catId);
             }
         }
     }

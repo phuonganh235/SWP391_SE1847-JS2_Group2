@@ -2,7 +2,6 @@
 <%@page import="dal.ProductDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.WishList"%>
-<%--<%@page import="model.ProductCart"%>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -30,6 +29,19 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+            }
+            tr:hover {
+                background-color: #ffe2ff;
+            }
+        </style>
     </head>
 
     <body>
@@ -43,8 +55,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__links">
-                            <a href="./home"><i class="fa fa-home"></i> Home</a>
-                            <span>Your Favorite List</span>
+                            <a href="./home"><i class="fa fa-home"></i> Trang chủ</a>
+                            <span>Danh sách sản phẩm yêu thích của bạn</span>
                         </div>
                     </div>
                 </div>
@@ -57,7 +69,7 @@
                 <div class="row" style="text-align: center;">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <div class="cart__btn">
-                            <a href="product">Go Shopping</a>
+                            <a href="product">Mua sắm</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
@@ -65,7 +77,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <div class="cart__btn">
-                            <a href="wishlist?service=deleteAllWishList">Clear All List</a>
+                            <a href="wishlist?service=deleteAllWishList">Xóa tất cả</a>
                         </div>
                     </div>
                 </div>
@@ -74,15 +86,6 @@
                     <div class="col-lg-12">
                         <div class="shop__cart__table">
                             <table>
-                                <!--                                <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th style="margin-left :40px">Favorite Product</th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                </thead>-->
                                 <tbody>
                                     <%
                                         List<WishList> list = (List<WishList>) request.getAttribute("wishList");
@@ -97,47 +100,41 @@
                                         <td class="cart__product__item">
                                             <a
                                                 href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
-                                                <img style="height: 170px; width: 135px; margin-left :50px"
+                                                <img style = "border: 4px solid #fddfdf; border-radius: 40px; height: 185px; width: 150px; margin-left :50px"
                                                      src="<%= pro.getPathImage()%>" alt=""></a>
-                                            <div class="cart__product__item__title">
+                                                     <div class="cart__product__item__title" style="margin-top: 38px; margin-left: 300px">
                                                 <h6><a
-                                                        href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a>
+                                                        href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%> <%= pro.getCompanyName()%></a>
                                                 </h6>
-                                                <div class="rating">
+<!--                                                <div class="rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="cart__price">$<%= String.format("%.2f", pro.getPrice())%></div>
+                                                </div>-->
+                                                <div class="cart__price"><%= String.format("%.0f", pro.getPrice())%> VNĐ</div>
 
                                             </div>
                                         </td>
-                                        <td class="cart__product__item">
+                                        <td class="cart__product__item__title">
                                             <div class="product__details__button">
                                                 <a href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"
                                                    class="cart-btn" 
                                                    style="margin-top: 40px; background-color: #84abfa; height: 50px; width: 200px;
                                                    border: 4px; border-radius: 40px;
                                                    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-                                                   text-align: center"><span class="icon_bag_alt"></span> View Detail</a>
+                                                   text-align: center"><span class="icon_bag_alt"></span> Xem chi tiết</a>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="product__details__button">
-                                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=<%= pro.getProductId()%>" class="cart-btn" 
+                                                <a href="wishlist?service=deleteWishList&productId=<%= wish.getProductId()%>&userId=<%= wish.getUserId()%>" class="cart-btn" 
                                                    style="margin-top: 40px; background-color: #f94874; height: 50px; width: 200px;
                                                    border: 4px; border-radius: 40px;
                                                    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-                                                   text-align: center"><span class="icon_cart"></span> Add to cart</a>
+                                                   text-align: center"><span class="icon_trash"></span> Bỏ yêu thích</a>
                                             </div>
-                                        </td>
-                                        <td class="cart__close">
-                                            <a
-                                                href="wishlist?service=deleteWishList&productId=<%= wish.getProductId()%>&userId=<%= wish.getUserId()%>">
-                                                <span class="icon_close"></span>
-                                            </a>
                                         </td>
                                     </tr>
                                     <%
@@ -145,7 +142,7 @@
                                     } else {
                                     %>
                                     <tr>
-                                        <td colspan="5" class="text-center">Your favorite list is empty</td>
+                                        <td colspan="5" class="text-center">Danh sách yêu thích của bạn trống!</td>
                                     </tr>
                                     <%
                                         }
@@ -155,15 +152,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="text-align: center;">
-
-                    <!--                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <button style="background-color: #f94874; height: 45px; width: 160px; border: 4px; border-radius: 40px;
-                                                    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);"
-                                                    onclick="confirm(this)" >Add To Cart</button>
-                                        </div>-->
-
-                </div>
+               
 
         </section>
         <!-- Shop Cart Section End -->

@@ -33,6 +33,7 @@ public class CouponsDAO extends DBContext {
                 coupon.setDiscountAmount(rs.getDouble("DiscountAmount"));
                 coupon.setStartDate(rs.getString("StartDate"));
                 coupon.setEndDate(rs.getString("EndDate"));
+                coupon.setQuantity(rs.getInt("Quantity"));
                 coupon.setIsActive(rs.getInt("IsActive"));
                 couponList.add(coupon);
             }
@@ -59,7 +60,7 @@ public class CouponsDAO extends DBContext {
 
     public int insertCoupons(Coupons coupon) {
         int n = 0;
-        String sql = "INSERT INTO [dbo].[Coupons] ([CouponCode],[Description],[DiscountAmount],[StartDate],[EndDate],[IsActive]) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO [dbo].[Coupons] ([CouponCode],[Description],[DiscountAmount],[StartDate],[EndDate],[Quantity] ,[IsActive]) VALUES(?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -68,7 +69,8 @@ public class CouponsDAO extends DBContext {
             pre.setDouble(3, coupon.getDiscountAmount());
             pre.setString(4, coupon.getStartDate());
             pre.setString(5, coupon.getEndDate());
-            pre.setInt(6, coupon.getIsActive());
+            pre.setInt(6, coupon.getQuantity());
+            pre.setInt(7, coupon.getIsActive());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,6 +87,7 @@ public class CouponsDAO extends DBContext {
                 + "     [DiscountAmount] = ?,"
                 + "     [StartDate] = ?,"
                 + "     [EndDate] = ?,"
+                + "     [Quantity] = ?,"
                 + "     [IsActive] = ?"
                 + " WHERE [CouponId] = ?";
 
@@ -95,8 +98,9 @@ public class CouponsDAO extends DBContext {
             pre.setDouble(3, coupon.getDiscountAmount());
             pre.setString(4, coupon.getStartDate());
             pre.setString(5, coupon.getEndDate());
-            pre.setInt(6, coupon.getIsActive());
-            pre.setInt(7, coupon.getCouponsId());
+            pre.setInt(6, coupon.getQuantity());
+            pre.setInt(7, coupon.getIsActive());
+            pre.setInt(8, coupon.getCouponsId());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,6 +123,7 @@ public class CouponsDAO extends DBContext {
                 coupon.setDiscountAmount(rs.getDouble("DiscountAmount"));
                 coupon.setStartDate(rs.getString("StartDate"));
                 coupon.setEndDate(rs.getString("EndDate"));
+                coupon.setQuantity(rs.getInt("Quantity"));
                 coupon.setIsActive(rs.getInt("IsActive"));
                 return coupon;
             }
@@ -164,28 +169,61 @@ public class CouponsDAO extends DBContext {
         return uList;
     }
 
-    public int count(String search) {
-        int n = 0;
-        String sql = "select count(*) from Coupons where CouponCode like ?";
+    public Coupons getCouponByCode(String code) {
+        String sql = "SELECT * FROM [ECommerce2].[dbo].[Coupons] WHERE CouponCode = ? AND Quantity > 0 AND IsActive = 1 AND GETDATE() BETWEEN StartDate AND EndDate";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, "%" + search + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return rs.getInt(1);
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, code);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Coupons(
+                        rs.getInt("CouponId"),
+                        rs.getString("CouponCode"),
+                        rs.getString("Description"),
+                        rs.getDouble("DiscountAmount"),
+                        rs.getString("StartDate"),
+                        rs.getString("EndDate"),
+                        rs.getInt("Quantity"),
+                        rs.getInt("IsActive")
+                );
             }
         } catch (SQLException ex) {
             Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return n;
+        return null;
+    }
+
+    public boolean updateCouponQuantity(String code) {
+        String sql = "UPDATE Coupons SET Quantity = Quantity - 1 WHERE CouponCode = ? AND Quantity > 0";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, code);
+            int affectedRows = st.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     public static void main(String[] args) {
-        CouponsDAO dao = new CouponsDAO();
-//        Coupons newCou = new Coupons(28, "sdfsdfsdf", "dsfsdfdsf", 10, "", "", 0);
-//        dao.updateCoupon(newCou);
-        int count = dao.count("S");
-        System.out.println(count);
+        CouponsDAO couponsDAO = new CouponsDAO();
+        // Test with a sample coupon code
+        String couponCode = "YJ450E"; 
 
+        Coupons coupon = couponsDAO.getCouponByCode(couponCode);
+
+        if (coupon != null) {
+            System.out.println("Coupon found:");
+            System.out.println("ID: " + coupon.getCouponsId());
+            System.out.println("Code: " + coupon.getCode());
+            System.out.println("Description: " + coupon.getDescription());
+            System.out.println("Discount Amount: " + coupon.getDiscountAmount());
+            System.out.println("Start Date: " + coupon.getStartDate());
+            System.out.println("End Date: " + coupon.getEndDate());
+            System.out.println("Quantity: " + coupon.getQuantity());
+            System.out.println("isActive: " + coupon.getIsActive());
+        } else {
+            System.out.println("Coupon not found or invalid.");
+        }
     }
 }
