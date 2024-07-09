@@ -175,9 +175,27 @@ public class ProductDAO extends DBContext {
         return product;
     }
 
+//    public ArrayList<Product> getProductByCategory(int category_id) {
+//        ArrayList<Product> list = new ArrayList<>();
+//        String sql = "select c.CategoryName , p.ProductId, p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+//                + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
+//                + "WHERE p.CategoryId = ?";
+//        try {
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setInt(1, category_id);
+//            ResultSet rs = st.executeQuery();
+//            while (rs.next()) {
+//                Category c = new Category(rs.getString(1));
+//                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
     public ArrayList<Product> getProductByCategory(int category_id) {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "select c.CategoryName , p.ProductId, p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+        String sql = "select *\n"
                 + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
                 + "WHERE p.CategoryId = ?";
         try {
@@ -186,7 +204,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,7 +326,7 @@ public class ProductDAO extends DBContext {
         String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
                 + "  p.[ShortDescription], p.[Price], p.[pathImage]\n"
                 + "  FROM [Product] p left join [Category] c on c.CategoryId = p.CategoryId\n"
-                + "  where p.[ProductName] like ?";
+                + "  where p.[ProductName] like N?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -370,7 +390,7 @@ public class ProductDAO extends DBContext {
     // Sort Product from low to hight
     public ArrayList<Product> getProductLow() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "Select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+        String sql = "Select *\n"
                 + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
                 + "ORDER BY p.Price";
         try {
@@ -378,7 +398,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception
@@ -389,7 +411,7 @@ public class ProductDAO extends DBContext {
     //Sort Product from low to hight
     public ArrayList<Product> getProductHigh() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "Select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+        String sql = "Select *\n"
                 + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
                 + "ORDER BY p.Price DESC";
         try {
@@ -397,7 +419,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception
@@ -409,7 +433,7 @@ public class ProductDAO extends DBContext {
 
     public ArrayList<Product> getProductAZ() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+        String sql = "select *\n"
                 + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
                 + "ORDER BY p.ProductName";
         try {
@@ -417,7 +441,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception
@@ -429,7 +455,7 @@ public class ProductDAO extends DBContext {
 
     public ArrayList<Product> getProductZA() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "select c.CategoryName , p.ProductId , p.ProductName, p.ShortDescription, p.Price, p.pathImage\n"
+        String sql = "select *\n"
                 + "from Product p inner join Category c on p.CategoryId = c.CategoryId \n"
                 + "ORDER BY p.ProductName DESC";
         try {
@@ -437,7 +463,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception
@@ -652,7 +680,7 @@ public class ProductDAO extends DBContext {
         }
         return pList;
     }
-    
+
     // Updates the IsActive status of a product in the Product table in the database by its ID
     public void updateProductActiveStatus(int productId, boolean isActive) {
         String sql = "UPDATE Product SET IsActive = ? WHERE ProductId = ?";

@@ -259,7 +259,7 @@
                                                     </a>
                                                 </li>
                                                 <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
-                                                        <span class="icon_bag_alt"></span></a>
+                                                        <span class="icon_cart"></span></a>
                                                 </li>
                                             </ul>
                                         </div>

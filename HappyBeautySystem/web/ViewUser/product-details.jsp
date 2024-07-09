@@ -105,6 +105,7 @@
                                 <i class="fa fa-star"></i>
 
                                 <span>(</span><span style="color: black; font-size: 13px">${countReview}</span><span>Đánh Giá )</span>
+                                <span>(</span><span style="color: red; font-size: 13px">${countFavourite}</span><span>Lượt Yêu Thích )</span>
                             </div>
                             <span>Mô tả: ${ProductData.getShortDes()}</span>
 
@@ -250,7 +251,7 @@
                                 <div style="margin-top: 19px;">
                                     <ul>
                                         <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                        <!--<li><a href="#"><span class="icon_adjust-horiz"></span></a></li>-->
                                     </ul>  
                                 </div>
 
@@ -355,7 +356,7 @@
                                         <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
                                     <ul class="product__hover">
                                         <li><a href="wishlist?service=addWishList&id=${pc.getProductId()}"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${pc.getProductId()}"><span class="icon_cart"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
