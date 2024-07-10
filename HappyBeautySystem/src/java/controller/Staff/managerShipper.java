@@ -129,7 +129,7 @@ public class managerShipper extends HttpServlet {
                             }
                         }
                         request.setAttribute("op", "1");
-                        request.setAttribute("option", "5");
+                        request.setAttribute("option", "6");
                         request.setAttribute("listOrder", listOrder);
                         RequestDispatcher dispatcher5 = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");
                         dispatcher5.forward(request, response);
@@ -196,7 +196,8 @@ public class managerShipper extends HttpServlet {
 
                 int orderID = Integer.parseInt(request.getParameter("orderID"));
                 String content = request.getParameter("reason");
-                daoInfor.updateNoteByOrderID(orderID, "-" + content);
+                //daoInfor.updateNoteByOrderID(orderID, "-" + content);
+                daoInfor.updateNoteShipAgain(orderID, content);
                 //
                 daoUser.updateUserStatus(userId, 3);
                 orderDAO.updateOrderStatus(orderID, 5);

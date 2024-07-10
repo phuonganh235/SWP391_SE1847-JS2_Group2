@@ -135,16 +135,18 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Quận / Huyện</label>
-                                            <select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện">
-                                                <option value="0">Quận / Huyện</option>
+                                            <select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện" required>
+                                                <option value="">Chọn Quận Huyện</option>
+                                                <!-- Các option khác của quận/huyện sẽ được thêm vào từ mã JavaScript -->
                                             </select>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Phường / Xã</label>
-                                            <select class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã">
-                                                <option value="0">Phường / Xã</option>
+                                            <select required class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã" required> 
+                                                <option value="">Phường / Xã</option>
                                             </select>
                                         </div>
                                     </div>
@@ -164,7 +166,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="categoryName">Ghi chú</label>
-                                            <input type="text" class="form-control" id="phone" name="note" value="" required>
+                                            <input type="text" class="form-control" id="phone" name="note" value="" >
                                         </div>
                                     </div>
                                     <div class="row">
@@ -255,6 +257,7 @@
                                         <input type="hidden" name="total_cost" value="<%= cartTotal%>"/>
                                     </label>
                                 </div>
+
                                 <input type="hidden" id="selectedQuan" name="selectedQuan">
                                 <input type="hidden" id="selectedPhuong" name="selectedPhuong">
                                 <input type="hidden" name="couponCode" id="appliedCouponCode" value="">
@@ -486,16 +489,67 @@
                 $("#selectedPhuong").val(selectedPhuong);
             });
         });
-        
-        
-        $(document).ready(function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const couponCode = urlParams.get('couponCode');
-    if (couponCode) {
-        document.getElementById('appliedCouponCode').value = couponCode;
-    }
-});
+
+
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const couponCode = urlParams.get('couponCode');
+            if (couponCode) {
+                document.getElementById('appliedCouponCode').value = couponCode;
+            }
+        });
+
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("checkoutForm"); // Đổi "checkoutForm" thành ID của form của bạn
+
+            form.addEventListener("submit", function (event) {
+                var checkboxes = document.querySelectorAll(".paymentMethod");
+                var isChecked = false;
+
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        isChecked = true;
+                    }
+                });
+
+                if (!isChecked) {
+                    event.preventDefault(); // Ngăn form submit nếu không có checkbox nào được chọn
+                    alert("Vui lòng chọn ít nhất một phương thức thanh toán.");
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("checkoutForm"); // Replace "checkoutForm" with your form ID
+
+            form.addEventListener("submit", function (event) {
+                var quanSelect = document.getElementById("quan");
+                var phuongSelect = document.getElementById("phuong");
+                var isChecked = true;
+
+                // Check if Quận / Huyện is selected
+                if (quanSelect.value === "") {
+                    isChecked = false;
+                    alert("Vui lòng chọn Quận / Huyện.");
+                }
+
+                // Check if Phường / Xã is selected
+                if (phuongSelect.value === "0") {
+                    isChecked = false;
+                    alert("Vui lòng chọn Phường / Xã.");
+                }
+
+                // Prevent form submission if any required field is not selected
+                if (!isChecked) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

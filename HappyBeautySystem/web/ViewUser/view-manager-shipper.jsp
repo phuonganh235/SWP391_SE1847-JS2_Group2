@@ -109,7 +109,7 @@
                             <h2 class="content"><strong>Các đơn hàng giao lại</strong></h2>
                         </c:when>
                         <c:when test="${option == '6'}">
-                            <h2 class="content"><strong>Các đơn hàng bị bom</strong></h2>
+                            <h2 class="content"><strong>Các đơn hàng bị bom </strong></h2>
                         </c:when>
                         <c:otherwise>
                             <h2 class="content">Trạng thái đơn hàng không xác định</h2>

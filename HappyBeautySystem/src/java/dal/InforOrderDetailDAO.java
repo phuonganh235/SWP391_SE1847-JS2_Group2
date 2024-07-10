@@ -61,6 +61,21 @@ public class InforOrderDetailDAO extends DBContext {
         }
     }
 
+    public void updateNoteShipAgain(int orderID, String newNote) {
+        String sqlUpdate = "UPDATE InforOrderDetail SET note = ? WHERE orderID = ?";
+
+        try (PreparedStatement updateStmt = connection.prepareStatement(sqlUpdate)) {
+            // Thiết lập tham số cho câu truy vấn cập nhật
+            updateStmt.setString(1, newNote);
+            updateStmt.setInt(2, orderID);
+
+            // Thực hiện cập nhật
+            updateStmt.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(InforOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public InforOrderDetail getInforOrderDetailByOrderId(int orderId) {
         InforOrderDetail inforOrderDetail = null;
         String sql = "SELECT orderID, city, district, ward, addressDetail, note, froms, tos, dateOrder FROM InforOrderDetail WHERE orderID = ?";
@@ -86,7 +101,7 @@ public class InforOrderDetailDAO extends DBContext {
         }
         return inforOrderDetail;
     }
-    
+
     public static void main(String[] args) {
         InforOrderDetailDAO dao = new InforOrderDetailDAO();
         dao.updateNoteByOrderID(3020, "nhé");

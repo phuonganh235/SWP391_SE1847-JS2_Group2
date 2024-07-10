@@ -77,7 +77,7 @@
         <!-- Success Message Section Begin -->
         <div class="container status-container">
             <h2>Danh Sách Đơn Nhiệm Vụ Của Shipper</h2>
-            <p>Mọi nhiệm vụ cảu ship được giao tại đây</p>
+            <p>Mọi nhiệm vụ của ship được giao tại đây</p>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
@@ -106,7 +106,7 @@
                 <thead>
                     <tr >
                         <th class="text-center">Tên sản phẩm</th>
-                        <th class="text-center">Giá bán</th>
+                        <th class="text-center">Số lượng</th>
                         <th class="text-center">Tổng tiền</th>
                     </tr>
                 </thead>

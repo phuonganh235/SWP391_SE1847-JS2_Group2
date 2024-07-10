@@ -665,10 +665,29 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public int getProductQuantity(int productId) {
+    int quantity = 0;
+    String sql = "SELECT Quantity FROM Product WHERE ProductId = ?";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, productId);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            quantity = rs.getInt("Quantity");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return quantity;
+}
+
 
 //    Test
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
+//        dao.getProductQuantity(1);
+        System.out.println(dao.getProductQuantity(1));
 
 //        dao.updateProductQuantityTru(1, 3);
 //        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);

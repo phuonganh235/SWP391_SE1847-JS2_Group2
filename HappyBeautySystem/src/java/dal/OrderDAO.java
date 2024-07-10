@@ -159,22 +159,44 @@ public class OrderDAO extends DBContext {
         return userID;
     }
 
-    //delete 
     public boolean deleteOrderAndDetails(int orderId) {
         String deleteOrderDetailSQL = "DELETE FROM OrderDetail WHERE OrderId = ?";
+        String deleteOrderInforSQL = "DELETE FROM InforOrderDetail WHERE OrderId = ?";
         String deleteOrderSQL = "DELETE FROM Orders WHERE OrderId = ?";
         boolean isDeleted = false;
         try {
+//            // Check if there are any OrderDetails referencing the order
+//            String checkOrderDetailSQL = "SELECT COUNT(*) AS count FROM OrderDetail WHERE OrderId = ?";
+//            try (PreparedStatement preCheckOrderDetail = connection.prepareStatement(checkOrderDetailSQL)) {
+//                preCheckOrderDetail.setInt(1, orderId);
+//                ResultSet rs = preCheckOrderDetail.executeQuery();
+//                if (rs.next()) {
+//                    int count = rs.getInt("count");
+//                    if (count > 0) {
+//                        // There are still OrderDetails referencing this order, handle accordingly
+//                        System.out.println("Cannot delete order. There are still OrderDetails referencing it.");
+//                        return false;
+//                    }
+//                }
+//            }
+
             // Delete OrderDetail
             try (PreparedStatement preDeleteOrderDetail = connection.prepareStatement(deleteOrderDetailSQL)) {
                 preDeleteOrderDetail.setInt(1, orderId);
                 preDeleteOrderDetail.executeUpdate();
             }
+
+            // Delete InforOrderDetail
+            try (PreparedStatement preDeleteInforOrderDetail = connection.prepareStatement(deleteOrderInforSQL)) {
+                preDeleteInforOrderDetail.setInt(1, orderId);
+                preDeleteInforOrderDetail.executeUpdate();
+            }
+
             // Delete Orders
             try (PreparedStatement preDeleteOrder = connection.prepareStatement(deleteOrderSQL)) {
                 preDeleteOrder.setInt(1, orderId);
                 int rowsAffected = preDeleteOrder.executeUpdate();
-                isDeleted = rowsAffected > 0; // Nếu có ít nhất một dòng bị ảnh hưởng, thì việc xóa thành công.
+                isDeleted = rowsAffected > 0; // If at least one row affected, deletion successful
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -340,7 +362,7 @@ public class OrderDAO extends DBContext {
 
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
-        boolean check = dao.deleteOrderAndDetails(8);
+        boolean check = dao.deleteOrderAndDetails(2059);
         int n = dao.CountOrder();
 
     }
