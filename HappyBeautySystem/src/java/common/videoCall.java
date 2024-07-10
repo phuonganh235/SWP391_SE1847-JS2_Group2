@@ -2,42 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.Authentication;
+package common;
 
-import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
 
 /**
  *
  * @author phuan
  */
-public class Changepassword extends HttpServlet {
+public class videoCall extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                String old_password = request.getParameter("old_pass");
-                String new_password = request.getParameter("new_pass");
-                User user = new UserDAO().getUser(userId, old_password);
-
-                if (user == null) {
-                    request.setAttribute("errorOldpass", "Mật khẩu cũ không đúng ");
-                    request.getRequestDispatcher("ViewUser/home.jsp").forward(request, response);
-                } else {
-                    new UserDAO().changePassword(userId, new_password);
-                    request.setAttribute("changeSucces", "Password changed successfully");
-                    request.getRequestDispatcher("ViewUser/change-Password-Successfull.jsp").forward(request, response);
-                
-            }
-
+            String roomId = request.getParameter("roomId");
+            request.setAttribute("roomId", roomId);
+            request.getRequestDispatcher("ViewUser/videoCall.jsp").forward(request, response);
         }
     }
 

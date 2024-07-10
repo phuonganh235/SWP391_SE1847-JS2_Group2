@@ -1,11 +1,4 @@
-<%-- 
-    Document   : change-Password-Successfull
-    Created on : Jun 19, 2024, 6:09:14 PM
-    Author     : phuan
---%>
 
-
-<%@page import="java.util.ArrayList"%>
 <%@ page isErrorPage="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -42,9 +35,10 @@
 
         <!-- Success Message Section Begin -->
         <div class="container success-container">
-            <h2>Thay đổi mật khẩu thành công !!</h2>
-            <h4>Vui lòng đăng nhập lại </h4>
-            <a href="login" class="site-btn">Trờ về trang đăng nhập</a>
+            <h2>Đăng kí tư vấn thành công !!</h2>
+            <p>Yêu cầu của bạn sẽ được xử lý trong vòng 24h </p>
+            <p><strong>Bạn hãy chú  ý điện thoại và kiểm tra email chúng tôi sẽ liên hệ lại với bạn</strong></p>
+            <a href="/HappyBeautySystem/home" class="site-btn">Trở về trang chủ</a>
         </div>
         <footer class="footer">
             <div class="container">

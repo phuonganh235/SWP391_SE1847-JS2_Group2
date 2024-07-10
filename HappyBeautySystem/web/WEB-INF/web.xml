@@ -76,6 +76,14 @@
         <servlet-name>Coupons</servlet-name>
         <servlet-class>common.Coupons</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Consultation</servlet-name>
+        <servlet-class>common.Consultation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>videoCall</servlet-name>
+        <servlet-class>common.videoCall</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -147,5 +155,13 @@
     <servlet-mapping>
         <servlet-name>Coupons</servlet-name>
         <url-pattern>/coupon</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Consultation</servlet-name>
+        <url-pattern>/Consultation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>videoCall</servlet-name>
+        <url-pattern>/videocall</url-pattern>
     </servlet-mapping>
 </web-app>

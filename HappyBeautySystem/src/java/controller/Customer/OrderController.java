@@ -142,7 +142,7 @@ public class OrderController extends HttpServlet {
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
                         String orderType = "other";
-                        long amount = 1000000 * 100;
+                      long amount = Math.round(Double.parseDouble(request.getParameter("total_cost")) * 100);
                         String bankCode = "";
                         String vnp_TxnRef = ConfigVNpay.getRandomNumber(8);
                         String vnp_IpAddr = ConfigVNpay.getIpAddress(request);

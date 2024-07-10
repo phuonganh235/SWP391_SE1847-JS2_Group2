@@ -48,6 +48,7 @@
                 <div class="row">
                     <div class="col-lg-6 p-0">
                         <div class="categories__item categories__large__item set-bg"
+                            
                              data-setbg="ViewUser/img/shop/banner-5.jpg">
                             <div class="categories__text">
                                 <h1>HappyBeauty</h1>

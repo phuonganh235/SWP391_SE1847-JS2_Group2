@@ -158,7 +158,7 @@
                                             <td scope="row">${co.couponsId}</td>
                                             <td>${co.code}</td>        
                                             <td>${co.description}</td>                                      
-                                            <td>${co.discountAmount}</td>                                      
+                                            <td>${co.discountAmount}%</td>                                      
                                             <td>${co.startDate}</td>                                 
                                             <td>${co.endDate}</td>
                                             <td>${co.quantity}</td>
@@ -194,15 +194,7 @@
 
 
                 </div>
-                <c:set var="page" value="${page}"/>
-                <div class="col-lg-12 text-center">
-                    <div class="pagination__option">
-                        <c:forEach begin="${1}" end="${num}" var="i">
-                            <a href="product?page=${i}">${i}</a>
-                        </c:forEach>
-
-                    </div>
-                </div>
+        
 
             </div>
         </div>
@@ -243,7 +235,7 @@
                             </div>
                             <div class="mb-3 ">
                                 <label class="form-label" for="quantity">Số lượng</label>
-                                <input type="number" class="form-control"  id="quantity" name="quantity">
+                                <input type="number" class="form-control"  id="quantity" name="quantity" min="0"/>
                                 <div id="quantityError" class="form-text text-danger fst-italic"></div>
                             </div>
 
@@ -296,7 +288,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="updateQuantity">Số lượng</label>
-                                <input type="number" class="form-control"  id="updateQuantity" name="quantity" value="${couponUpdate.quantity}" >
+                                <input type="number" class="form-control"  id="updateQuantity" name="quantity" value="${couponUpdate.quantity}" min="0" >
                                 <div id="updateQuantityError" class="form-text text-danger fst-italic"></div>
                             </div>
 
