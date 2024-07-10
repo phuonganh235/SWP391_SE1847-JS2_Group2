@@ -73,15 +73,13 @@
         </head>
         <body>
             <!-- Sidebar Start -->
-
-                       <div class="sidebar pe-2 pb-3">
+            <div class="sidebar pe-2 pb-3">
                 <nav class="navbar bg-light navbar-light">
                     <a href="#" class="navbar-brand mx-3 mb-3">
                         <h3
                             class="text-primary"
                             style="
                             font-family: 'Pacifico', cursive;
-
                             font-size: 23px;
                             text-decoration: underline;
                             "
@@ -94,23 +92,19 @@
                         <div class="position-relative">
                             <a href="customerprofile?service=ViewProfile">
                                 <img
-
                                     class="app-sidebar__user-avatar"
                                     src="ViewAdmin/img/user.jpg"
                                     alt=""
                                     style="width: 80px; height: 80px"
-
-                                         />
+                                    />
                             </a>
-
                             <div
                                 class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"
                                 ></div>
                         </div>
                         <div class="ms-3">
                             <h6 class="mb-0">${sessionScope.inforUserLogin.getName()}</h6>
-
-                                  <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                            <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
                                 <span>Quản trị viên</span>
                             </c:if>
                             <c:if test="${sessionScope.inforUserLogin.roleId == 3}">
@@ -162,22 +156,22 @@
                         <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
                             <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
                         </a>
-                      <a
+                        <a
                             href="Consultation?service=listAll1"
                             class="nav-item nav-link"
                             ><i class="fa fa-chart-bar me-2"></i>Quản lý lịch tư vấn</a
                         >
-                        <a href="chart" class="nav-item nav-link">
-                            <i class="fa fa-chart-bar me-2"></i>Biểu đồ
-                        </a>
+                        <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                            <a href="chart" class="nav-item nav-link">
+                                <i class="fa fa-chart-bar me-2"></i>Biểu đồ
+                            </a>
+                        </c:if>
                         <a href="manageabout" class="nav-link">
                             <i class="far fa-file-alt me-2"></i>Giới thiệu
                         </a>
                     </div>
                 </nav>
             </div>
-
-
             <!-- Sidebar End -->
         </body>
     </html>

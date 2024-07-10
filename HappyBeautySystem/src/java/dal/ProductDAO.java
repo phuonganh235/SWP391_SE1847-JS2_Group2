@@ -323,10 +323,7 @@ public class ProductDAO extends DBContext {
     // Searches for products by product name
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.[CategoryName], p.[ProductId], p.[ProductName], \n"
-                + "  p.[ShortDescription], p.[Price], p.[pathImage]\n"
-                + "  FROM [Product] p left join [Category] c on c.CategoryId = p.CategoryId\n"
-                + "  where p.[ProductName] like N?";
+        String sql = "SELECT * FROM Product WHERE ProductName LIKE ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -334,7 +331,9 @@ public class ProductDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category c = new Category(rs.getString(1));
-                list.add(new Product(c, rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getString(6)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getFloat(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),
+                        rs.getInt(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getBoolean(15), rs.getString(16), rs.getString(17)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -718,10 +717,10 @@ public class ProductDAO extends DBContext {
         System.out.println(dao.getProductQuantity(1));
 
 //        dao.updateProductQuantityTru(1, 3);
-//        ArrayList<ProductSize> pList = dao.getSizeByProductId(1);
-//        for (ProductSize productSize : pList) {
-//            System.out.println(productSize);
-//        }
+        ArrayList<Product> pList = dao.searchProductByName("dịu");
+        for (Product product : pList) {
+            System.out.println(product);
+        }
 //        dao.updateProductActiveStatus(10, true);
 //        ArrayList<Product> pList = dao.getAllProduct();
 //        Product p = dao.getProductById(1);

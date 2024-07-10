@@ -255,15 +255,31 @@
                 <!-- Widgets Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light rounded h-100 p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Biểu đồ doanh thu</h6>
-                                    <a href="chart">Chi tiết</a>
+                        <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <h6 class="mb-0">Biểu đồ doanh thu</h6>
+                                        <a href="chart">Chi tiết</a>
+                                    </div>
+                                    <canvas id="line-chart"></canvas>
                                 </div>
-                                <canvas id="line-chart"></canvas>
+                            </div>
+                        </c:if>
+
+                        <!--Calender start-->
+                        <c:if test="${sessionScope.inforUserLogin.roleId == 4}">
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="h-100 bg-light rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Lịch</h6>
+                                    <a href="/HappyBeautySystem/managerOrder?service=viewOrderToday">Xem đơn hàng hôm nay</a>
+                                </div>
+                                <div id="calender"></div>
                             </div>
                         </div>
+                        </c:if>
+                        <!--Calender end-->
                         <!--Top2 customer buy most start-->
                         <div class="col-sm-12 col-xl-6">
                             <div class="bg-light rounded h-100 p-4">
@@ -281,36 +297,38 @@
                             </div>
                         </div>
                         <!--Top3 customer buy most end-->
-                        
+
                     </div>
                 </div>
                 <!-- Widgets End -->
 
                 <!-- Sales Chart Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-light text-center rounded p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Biểu đồ số lượng</h6>
-                                    <a href="chart">Chi tiết</a>
+                <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                    <div class="container-fluid pt-4 px-4">
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-light text-center rounded p-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <h6 class="mb-0">Biểu đồ số lượng</h6>
+                                        <a href="chart">Chi tiết</a>
+                                    </div>
+                                    <canvas id="bar-chart"></canvas>
                                 </div>
-                                <canvas id="bar-chart"></canvas>
                             </div>
-                        </div>
-                         <!--Calender start-->
-                        <div class="col-sm-12 col-md-6 col-xl-6">
-                            <div class="h-100 bg-light rounded p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Lịch</h6>
-                                    <a href="/HappyBeautySystem/managerOrder?service=viewOrderToday">Xem đơn hàng hôm nay</a>
+                            <!--Calender start-->
+                            <div class="col-sm-12 col-md-6 col-xl-6">
+                                <div class="h-100 bg-light rounded p-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <h6 class="mb-0">Lịch</h6>
+                                        <a href="/HappyBeautySystem/managerOrder?service=viewOrderToday">Xem đơn hàng hôm nay</a>
+                                    </div>
+                                    <div id="calender"></div>
                                 </div>
-                                <div id="calender"></div>
                             </div>
+                            <!--Calender end-->
                         </div>
-                        <!--Calender end-->
-                    </div>
-                </div>
+                    </div>   
+                </c:if>
                 <!-- Sales Chart End -->
 
                 <!-- Footer Start -->
