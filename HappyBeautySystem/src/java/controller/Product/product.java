@@ -4,6 +4,7 @@ import dal.CategoryDAO;
 import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.UserDAO;
+import dal.WishListDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -53,7 +54,8 @@ public class product extends HttpServlet {
         CategoryDAO c = new CategoryDAO();
         FeedbackDAO f = new FeedbackDAO();
         UserDAO u = new UserDAO();
-
+        WishListDAO wishlist = new WishListDAO();
+        
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
             ArrayList<Product> productList = d.getAllProduct();
@@ -265,6 +267,7 @@ public class product extends HttpServlet {
             //Feedback by productID
             int countReview = f.countReviewByProductId(productId);
 
+            int countFavourite = wishlist.countFavouriteByProductId(productId);
             ArrayList<User> user = u.getUserByProductId(productId);
             ArrayList<User> user2 = u.getUserByProductId2(productId);
 //            request.setAttribute("user", user);
@@ -284,6 +287,7 @@ public class product extends HttpServlet {
             request.setAttribute("size", sizeList.get(0).getSize());
             request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
             request.setAttribute("ProductData", product);
+            request.setAttribute("countFavourite", countFavourite);
             request.setAttribute("countReview", countReview);
             request.setAttribute("ProductCategory", productByCategory);
             request.setAttribute("Category", cat);

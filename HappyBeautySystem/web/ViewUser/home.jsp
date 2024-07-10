@@ -121,7 +121,7 @@
                                         <!--Add Product to Cart-->
                                         <li>
                                             <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
-                                                <span class="icon_bag_alt"></span>
+                                                <span class="icon_cart"></span>
                                             </a>
                                         </li>
                                     </ul>

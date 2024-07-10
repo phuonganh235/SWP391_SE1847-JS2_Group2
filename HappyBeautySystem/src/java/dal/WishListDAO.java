@@ -89,6 +89,22 @@ public class WishListDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    // Counts the number of reviews for a specific product ID in the Feedback table
+    public int countFavouriteByProductId(int productId) {
+        String sql = "SELECT COUNT(*) FROM Wishlist WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     //Test
     public static void main(String[] args) {
