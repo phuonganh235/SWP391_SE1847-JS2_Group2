@@ -60,7 +60,7 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>Chọn</th>
                                         <th style="margin-left :40px">Sản phẩm</th>
                                         <th>Giá bán</th>
                                         <th>Số lượng</th>
@@ -75,15 +75,32 @@
                                         if (listCart != null && !listCart.isEmpty()) {
                                             ProductDAO daoProduct = new ProductDAO();
                                             for (Cart cart : listCart) {
+                                                int hh = daoProduct.getProductQuantity(cart.getProductId());
                                                 Product pro = daoProduct.getProductById(cart.getProductId());
                                                 if (pro != null) {
                                                     double subtotal = cart.getQuantity() * pro.getPrice();
-
                                                     String formattedGranTotal = String.format("%.2f", granTotal);
                                     %>
                                     <tr>
-                                        <td><input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.2f", subtotal)%>"
-                                                   onclick="updateTotal()"></td>
+                                        <%
+                                            // Kiểm tra nếu quantity nhỏ hơn 1 thì không hiển thị checkbox
+                                            if (hh >= 1) { // Nếu quantity lớn hơn hoặc bằng 1
+%>
+                                        <td>
+                                            <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.2f", subtotal)%>"
+                                                   onclick="updateTotal()">
+                                        </td>
+                                        <%
+                                        } else { // Nếu quantity nhỏ hơn 1
+                                        %>
+                                        <td>
+                                            <!-- Đưa ra thông báo hoặc hành động phù hợp khi quantity < 1 -->
+                                            <span style="color: red;">Hết hàng</span>
+                                        </td>
+                                        <%
+        } // Kết thúc kiểm tra điều kiện
+%>
+
                                         <td class="cart__product__item">
                                             <a
                                                 href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">

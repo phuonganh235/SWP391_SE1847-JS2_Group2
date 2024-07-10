@@ -33,13 +33,10 @@ public class Home extends HttpServlet {
 //      Decentralize
         int role = uDao.getRole(username, password);
 
-        if (role == 1) {
+        if (role == 1 || role == 4) {
             request.getRequestDispatcher("dashboard").forward(request, response);
-//        } 
-//        else if (role == 3) {
-//            request.getRequestDispatcher("product").forward(request, response);
-        } else if (role == 4) {
-            request.getRequestDispatcher("staff").forward(request, response);
+//        } else if (role == 3) {
+//            request.getRequestDispatcher("shipper").forward(request, response);
         } else {
             request.setAttribute("top8New", product);
             request.setAttribute("topPopular", productPopular);

@@ -73,13 +73,15 @@
         </head>
         <body>
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
+
+                       <div class="sidebar pe-2 pb-3">
                 <nav class="navbar bg-light navbar-light">
-                    <a href="home" class="navbar-brand mx-4 mb-3">
+                    <a href="#" class="navbar-brand mx-3 mb-3">
                         <h3
                             class="text-primary"
                             style="
-                            font-family: Pacifico, cursive;
+                            font-family: 'Pacifico', cursive;
+
                             font-size: 23px;
                             text-decoration: underline;
                             "
@@ -88,142 +90,93 @@
                         </h3>
                     </a>
 
-                    <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="d-flex align-items-center ms-3 mb-3">
                         <div class="position-relative">
-                            <a href="customerprofile?service=ViewProfile"
-                               ><img
+                            <a href="customerprofile?service=ViewProfile">
+                                <img
+
                                     class="app-sidebar__user-avatar"
                                     src="ViewAdmin/img/user.jpg"
                                     alt=""
                                     style="width: 80px; height: 80px"
-                                    /></a>
+
+                                         />
+                            </a>
+
                             <div
                                 class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"
                                 ></div>
                         </div>
                         <div class="ms-3">
                             <h6 class="mb-0">${sessionScope.inforUserLogin.getName()}</h6>
-                            <span>Admin</span>
+
+                                  <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                                <span>Quản trị viên</span>
+                            </c:if>
+                            <c:if test="${sessionScope.inforUserLogin.roleId == 3}">
+                                <span>Nhân viên</span>
+                            </c:if>
                         </div>
                     </div>
+
                     <div class="navbar-nav w-100">
-                        <a href="dashboard" class="nav-item nav-link active"
-                           ><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a
-                        >
-                        <div class="nav-item dropdown">
-                            <a
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                ><i class="fa fa-laptop me-2"></i>Elements</a
-                            >
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a href="button.jsp" class="dropdown-item">Buttons</a>
-                                <a href="typography.jsp" class="dropdown-item">Typography</a>
-                                <a href="element.jsp" class="dropdown-item">Other Elements</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                ><i class="fa fa-server"></i>Quản lý đơn hàng</a
-                            >
-                            <div class="dropdown-menu bg-transparent border-0">
+                        <a href="dashboard" class="nav-item nav-link active">
+                            <i class="fa fa-tachometer-alt me-2"></i>Bảng điều khiển
+                        </a>
+                        <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                            <div class="nav-item dropdown">
                                 <a
-                                    href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1"
-                                    class="dropdown-item"
-                                    >Đơn hàng chưa xác nhận</a
-                                >
-                                <a
-                                    href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2"
-                                    class="dropdown-item"
-                                    >Đơn hàng đã xác nhận</a
-                                >
+                                    href="#"
+                                    class="nav-link dropdown-toggle"
+                                    data-bs-toggle="dropdown"
+                                    >
+                                    <i class="fa fa-user-edit me-2"></i>Quản lý tài khoản
+                                </a>
+                                <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
+                                    <a href="manageAccountAdmin?service=ListAllStaff" class="dropdown-item">Nhân viên</a>
+                                    <a href="manageAccountAdmin?service=ListAllShipper" class="dropdown-item">Người giao hàng</a>
+                                </div>
                             </div>
-                        </div>
-                        <a href="widget.jsp" class="nav-item nav-link"
-                           ><i class="fa fa-th me-2"></i>Widgets</a
-                        >
+                        </c:if>
                         <div class="nav-item dropdown">
-                            <a
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                ><i class="fa fa-server"></i>Manager Product</a
-                            >
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a href="manager" class="dropdown-item">All Product</a>
-                                <a href="manager?service=low" class="dropdown-item"
-                                   >Product low in stock</a
-                                >
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-server"></i> Quản lý đơn hàng
+                            </a>
+                            <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
+                                <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Chưa xác nhận</a>
+                                <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2" class="dropdown-item">Đã xác nhận</a>
                             </div>
                         </div>
-                        <a href="managercategory" class="nav-item nav-link"
-                           ><i class="fa fa-th me-2"></i>Manage Category</a
-                        >
-                        <a href="manageabout" class="nav-link dropdown-toggle"
-                           ><i class="far fa-file-alt me-2"></i>About Page</a
-                        >
-                        <a href="form.jsp" class="nav-item nav-link"
-                           ><i class="fa fa-keyboard me-2"></i>Forms</a
-                        >
-                        <a href="table.jsp" class="nav-item nav-link"
-                           ><i class="fa fa-table me-2"></i>Tables</a
-                        >
-
-                        <a
-                            href="manageCoupons?service=listAllCoupon"
-                            class="nav-item nav-link"
-                            ><i class="fa fa-chart-bar me-2"></i>Quản lý mã giảm giá</a
-                        >
-                        <a href="chart" class="nav-item nav-link"
-                           ><i class="fa fa-chart-bar me-2"></i>Chart</a
-                        >
-
-                        <a
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-server"></i> Quản lý sản phẩm
+                            </a>
+                            <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
+                                <a href="manager" class="dropdown-item">Tất cả</a>
+                                <a href="manager?service=low" class="dropdown-item">Sắp hết hàng</a>
+                            </div>
+                        </div>
+                        <a href="managercategory" class="nav-item nav-link">
+                            <i class="fa fa-th me-2"></i>Quản lý danh mục
+                        </a>
+                        <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
+                            <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
+                        </a>
+                      <a
                             href="Consultation?service=listAll1"
                             class="nav-item nav-link"
                             ><i class="fa fa-chart-bar me-2"></i>Quản lý lịch tư vấn</a
                         >
-                        <div class="nav-item dropdown">
-                            <a
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                ><i class="far fa-file-alt me-2"></i>Pages</a
-                            >
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a href="signin.jsp" class="dropdown-item">Sign In</a>
-                                <a href="signup.jsp" class="dropdown-item">Sign Up</a>
-                                <a href="404.jsp" class="dropdown-item">404 Error</a>
-                                <a href="blank.jsp" class="dropdown-item">Blank Page</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                ><i class="fa fa-th me-2"></i>Manage Account</a
-                            >
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a
-                                    href="manageAccountAdmin?service=ListAllStaff"
-                                    class="dropdown-item"
-                                    >View list account Staff</a
-                                >
-                                <a
-                                    href="manageAccountAdmin?service=ListAllShipper"
-                                    class="dropdown-item"
-                                    >View list account shipper</a
-                                >
-                            </div>
-                        </div>
+                        <a href="chart" class="nav-item nav-link">
+                            <i class="fa fa-chart-bar me-2"></i>Biểu đồ
+                        </a>
+                        <a href="manageabout" class="nav-link">
+                            <i class="far fa-file-alt me-2"></i>Giới thiệu
+                        </a>
                     </div>
                 </nav>
             </div>
+
 
             <!-- Sidebar End -->
         </body>

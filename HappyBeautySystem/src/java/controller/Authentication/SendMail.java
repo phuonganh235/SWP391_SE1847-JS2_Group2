@@ -45,7 +45,7 @@ public class SendMail {
             mess.setFrom(new InternetAddress(fromEmail));
             mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mess.setSubject("User Email Verification");
-            mess.setText("Registered successfully.Please verify your account using this code: " + u.getCode());
+//            mess.setText("Registered successfully.Please verify your account using this code: " + u.getCode());
             Transport.send(mess);
             test = true;
         }catch(Exception e){

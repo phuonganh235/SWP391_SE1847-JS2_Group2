@@ -29,6 +29,53 @@ public class InforOrderDetailDAO extends DBContext {
         }
     }
 
+    public void updateNoteByOrderID(int orderID, String newNote) {
+        String sqlSelect = "SELECT note FROM InforOrderDetail WHERE orderID = ?";
+        String sqlUpdate = "UPDATE InforOrderDetail SET note = ? WHERE orderID = ?";
+
+        try (
+                // Truy vấn để lấy note cũ
+                PreparedStatement selectStmt = connection.prepareStatement(sqlSelect); // Cập nhật note mới
+                 PreparedStatement updateStmt = connection.prepareStatement(sqlUpdate);) {
+            // Thiết lập tham số cho câu truy vấn lấy note cũ
+            selectStmt.setInt(1, orderID);
+            ResultSet rs = selectStmt.executeQuery();
+
+            String oldNote = "";
+            // Kiểm tra nếu có kết quả trả về
+            if (rs.next()) {
+                oldNote = rs.getString("note");
+            }
+
+            // Kết hợp note cũ và note mới
+            String combinedNote = oldNote + "\n" + newNote;
+
+            // Thiết lập tham số cho câu truy vấn cập nhật
+            updateStmt.setString(1, combinedNote);
+            updateStmt.setInt(2, orderID);
+
+            // Thực hiện cập nhật
+            updateStmt.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(InforOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateNoteShipAgain(int orderID, String newNote) {
+        String sqlUpdate = "UPDATE InforOrderDetail SET note = ? WHERE orderID = ?";
+
+        try (PreparedStatement updateStmt = connection.prepareStatement(sqlUpdate)) {
+            // Thiết lập tham số cho câu truy vấn cập nhật
+            updateStmt.setString(1, newNote);
+            updateStmt.setInt(2, orderID);
+
+            // Thực hiện cập nhật
+            updateStmt.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(InforOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public InforOrderDetail getInforOrderDetailByOrderId(int orderId) {
         InforOrderDetail inforOrderDetail = null;
         String sql = "SELECT orderID, city, district, ward, addressDetail, note, froms, tos, dateOrder FROM InforOrderDetail WHERE orderID = ?";
@@ -53,5 +100,10 @@ public class InforOrderDetailDAO extends DBContext {
             Logger.getLogger(InforOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return inforOrderDetail;
+    }
+
+    public static void main(String[] args) {
+        InforOrderDetailDAO dao = new InforOrderDetailDAO();
+        dao.updateNoteByOrderID(3020, "nhé");
     }
 }

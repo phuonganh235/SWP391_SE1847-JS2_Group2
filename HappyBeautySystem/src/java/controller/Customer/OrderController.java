@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import model.InforOrderDetail;
+import nl.captcha.Captcha;
 
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
@@ -63,6 +64,7 @@ public class OrderController extends HttpServlet {
                 if ("showAll".equals(service)) {
                     int userId = inforUserLogin.getUserId();
                     String[] listProductId = request.getParameterValues("id");
+                    session.setAttribute("listProductId", listProductId);
                     List<Cart> vector = new ArrayList<>();
 
                     // Lấy danh sách các sản phẩm từ giỏ hàng của userId
@@ -82,6 +84,7 @@ public class OrderController extends HttpServlet {
 
                 // User confirm order
                 if ("confirmOrder".equals(service)) {
+
                     String dateNow = common.getDateTimeNow();
                     String name = inforUserLogin.getName();
                     String nameCustomer = inforUserLogin.getUsername();
@@ -131,7 +134,7 @@ public class OrderController extends HttpServlet {
                             CouponsDAO couponDAO = new CouponsDAO();
                             couponDAO.updateCouponQuantity(couponCode);
                         }
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
                         dispatcher.forward(request, response);
                     }
                     if (idPaymentInt == 2) {
@@ -258,7 +261,7 @@ public class OrderController extends HttpServlet {
                             couponDAO.updateCouponQuantity(couponCode);
                             session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
                         }
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/order-successfull.jsp");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
                         dispatcher.forward(request, response);
 
                     } else {
