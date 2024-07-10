@@ -1,302 +1,245 @@
-<%-- 
-    Document   : videoCall
-    Created on : Jul 10, 2024, 3:35:33 PM
-    Author     : phuan
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Video Call</title>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
         <style>
-
-            *{
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            #videos{
+            #videos {
                 display: grid;
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                gap: 2em;
                 height: 100vh;
-                overflow:hidden;
+                padding: 1em;
             }
-
-            .video-player{
+            .video-player {
                 background-color: black;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
             }
-
-            #user-2{
-                display: none;
-            }
-
-            .smallFrame{
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                height: 170px;
-                width: 300px;
-                border-radius: 5px;
-                border:2px solid #b366f9;
-                -webkit-box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
-                box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
-                z-index: 999;
-            }
-
-
-            #controls{
+            #controls {
                 position: fixed;
                 bottom: 20px;
                 left: 50%;
-                transform:translateX(-50%);
+                transform: translateX(-50%);
                 display: flex;
                 gap: 1em;
             }
-
-
-            .control-container{
-                background-color: rgb(179, 102, 249, .9);
+            .control-container {
+                background-color: rgba(179, 102, 249, .9);
                 padding: 20px;
                 border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 cursor: pointer;
             }
-
-            .control-container img{
-                height: 30px;
+            .control-container img {
                 width: 30px;
+                height: 30px;
             }
-
-            #leave-btn{
-                background-color: rgb(255,80,80, 1);
+            #leave-btn {
+                background-color: rgb(255,80,80);
             }
-
-            @media screen and (max-width:600px) {
-                .smallFrame{
-                    height: 80px;
-                    width: 120px;
-                }
-
-                .control-container img{
-                    height: 20px;
-                    width: 20px;
-                }
-            }
-
         </style>
     </head>
     <body>
-        <div id="videoContainer">
-            <div id="videos">
-                <video class="video-player" id="user-1" autoplay playsinline></video>
-                <video class="video-player" id="user-2" autoplay playsinline></video>
+        <div id="videos">
+            <video class="video-player" id="user-1" autoplay playsinline></video>
+            <video class="video-player" id="user-2" autoplay playsinline></video>
+        </div>
+        <div id="controls">
+            <div class="control-container" id="camera-btn" onclick="toggleCamera()">
+                <img src="ViewUser/img/camera.png" alt="Camera" />
             </div>
-            <div id="controls">
-                <div class="control-container" id="camera-btn" onclick="toggleCamera()">
-                    <img src="ViewUser/img/camera.png" alt="Camera" />
-                </div>
-                <div class="control-container" id="mic-btn" onclick="toggleMic()">
-                    <img src="ViewUser/img/mic.png" alt="Microphone" />
-                </div>
-                <div class="control-container" id="leave-btn" onclick="leaveChannel()">
-                    <img src="ViewUser/img/phone.png" alt="End Call" />
-                </div>
+            <div class="control-container" id="mic-btn" onclick="toggleMic()">
+                <img src="ViewUser/img/mic.png" alt="Microphone" />
+            </div>
+            <div class="control-container" id="leave-btn" onclick="leaveChannel()">
+                <img src="ViewUser/img/phone.png" alt="End Call" />
             </div>
         </div>
-        <script src="ViewUser/js/agora-rtm-sdk-1.4.4.js" type="text/javascript"></script>
+
         <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyBTbwB5YBnfmJKA5U1_1IqZJgjlXQFlYZY",
+                authDomain: "happybeautysystem.firebaseapp.com",
+                databaseURL: "https://happybeautysystem-default-rtdb.firebaseio.com",
+                projectId: "happybeautysystem",
+                storageBucket: "happybeautysystem.appspot.com",
+                messagingSenderId: "1079459372067"
+            };
+            firebase.initializeApp(firebaseConfig);
 
-                    let roomId = '<%= request.getAttribute("roomId")%>';
-                    let APP_ID = "cbc563eeef5a4712a25e4e4b15437e98";
-                    let token = null;
-                    let uid = String(Math.floor(Math.random() * 10000));
+            let roomId = '<%= request.getParameter("roomId")%>';
+            let localStream;
+            let remoteStream;
+            let peerConnection;
 
-                    let client;
-                    let channel;
-
-                    let localStream;
-                    let remoteStream;
-                    let peerConnection;
-
-                    const servers = {
-                        iceServers: [
-                            {
-                                urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302']
-                            }
+            const servers = {
+                iceServers: [
+                    {
+                        urls: [
+                            'stun:stun1.l.google.com:19302',
+                            'stun:stun2.l.google.com:19302',
                         ]
-                    };
+                    }
+                ]
+            };
 
-                    let constraints = {
-                        video: {
-                            width: {min: 640, ideal: 1920, max: 1920},
-                            height: {min: 480, ideal: 1080, max: 1080},
-                        },
-                        audio: true
-                    };
+            async function init() {
+                try {
+                    localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+                    document.getElementById('user-1').srcObject = localStream;
+                    console.log("Local stream set up successfully");
+                    await createOrJoinRoom();
+                } catch (error) {
+                    console.error("Error in init:", error);
+                }
+            }
 
-                    let init = async () => {
-                        try {
-                            client = await AgoraRTM.createInstance(APP_ID);
-                            await client.login({uid, token});
+            async function createOrJoinRoom() {
+                try {
+                    const roomRef = firebase.database().ref(roomId);
+                    const roomSnapshot = await roomRef.once('value');
+                    console.log("Room exists:", roomSnapshot.exists());
 
-                            channel = client.createChannel(roomId);
-                            await channel.join();
+                    if (!roomSnapshot.exists()) {
+                        await roomRef.set({created: true});
+                        console.log("Created new room");
+                        await waitForOtherUser();
+                    } else {
+                        console.log("Joining existing room");
+                        await joinRoom();
+                    }
+                } catch (error) {
+                    console.error("Error in createOrJoinRoom:", error);
+                }
+            }
 
-                            channel.on('MemberJoined', handleUserJoined);
-                            channel.on('MemberLeft', handleUserLeft);
-
-                            client.on('MessageFromPeer', handleMessageFromPeer);
-
-                            localStream = await navigator.mediaDevices.getUserMedia(constraints);
-                            document.getElementById('user-1').srcObject = localStream;
-                        } catch (error) {
-                            console.error('Error during initialization:', error);
-                            alert(`An error occurred: ${error.message}`);
+            function waitForOtherUser() {
+                const roomRef = firebase.database().ref(roomId);
+                console.log("Waiting for other user...");
+                return new Promise((resolve) => {
+                    roomRef.on('value', async (snapshot) => {
+                        console.log("Room value changed:", snapshot.val());
+                        if (snapshot.val() && snapshot.val().offer) {
+                            console.log("Offer received, joining room");
+                            roomRef.off();
+                            await joinRoom();
+                            resolve();
                         }
-                    };
+                    });
+                });
+            }
 
-                    let handleUserLeft = (MemberId) => {
-                        document.getElementById('user-2').style.display = 'none';
-                        document.getElementById('user-1').classList.remove('smallFrame');
-                    };
+            async function createPeerConnection() {
+                peerConnection = new RTCPeerConnection(servers);
 
-                    let handleMessageFromPeer = async (message, MemberId) => {
-                        try {
-                            message = JSON.parse(message.text);
+                remoteStream = new MediaStream();
+                document.getElementById('user-2').srcObject = remoteStream;
 
-                            if (message.type === 'offer') {
-                                await createAnswer(MemberId, message.offer);
-                            }
+                localStream.getTracks().forEach((track) => {
+                    peerConnection.addTrack(track, localStream);
+                    console.log("Added local track:", track.kind);
+                });
 
-                            if (message.type === 'answer') {
-                                await addAnswer(message.answer);
-                            }
+                peerConnection.ontrack = (event) => {
+                    console.log("Received remote track:", event.track.kind);
+                    event.streams[0].getTracks().forEach((track) => {
+                        remoteStream.addTrack(track);
+                    });
+                }
 
-                            if (message.type === 'candidate') {
-                                if (peerConnection) {
-                                    await peerConnection.addIceCandidate(message.candidate);
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Error handling message from peer:', error);
-                        }
-                    };
+                peerConnection.onicecandidate = async (event) => {
+                    if (event.candidate) {
+                        console.log("New ICE candidate:", event.candidate);
+                        await firebase.database().ref(roomId).child('candidates').push(event.candidate.toJSON());
+                    }
+                }
 
-                    let handleUserJoined = async (MemberId) => {
-                        console.log('A new user joined the channel:', MemberId);
-                        await createOffer(MemberId);
-                    };
+                peerConnection.oniceconnectionstatechange = () => {
+                    console.log("ICE connection state:", peerConnection.iceConnectionState);
+                };
 
-                    let createPeerConnection = async (MemberId) => {
-                        peerConnection = new RTCPeerConnection(servers);
+                peerConnection.onsignalingstatechange = () => {
+                    console.log("Signaling state:", peerConnection.signalingState);
+                };
+            }
 
-                        remoteStream = new MediaStream();
-                        document.getElementById('user-2').srcObject = remoteStream;
-                        document.getElementById('user-2').style.display = 'block';
+            async function joinRoom() {
+                try {
+                    await createPeerConnection();
 
-                        document.getElementById('user-1').classList.add('smallFrame');
+                    const roomRef = firebase.database().ref(roomId);
+                    const offerSnapshot = await roomRef.child('offer').once('value');
+                    console.log("Offer snapshot exists:", offerSnapshot.exists());
 
-                        if (!localStream) {
-                            localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-                            document.getElementById('user-1').srcObject = localStream;
-                        }
+                    if (offerSnapshot.exists()) {
+                        console.log("Setting remote description from offer");
+                        const offer = offerSnapshot.val();
+                        await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
 
-                        localStream.getTracks().forEach((track) => {
-                            peerConnection.addTrack(track, localStream);
-                        });
-
-                        peerConnection.ontrack = (event) => {
-                            event.streams[0].getTracks().forEach((track) => {
-                                remoteStream.addTrack(track);
-                            });
-                        };
-
-                        peerConnection.onicecandidate = async (event) => {
-                            if (event.candidate) {
-                                await client.sendMessageToPeer({text: JSON.stringify({'type': 'candidate', 'candidate': event.candidate})}, MemberId);
-                            }
-                        };
-
-                        peerConnection.onnegotiationneeded = async () => {
-                            try {
-                                await peerConnection.setLocalDescription(await peerConnection.createOffer());
-                                await client.sendMessageToPeer({text: JSON.stringify({'type': 'offer', 'offer': peerConnection.localDescription})}, MemberId);
-                            } catch (err) {
-                                console.error('Error during negotiation:', err);
-                            }
-                        };
-                    };
-
-                    let createOffer = async (MemberId) => {
-                        await createPeerConnection(MemberId);
-
-                        let offer = await peerConnection.createOffer();
-                        await peerConnection.setLocalDescription(offer);
-
-                        await client.sendMessageToPeer({text: JSON.stringify({'type': 'offer', 'offer': offer})}, MemberId);
-                    };
-
-                    let createAnswer = async (MemberId, offer) => {
-                        await createPeerConnection(MemberId);
-
-                        await peerConnection.setRemoteDescription(offer);
-
-                        let answer = await peerConnection.createAnswer();
+                        const answer = await peerConnection.createAnswer();
                         await peerConnection.setLocalDescription(answer);
 
-                        await client.sendMessageToPeer({text: JSON.stringify({'type': 'answer', 'answer': answer})}, MemberId);
-                    };
+                        console.log("Created answer:", answer);
+                        await roomRef.child('answer').set(answer);
+                    } else {
+                        console.log("Creating offer");
+                        const offer = await peerConnection.createOffer();
+                        await peerConnection.setLocalDescription(offer);
 
-                    let addAnswer = async (answer) => {
-                        if (!peerConnection.currentRemoteDescription) {
-                            await peerConnection.setRemoteDescription(answer);
+                        console.log("Created offer:", offer);
+                        await roomRef.child('offer').set(offer);
+                    }
+
+                    roomRef.child('candidates').on('child_added', async (snapshot) => {
+                        console.log("New remote ICE candidate received");
+                        const candidate = new RTCIceCandidate(snapshot.val());
+                        await peerConnection.addIceCandidate(candidate);
+                    });
+
+                    roomRef.child('answer').on('value', async (snapshot) => {
+                        const answer = snapshot.val();
+                        if (answer && !peerConnection.currentRemoteDescription) {
+                            console.log("Setting remote description from answer");
+                            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
                         }
-                    };
+                    });
+                } catch (error) {
+                    console.error("Error in joinRoom:", error);
+                }
+            }
 
-                    let leaveChannel = async () => {
-                        await channel.leave();
-                        await client.logout();
-                        window.close();
-                    };
+            function toggleCamera() {
+                const videoTrack = localStream.getTracks().find(track => track.kind === 'video');
+                videoTrack.enabled = !videoTrack.enabled;
+                document.getElementById('camera-btn').style.backgroundColor =
+                        videoTrack.enabled ? 'rgba(179, 102, 249, .9)' : 'rgb(255, 80, 80)';
+            }
 
-                    let toggleCamera = async () => {
-                        let videoTrack = localStream.getTracks().find(track => track.kind === 'video');
+            function toggleMic() {
+                const audioTrack = localStream.getTracks().find(track => track.kind === 'audio');
+                audioTrack.enabled = !audioTrack.enabled;
+                document.getElementById('mic-btn').style.backgroundColor =
+                        audioTrack.enabled ? 'rgba(179, 102, 249, .9)' : 'rgb(255, 80, 80)';
+            }
 
-                        if (videoTrack.enabled) {
-                            videoTrack.enabled = false;
-                            document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80)';
-                        } else {
-                            videoTrack.enabled = true;
-                            document.getElementById('camera-btn').style.backgroundColor = 'rgba(179, 102, 249, 0.9)';
-                        }
-                    };
+            async function leaveChannel() {
+                if (peerConnection) {
+                    peerConnection.close();
+                }
+                if (localStream) {
+                    localStream.getTracks().forEach(track => track.stop());
+                }
+                await firebase.database().ref(roomId).remove();
+                window.close();
+            }
 
-                    let toggleMic = async () => {
-                        let audioTrack = localStream.getTracks().find(track => track.kind === 'audio');
-
-                        if (audioTrack.enabled) {
-                            audioTrack.enabled = false;
-                            document.getElementById('mic-btn').style.backgroundColor = 'rgb(255, 80, 80)';
-                        } else {
-                            audioTrack.enabled = true;
-                            document.getElementById('mic-btn').style.backgroundColor = 'rgba(179, 102, 249, 0.9)';
-                        }
-                    };
-
-                    window.addEventListener('beforeunload', leaveChannel);
-                    document.getElementById('camera-btn').addEventListener('click', toggleCamera);
-                    document.getElementById('mic-btn').addEventListener('click', toggleMic);
-
-                    init();
+            window.addEventListener('beforeunload', leaveChannel);
+            init();
         </script>
     </body>
 </html>
