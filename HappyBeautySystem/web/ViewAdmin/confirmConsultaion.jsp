@@ -115,6 +115,7 @@
                                         <th>Tên khách hàng</th>
                                         <th>Địa chỉ</th>
                                         <th>Số điện thoại</th>
+                                        <th>Email</th>
                                         <th>Ngày Tư vấn</th>
                                         <th>Ghi chú</th>
                                         <th>Giờ bắt đầu</th>
@@ -129,7 +130,8 @@
                                         <tr class="text-center">
                                             <td>${consultaion.customerName}</td>
                                             <td>${consultaion.customerAddress}</td>        
-                                            <td>${consultaion.customerPhone}</td>                                      
+                                            <td>${consultaion.customerPhone}</td>
+                                            <td>${consultaion.email}</td> 
                                             <td>${consultaion.consultationDate}</td>                                      
                                             <td>${consultaion.note}</td>                                 
                                             <td> <fmt:parseDate value="${consultaion.startHour}" pattern="HH:mm:ss.SSS" var="parsedStartDate" type="time" />

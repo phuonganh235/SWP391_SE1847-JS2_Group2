@@ -18,11 +18,12 @@ public class Consultations {
     private String startHour;
     private String endHour;
     private int status;
+    private String email;
 
     public Consultations() {
     }
 
-    public Consultations(int consultationId, String customerName, String customerAddress, String customerPhone, String consultationDate, String note, String startHour, String endHour, int status) {
+    public Consultations(int consultationId, String customerName, String customerAddress, String customerPhone, String consultationDate, String note, String startHour, String endHour, int status, String email) {
         this.consultationId = consultationId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -32,6 +33,7 @@ public class Consultations {
         this.startHour = startHour;
         this.endHour = endHour;
         this.status = status;
+        this.email = email;
     }
 
     public int getConsultationId() {
@@ -41,8 +43,6 @@ public class Consultations {
     public void setConsultationId(int consultationId) {
         this.consultationId = consultationId;
     }
-
-
 
     public String getCustomerName() {
         return customerName;
@@ -108,10 +108,16 @@ public class Consultations {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Consultations{" + "consultationId=" + consultationId +  ", customerName=" + customerName + ", customerAddress=" + customerAddress + ", customerPhone=" + customerPhone + ", consultationDate=" + consultationDate + ", note=" + note + ", startHour=" + startHour + ", endHour=" + endHour + ", status=" + status + '}';
+    public String getEmail() {
+        return email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+ 
     
     
+
 }

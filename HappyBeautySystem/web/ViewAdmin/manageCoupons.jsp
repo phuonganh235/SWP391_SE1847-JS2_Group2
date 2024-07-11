@@ -91,38 +91,6 @@
                 <!-- Navbar Start -->
                 <jsp:include page="navbarAdmin.jsp"/>
                 <!-- Navbar End -->
-                <!--
-                                <div class="container-fluid rounded row align-items-center" style="margin-top: 1% !important; margin-bottom: 1% !important">
-                                    <div class="col-md-1">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCouponModal">Add</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <form action="sale-dashboard" class="d-flex align-items-center">
-                                            <label for="start" class="me-2">Start date:</label>
-                                            <input class="form-control me-2" type="date" id="start" name="start" value="${start}">
-                                            <label for="end" class="me-2">End date:</label>
-                                            <input class="form-control me-2" type="date" id="end" name="end" value="${end}">
-                                            <input class="btn btn-danger me-2" type="submit" value="Filter">
-                                        </form>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
-                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}" ${status == null ? "selected" : ""}>Status</option>
-                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=1" ${status == 1 ? "selected" : ""}>appear</option>
-                                            <option value="setting-list?${historyKey}${historyValue}${historyTypeId}&status=0" ${status == 0 ? "selected" : ""}>hidden</option>
-                                        </select>
-                                    </div>
-                
-                                    <div class="col-md-3 d-flex justify-content-end">
-                                        <form class="d-flex" action="manageCoupons?service=search" method="post">
-                                            <input type="hidden" name="service" value="search">
-                                            <input class="form-control border-0 me-2" type="search" placeholder="Search" name="txt">
-                                            <button style="color: black; background-color: #99ccff; border-radius: 40px;" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
-                                        </form>
-                                    </div>
-                
-                
-                                </div>-->
 
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">

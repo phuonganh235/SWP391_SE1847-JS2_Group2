@@ -1,11 +1,7 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-s
 <!DOCTYPE html>
-
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <title>Manage Product - Bootstrap Admin Template</title>
@@ -34,6 +30,50 @@ s
 
         <!-- Template Stylesheet -->
         <link href="ViewAdmin/css/style.css" rel="stylesheet">
+        
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+        
+        <style>
+            .circle {
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+            }
+            #managerOderTable {
+                width: 100% !important;
+                margin-bottom: 1rem;
+                color: #212529;
+                border-collapse: collapse;
+            }
+            #managerOderTable th,
+            #managerOderTable td {
+                padding: 0.75rem;
+                vertical-align: top;
+                border-top: 1px solid #dee2e6;
+            }
+            #managerOderTable thead th {
+                vertical-align: bottom;
+                border-bottom: 2px solid #dee2e6;
+                background-color: #f8f9fa;
+            }
+            #managerOderTable tbody tr:nth-of-type(odd) {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+            #managerOderTable tbody tr:hover {
+                background-color: rgba(0, 0, 0, 0.075);
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button {
+                padding: 0.5em 1em;
+                margin-left: 2px;
+                border: 1px solid #ddd;
+                background-color: #f8f9fa;
+            }
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                background-color: #007bff;
+                color: black !important;
+            }
+        </style>
     </head>
 
     <body>
@@ -52,18 +92,17 @@ s
                 <!-- Product Management Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Quản lý danh sách đơn hàng chưa xác nhận</h6>
-                            <form class="d-none d-md-flex ms-4" action="manager?service=search" method="post">
-                                <input type="hidden" name="service" value="search">
-                                <input class="form-control border-0" type="search" placeholder="Tìm kiếm" name="txt">
-                                <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
-                                        type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
-                            </form>
-                        </div>
-                        <!-- Load Product -->
+
+                        <!-- Load account staff -->
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0">Quản lý danh sách đơn hàng chưa xác nhận</h6>
+                                <div class="d-flex" style="margin-top: 10px">
+                                    <input class="form-control border-0 me-2" id="searchInput" type="text" placeholder="Tìm kiếm">
+                                    <button style="color: black; background-color: #99ccff; border-radius: 40px;" id="searchButton" class="btn btn-outline-secondary" ><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="managerOderTable">
                                 <thead>
                                     <tr class="text-dark">
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
@@ -91,10 +130,8 @@ s
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
-
                 <!-- Product Management End -->
 
             </div>
@@ -105,7 +142,8 @@ s
         </div>
 
         <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="ViewAdmin/lib/chart/chart.min.js"></script>
         <script src="ViewAdmin/lib/easing/easing.min.js"></script>
@@ -118,6 +156,45 @@ s
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
 
-    </body>
+        <script>
+            $(document).ready(function () {
+                var table = $('#managerOderTable').DataTable({
+                    "pageLength": 5,
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "order": [[1, "asc"]],
+                    "columnDefs": [
+                        {"orderable": false, "targets": 5}
+                    ],
+                    "dom": '<"top"l>rt<"bottom"ip><"clear">', // Ẩn thanh tìm kiếm mặc định
+                    "language": {
+                        "lengthMenu": "Show _MENU_ entries",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "paginate": {
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Previous"
+                        }
+                    }
+                });
 
+                // Kết nối thanh tìm kiếm tùy chỉnh với DataTable
+                $('#searchInput').on('keyup', function () {
+                    table.search(this.value).draw();
+                });
+
+                // Xử lý tìm kiếm khi nhấn nút tìm kiếm
+                $('#searchButton').on('click', function () {
+                    table.search($('#searchInput').val()).draw();
+                });
+
+                // Xử lý tìm kiếm khi nhấn Enter trong ô tìm kiếm
+                $('#searchInput').on('keypress', function (e) {
+                    if (e.which == 13) {  // 13 là mã phím cho Enter
+                        table.search(this.value).draw();
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

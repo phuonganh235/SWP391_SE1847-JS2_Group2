@@ -19,7 +19,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/84a8258e0d.js" crossorigin="anonymous"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="ViewUser/css/bootstrap.min.css" type="text/css">
@@ -352,12 +351,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="customerAddress" class="font-weight-bold">Địa chỉ:</label>
-                                                <input type="text" class="form-control" id="customerAddress" name="customerAddress" >
+                                                <input type="text" class="form-control" id="customerAddress" name="customerAddress" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="customerPhone" class="font-weight-bold">Số điện thoại:</label>
                                                 <input type="tel" class="form-control" id="customerPhone" name="customerPhone" required>
                                                 <small class="text-danger" id="phoneError"></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="customerEmail" class="font-weight-bold">Email:</label>
+                                                <input type="tel" class="form-control" id="customerEmail" name="customerEmail" required>
+
                                             </div>
                                             <div class="form-group">
                                                 <label for="consultationDate" class="font-weight-bold">Ngày tư vấn:</label>
@@ -442,62 +446,61 @@
 
 
         </header>
-        <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
-        <!--        <script src="js/videoCall.js" type="text/javascript"></script>-->
+
 
     </body>
 
 
     <script>
-                                                    document.addEventListener("DOMContentLoaded", function () {
-                                                        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-                                                        var newPassword = document.getElementById("new_pass");
-                                                        var confirmPassword = document.getElementById("confirm_pass");
-                                                        var formChangePass = document.getElementById("formChangePass");
+        document.addEventListener("DOMContentLoaded", function () {
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            var newPassword = document.getElementById("new_pass");
+            var confirmPassword = document.getElementById("confirm_pass");
+            var formChangePass = document.getElementById("formChangePass");
 
-                                                        function validatePassword() {
-                                                            var password = newPassword.value.trim();
-                                                            var passwordError = document.getElementById("passwordError");
-                                                            if (password === "") {
-                                                                passwordError.innerHTML = "Mật khẩu không được để trống.";
-                                                                return false;
-                                                            } else if (!passwordPattern.test(password)) {
-                                                                passwordError.innerHTML = "Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.";
-                                                                return false;
-                                                            } else {
-                                                                passwordError.innerHTML = "";
-                                                                return true;
-                                                            }
-                                                        }
+            function validatePassword() {
+                var password = newPassword.value.trim();
+                var passwordError = document.getElementById("passwordError");
+                if (password === "") {
+                    passwordError.innerHTML = "Mật khẩu không được để trống.";
+                    return false;
+                } else if (!passwordPattern.test(password)) {
+                    passwordError.innerHTML = "Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.";
+                    return false;
+                } else {
+                    passwordError.innerHTML = "";
+                    return true;
+                }
+            }
 
-                                                        function validateConfirmPassword() {
-                                                            var password = newPassword.value.trim();
-                                                            var confirmPass = confirmPassword.value.trim();
-                                                            var confirmPasswordError = document.getElementById("confirmPasswordError");
-                                                            if (confirmPass === "") {
-                                                                confirmPasswordError.innerHTML = "Xác nhận mật khẩu không được để trống.";
-                                                                return false;
-                                                            } else if (password !== confirmPass) {
-                                                                confirmPasswordError.innerHTML = "Mật khẩu xác nhận không khớp.";
-                                                                return false;
-                                                            } else {
-                                                                confirmPasswordError.innerHTML = "";
-                                                                return true;
-                                                            }
-                                                        }
+            function validateConfirmPassword() {
+                var password = newPassword.value.trim();
+                var confirmPass = confirmPassword.value.trim();
+                var confirmPasswordError = document.getElementById("confirmPasswordError");
+                if (confirmPass === "") {
+                    confirmPasswordError.innerHTML = "Xác nhận mật khẩu không được để trống.";
+                    return false;
+                } else if (password !== confirmPass) {
+                    confirmPasswordError.innerHTML = "Mật khẩu xác nhận không khớp.";
+                    return false;
+                } else {
+                    confirmPasswordError.innerHTML = "";
+                    return true;
+                }
+            }
 
-                                                        newPassword.addEventListener("input", validatePassword);
-                                                        confirmPassword.addEventListener("input", validateConfirmPassword);
+            newPassword.addEventListener("input", validatePassword);
+            confirmPassword.addEventListener("input", validateConfirmPassword);
 
-                                                        formChangePass.addEventListener("submit", function (event) {
-                                                            var isPasswordValid = validatePassword();
-                                                            var isConfirmPasswordValid = validateConfirmPassword();
+            formChangePass.addEventListener("submit", function (event) {
+                var isPasswordValid = validatePassword();
+                var isConfirmPasswordValid = validateConfirmPassword();
 
-                                                            if (!(isPasswordValid && isConfirmPasswordValid)) {
-                                                                event.preventDefault(); // Ngăn form submit nếu có lỗi
-                                                            }
-                                                        });
-                                                    });
+                if (!(isPasswordValid && isConfirmPasswordValid)) {
+                    event.preventDefault(); // Ngăn form submit nếu có lỗi
+                }
+            });
+        });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -540,67 +543,71 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var formConsultion = document.getElementById('consultationForm');
-            var nameInput = document.getElementById('customerName');
-            var phoneInput = document.getElementById('customerPhone');
-            var dateInput = document.getElementById('consultationDate');
-
-
-            var nameCustomerError = document.getElementById('nameCustomerError');
-            var phoneError = document.getElementById('phoneError');
-            var dateError = document.getElementById('dateError');
-
-            function validateName() {
+        var formConsultion = document.getElementById('consultationForm');
+                var nameInput = document.getElementById('customerName');
+                var phoneInput = document.getElementById('customerPhone');
+                var dateInput = document.getElementById('consultationDate');
+                var nameCustomerError = document.getElementById('nameCustomerError');
+                var phoneError = document.getElementById('phoneError');
+                var dateError = document.getElementById('dateError');
+                function validateName() {
                 var name = nameInput.value.trim();
-                if (name === '' || name.replace(/\s/g, '').length === 0) {
-                    nameCustomerError.innerHTML = 'Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.';
-                    return false;
+                        if (name === '' || name.replace(/\s/g, '').length === 0) {
+                nameCustomerError.innerHTML = 'Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.';
+                        return false;
                 } else {
-                    nameCustomerError.innerHTML = '';
-                    return true;
+                nameCustomerError.innerHTML = '';
+                        return true;
                 }
-            }
+                }
 
-            function validatePhone() {
-                var phone = phoneInput.value.trim();
+        function validatePhone() {
+        var phone = phoneInput.value.trim();
                 if (phone === '' || phone.replace(/\s/g, '').length === 0 || !/^[0-9]+$/.test(phone)) {
-                    phoneError.innerHTML = 'Số điện thoại không hợp lệ hoặc chỉ chứa khoảng trắng.';
-                    return false;
-                } else {
-                    phoneError.innerHTML = '';
-                    return true;
-                }
-            }
+        phoneError.innerHTML = 'Số điện thoại không hợp lệ hoặc chỉ chứa khoảng trắng.';
+                return false;
+        } else {
+        phoneError.innerHTML = '';
+                return true;
+        }
+        }
 
-            function validateDate() {
-                var date = new Date(dateInput.value);
+        function validateDate() {
+        var date = new Date(dateInput.value);
+                var today = new Date();
                 var day = date.getDay();
+                date.setHours(0, 0, 0, 0);
+                today.setHours(0, 0, 0, 0);
                 if (day === 0 || day === 6) {
-                    dateError.innerHTML = 'Ngày tư vấn không được là thứ 7 hoặc chủ nhật.';
-                    return false;
-                } else {
-                    dateError.innerHTML = '';
-                    return true;
-                }
-            }
+        dateError.innerHTML = 'Ngày tư vấn không được là thứ 7 hoặc chủ nhật.';
+                return false;
+        } else if (date <= today){
+           dateError.innerHTML = 'Ngày tư vấn không được trước hoặc là ngày hôm nay';
+           return false;
+        }else {
+        dateError.innerHTML = '';
+                return true;
+        }
+        }
 
 
 
-            nameInput.addEventListener('input', validateName);
-            phoneInput.addEventListener('input', validatePhone);
-            dateInput.addEventListener('change', validateDate);
+        nameInput.addEventListener('input', validateName);
+        phoneInput.addEventListener('input', validatePhone);
+        dateInput.addEventListener('change', validateDate);
 
-            formConsultion.addEventListener('submit', function (e) {
-                let isValid = true;
+        formConsultion.addEventListener('submit', function (e) {
+        let isValid = true;
                 // Gọi tất cả các hàm validate khi submit form
                 isValid = validateName() && isValid;
                 isValid = validatePhone() && isValid;
                 isValid = validateDate() && isValid;
                 if (!isValid) {
-                    e.preventDefault();
-                }
-            });
+        e.preventDefault();
+        }
         });
+        }
+        );
     </script>
 
     <script>

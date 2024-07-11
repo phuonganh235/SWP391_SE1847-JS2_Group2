@@ -115,6 +115,7 @@
                                         <th>Tên khách hàng</th>
                                         <th>Địa chỉ</th>
                                         <th>Số điện thoại</th>
+                                        <th>Email</th>
                                         <th>Ngày Tư vấn</th>
                                         <th>Ghi chú</th>
                                         <th>Giờ bắt đầu</th>
@@ -129,7 +130,8 @@
                                         <tr class="text-center">
                                             <td>${consultaion.customerName}</td>
                                             <td>${consultaion.customerAddress}</td>        
-                                            <td>${consultaion.customerPhone}</td>                                      
+                                            <td>${consultaion.customerPhone}</td>  
+                                            <td>${consultaion.email}</td>   
                                             <td>${consultaion.consultationDate}</td>                                      
                                             <td>${consultaion.note}</td>                                 
                                             <td> <fmt:parseDate value="${consultaion.startHour}" pattern="HH:mm:ss.SSS" var="parsedStartDate" type="time" />
@@ -140,11 +142,11 @@
 
                                             <td>
                                                 <c:if test="${consultaion.status == 2}">
-                                                   chờ tư vấn
+                                                    chờ tư vấn
                                                 </c:if>
                                             </td>
                                             <td style="display: flex">
-                                                <a class="btn btn-danger"  onclick="doDeleteConsultation('${consultaion.consultationId}', '${consultaion.customerName}',3)" role="button" style='font-size:10px'>
+                                                <a class="btn btn-danger"  onclick="doDeleteConsultation('${consultaion.consultationId}', '${consultaion.customerName}', 3)" role="button" style='font-size:10px'>
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
                                             </td>
@@ -219,10 +221,11 @@
         </script>
 
         <script>
-            
-             function  doDeleteConsultation(consultationId, customerName, status){
+
+            function  doDeleteConsultation(consultationId, customerName, status) {
                 if (confirm("Bạn có muốn xóa lịch tư vấn của khác hàng  " + customerName + "?")) {
-                    window.location = "Consultation?service=deleteconfirm&idConfirmdelete=" + consultationId + "&status=" + status;;
+                    window.location = "Consultation?service=deleteconfirm&idConfirmdelete=" + consultationId + "&status=" + status;
+                    ;
                 }
             }
         </script>

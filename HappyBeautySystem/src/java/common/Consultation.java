@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import model.Consultations;
+import Utils.EmailUtility;
 
 /**
  *
@@ -45,13 +46,14 @@ public class Consultation extends HttpServlet {
                 String Date = request.getParameter("consultationDate");
                 String timeslot = request.getParameter("timeSlot");
                 String note = request.getParameter("note");
+                String Email = request.getParameter("customerEmail");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate dateBook = LocalDate.parse(Date, formatter);
                 String[] times = timeslot.split("-");
                 String startHour = times[0];
                 String endHour = times[1];
                 String formattedDate = dateBook.format(formatter);
-                Consultations newConsultation = new Consultations(0, customerName, customeraddress, customerPhone, formattedDate, note, startHour, endHour, 1);
+                Consultations newConsultation = new Consultations(0, customerName, customeraddress, customerPhone, formattedDate, note, startHour, endHour, 1, Email);
                 consulDao.insertConsultation(newConsultation);
                 request.getRequestDispatcher("ViewUser/ConsultationSuccess.jsp").forward(request, response);
             }
@@ -77,6 +79,13 @@ public class Consultation extends HttpServlet {
             if (service.equals("confirm")) {
                 int consultationId = Integer.parseInt(request.getParameter("idConfirm"));
                 consulDao.updateConsultationStatus(consultationId, 2);
+                Consultations consultation = consulDao.getConsultationById(consultationId);
+
+                //Send email
+                String recipinentEmail = consultation.getEmail();
+                String subject = "Xác nhận lịch tư vấn";
+                String message = "Xin chào " + consultation.getCustomerName() + ",\n\nLịch tư vấn của bạn đã được xác nhận .\n\nNgày tư vấn: " + consultation.getConsultationDate() + "\nThời gian: " + consultation.getStartHour() + " - " + consultation.getEndHour() + "\nMã phòng room : 123" + "\n\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
+                EmailUtility.sendEmail(recipinentEmail, subject, message);
                 ArrayList<Consultations> listConfirm = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 1");
                 request.setAttribute("listAll1", listConfirm);
                 request.getRequestDispatcher("ViewAdmin/confirmBooking.jsp").forward(request, response);
