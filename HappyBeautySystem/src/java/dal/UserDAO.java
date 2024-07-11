@@ -529,8 +529,20 @@ public class UserDAO extends DBContext {
         }
     }
 
+   
     public static void main(String[] args) {
-        UserDAO userDAO = new UserDAO();
+            UserDAO userDB = new UserDAO();
+        // Kiểm tra hàm checkExistEmail
+        String testEmail = "sang@gmail.com";
+        int testRoleId = 3;
+        boolean emailExists = userDB.checkExistEmail(testEmail, testRoleId);
+        System.out.println("Email " + testEmail + " exists: " + emailExists);
 
-    }
+        // Kiểm tra hàm userExists
+        String testUsername = "sangtv";
+        boolean userExists = userDB.userExists(testUsername, testRoleId);
+        System.out.println("User " + testUsername + " exists: " + userExists);
+
+    
+}
 }
