@@ -20,9 +20,10 @@ import java.util.Properties;
  */
 public class EmailUtility {
 
-     public static void sendEmail(String recipientEmail, String subject, String message) {
+    public static void sendEmail(String recipientEmail, String subject, String message) throws Exception {
+
         final String username = "annphe173268@fpt.edu.vn";
-        final String appPassword = "upfr spxe rhvr osqt"; 
+        final String appPassword = "upfr spxe rhvr osqt";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -41,8 +42,10 @@ public class EmailUtility {
             Message mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress(username));
             mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-            mimeMessage.setSubject(subject);
-            mimeMessage.setText(message);
+            mimeMessage.setSubject(username);
+            mimeMessage.setContent(message, "text/plain; charset=UTF-8");
+            mimeMessage.setHeader("Subject", subject);
+            mimeMessage.setHeader("Content-Type", "text/plain; charset=UTF-8");
 
             Transport.send(mimeMessage);
             System.err.println("Email đã được gửi thành công!");
@@ -50,6 +53,6 @@ public class EmailUtility {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-    
+
     }
 }
