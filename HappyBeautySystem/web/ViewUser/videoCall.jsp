@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
-<html lang="en">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<html lang="zxx">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +9,83 @@
         <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
         <style>
-            #videos {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 2em;
-                height: 100vh;
-                padding: 1em;
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
-            .video-player {
+
+            #videos{
+                display: grid;
+                grid-template-columns: 1fr;
+                height: 100vh;
+                overflow:hidden;
+            }
+
+            .video-player{
                 background-color: black;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
             }
-            #controls {
+
+            #user-2{
+                display: none;
+            }
+
+            .smallFrame{
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                height: 170px;
+                width: 300px;
+                border-radius: 5px;
+                border:2px solid #b366f9;
+                -webkit-box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
+                box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
+                z-index: 999;
+            }
+
+
+            #controls{
                 position: fixed;
                 bottom: 20px;
                 left: 50%;
-                transform: translateX(-50%);
+                transform:translateX(-50%);
                 display: flex;
                 gap: 1em;
             }
-            .control-container {
-                background-color: rgba(179, 102, 249, .9);
+
+
+            .control-container{
+                background-color: rgb(179, 102, 249, .9);
                 padding: 20px;
                 border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 cursor: pointer;
             }
-            .control-container img {
-                width: 30px;
+
+            .control-container img{
                 height: 30px;
+                width: 30px;
             }
-            #leave-btn {
-                background-color: rgb(255,80,80);
+
+            #leave-btn{
+                background-color: rgb(255,80,80, 1);
+            }
+
+            @media screen and (max-width:600px) {
+                .smallFrame{
+                    height: 80px;
+                    width: 120px;
+                }
+
+                .control-container img{
+                    height: 20px;
+                    width: 20px;
+                }
             }
         </style>
     </head>
@@ -60,6 +105,7 @@
                 <img src="ViewUser/img/phone.png" alt="End Call" />
             </div>
         </div>
+
 
         <script>
             const firebaseConfig = {
@@ -113,10 +159,19 @@
                         console.log("Joining existing room");
                         await joinRoom();
                     }
+
+                    // Add listener to handle other user leaving
+                    roomRef.on('child_removed', () => {
+                        console.log("Other user left the room");
+                        document.getElementById('user-2').style.display = 'none';
+                        document.getElementById('user-1').classList.remove('smallFrame');
+                    });
+
                 } catch (error) {
                     console.error("Error in createOrJoinRoom:", error);
                 }
             }
+
 
             function waitForOtherUser() {
                 const roomRef = firebase.database().ref(roomId);
@@ -139,7 +194,8 @@
 
                 remoteStream = new MediaStream();
                 document.getElementById('user-2').srcObject = remoteStream;
-
+                document.getElementById('user-2').style.display = 'block';
+                document.getElementById('user-1').classList.add('smallFrame');
                 localStream.getTracks().forEach((track) => {
                     peerConnection.addTrack(track, localStream);
                     console.log("Added local track:", track.kind);
@@ -234,8 +290,12 @@
                 if (localStream) {
                     localStream.getTracks().forEach(track => track.stop());
                 }
+
                 await firebase.database().ref(roomId).remove();
+                document.getElementById('user-2').style.display = 'none';
+                document.getElementById('user-1').classList.remove('smallFrame');
                 window.close();
+
             }
 
             window.addEventListener('beforeunload', leaveChannel);
