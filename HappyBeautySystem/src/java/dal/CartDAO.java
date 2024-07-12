@@ -41,6 +41,21 @@ public class CartDAO extends DBContext {
         }
     }
 
+    // Updates quantity 
+    public void updateQuantityDetail(int userId, int productId, int quantity) {
+        String sql = "UPDATE cart SET Quantity = Quantity + ? WHERE UserId = ? AND ProductId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantity);
+            st.setInt(2, userId);
+            st.setInt(3, productId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Get cart by userid and productid
     public Cart getCartByUserIdAndProductId(int userId, int productId) {
         String sql = "SELECT * FROM cart WHERE UserId = ? AND ProductId = ?";

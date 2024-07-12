@@ -71,6 +71,47 @@ public class AddToCart extends HttpServlet {
                     }
 
                 }
+                if (service != null && service.equals("addToCartDetail")) {
+                    String idProduct = request.getParameter("id");
+                    String quantityParam = request.getParameter("quantity");
+
+                    // Check login (assuming you have logic to do this)
+                    if (idProduct == null || idProduct.isEmpty()) {
+                        out.println("Invalid product ID");
+                        return;
+                    }
+
+                    if (quantityParam == null || quantityParam.isEmpty()) {
+                        out.println("Invalid quantity");
+                        return;
+                    }
+
+                    try {
+                        int idInt = Integer.parseInt(idProduct);
+                        int quantity = Integer.parseInt(quantityParam);
+                        int userId = inforUser.getUserId();
+
+                        Cart checkCart = cart.getCartByUserIdAndProductId(userId, idInt);
+                        if (checkCart == null) {
+                            Product pro = daoProduct.getProductById(idInt);
+                            if (pro == null) {
+                                out.println("Product not found");
+                                return;
+                            }
+                            String dateTimeNow = commonDAO.getDateTimeNow();
+                            Cart newCartAdd = new Cart(pro.getProductId(), quantity, userId, dateTimeNow);
+                            cart.addCart(newCartAdd);
+                        } else {
+                            cart.updateQuantityDetail(userId, idInt, quantity);
+                        }
+                        response.sendRedirect("AddToCart?service=showCart");
+                        return;
+                    } catch (NumberFormatException e) {
+                        out.println("Invalid product ID or quantity format");
+                        return;
+                    }
+                }
+
             }
             // Show all cart
             if (service.equals("showCart")) {

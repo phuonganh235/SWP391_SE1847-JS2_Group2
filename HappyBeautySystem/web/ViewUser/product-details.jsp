@@ -247,7 +247,30 @@
                                     <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
                                 </div>
 
-                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${ProductData.getProductId()}" class="cart-btn" style="margin-top: 10px"><span class="icon_cart"></span> Thêm vào giỏ hàng</a>
+
+
+
+
+
+
+                                <a href="#" class="cart-btn" style="margin-top: 10px" onclick="addToCart(${ProductData.getProductId()})">
+                                    <span class="icon_cart"></span> Thêm vào giỏ hàng
+                                </a>
+
+                                <script>
+                                    function addToCart(productId) {
+                                        var quantity = document.getElementById("quantity").value;
+                                        var url = "/HappyBeautySystem/AddToCart?service=addToCartDetail&id=" + productId + "&quantity=" + quantity;
+                                        window.location.href = url;
+                                    }
+                                </script>
+                                
+                                
+                                
+                                
+                                
+                                
+
                                 <div style="margin-top: 19px;">
                                     <ul>
                                         <li><a href="wishlist?service=addWishList&id=${ProductData.getProductId()}"><span class="icon_heart_alt"></span></a></li>
@@ -391,25 +414,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        function formatFullName(name) {
-                                            name = name.trim().replace(/\s+/g, ' ');
-                                            return name;
-                                        }
+    document.addEventListener("DOMContentLoaded", function () {
+        function formatFullName(name) {
+            name = name.trim().replace(/\s+/g, ' ');
+            return name;
+        }
 
-                                        document.getElementById("comment").oninput = function () {
-                                            var name = this.value;
-                                            this.value = name;
-                                            if (name === "") {
-                                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-                                            } else if (/^\s/.test(name)) {
-                                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-                                            } else {
-                                                document.getElementById("nameError").innerHTML = "";
-                                            }
-                                        };
+        document.getElementById("comment").oninput = function () {
+            var name = this.value;
+            this.value = name;
+            if (name === "") {
+                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+            } else if (/^\s/.test(name)) {
+                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+            } else {
+                document.getElementById("nameError").innerHTML = "";
+            }
+        };
 
-                                    });
+    });
         </script>
     </body>
 

@@ -9,6 +9,7 @@ import dal.CouponsDAO;
 import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
+import dal.PoitCustomerDAO;
 import dal.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import model.InforOrderDetail;
-import nl.captcha.Captcha;
+//import nl.captcha.Captcha;
 
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
 public class OrderController extends HttpServlet {
@@ -54,6 +55,7 @@ public class OrderController extends HttpServlet {
         OrderDetailDAO detailDAO = new OrderDetailDAO();
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
         InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
+        PoitCustomerDAO poitCustomer = new PoitCustomerDAO();
 
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
@@ -84,7 +86,7 @@ public class OrderController extends HttpServlet {
 
                 // User confirm order
                 if ("confirmOrder".equals(service)) {
-
+                    int userId = inforUserLogin.getUserId();
                     String dateNow = common.getDateTimeNow();
                     String name = inforUserLogin.getName();
                     String nameCustomer = inforUserLogin.getUsername();
@@ -112,7 +114,11 @@ public class OrderController extends HttpServlet {
 
                     if (idPaymentInt == 1) {
                         Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, addressFull, phone, idPaymentInt);
+                        // poit 
+                        double poit = 0;
+                        int poitInt = 0;
                         //add order
+
                         int idADD = daoOrder.insertOrderGetID(newOrder);
                         List<Cart> listCart = _list;
                         for (Cart cart1 : listCart) {
@@ -121,8 +127,15 @@ public class OrderController extends HttpServlet {
                             detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
                             // update product
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                            // add poit 
+                            Product newProduct = new Product();
+                            newProduct = daoProduct.getProductById(cart1.getProductId());
+                            poit += cart1.getQuantity() * newProduct.getPrice();
+
                         }
-                        // add order infor detail
+                        poitInt = (int) (poit / 20000);
+                        // add poit 
+                        poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
                         InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
                         daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
                         // delete cart
@@ -134,8 +147,9 @@ public class OrderController extends HttpServlet {
                             CouponsDAO couponDAO = new CouponsDAO();
                             couponDAO.updateCouponQuantity(couponCode);
                         }
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
-                        dispatcher.forward(request, response);
+                        response.sendRedirect("home");
+                        return;
+
                     }
                     if (idPaymentInt == 2) {
                         String couponCode = request.getParameter("couponCode");
@@ -145,7 +159,7 @@ public class OrderController extends HttpServlet {
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
                         String orderType = "other";
-                      long amount = Math.round(Double.parseDouble(request.getParameter("total_cost")) * 100);
+                        long amount = Math.round(Double.parseDouble(request.getParameter("total_cost")) * 100);
                         String bankCode = "";
                         String vnp_TxnRef = ConfigVNpay.getRandomNumber(8);
                         String vnp_IpAddr = ConfigVNpay.getIpAddress(request);
@@ -221,6 +235,7 @@ public class OrderController extends HttpServlet {
                     }
 
                 }
+
                 // thanh toan thanh cong qua vnpay service tra ve thong tin thanh toan
                 if (service.equals("vnpay_return")) {
 
@@ -261,8 +276,12 @@ public class OrderController extends HttpServlet {
                             couponDAO.updateCouponQuantity(couponCode);
                             session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
                         }
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
-                        dispatcher.forward(request, response);
+
+//                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
+//                        
+//                        dispatcher.forward(request, response);
+                        response.sendRedirect("home");
+                        return;
 
                     } else {
                         response.sendRedirect("home");
