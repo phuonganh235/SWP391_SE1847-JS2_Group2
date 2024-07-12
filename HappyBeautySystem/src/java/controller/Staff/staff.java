@@ -19,7 +19,7 @@ import model.News;
  * @author admin
  */
 @WebServlet(name = "Staff", urlPatterns = {"/staff"})
-public class Staff extends HttpServlet {
+public class staff extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
