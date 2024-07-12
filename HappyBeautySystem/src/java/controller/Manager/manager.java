@@ -74,7 +74,7 @@ public class manager extends HttpServlet {
             request.setAttribute("product", p);
             ArrayList<Category> cat = daoC.getAllCategories();
             request.setAttribute("listCat", cat);
-            request.getRequestDispatcher("ViewAdmin/updateProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("manager?service=listall").forward(request, response);
         }
         //Editing a product
         if (service.equals("edit")) {

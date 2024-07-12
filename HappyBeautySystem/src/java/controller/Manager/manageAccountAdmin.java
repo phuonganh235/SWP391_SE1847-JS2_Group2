@@ -56,6 +56,8 @@ public class manageAccountAdmin extends HttpServlet {
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
 
+               
+
                     String errorUserNameExit = null;
                     String errorEmaildExit = null;
                     boolean isValid = true;
@@ -100,7 +102,6 @@ public class manageAccountAdmin extends HttpServlet {
                     String username = request.getParameter("username");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
-
                     Date today = new Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDate = formatter.format(today);

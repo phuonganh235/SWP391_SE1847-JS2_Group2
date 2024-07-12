@@ -90,8 +90,8 @@
         <!-- About Us Section Begin -->
         <section class="about-us spad">
             <div class="container">
-                <h1 style="text-align: center;">ABOUT US</h1>
-                <h2 style="text-align: center; margin-bottom: 60px;">Welcome to HappyBeautySystem!</h2>
+                <h1 style="text-align: center;">VỀ CHÚNG TÔI</h1>
+                <h2 style="text-align: center; margin-bottom: 60px;">Chào mừng đến với HappyBeautySystem!</h2>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="about-us__image">
@@ -107,7 +107,7 @@
                         </c:forEach>
                     </div>
                 </div>
-                <h2 style="text-align: center;">HappyBeautySystem – Your Beauty, Our Passion.</h2>
+                <h2 style="text-align: center;">HappyBeautySystem – Vẻ đẹp của bạn, Đam mê của chúng tôi.</h2>
             </div>
         </section>
         <!-- About Us Section End -->

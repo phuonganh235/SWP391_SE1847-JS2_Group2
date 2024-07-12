@@ -112,21 +112,23 @@ public class ConsultationDao extends DBContext {
                         rs.getInt("Status"),
                         rs.getString("Email")
                 );
+                return consultation;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return consultation;
+        return null;
     }
 
     public static void main(String[] args) {
         // Tạo instance của ConsultationDao
         ConsultationDao consultationDao = new ConsultationDao();
-        String sql = "SELECT * FROM Consultations WHERE Status = 1";
-        ArrayList<Consultations> consultations = consultationDao.getConsultationWithStatus1(sql);
+        
+        Consultations consultation = consultationDao.getConsultationById(1);
 
-        // In kết quả ra console
-        for (Consultations consultation : consultations) {
+       if(consultation != null){
+           
+       
             System.out.println("Consultation ID: " + consultation.getConsultationId());
             System.out.println("Customer Name: " + consultation.getCustomerName());
             System.out.println("Customer Address: " + consultation.getCustomerAddress());
@@ -138,6 +140,7 @@ public class ConsultationDao extends DBContext {
             System.out.println("Status: " + consultation.getStatus());
             System.out.println("Email: " + consultation.getEmail());
             System.out.println("---------------------------------------------------");
-        }
+       }
+        
     }
 }
