@@ -176,7 +176,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="updateCouponForm" action="manageCoupons?service=insert" method="post">
+                        <form id="addCouponForm" action="manageCoupons?service=insert" method="post">
                             <div class="mb-3">
                                 <label for="couponCode" class="form-label">Mã giảm giá</label>
                                 <input type="text" class="form-control" id="couponCode" name="couponCode" >
@@ -188,7 +188,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="discountAmount" class="form-label">Giá trị</label>
-                                <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
+                                <input type="number" class="form-control" id="discountAmount" name="discountAmount" min="0" required>
                                 <div id="discountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
@@ -228,7 +228,7 @@
                             <div class="mb-3">
     
                                 <label for="couponid" class="form-label">Mã phiếu giảm giá</label>
-                                <input type="text" class="form-control" id="couponid" name="couponid" value="${couponUpdate.couponsId}">
+                                <input type="text" class="form-control" id="couponid" name="couponid" readonly="" value="${couponUpdate.couponsId}">
                             </div>
                             <div class="mb-3">
                                 <label for="updateCouponCode" class="form-label">Mã giảm giá</label>
@@ -241,7 +241,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="updateDiscountAmount" class="form-label">Giá trị</label>
-                                <input type="number" class="form-control" id="updateDiscountAmount" name="discountAmount" value="${couponUpdate.discountAmount}"  required>
+                                <input type="number" class="form-control" id="updateDiscountAmount" name="discountAmount" value="${couponUpdate.discountAmount}" min="0" required>
                                 <div id="updateDiscountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
@@ -356,7 +356,7 @@
 
                 function validateDiscountAmount() {
                     var discountAmount = parseFloat(document.getElementById("discountAmount").value);
-                    if (isNaN(discountAmount) || discountAmount <= 0) {
+                    if (isNaN(discountAmount) || discountAmount < 0) {
                         document.getElementById("discountAmountError").innerHTML = "giá trị giảm giá phải là số dương.";
                         return false;
                     } else {
@@ -402,7 +402,6 @@
                 }
 
                 document.getElementById("description").oninput = validateDescription;
-
                 document.getElementById("discountAmount").oninput = validateDiscountAmount;
                 document.getElementById("startDate").oninput = function () {
                     validateStartDate();
@@ -410,7 +409,7 @@
                 };
                 document.getElementById("endDate").oninput = validateEndDate;
                 document.getElementById("quantity").oninput = validateQuantity;
-                document.getElementById("couponForm").onsubmit = function (event) {
+                document.getElementById("addCouponForm").onsubmit = function (event) {
                     if (!validateDescription() || !validateDiscountAmount() || !validateStartDate() || !validateEndDate() || !validateQuantity()) {
                         event.preventDefault();
                     }
@@ -433,7 +432,7 @@
 
                 function validateDiscountAmount() {
                     var discountAmount = parseFloat(document.getElementById("updateDiscountAmount").value);
-                    if (isNaN(discountAmount) || discountAmount <= 0) {
+                    if (isNaN(discountAmount) || discountAmount < 0) {
                         document.getElementById("updateDiscountAmountError").innerHTML = "giá trị giảm giá phải là số dương.";
                         return false;
                     } else {

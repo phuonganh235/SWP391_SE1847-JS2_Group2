@@ -17,7 +17,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <style>
             section{
-                padding:5% 0
+                padding: 2% 0 5% 0;
             }
             .alizarin{
                 background:#e74c3c
@@ -131,6 +131,14 @@
                 color:#f1c40f;
                 background:#f0f0f0
             }
+            .filter-container {
+                display: flex;
+                justify-content: end;
+            }
+            .filter-container select {
+                width: 200px;
+                border-radius: 20px;
+            }
         </style>
     </head>
     <body>
@@ -151,11 +159,31 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
+
+        <!-- Filter Section Begin -->
+
+        <div class="container filter-container ">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="filter" style="font-weight: bold">Lọc mã giảm giá:</label>
+                        <select id="filter" class="form-control">
+                            <option value="all">Tất cả</option>
+                            <option value="active" >Còn hạn</option>
+                            <option value="inactive">Hết hạn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <!-- Filter Section End -->
+
         <section id="labels">
-            <div class="container">
+            <div class="container ">
                 <div class="row">
                     <c:forEach items="${requestScope.couponList}" var="c">
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-3 coupon-card ${c.isActive == 1 ? 'active' : 'inactive'}">
                             <div class="dl ${c.isActive == 1 ? 'active' : 'inactive'}">
                                 <div class="brand">
                                     <h5>Từ : ${c.startDate}</h5>
@@ -189,10 +217,32 @@
                     </c:forEach>
                 </div>
             </div>
+
+            <div class="col-lg-12 text-center">
+                <div class="pagination__option">
+                      
+                    <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                                <a href="coupon?page=${i}">${i}</a>      
+                    </c:forEach>
+                </div>
+            </div>
         </section>
+
         <!--footer area start-->
         <jsp:include page="footer.jsp"/>
         <!--footer area end-->
+
+        <!-- Js Plugins -->
+        <script src="ViewUser/js/jquery-3.3.1.min.js"></script>
+        <script src="ViewUser/js/bootstrap.min.js"></script>
+        <script src="ViewUser/js/jquery.magnific-popup.min.js"></script>
+        <script src="ViewUser/js/jquery-ui.min.js"></script>
+        <script src="ViewUser/js/mixitup.min.js"></script>
+        <script src="ViewUser/js/jquery.countdown.min.js"></script>
+        <script src="ViewUser/js/jquery.slicknav.js"></script>
+        <script src="ViewUser/js/owl.carousel.min.js"></script>
+        <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
+        <script src="ViewUser/js/main.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var openCodeButtons = document.querySelectorAll('.open-code');
@@ -207,6 +257,25 @@
                         } else {
                             codeElement.style.display = "none";
                             this.textContent = "Xem Code";
+                        }
+                    });
+                });
+
+                // Filter functionality
+                var filterSelect = document.getElementById('filter');
+                var couponCards = document.querySelectorAll('.coupon-card');
+
+                filterSelect.addEventListener('change', function () {
+                    var filterValue = this.value;
+                    couponCards.forEach(function (card) {
+                        if (filterValue === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            if (card.classList.contains(filterValue)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
                         }
                     });
                 });

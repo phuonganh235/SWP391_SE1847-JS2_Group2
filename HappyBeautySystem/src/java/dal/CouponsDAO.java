@@ -170,10 +170,58 @@ public class CouponsDAO extends DBContext {
     }
 
     public Coupons getCouponByCode(String code) {
-        String sql = "SELECT * FROM [ECommerce2].[dbo].[Coupons] WHERE CouponCode = ? AND Quantity > 0 AND IsActive = 1 AND GETDATE() BETWEEN StartDate AND EndDate";
+        String sql = "SELECT * FROM Coupons WHERE CouponCode = ? AND Quantity > 0 AND IsActive = 1 AND GETDATE() BETWEEN StartDate AND EndDate";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, code);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Coupons(
+                        rs.getInt("CouponId"),
+                        rs.getString("CouponCode"),
+                        rs.getString("Description"),
+                        rs.getDouble("DiscountAmount"),
+                        rs.getString("StartDate"),
+                        rs.getString("EndDate"),
+                        rs.getInt("Quantity"),
+                        rs.getInt("IsActive")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Coupons getCouponActive(int status) {
+        String sql = "SELECT * FROM Coupons WHERE IsActive = 1";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, status);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Coupons(
+                        rs.getInt("CouponId"),
+                        rs.getString("CouponCode"),
+                        rs.getString("Description"),
+                        rs.getDouble("DiscountAmount"),
+                        rs.getString("StartDate"),
+                        rs.getString("EndDate"),
+                        rs.getInt("Quantity"),
+                        rs.getInt("IsActive")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Coupons getCouponIsActive(int status) {
+        String sql = "SELECT * FROM Coupons WHERE IsActive = 0";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, status);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return new Coupons(
@@ -205,10 +253,18 @@ public class CouponsDAO extends DBContext {
         return false;
     }
 
+    public ArrayList<Coupons> getListByPage(ArrayList<Coupons> list, int start, int end) {
+        ArrayList<Coupons> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
         CouponsDAO couponsDAO = new CouponsDAO();
         // Test with a sample coupon code
-        String couponCode = "YJ450E"; 
+        String couponCode = "YJ450E";
 
         Coupons coupon = couponsDAO.getCouponByCode(couponCode);
 
