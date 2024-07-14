@@ -250,6 +250,9 @@
                                             <c:if test="${lowInStock.contains(p.getProductId())}">
                                                 <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Sắp hết hàng</div>
                                             </c:if>
+                                            <c:if test="${p.getQuantity() == 0}">
+                                                <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Hết hàng</div>
+                                            </c:if>
                                             <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}" >
                                                 <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%"" alt="image product"><span class="arrow_expand"></span></a>
                                             <ul class="product__hover">
@@ -266,7 +269,7 @@
                                         <div class="product__item__text">
                                             <h5><a style="color: black; font-size: 18px; font-weight: 350;" href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
                                             <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
-                                            
+
                                             <div class="product__price" style="color: #ea5d8c; font-size: 18px;">${p.getPrice()} VNĐ</div>
                                         </div>
                                     </div>

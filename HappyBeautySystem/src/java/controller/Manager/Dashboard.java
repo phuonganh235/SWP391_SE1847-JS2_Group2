@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 import model.Order;
 
 public class Dashboard extends HttpServlet {
@@ -33,7 +34,7 @@ public class Dashboard extends HttpServlet {
             String username = (String) session.getAttribute("username");
             String password = (String) session.getAttribute("password");
 
-            if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4) {
+            if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4 || uDao.getRole(username, password) == 3) {
                 int countproductReview = pDao.countReview(1);
                 int countCustomer = uDao.CountUser();
                 int countProduct = pDao.countProduct();
