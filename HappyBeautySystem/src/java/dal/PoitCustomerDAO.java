@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.PoitCustomer;
 
 public class PoitCustomerDAO extends DBContext {
 
@@ -59,9 +63,42 @@ public class PoitCustomerDAO extends DBContext {
             return addPoitCustomer(userID, point);
         }
     }
-    
+
+    public int getCustomerPoints(int userId) {
+        int points = 0;
+        String sql = "SELECT Ponit FROM poitCustomer WHERE UserId = ?";
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setInt(1, userId);
+            ResultSet rs = pre.executeQuery();
+
+            if (rs.next()) {
+                points = rs.getInt("Ponit");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return points;
+    }
+
+    public void subtractPoints(int userId, int points) {
+
+        String sql = "UPDATE [dbo].[PoitCustomer] SET Ponit = Ponit - ? WHERE UserId = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, points);
+            st.setInt(2, userId);
+          st.executeUpdate();
+           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        PoitCustomerDAO dap = new PoitCustomerDAO();
-        dap.addOrUpdatePoitCustomer(4, 20);
+        PoitCustomerDAO dao = new PoitCustomerDAO();
+       
+        int userId = 16; 
+        int pointsToSubtract = 50; 
+         dao.subtractPoints(userId, pointsToSubtract);
+       
     }
 }

@@ -128,6 +128,28 @@
             }
 
 
+            .user-profile-points {
+                background-color: #f8f9fa;
+                border: 2px solid #28a745;
+                border-radius: 10px;
+                padding: 10px 15px;
+                margin-top: 15px;
+                display: inline-block;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .user-profile-points .points-label {
+                font-weight: bold;
+                color: #28a745;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .user-profile-points .points-value {
+                font-size: 18px;
+                color: #343a40;
+                font-weight: bold;
+            }
         </style>
     </head>
 
@@ -232,8 +254,11 @@
                                                 <span class="font-weight-bold">${sessionScope.inforUserLogin.name}</span>
                                                 <span class="text-black-50">${sessionScope.inforUserLogin.email}</span>
                                             </div>
+                                            <div class="user-profile-points">
+                                                <span class="points-label">Điểm tích lũy mua hàng:</span>
+                                                <span class="points-value">${sessionScope.Point}</span>
+                                            </div>
                                         </div>
-
                                         <div class="col-md-8">
                                             <div class="p-3 py-5">
                                                 <form action="customerprofile" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
@@ -506,7 +531,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             var errorMessage = "${errorOldpass}";
             if (errorMessage) {
-//                alert(errorMessage);
+                //                alert(errorMessage);
 
                 $('#ChangePasswordModal').modal('show');
             }
@@ -543,69 +568,69 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-        var formConsultion = document.getElementById('consultationForm');
-                var nameInput = document.getElementById('customerName');
-                var phoneInput = document.getElementById('customerPhone');
-                var dateInput = document.getElementById('consultationDate');
-                var nameCustomerError = document.getElementById('nameCustomerError');
-                var phoneError = document.getElementById('phoneError');
-                var dateError = document.getElementById('dateError');
-                function validateName() {
+            var formConsultion = document.getElementById('consultationForm');
+            var nameInput = document.getElementById('customerName');
+            var phoneInput = document.getElementById('customerPhone');
+            var dateInput = document.getElementById('consultationDate');
+            var nameCustomerError = document.getElementById('nameCustomerError');
+            var phoneError = document.getElementById('phoneError');
+            var dateError = document.getElementById('dateError');
+            function validateName() {
                 var name = nameInput.value.trim();
-                        if (name === '' || name.replace(/\s/g, '').length === 0) {
-                nameCustomerError.innerHTML = 'Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.';
-                        return false;
+                if (name === '' || name.replace(/\s/g, '').length === 0) {
+                    nameCustomerError.innerHTML = 'Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.';
+                    return false;
                 } else {
-                nameCustomerError.innerHTML = '';
-                        return true;
+                    nameCustomerError.innerHTML = '';
+                    return true;
                 }
-                }
+            }
 
-        function validatePhone() {
-        var phone = phoneInput.value.trim();
+            function validatePhone() {
+                var phone = phoneInput.value.trim();
                 if (phone === '' || phone.replace(/\s/g, '').length === 0 || !/^[0-9]+$/.test(phone)) {
-        phoneError.innerHTML = 'Số điện thoại không hợp lệ hoặc chỉ chứa khoảng trắng.';
-                return false;
-        } else {
-        phoneError.innerHTML = '';
-                return true;
-        }
-        }
+                    phoneError.innerHTML = 'Số điện thoại không hợp lệ hoặc chỉ chứa khoảng trắng.';
+                    return false;
+                } else {
+                    phoneError.innerHTML = '';
+                    return true;
+                }
+            }
 
-        function validateDate() {
-        var date = new Date(dateInput.value);
+            function validateDate() {
+                var date = new Date(dateInput.value);
                 var today = new Date();
                 var day = date.getDay();
                 date.setHours(0, 0, 0, 0);
                 today.setHours(0, 0, 0, 0);
                 if (day === 0 || day === 6) {
-        dateError.innerHTML = 'Ngày tư vấn không được là thứ 7 hoặc chủ nhật.';
-                return false;
-        } else if (date <= today){
-           dateError.innerHTML = 'Ngày tư vấn không được trước hoặc là ngày hôm nay';
-           return false;
-        }else {
-        dateError.innerHTML = '';
-                return true;
-        }
-        }
+                    dateError.innerHTML = 'Ngày tư vấn không được là thứ 7 hoặc chủ nhật.';
+                    return false;
+                } else if (date <= today) {
+                    dateError.innerHTML = 'Ngày tư vấn không được trước hoặc là ngày hôm nay';
+                    return false;
+                } else {
+                    dateError.innerHTML = '';
+                    return true;
+                }
+            }
 
 
 
-        nameInput.addEventListener('input', validateName);
-        phoneInput.addEventListener('input', validatePhone);
-        dateInput.addEventListener('change', validateDate);
+            nameInput.addEventListener('input', validateName);
+            phoneInput.addEventListener('input', validatePhone);
+            dateInput.addEventListener('change', validateDate);
 
-        formConsultion.addEventListener('submit', function (e) {
-        let isValid = true;
+            formConsultion.addEventListener('submit', function (e) {
+                let isValid = true;
                 // Gọi tất cả các hàm validate khi submit form
                 isValid = validateName() && isValid;
                 isValid = validatePhone() && isValid;
                 isValid = validateDate() && isValid;
                 if (!isValid) {
-        e.preventDefault();
-        }
-        });
+                    e.preventDefault();
+                }
+            });
         }
         );
     </script>

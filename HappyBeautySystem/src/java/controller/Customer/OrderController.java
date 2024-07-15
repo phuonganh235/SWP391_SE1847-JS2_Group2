@@ -147,6 +147,16 @@ public class OrderController extends HttpServlet {
                             CouponsDAO couponDAO = new CouponsDAO();
                             couponDAO.updateCouponQuantity(couponCode);
                         }
+
+                        Integer pointsUsed = (Integer) session.getAttribute("pointsUsed");
+                        if (pointsUsed != null && pointsUsed > 0) {
+                            poitCustomer.subtractPoints(userId, pointsUsed);
+                            session.removeAttribute("pointsUsed");
+                            session.removeAttribute("pointDiscount");
+                            int points = poitCustomer.getCustomerPoints(userId);
+                            session.setAttribute("Point", points);
+
+                        }
                         response.sendRedirect("home");
                         return;
 
@@ -155,6 +165,12 @@ public class OrderController extends HttpServlet {
                         String couponCode = request.getParameter("couponCode");
                         if (couponCode != null && !couponCode.isEmpty()) {
                             session.setAttribute("couponCode", couponCode);
+                        }
+
+                        Integer pointsUsed = (Integer) session.getAttribute("pointsUsed");
+                        if (pointsUsed != null && pointsUsed > 0) {
+                            session.setAttribute("PointVnpay", pointsUsed);
+                            session.setAttribute("userIdPoint", userId);
                         }
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
@@ -229,7 +245,6 @@ public class OrderController extends HttpServlet {
                         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
                         String paymentUrl = ConfigVNpay.vnp_PayUrl + "?" + queryUrl;
                         response.sendRedirect(paymentUrl);
-
                         return;
 
                     }
@@ -260,7 +275,6 @@ public class OrderController extends HttpServlet {
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
                         }
                         //delete cart
-
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
                         }
@@ -276,10 +290,15 @@ public class OrderController extends HttpServlet {
                             couponDAO.updateCouponQuantity(couponCode);
                             session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
                         }
-
-//                        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/home.jsp");
-//                        
-//                        dispatcher.forward(request, response);
+                        Integer pointsUsed = (Integer) session.getAttribute("PointVnpay");
+                        Integer UserId = (Integer) session.getAttribute("userIdPoint");
+                        if (pointsUsed != null && pointsUsed > 0) {
+                            poitCustomer.subtractPoints(UserId, pointsUsed);
+                            session.removeAttribute("pointsUsed");
+                            session.removeAttribute("pointDiscount");
+                            session.removeAttribute("PointVnpay");
+                            session.removeAttribute("userIdPoint");
+                        }
                         response.sendRedirect("home");
                         return;
 

@@ -30,6 +30,31 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <style>
+                  .user-profile-points {
+                background-color: #f8f9fa;
+                border: 2px solid #28a745;
+                border-radius: 10px;
+                padding: 10px 15px;
+                margin-top: 15px;
+                display: inline-block;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .user-profile-points .points-label {
+                font-weight: bold;
+                color: #28a745;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .user-profile-points .points-value {
+                font-size: 18px;
+                color: #343a40;
+                font-weight: bold;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -98,7 +123,7 @@
                                             <span style="color: red;">Hết hàng</span>
                                         </td>
                                         <%
-        } // Kết thúc kiểm tra điều kiện
+                                            } // Kết thúc kiểm tra điều kiện
 %>
 
                                         <td class="cart__product__item">
@@ -168,7 +193,27 @@
                             </form>
                             <p id="couponMessage"></p>
                         </div>
+                        <div class="discount__content">
+                            <h6>Quy đổi điểm</h6>
+                            <form action="#" id="pointForm">
+                                <select id="pointSelect">
+                                    <option value="0">Chọn số điểm</option>
+                                    <option value="100">100 điểm - Giảm 5%</option>
+                                    <option value="200">200 điểm - Giảm 10%</option>
+                                    <option value="300">300 điểm - Giảm 15%</option>
+                                    <option value="400">400 điểm - Giảm 20%</option>
+                                </select>
+                                <button type="button" onclick="applyPoints()" class="site-btn">Áp dụng</button>
+                            </form>
+                            <p id="pointMessage"></p>
+                        </div>
+
+                        <div class="user-profile-points">
+                            <span class="points-label">Điểm tích lũy mua hàng:</span>
+                            <span class="points-value">${sessionScope.Point}</span>
+                        </div>
                     </div>
+
                     <div class="col-lg-4 offset-lg-2">
                         <div class="cart__total__procced">
                             <h6>Thông tin mua hàng</h6>
@@ -337,7 +382,10 @@
                                         document.getElementById('originalTotal').innerText = total.toFixed(2);
 
                                         // Apply discount
-                                        var discountAmount = total * currentDiscount;
+                                        // Tính tổng giảm giá (từ mã giảm giá và điểm quy đổi)
+                                        var discountAmount = total * (currentDiscount + currentPointDiscount);
+                                        // Đảm bảo tổng giảm giá không vượt quá tổng tiền
+                                        discountAmount = Math.min(discountAmount, total);
                                         var finalTotal = total - discountAmount;
                                         if (finalTotal < 0)
                                             finalTotal = 0; // Ensure total is not negative
@@ -466,6 +514,37 @@
                     error: function (xhr, status, error) {
                         console.log("Error: " + error);
                         document.getElementById('couponMessage').innerHTML = "Có lỗi xảy ra khi kiểm tra mã giảm giá.";
+                    }
+                });
+            }
+        </script>
+
+
+        <script>
+            let appliedPoint = ''; // Biến để lưu diểm đã  áp dụng
+            let currentPointDiscount = 0; //Biến để lưu giá trị giảm giá hiện tại
+            function applyPoints() {
+                let points = parseInt(document.getElementById('pointSelect').value);
+
+                $.ajax({
+                    url: "applypoint?service=applyPoints",
+                    type: "POST",
+                    data: {
+                        points: points
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            currentPointDiscount = result.discount / 100; // Chuyển % thành số thập phân
+                            document.getElementById('pointMessage').innerHTML = "Quy đổi điểm thành công. Giảm " + result.discount + "%.";
+                            updateTotal(); // Cập nhật tổng tiền với giảm giá mới
+                        } else {
+                            document.getElementById('pointMessage').innerHTML = result.message;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error);
+                        document.getElementById('pointMessage').innerHTML = "Có lỗi xảy ra khi quy đổi điểm.";
                     }
                 });
             }

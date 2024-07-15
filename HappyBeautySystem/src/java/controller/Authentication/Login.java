@@ -1,5 +1,6 @@
 package controller.Authentication;
 
+import dal.PoitCustomerDAO;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
         UserDAO dao = new UserDAO();
+        PoitCustomerDAO pointDao = new PoitCustomerDAO();
         String service = request.getParameter("service");
         if (service == null || service.isEmpty()) {
             request.getRequestDispatcher("/ViewUser/login.jsp").forward(request, response);
@@ -32,7 +34,11 @@ public class Login extends HttpServlet {
                 String password = request.getParameter("password");
                 User u = dao.login(username, password);
                 if (u != null) {
+                     int points = pointDao.getCustomerPoints(u.getUserId());
                     request.setAttribute("check", "success");
+                    
+                    session.setAttribute("Point", points);
+                    
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
                     session.setAttribute("inforUserLogin", u);

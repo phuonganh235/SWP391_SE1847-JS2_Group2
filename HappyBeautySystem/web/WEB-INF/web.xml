@@ -84,6 +84,10 @@
         <servlet-name>videoCall</servlet-name>
         <servlet-class>common.videoCall</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ApplyPointCustomer</servlet-name>
+        <servlet-class>controller.Customer.ApplyPointCustomer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -163,5 +167,9 @@
     <servlet-mapping>
         <servlet-name>videoCall</servlet-name>
         <url-pattern>/videocall</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApplyPointCustomer</servlet-name>
+        <url-pattern>/applypoint</url-pattern>
     </servlet-mapping>
 </web-app>
