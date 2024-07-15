@@ -109,7 +109,7 @@
                             </div>
                             <span>Mô tả: ${ProductData.getShortDes()}</span>
 
-                            <div id="field-price" class="product__details__price">Giá: ${price} VNĐ</div>
+                            <div id="field-price" class="product__details__price">Giá: ${ProductData.getPrice()} VNĐ</div>
 
                             <div style="color: black; font-weight: bold">Hướng dẫn sử dụng:</div>
                             <p>${ProductData.getLongDes()}</p>
@@ -117,8 +117,16 @@
                                 <ul>
                                     <li>
                                         <span>Trạng thái:</span>
-                                        <div class="stock__checkbox" id="stock-status">
-                                            <!--Status-->
+                                        <div id="stock-status">
+                                            <c:if test="${ProductData.getQuantity() > 50}">
+                                                <p style="color: #2bba00; font-weight: bold">Còn hàng</p>
+                                            </c:if>
+                                            <c:if test="${ProductData.getQuantity() < 50 and ProductData.getQuantity() > 0}">
+                                                <p style="color: #ff33cc;; font-weight: bold">Sắp hết hàng</p>
+                                            </c:if>
+                                            <c:if test="${ProductData.getQuantity() <= 0}">
+                                                <p style="color: #ea0b4e;; font-weight: bold">Hết hàng</p>
+                                            </c:if>
                                         </div>
                                     </li>
                                     <li>
@@ -169,12 +177,6 @@
                                             // Add the active class to the clicked button
                                             element.classList.add('active');
                                             // Update the stock status based on quantitySize
-                                            var stockStatusElement = document.getElementById('stock-status');
-                                            if (quantitySize > 0) {
-                                                stockStatusElement.innerHTML = '<p style="color: #2bba00; font-weight: bold">Còn hàng</p>';
-                                            } else {
-                                                stockStatusElement.innerHTML = '<p style="color: #ea0b4e; font-weight: bold">Hết hàng</p>';
-                                            }
                                         }
                                         // Initialize the fields with the first button's attributes on page load
                                         window.onload = function () {
@@ -184,23 +186,32 @@
                                             }
                                         }
                                     </script>
-                                    <li>
+<!--                                    <li>
                                         <span>Kích cỡ:</span>
                                         <div class="size__btn">
                                             <div class="button-holder">
-                                                <c:forEach items="${sizeList}" var="s">
+                                                <%--<c:forEach items="${sizeList}" var="s">--%>
                                                     <button onclick="updatePriceQuantity(this)" value='${s.size}' price='${s.price}' quantitySize='${s.quantity}'
                                                             class="${status.first ? 'active' : ''}">
                                                         ${s.size}
                                                     </button>
-                                                </c:forEach>
+                                                <%--</c:forEach>--%>
                                             </div>
-                                            <input type="hidden" id="quantitySize" name="quantitySize" value="${quantitySize}" />
+                                            <input type="hidden" id="quantitySize" name="quantitySize" value="${ProductData.getQuantity()}" />
                                             <input type="hidden" id="price" name="price" value="${price}" />
                                             <input type="hidden" id="size" name="size" value="${size}" />
                                         </div>
-                                    </li>
+                                    </li>-->
 
+                                    <li>
+                                        <span>Kích cỡ:</span>
+                                        <div class="size__btn">
+                                            <label for="l-btn">
+                                                <input type="radio" id="l-btn">
+                                                ${ProductData.getSize()}
+                                            </label>
+                                        </div>
+                                    </li>
                                     <li>
                                         <span>Vận chuyển:</span>
                                         <p style="color: #2bba00; font-weight: bold">Miễn phí giao hàng</p>
@@ -209,7 +220,7 @@
                             </div>
                             <hr></hr>
                             <div id="field-quantity" class="quantity" style="color: black; font-size: 13px; font-weight: 600;  margin-top: 15px;">
-                                Số lượng: ${quantitySize}
+                                Số lượng: ${ProductData.getQuantity()}
                             </div>
                             <div class="product__details__button">
 
@@ -247,12 +258,6 @@
                                     <span id="textError" style="color: red; font-size: 12px; font-weight: 500;  margin-top: 20px;"></span>  
                                 </div>
 
-
-
-
-
-
-
                                 <a href="#" class="cart-btn" style="margin-top: 10px" onclick="addToCart(${ProductData.getProductId()})">
                                     <span class="icon_cart"></span> Thêm vào giỏ hàng
                                 </a>
@@ -264,12 +269,6 @@
                                         window.location.href = url;
                                     }
                                 </script>
-                                
-                                
-                                
-                                
-                                
-                                
 
                                 <div style="margin-top: 19px;">
                                     <ul>
@@ -414,25 +413,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        function formatFullName(name) {
-            name = name.trim().replace(/\s+/g, ' ');
-            return name;
-        }
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        function formatFullName(name) {
+                                            name = name.trim().replace(/\s+/g, ' ');
+                                            return name;
+                                        }
 
-        document.getElementById("comment").oninput = function () {
-            var name = this.value;
-            this.value = name;
-            if (name === "") {
-                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-            } else if (/^\s/.test(name)) {
-                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-            } else {
-                document.getElementById("nameError").innerHTML = "";
-            }
-        };
+                                        document.getElementById("comment").oninput = function () {
+                                            var name = this.value;
+                                            this.value = name;
+                                            if (name === "") {
+                                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                                            } else if (/^\s/.test(name)) {
+                                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                                            } else {
+                                                document.getElementById("nameError").innerHTML = "";
+                                            }
+                                        };
 
-    });
+                                    });
         </script>
     </body>
 

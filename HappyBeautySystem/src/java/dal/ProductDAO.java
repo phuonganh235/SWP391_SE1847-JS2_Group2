@@ -649,7 +649,7 @@ public class ProductDAO extends DBContext {
     //    Get products low in stock
     public ArrayList<Product> getProductLowStock() {
         ArrayList<Product> pList = new ArrayList<>();
-        String sql = "SELECT * FROM Product where Quantity < 50";
+        String sql = "SELECT * FROM Product where Quantity < 50 and Quantity > 0";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
