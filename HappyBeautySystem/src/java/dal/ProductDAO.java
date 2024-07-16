@@ -634,7 +634,7 @@ public class ProductDAO extends DBContext {
     //    Count numbers of products low in stock
     public int CountLowStock() {
         int count = 0;
-        String sql = "SELECT COUNT(*) as 'count' FROM Product where Quantity < 50";
+        String sql = "SELECT COUNT(*) as 'count' FROM Product where Quantity < 50 and Quantity > 0";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -717,7 +717,7 @@ public class ProductDAO extends DBContext {
         System.out.println(dao.getProductQuantity(1));
 
 //        dao.updateProductQuantityTru(1, 3);
-        ArrayList<Product> pList = dao.searchProductByName("dịu");
+        ArrayList<Product> pList = dao.getProductLowStock();
         for (Product product : pList) {
             System.out.println(product);
         }
