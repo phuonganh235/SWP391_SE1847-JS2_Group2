@@ -122,9 +122,7 @@
                                             <td>${order.getCustomerPhoneNumber()}</td>
                                             <td>${order.getOrderDate()}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Xác nhận</a>
-                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Xóa</a>
-                                            </td>
+                                                <a class="btn btn-sm btn-primary" href="/HappyBeautySystem/managerOrder?service=viewConfirmOrder&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Xác nhận</a>                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

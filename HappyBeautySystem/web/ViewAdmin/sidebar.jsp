@@ -118,7 +118,7 @@
 
                     <div class="navbar-nav w-100">
                         <%--<c:if test="${sessionScope.inforUserLogin.roleId != 3}">--%>
-                            <a href="dashboard" class="nav-item nav-link active">
+                            <a href="/HappyBeautySystem/manager" class="nav-item nav-link ">
                                 <i class="fa fa-tachometer-alt me-2"></i>Bảng điều khiển
                             </a>
                         <%--</c:if>--%>

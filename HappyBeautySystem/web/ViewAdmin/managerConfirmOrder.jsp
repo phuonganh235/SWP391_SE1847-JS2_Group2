@@ -127,8 +127,6 @@
                                             <td>
                                                 <a class="btn btn-sm btn-primary" href="managerOrder?service=viewDetailShipping&orderID=${order.getOrderId()}&CustomerID=${order.getUserId()}">Chi tiết</a>
 
-
-                                                <a class="btn btn-sm btn-danger" href="manager?service=delete&id=${product.productId}">Xóa</a>
                                             </td>
                                         </tr>
                                     </c:forEach>

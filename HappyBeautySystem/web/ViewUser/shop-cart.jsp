@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="ViewUser/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
+        <link href="ViewUser/css/style-shopcart.css" rel="stylesheet" type="text/css"/>
         <style>
                   .user-profile-points {
                 background-color: #f8f9fa;
@@ -194,17 +195,21 @@
                             <p id="couponMessage"></p>
                         </div>
                         <div class="discount__content">
+                            
+                            
                             <h6>Quy đổi điểm</h6>
-                            <form action="#" id="pointForm">
-                                <select id="pointSelect">
+                            <form action="#" id="pointForm" class="poit-customer">
+                                <select id="pointSelect" class="poit-select-customer">
                                     <option value="0">Chọn số điểm</option>
                                     <option value="100">100 điểm - Giảm 5%</option>
                                     <option value="200">200 điểm - Giảm 10%</option>
                                     <option value="300">300 điểm - Giảm 15%</option>
                                     <option value="400">400 điểm - Giảm 20%</option>
                                 </select>
-                                <button type="button" onclick="applyPoints()" class="site-btn">Áp dụng</button>
+                                <button type="button" onclick="applyPoints()" class="site-btn hh">Áp dụng</button>
                             </form>
+                            
+                            
                             <p id="pointMessage"></p>
                         </div>
 
@@ -286,75 +291,7 @@
         <!-- Instagram End -->
 
         <!-- Footer Section Begin -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-7">
-                        <div class="footer__about">
-                            <div class="footer__logo">
-                                <a href="./index.html"><img src="ViewUser/img/footer-logo.png" alt=""></a>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                cilisis.</p>
-                            <div class="footer__payment">
-                                <a href="#"><img src="ViewUser/img/payment/payment-1.png" alt=""></a>
-                                <a href="#"><img src="ViewUser/img/payment/payment-2.png" alt=""></a>
-                                <a href="#"><img src="ViewUser/img/payment/payment-3.png" alt=""></a>
-                                <a href="#"><img src="ViewUser/img/payment/payment-4.png" alt=""></a>
-                                <a href="#"><img src="ViewUser/img/payment/payment-5.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-5">
-                        <div class="footer__widget">
-                            <h6>Quick links</h6>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-7">
-                        <div class="footer__widget">
-                            <h6>Account</h6>
-                            <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-7">
-                        <div class="footer__widget">
-                            <h6>NEWSLETTER</h6>
-                            <div class="footer__newslatter">
-                                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                                <form action="#">
-                                    <input type="text" placeholder="Your email">
-                                    <button type="submit"><span class="icon_mail_alt"></span></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer__copyright__text">
-                            <p>
-                                Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script>
-                                All rights reserved | This template is made with <i class="fa fa-heart"
-                                                                                    aria-hidden="true"></i> by <a href="https://colorlib.com"
-                                                                                    target="_blank">Colorlib</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+          <jsp:include page="footer.jsp"/>
         <!-- Footer Section End -->
 
         <!-- Js Plugins -->
