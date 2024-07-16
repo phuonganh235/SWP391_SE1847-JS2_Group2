@@ -172,6 +172,8 @@ public class OrderController extends HttpServlet {
                             session.setAttribute("PointVnpay", pointsUsed);
                             session.setAttribute("userIdPoint", userId);
                         }
+                        session.setAttribute("UserID", userId);
+
                         String vnp_Version = "2.1.0";
                         String vnp_Command = "pay";
                         String orderType = "other";
@@ -267,13 +269,25 @@ public class OrderController extends HttpServlet {
                         Order newOrder = new Order(inforUserLogin.getUserId(), 2, dateNow, true, name, address, phone, 1);
                         //add order
                         int idADD = daoOrder.insertOrderGetID(newOrder);
+                        double poit = 0;
+                        int poitInt = 0;
                         //add orrder detail
                         List<Cart> listCart = _list;
                         for (Cart cart1 : _list) {
                             Product pro = daoProduct.getProductById(cart1.getProductId());
                             detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
                             daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                            // add poit 
+                            Product newProduct = new Product();
+                            newProduct = daoProduct.getProductById(cart1.getProductId());
+                            poit += cart1.getQuantity() * newProduct.getPrice();
                         }
+                        poitInt = (int) (poit / 20000);
+
+                        Integer userId = (Integer) session.getAttribute("UserID");
+                        poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
+                        
+
                         //delete cart
                         for (Cart cart1 : _list) {
                             cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
@@ -285,6 +299,7 @@ public class OrderController extends HttpServlet {
                         request.setAttribute("orderSuccess", true);
                         request.setAttribute("orderId", idADD);
                         String couponCode = (String) session.getAttribute("couponCode");
+                        //giam so luong ma giam gia
                         if (couponCode != null && !couponCode.isEmpty()) {
                             CouponsDAO couponDAO = new CouponsDAO();
                             couponDAO.updateCouponQuantity(couponCode);
@@ -292,12 +307,16 @@ public class OrderController extends HttpServlet {
                         }
                         Integer pointsUsed = (Integer) session.getAttribute("PointVnpay");
                         Integer UserId = (Integer) session.getAttribute("userIdPoint");
+                        // giam so diem tich luy 
                         if (pointsUsed != null && pointsUsed > 0) {
                             poitCustomer.subtractPoints(UserId, pointsUsed);
                             session.removeAttribute("pointsUsed");
                             session.removeAttribute("pointDiscount");
                             session.removeAttribute("PointVnpay");
                             session.removeAttribute("userIdPoint");
+                            int points = poitCustomer.getCustomerPoints(userId);
+                            session.setAttribute("Point", points);
+                            session.removeAttribute("UserID");
                         }
                         response.sendRedirect("home");
                         return;
