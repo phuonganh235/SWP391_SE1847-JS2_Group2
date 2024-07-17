@@ -270,7 +270,28 @@
                                             <h5><a style="color: black; font-size: 18px; font-weight: 350;" href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
                                             <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
 
-                                            <div class="product__price" style="color: #ea5d8c; font-size: 18px;">${p.getPrice()} VNĐ</div>
+                                            <div id="field-price-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 18px;"></div>
+                                                <script>
+                                                    (function () {
+                                                        // Function to format the price
+                                                        function format(price) {
+                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                            let priceString = parseFloat(price).toFixed(0);
+
+                                                            // Use a regular expression to insert dots at the thousand places
+                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                                            // Return the formatted price with ' VNĐ' appended
+                                                            return priceString + ' VNĐ';
+                                                        }
+
+                                                        // Use JSP to get the price from the server-side
+                                                        let priceNew = ${p.getPrice()};
+
+                                                        // Format the price and display it in the specified HTML element
+                                                        document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
+                                                    })();
+                                                </script>
                                         </div>
                                     </div>
                                 </div>

@@ -109,7 +109,26 @@
                             </div>
                             <span>Mô tả: ${ProductData.getShortDes()}</span>
 
-                            <div id="field-price" class="product__details__price">Giá: ${ProductData.getPrice()} VNĐ</div>
+                            <div id="field-price" class="product__details__price"></div>
+                            <script>
+                                // Function to format the price
+                                function formatPrice(price) {
+                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                    let priceString = parseFloat(price).toFixed(0);
+
+                                    // Use a regular expression to insert dots at the thousand places
+                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                    // Return the formatted price with ' VNĐ' appended
+                                    return priceString + ' VNĐ';
+                                }
+
+                                // Use JSP to get the price from the server-side
+                                let price = ${ProductData.getPrice()};
+
+                                // Format the price and display it in the specified HTML element
+                                document.getElementById('field-price').innerHTML = formatPrice(price);
+                            </script>
 
                             <div style="color: black; font-weight: bold">Hướng dẫn sử dụng:</div>
                             <p>${ProductData.getLongDes()}</p>
@@ -186,22 +205,22 @@
                                             }
                                         }
                                     </script>
-<!--                                    <li>
-                                        <span>Kích cỡ:</span>
-                                        <div class="size__btn">
-                                            <div class="button-holder">
-                                                <%--<c:forEach items="${sizeList}" var="s">--%>
-                                                    <button onclick="updatePriceQuantity(this)" value='${s.size}' price='${s.price}' quantitySize='${s.quantity}'
-                                                            class="${status.first ? 'active' : ''}">
-                                                        ${s.size}
-                                                    </button>
-                                                <%--</c:forEach>--%>
-                                            </div>
-                                            <input type="hidden" id="quantitySize" name="quantitySize" value="${ProductData.getQuantity()}" />
-                                            <input type="hidden" id="price" name="price" value="${price}" />
-                                            <input type="hidden" id="size" name="size" value="${size}" />
-                                        </div>
-                                    </li>-->
+                                    <!--                                    <li>
+                                                                            <span>Kích cỡ:</span>
+                                                                            <div class="size__btn">
+                                                                                <div class="button-holder">
+                                    <%--<c:forEach items="${sizeList}" var="s">--%>
+                                        <button onclick="updatePriceQuantity(this)" value='${s.size}' price='${s.price}' quantitySize='${s.quantity}'
+                                                class="${status.first ? 'active' : ''}">
+                                    ${s.size}
+                                </button>
+                                    <%--</c:forEach>--%>
+                                </div>
+                                <input type="hidden" id="quantitySize" name="quantitySize" value="${ProductData.getQuantity()}" />
+                                <input type="hidden" id="price" name="price" value="${price}" />
+                                <input type="hidden" id="size" name="size" value="${size}" />
+                            </div>
+                        </li>-->
 
                                     <li>
                                         <span>Kích cỡ:</span>
@@ -387,7 +406,28 @@
                                         <span style="color: #ddb100; font-weight: bold; font-size: 14px">${avgRating}  </span>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <div class="product__price" style="color: #ea5d8c; font-size: 16px;">${pc.getPrice()} VNĐ</div>
+                                    <div id="field-price-${pc.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 16px;"></div>
+                                    <script>
+                                        (function () {
+                                            // Function to format the price
+                                            function format(price) {
+                                                // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                let priceString = parseFloat(price).toFixed(0);
+
+                                                // Use a regular expression to insert dots at the thousand places
+                                                priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                                // Return the formatted price with ' VNĐ' appended
+                                                return priceString + ' VNĐ';
+                                            }
+
+                                            // Use JSP to get the price from the server-side
+                                            let priceNew = ${pc.getPrice()};
+
+                                            // Format the price and display it in the specified HTML element
+                                            document.getElementById('field-price-${pc.getProductId()}').innerHTML = format(priceNew);
+                                        })();
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -413,25 +453,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        function formatFullName(name) {
-                                            name = name.trim().replace(/\s+/g, ' ');
-                                            return name;
-                                        }
+                    document.addEventListener("DOMContentLoaded", function () {
+                        function formatFullName(name) {
+                            name = name.trim().replace(/\s+/g, ' ');
+                            return name;
+                        }
 
-                                        document.getElementById("comment").oninput = function () {
-                                            var name = this.value;
-                                            this.value = name;
-                                            if (name === "") {
-                                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-                                            } else if (/^\s/.test(name)) {
-                                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-                                            } else {
-                                                document.getElementById("nameError").innerHTML = "";
-                                            }
-                                        };
+                        document.getElementById("comment").oninput = function () {
+                            var name = this.value;
+                            this.value = name;
+                            if (name === "") {
+                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                            } else if (/^\s/.test(name)) {
+                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                            } else {
+                                document.getElementById("nameError").innerHTML = "";
+                            }
+                        };
 
-                                    });
+                    });
         </script>
     </body>
 

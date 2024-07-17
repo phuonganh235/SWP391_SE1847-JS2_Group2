@@ -117,6 +117,8 @@ public class manager extends HttpServlet {
 //        Product low in stock
         if (service.equals("low")){
             ArrayList<Product> lowProduct = dao.getProductLowStock();
+            ArrayList<Category> cat = daoC.getAllCategories();
+            request.setAttribute("listCat", cat);
             request.setAttribute("listP", lowProduct);
             request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
         }

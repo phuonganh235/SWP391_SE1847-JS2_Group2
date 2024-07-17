@@ -102,19 +102,32 @@
                                                 href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>">
                                                 <img style = "border: 4px solid #fddfdf; border-radius: 40px; height: 185px; width: 150px; margin-left :50px"
                                                      src="<%= pro.getPathImage()%>" alt=""></a>
-                                                     <div class="cart__product__item__title" style="margin-top: 38px; margin-left: 300px">
+                                            <div class="cart__product__item__title" style="margin-top: 38px; margin-left: 300px">
                                                 <h6><a
                                                         href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%> <%= pro.getCompanyName()%></a>
                                                 </h6>
-<!--                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>-->
-                                                <div class="cart__price"><%= String.format("%.0f", pro.getPrice())%> VNĐ</div>
+                                                <div id="field-price-<%= pro.getProductId()%>" class="cart__price"></div>
+                                                <script>
+                                                    (function () {
+                                                        // Function to format the price
+                                                        function format(price) {
+                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                            let priceString = parseFloat(price).toFixed(0);
 
+                                                            // Use a regular expression to insert dots at the thousand places
+                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                                            // Return the formatted price with ' VNĐ' appended
+                                                            return priceString + ' VNĐ';
+                                                        }
+
+                                                        // Use JSP to get the price from the server-side
+                                                        let priceNew = <%= pro.getPrice()%>;
+
+                                                        // Format the price and display it in the specified HTML element
+                                                        document.getElementById('field-price-<%= pro.getProductId()%>').innerHTML = format(priceNew);
+                                                    })();
+                                                </script>
                                             </div>
                                         </td>
                                         <td class="cart__product__item__title">
@@ -152,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-               
+
 
         </section>
         <!-- Shop Cart Section End -->
@@ -173,36 +186,36 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-            // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
-            let listProcductIdChoose = [];
+                                        // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
+                                        let listProcductIdChoose = [];
 
-            function confirm(btn) {
-                // Lấy danh sách các checkbox được chọn
-                var checkboxes = document.querySelectorAll('.product-checkbox:checked');
-                listProcductIdChoose = [];
+                                        function confirm(btn) {
+                                            // Lấy danh sách các checkbox được chọn
+                                            var checkboxes = document.querySelectorAll('.product-checkbox:checked');
+                                            listProcductIdChoose = [];
 
-                checkboxes.forEach(function (checkbox) {
-                    // Lấy id sản phẩm từ data-attribute của checkbox
-                    var productId = checkbox.getAttribute('data-product-id');
-                    listProcductIdChoose.push(productId); // Thêm id vào mảng listProcductIdChoose
-                });
+                                            checkboxes.forEach(function (checkbox) {
+                                                // Lấy id sản phẩm từ data-attribute của checkbox
+                                                var productId = checkbox.getAttribute('data-product-id');
+                                                listProcductIdChoose.push(productId); // Thêm id vào mảng listProcductIdChoose
+                                            });
 
-                if (listProcductIdChoose.length > 0) {
-                    let link = "AddToCart?service=showCart";
-                    let params = new URLSearchParams();
+                                            if (listProcductIdChoose.length > 0) {
+                                                let link = "AddToCart?service=showCart";
+                                                let params = new URLSearchParams();
 
-                    // Thêm các id sản phẩm đã chọn vào params
-                    for (let i = 0; i < listProcductIdChoose.length; i++) {
-                        params.append('id', listProcductIdChoose[i]);
-                    }
+                                                // Thêm các id sản phẩm đã chọn vào params
+                                                for (let i = 0; i < listProcductIdChoose.length; i++) {
+                                                    params.append('id', listProcductIdChoose[i]);
+                                                }
 
-                    // Tạo URL với các tham số đã được thêm vào
-                    link += '&' + params.toString();
+                                                // Tạo URL với các tham số đã được thêm vào
+                                                link += '&' + params.toString();
 
-                    // Chuyển hướng đến servlet với URL đã xây dựng
-                    window.location.href = link;
-                }
-            }
+                                                // Chuyển hướng đến servlet với URL đã xây dựng
+                                                window.location.href = link;
+                                            }
+                                        }
         </script>
 
     </body>
