@@ -165,10 +165,16 @@
                                     <h2>Đặt thời gian giao hàng</h2>
                                     <div class="row">
                                         <div class="form-group">
-                                            <label for="categoryName">Ghi chú</label>
-                                            <input type="text" class="form-control" id="phone" name="note" value="" >
+                                            <label for="note">Ghi chú</label>
+                                            <select class="form-control" id="note" name="note">
+                                                <option value="">Chọn ghi chú</option>
+                                                <option value="Giao hàng nhanh chóng">Giao hàng nhanh chóng</option>
+                                                <option value="Giao hàng ngoài giờ hành chính">Giao hàng ngoài giờ hành chính</option>
+                                                <option value="Giao hàng trong giờ hành chính">Giao hàng trong giờ hành chính</option>
+                                            </select>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="fromTime">Từ</label>

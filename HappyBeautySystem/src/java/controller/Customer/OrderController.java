@@ -118,47 +118,67 @@ public class OrderController extends HttpServlet {
                         double poit = 0;
                         int poitInt = 0;
                         //add order
-
-                        int idADD = daoOrder.insertOrderGetID(newOrder);
                         List<Cart> listCart = _list;
+                        ///CHECK PRODUCT HAVE QUANTITY = 0
+                        // List product have quantity = 0 
+                        List<Product> listProductQuantityZero = new ArrayList<Product>();
+                        //
+
                         for (Cart cart1 : listCart) {
-                            //add order detail
-                            Product pro = daoProduct.getProductById(cart1.getProductId());
-                            detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
-                            // update product
-                            daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                            int quantity = daoProduct.getQuantity(cart1.getProductId());
+                            if (quantity == 0) {
+                                Product product = daoProduct.getProductById(cart1.getProductId());
+                                listProductQuantityZero.add(product);
+                            }
+                        }
+                        // check
+                        if (listProductQuantityZero.size() > 0) {
+                            request.setAttribute("listProductHaveQuantityIsZero", listProductQuantityZero);
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/notifi-confirm-order.jsp");
+                            dispatcher.forward(request, response);
+                            return;
+                        } else {
+                            int idADD = daoOrder.insertOrderGetID(newOrder);
+                            ///END CHECK PRODUCT HAVE QUANTITY = 0
+                            for (Cart cart1 : listCart) {
+                                //add order detail
+                                Product pro = daoProduct.getProductById(cart1.getProductId());
+                                detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                // update product
+                                daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                // add poit 
+                                Product newProduct = new Product();
+                                newProduct = daoProduct.getProductById(cart1.getProductId());
+                                poit += cart1.getQuantity() * newProduct.getPrice();
+
+                            }
+                            poitInt = (int) (poit / 20000);
                             // add poit 
-                            Product newProduct = new Product();
-                            newProduct = daoProduct.getProductById(cart1.getProductId());
-                            poit += cart1.getQuantity() * newProduct.getPrice();
+                            poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
+                            InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
+                            daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
+                            // delete cart
+                            for (Cart cart1 : _list) {
+                                cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
+                            }
+                            String couponCode = request.getParameter("couponCode");
+                            if (couponCode != null && !couponCode.isEmpty()) {
+                                CouponsDAO couponDAO = new CouponsDAO();
+                                couponDAO.updateCouponQuantity(couponCode);
+                            }
 
-                        }
-                        poitInt = (int) (poit / 20000);
-                        // add poit 
-                        poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
-                        InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
-                        daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
-                        // delete cart
-                        for (Cart cart1 : _list) {
-                            cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
-                        }
-                        String couponCode = request.getParameter("couponCode");
-                        if (couponCode != null && !couponCode.isEmpty()) {
-                            CouponsDAO couponDAO = new CouponsDAO();
-                            couponDAO.updateCouponQuantity(couponCode);
-                        }
+                            Integer pointsUsed = (Integer) session.getAttribute("pointsUsed");
+                            if (pointsUsed != null && pointsUsed > 0) {
+                                poitCustomer.subtractPoints(userId, pointsUsed);
+                                session.removeAttribute("pointsUsed");
+                                session.removeAttribute("pointDiscount");
+                                int points = poitCustomer.getCustomerPoints(userId);
+                                session.setAttribute("Point", points);
 
-                        Integer pointsUsed = (Integer) session.getAttribute("pointsUsed");
-                        if (pointsUsed != null && pointsUsed > 0) {
-                            poitCustomer.subtractPoints(userId, pointsUsed);
-                            session.removeAttribute("pointsUsed");
-                            session.removeAttribute("pointDiscount");
-                            int points = poitCustomer.getCustomerPoints(userId);
-                            session.setAttribute("Point", points);
-
+                            }
+                            response.sendRedirect("home");
+                            return;
                         }
-                        response.sendRedirect("home");
-                        return;
 
                     }
                     if (idPaymentInt == 2) {
@@ -267,59 +287,77 @@ public class OrderController extends HttpServlet {
                         String dateNow = common.getDateTimeNow();
 
                         Order newOrder = new Order(inforUserLogin.getUserId(), 2, dateNow, true, name, address, phone, 1);
-                        //add order
-                        int idADD = daoOrder.insertOrderGetID(newOrder);
+
                         double poit = 0;
                         int poitInt = 0;
                         //add orrder detail
                         List<Cart> listCart = _list;
-                        for (Cart cart1 : _list) {
-                            Product pro = daoProduct.getProductById(cart1.getProductId());
-                            detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
-                            daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
-                            // add poit 
-                            Product newProduct = new Product();
-                            newProduct = daoProduct.getProductById(cart1.getProductId());
-                            poit += cart1.getQuantity() * newProduct.getPrice();
+                        // List product have quantity = 0 
+                        List<Product> listProductQuantityZero = new ArrayList<Product>();
+                        //
+                        for (Cart cart1 : listCart) {
+                            int quantity = daoProduct.getQuantity(cart1.getProductId());
+                            if (quantity == 0) {
+                                Product product = daoProduct.getProductById(cart1.getProductId());
+                                listProductQuantityZero.add(product);
+                            }
                         }
-                        poitInt = (int) (poit / 20000);
+                        // check
+                        if (listProductQuantityZero.size() > 0) {
+                            request.setAttribute("listProductHaveQuantityIsZero", listProductQuantityZero);
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/notifi-confirm-order.jsp");
+                            dispatcher.forward(request, response);
+                            return;
+                        } else {
+                            //add order
+                            int idADD = daoOrder.insertOrderGetID(newOrder);
+                            for (Cart cart1 : _list) {
+                                Product pro = daoProduct.getProductById(cart1.getProductId());
+                                detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                // add poit 
+                                Product newProduct = new Product();
+                                newProduct = daoProduct.getProductById(cart1.getProductId());
+                                poit += cart1.getQuantity() * newProduct.getPrice();
+                            }
+                            poitInt = (int) (poit / 20000);
 
-                        Integer userId = (Integer) session.getAttribute("UserID");
-                        poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
-                        
+                            Integer userId = (Integer) session.getAttribute("UserID");
+                            poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
 
-                        //delete cart
-                        for (Cart cart1 : _list) {
-                            cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
+                            //delete cart
+                            for (Cart cart1 : _list) {
+                                cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
+                            }
+                            session.removeAttribute("orderName");
+                            session.removeAttribute("orderAddress");
+                            session.removeAttribute("orderPhone");
+                            ConfigVNpay.transaction.put(vnp_TxnRef, 1);
+                            request.setAttribute("orderSuccess", true);
+                            request.setAttribute("orderId", idADD);
+                            String couponCode = (String) session.getAttribute("couponCode");
+                            //giam so luong ma giam gia
+                            if (couponCode != null && !couponCode.isEmpty()) {
+                                CouponsDAO couponDAO = new CouponsDAO();
+                                couponDAO.updateCouponQuantity(couponCode);
+                                session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
+                            }
+                            Integer pointsUsed = (Integer) session.getAttribute("PointVnpay");
+                            Integer UserId = (Integer) session.getAttribute("userIdPoint");
+                            // giam so diem tich luy 
+                            if (pointsUsed != null && pointsUsed > 0) {
+                                poitCustomer.subtractPoints(UserId, pointsUsed);
+                                session.removeAttribute("pointsUsed");
+                                session.removeAttribute("pointDiscount");
+                                session.removeAttribute("PointVnpay");
+                                session.removeAttribute("userIdPoint");
+                                int points = poitCustomer.getCustomerPoints(userId);
+                                session.setAttribute("Point", points);
+                                session.removeAttribute("UserID");
+                            }
+                            response.sendRedirect("home");
+                            return;
                         }
-                        session.removeAttribute("orderName");
-                        session.removeAttribute("orderAddress");
-                        session.removeAttribute("orderPhone");
-                        ConfigVNpay.transaction.put(vnp_TxnRef, 1);
-                        request.setAttribute("orderSuccess", true);
-                        request.setAttribute("orderId", idADD);
-                        String couponCode = (String) session.getAttribute("couponCode");
-                        //giam so luong ma giam gia
-                        if (couponCode != null && !couponCode.isEmpty()) {
-                            CouponsDAO couponDAO = new CouponsDAO();
-                            couponDAO.updateCouponQuantity(couponCode);
-                            session.removeAttribute("couponCode"); // Xóa mã giảm giá khỏi session sau khi sử dụng
-                        }
-                        Integer pointsUsed = (Integer) session.getAttribute("PointVnpay");
-                        Integer UserId = (Integer) session.getAttribute("userIdPoint");
-                        // giam so diem tich luy 
-                        if (pointsUsed != null && pointsUsed > 0) {
-                            poitCustomer.subtractPoints(UserId, pointsUsed);
-                            session.removeAttribute("pointsUsed");
-                            session.removeAttribute("pointDiscount");
-                            session.removeAttribute("PointVnpay");
-                            session.removeAttribute("userIdPoint");
-                            int points = poitCustomer.getCustomerPoints(userId);
-                            session.setAttribute("Point", points);
-                            session.removeAttribute("UserID");
-                        }
-                        response.sendRedirect("home");
-                        return;
 
                     } else {
                         response.sendRedirect("home");

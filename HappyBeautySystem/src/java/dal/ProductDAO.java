@@ -692,23 +692,39 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-    public int getProductQuantity(int productId) {
-    int quantity = 0;
-    String sql = "SELECT Quantity FROM Product WHERE ProductId = ?";
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setInt(1, productId);
-        ResultSet rs = st.executeQuery();
-        if (rs.next()) {
-            quantity = rs.getInt("Quantity");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return quantity;
-}
 
+    public int getProductQuantity(int productId) {
+        int quantity = 0;
+        String sql = "SELECT Quantity FROM Product WHERE ProductId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                quantity = rs.getInt("Quantity");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quantity;
+    }
+    // Get quantity
+
+    public int getQuantity(int productId) {
+        String sql = "SELECT Quantity FROM Product WHERE ProductId = ?";
+        int quantity = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                quantity = rs.getInt("Quantity");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quantity;
+    }
 
 //    Test
     public static void main(String[] args) {
