@@ -113,7 +113,7 @@
                                     </div>
 
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Danh sách loại hàng</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">Danh sách hãng</a>
                                     </div>
                                 </div>
                                 <!-- sidebar widget end-->
