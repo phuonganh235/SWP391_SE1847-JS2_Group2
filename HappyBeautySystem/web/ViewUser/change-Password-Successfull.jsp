@@ -36,7 +36,6 @@
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link href="ViewUser/css/style-order-successfull.css" rel="stylesheet" type="text/css"/>
     </head>
-
     <body>
         <jsp:include page="navbar.jsp"/>
 
