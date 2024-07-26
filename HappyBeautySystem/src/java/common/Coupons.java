@@ -5,6 +5,7 @@
 package common;
 
 import dal.CouponsDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 /**
@@ -26,46 +28,53 @@ public class Coupons extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             CouponsDAO couponDao = new CouponsDAO();
             String service = request.getParameter("service");
+            UserDAO uDao = new UserDAO();
+            HttpSession session = request.getSession();
+            String username = (String) session.getAttribute("username");
+            String password = (String) session.getAttribute("password");
 
-            if (service == null) {
-                service = "listall";
-            }
-            if (service.equals("listall")) {
-                ArrayList<model.Coupons> list = couponDao.getAllCoupons();
-                int page = 0, numberPage = 8;
-                int size = list.size();
-                int num = (size % 8 == 0 ? (size / 8) : ((size / 8) + 1));
-                String indexPage = request.getParameter("page");
-                if (indexPage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(indexPage);
+            if (uDao.getRole(username, password) == 2 || uDao == null) {
+                if (service == null) {
+                    service = "listall";
                 }
-                int start, end;
-                start = (page - 1) * numberPage;
-                end = Math.min(page * numberPage, size);
-                ArrayList<model.Coupons> couponPage = couponDao.getListByPage(list, start, end);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("couponList", couponPage);
-                request.getRequestDispatcher("/ViewUser/Coupons.jsp").forward(request, response);
-            }
-            if (service.equals("checkCoupon")) {
-                String couponCode = request.getParameter("couponCode");
-                model.Coupons coupon = couponDao.getCouponByCode(couponCode);
-                JSONObject jsonResponse = new JSONObject();
-                if (coupon != null) {
-                    jsonResponse.put("valid", true);
-                    jsonResponse.put("discountAmount", coupon.getDiscountAmount());
-                } else {
-                    jsonResponse.put("valid", false);
+                if (service.equals("listall")) {
+                    ArrayList<model.Coupons> list = couponDao.getAllCoupons();
+                    int page = 0, numberPage = 8;
+                    int size = list.size();
+                    int num = (size % 8 == 0 ? (size / 8) : ((size / 8) + 1));
+                    String indexPage = request.getParameter("page");
+                    if (indexPage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(indexPage);
+                    }
+                    int start, end;
+                    start = (page - 1) * numberPage;
+                    end = Math.min(page * numberPage, size);
+                    ArrayList<model.Coupons> couponPage = couponDao.getListByPage(list, start, end);
+                    request.setAttribute("page", page);
+                    request.setAttribute("num", num);
+                    request.setAttribute("couponList", couponPage);
+                    request.getRequestDispatcher("/ViewUser/Coupons.jsp").forward(request, response);
                 }
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                out.print(jsonResponse);
-                out.flush();
+                if (service.equals("checkCoupon")) {
+                    String couponCode = request.getParameter("couponCode");
+                    model.Coupons coupon = couponDao.getCouponByCode(couponCode);
+                    JSONObject jsonResponse = new JSONObject();
+                    if (coupon != null) {
+                        jsonResponse.put("valid", true);
+                        jsonResponse.put("discountAmount", coupon.getDiscountAmount());
+                    } else {
+                        jsonResponse.put("valid", false);
+                    }
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    out.print(jsonResponse);
+                    out.flush();
+                }
+            } else {
+                response.sendRedirect("login");
             }
-
         }
     }
 

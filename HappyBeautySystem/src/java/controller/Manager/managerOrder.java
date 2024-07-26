@@ -41,86 +41,93 @@ public class managerOrder extends HttpServlet {
         User inforUser = (User) session.getAttribute("inforUserLogin");
         CommonDAO common = new CommonDAO();
         try (PrintWriter out = response.getWriter()) {
-            if (service.equals("showAll")) {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewAdmin/managerOrder.jsp");
-                dispatcher.forward(request, response);
-            }
-            if (service.equals("listAllOrder")) {
-                int Statuss = Integer.parseInt(request.getParameter("status"));
-                if (Statuss == 1) {
-                    List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
+            String username = (String) session.getAttribute("username");
+            String password = (String) session.getAttribute("password");
+
+            if (daoUser.getRole(username, password) == 1 || daoUser.getRole(username, password) == 4) {
+                if (service.equals("showAll")) {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewAdmin/managerOrder.jsp");
+                    dispatcher.forward(request, response);
+                }
+                if (service.equals("listAllOrder")) {
+                    int Statuss = Integer.parseInt(request.getParameter("status"));
+                    if (Statuss == 1) {
+                        List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
+                        request.setAttribute("listAllOrder", listOrder);
+                        request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
+                    } else {
+                        List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
+                        request.setAttribute("listAllOrder", listOrder);
+                        request.getRequestDispatcher("ViewAdmin/managerConfirmOrder.jsp").forward(request, response);
+                    }
+                }
+                if (service.equals("viewConfirmOrder")) {
+                    String orderID = request.getParameter("orderID");
+                    int orderDetailInt = Integer.parseInt(orderID);
+                    String customerID = request.getParameter("CustomerID");
+                    // list order detail
+                    List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
+                    // infor customer
+                    User user = daoUser.getUserById(customerID);
+                    //get order
+                    Order newOrder = daoOrder.getOrderById(orderDetailInt);
+                    //get infor order detail
+                    InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
+                    //List Shiper
+                    List<User> listShipper = daoUser.getUserByRoleIdAndStatus(3, 3);
+                    request.setAttribute("listOrderDetail", listOrderDetail);
+                    request.setAttribute("customerInfor", user);
+                    request.setAttribute("listShipper", listShipper);
+                    request.setAttribute("informationOrder", newOrder);
+                    request.setAttribute("inforOrderDetail", ipOrderDetail);
+                    request.getRequestDispatcher("ViewAdmin/confirmOrder.jsp").forward(request, response);
+                }
+                if (service.equals("viewDetailShipping")) {
+                    String orderID = request.getParameter("orderID");
+                    int orderIDInt = Integer.parseInt(orderID);
+                    int orderDetailInt = Integer.parseInt(orderID);
+                    String customerID = request.getParameter("CustomerID");
+                    // list order detail
+                    //get order
+                    Order newOrder = daoOrder.getOrderById(orderDetailInt);
+                    //get infor order detail
+                    InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
+                    //List Shiper
+                    List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
+                    // infor customer
+                    User user = daoUser.getUserById(customerID);
+                    //List Shiper
+                    int idShipper = daoUserShipOrder.getUserIDByOrderID(orderIDInt);
+
+                    User newUser = daoUser.getUserById("" + idShipper);
+                    request.setAttribute("informationOrder", newOrder);
+                    request.setAttribute("inforOrderDetail", ipOrderDetail);
+                    request.setAttribute("listOrderDetail", listOrderDetail);
+                    request.setAttribute("customerInfor", user);
+                    request.setAttribute("inforShipper", newUser);
+                    request.getRequestDispatcher("ViewAdmin/viewDetailShipping.jsp").forward(request, response);
+                }
+                if (service.equals("confirm")) {
+                    int orderID = Integer.parseInt(request.getParameter("OrderID"));
+                    int shipeerID = Integer.parseInt(request.getParameter("ShipperID"));
+                    String dateNow = common.getDateTimeNow();
+                    //staff ID session
+                    daoUserShipOrder.addUserShipOrder(orderID, shipeerID, dateNow, 4);
+                    //
+                    daoOrder.updateOrderStatus(orderID, 2);
+                    //
+                    List<Order> listOrder = daoOrder.getOrdersByStatus(1);
                     request.setAttribute("listAllOrder", listOrder);
                     request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
-                } else {
-                    List<Order> listOrder = daoOrder.getOrdersByStatus(Statuss);
-                    request.setAttribute("listAllOrder", listOrder);
-                    request.getRequestDispatcher("ViewAdmin/managerConfirmOrder.jsp").forward(request, response);
                 }
-            }
-            if (service.equals("viewConfirmOrder")) {
-                String orderID = request.getParameter("orderID");
-                int orderDetailInt = Integer.parseInt(orderID);
-                String customerID = request.getParameter("CustomerID");
-                // list order detail
-                List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
-                // infor customer
-                User user = daoUser.getUserById(customerID);
-                //get order
-                Order newOrder = daoOrder.getOrderById(orderDetailInt);
-                //get infor order detail
-                InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
-                //List Shiper
-                List<User> listShipper = daoUser.getUserByRoleIdAndStatus(3, 3);
-                request.setAttribute("listOrderDetail", listOrderDetail);
-                request.setAttribute("customerInfor", user);
-                request.setAttribute("listShipper", listShipper);
-                request.setAttribute("informationOrder", newOrder);
-                request.setAttribute("inforOrderDetail", ipOrderDetail);
-                request.getRequestDispatcher("ViewAdmin/confirmOrder.jsp").forward(request, response);
-            }
-            if (service.equals("viewDetailShipping")) {
-                String orderID = request.getParameter("orderID");
-                int orderIDInt = Integer.parseInt(orderID);
-                int orderDetailInt = Integer.parseInt(orderID);
-                String customerID = request.getParameter("CustomerID");
-                // list order detail
-                //get order
-                Order newOrder = daoOrder.getOrderById(orderDetailInt);
-                //get infor order detail
-                InforOrderDetail ipOrderDetail = daoInforOrderDetail.getInforOrderDetailByOrderId(orderDetailInt);
-                //List Shiper
-                List<OrderDetail> listOrderDetail = daoOrderDetail.getOrderDetailsByOrderId(orderDetailInt);
-                // infor customer
-                User user = daoUser.getUserById(customerID);
-                //List Shiper
-                int idShipper = daoUserShipOrder.getUserIDByOrderID(orderIDInt);
-
-                User newUser = daoUser.getUserById("" + idShipper);
-                request.setAttribute("informationOrder", newOrder);
-                request.setAttribute("inforOrderDetail", ipOrderDetail);
-                request.setAttribute("listOrderDetail", listOrderDetail);
-                request.setAttribute("customerInfor", user);
-                request.setAttribute("inforShipper", newUser);
-                request.getRequestDispatcher("ViewAdmin/viewDetailShipping.jsp").forward(request, response);
-            }
-            if (service.equals("confirm")) {
-                int orderID = Integer.parseInt(request.getParameter("OrderID"));
-                int shipeerID = Integer.parseInt(request.getParameter("ShipperID"));
-                String dateNow = common.getDateTimeNow();
-                //staff ID session
-                daoUserShipOrder.addUserShipOrder(orderID, shipeerID, dateNow, 4);
-                //
-                daoOrder.updateOrderStatus(orderID, 2);
-                //
-                List<Order> listOrder = daoOrder.getOrdersByStatus(1);
-                request.setAttribute("listAllOrder", listOrder);
-                request.getRequestDispatcher("ViewAdmin/managerOrder.jsp").forward(request, response);
-            }
-            if (service.equals("viewOrderToday")) {
-                // list order today
-                ArrayList<Order> orderToday = daoOrder.getBillByDay();
-                request.setAttribute("listAllOrder", orderToday);
-                request.getRequestDispatcher("ViewAdmin/viewOrderToday.jsp").forward(request, response);
+                if (service.equals("viewOrderToday")) {
+                    // list order today
+                    ArrayList<Order> orderToday = daoOrder.getBillByDay();
+                    request.setAttribute("listAllOrder", orderToday);
+                    request.getRequestDispatcher("ViewAdmin/viewOrderToday.jsp").forward(request, response);
+                }
+            } else {
+                response.sendRedirect("login");
             }
         }
     }

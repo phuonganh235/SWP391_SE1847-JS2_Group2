@@ -32,7 +32,7 @@ public class ManagerOrder extends HttpServlet {
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
-            if (inforUser == null) {
+            if (inforUser == null || inforUser.getRoleId() == 1 || inforUser.getRoleId() == 3 || inforUser.getRoleId() == 4) {
                 response.sendRedirect("login");
             } else {
                 if (service == null) {

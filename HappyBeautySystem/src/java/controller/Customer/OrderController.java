@@ -59,7 +59,7 @@ public class OrderController extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
-            if (inforUserLogin == null) {
+            if (inforUserLogin == null || inforUserLogin.getRoleId() == 1 || inforUserLogin.getRoleId() == 3 || inforUserLogin.getRoleId() == 4) {
                 response.sendRedirect("login");
             } else {
                 // Show all cart
