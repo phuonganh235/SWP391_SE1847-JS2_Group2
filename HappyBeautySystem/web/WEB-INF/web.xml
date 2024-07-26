@@ -88,6 +88,14 @@
         <servlet-name>ApplyPointCustomer</servlet-name>
         <servlet-class>controller.Customer.ApplyPointCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>consultationSuccess</servlet-name>
+        <servlet-class>common.consultationSuccess</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>changePasswordSucess</servlet-name>
+        <servlet-class>common.changePasswordSucess</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -171,5 +179,13 @@
     <servlet-mapping>
         <servlet-name>ApplyPointCustomer</servlet-name>
         <url-pattern>/applypoint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>consultationSuccess</servlet-name>
+        <url-pattern>/consultationSuccess</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changePasswordSucess</servlet-name>
+        <url-pattern>/changePasswordSucess</url-pattern>
     </servlet-mapping>
 </web-app>

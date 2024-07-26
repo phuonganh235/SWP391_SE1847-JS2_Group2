@@ -23,19 +23,19 @@ public class Changepassword extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                String old_password = request.getParameter("old_pass");
-                String new_password = request.getParameter("new_pass");
-                User user = new UserDAO().getUser(userId, old_password);
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String old_password = request.getParameter("old_pass");
+            String new_password = request.getParameter("new_pass");
+            User user = new UserDAO().getUser(userId, old_password);
 
-                if (user == null) {
-                    request.setAttribute("errorOldpass", "Mật khẩu cũ không đúng ");
-                    request.getRequestDispatcher("ViewUser/home.jsp").forward(request, response);
-                } else {
-                    new UserDAO().changePassword(userId, new_password);
-                    request.setAttribute("changeSucces", "Password changed successfully");
-                    request.getRequestDispatcher("ViewUser/change-Password-Successfull.jsp").forward(request, response);
-                
+            if (user == null) {
+                request.setAttribute("errorOldpass", "Mật khẩu cũ không đúng ");
+                request.getRequestDispatcher("ViewUser/home.jsp").forward(request, response);
+            } else {
+                new UserDAO().changePassword(userId, new_password);
+                request.setAttribute("changeSucces", "Password changed successfully");
+
+                response.sendRedirect(request.getContextPath() + "/changePasswordSucess");
             }
 
         }

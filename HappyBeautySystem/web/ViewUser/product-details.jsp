@@ -11,6 +11,10 @@
         <meta name="keywords" content="Ashion, unica, creative, html">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <title>HappyBeauty</title>
 
         <!-- Google Font -->
@@ -305,134 +309,136 @@
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả chi tiết</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Thành phần</a>
                                 </li>
-                                <!--                                <li class="nav-item">
-                                                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                                                                </li>-->
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá sản phẩm ( ${countReview} )</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Đánh giá sản phẩm ( ${countReview} )</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Sản phẩm liên quan</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <h5 style="font-weight: 600;text-transform: uppercase">Mô tả chi tiết</h5>
-                                    <p>${ProductData.getLongDes()}</p>
+                                    <h5 style="font-weight: 600;text-transform: uppercase">Thành phần</h5>
+                                    <p>${ProductData.getAddDes()}</p>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel" style="margin-top: 50px">
-                                <div class="blog__details__comment">
-                                    <h5>Viết Đánh Giá</h5>
-                                    <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&product_category=${ProductData.getCateId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Viết đánh giá của quý khách ở đây..." required></textarea>
-                                            <span id="nameError" style="color: red;"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="rating">Mức độ hài lòng:</label>
-                                            <div id="rating">
-                                                <label>
-                                                    <input type="radio" name="rating" value="1" required> &#9733;
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="rating" value="2"> &#9733 &#9733
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="rating" value="3"> &#9733 &#9733 &#9733
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="rating" value="4"> &#9733 &#9733 &#9733 &#9733
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="rating" value="5"> &#9733 &#9733 &#9733 &#9733 &#9733
-                                                </label>
+                                <div class="tab-pane" id="tabs-2" role="tabpanel" style="margin-top: 50px">
+                                    <div class="blog__details__comment">
+                                        <h5>Viết Đánh Giá</h5>
+                                        <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&product_category=${ProductData.getCateId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Viết đánh giá của quý khách ở đây..." required></textarea>
+                                                <span id="nameError" style="color: red;"></span>
                                             </div>
-                                        </div>
-                                        <button type="submit" class="site-btn">Gửi đánh giá</button>
-                                    </form>
-                                    <h5 style="margin-top: 50px">${countReview} Đánh Giá</h5>
-                                    <c:forEach items="${feedback}" var="feedback">
-                                        <div class="blog__comment__item">
-                                            <div class="blog__comment__item__pic">
-                                                <img src="" alt="">
+                                            <div class="form-group">
+                                                <label for="rating">Mức độ hài lòng:</label>
+                                                <div id="rating">
+                                                    <label>
+                                                        <input type="radio" name="rating" value="1" required> &#9733;
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="rating" value="2"> &#9733;&#9733;
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="rating" value="3"> &#9733;&#9733;&#9733;
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="rating" value="4"> &#9733;&#9733;&#9733;&#9733;
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="rating" value="5"> &#9733;&#9733;&#9733;&#9733;&#9733;
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="blog__comment__item__text">
-                                                <c:forEach items="${user}" var="user">
-                                                    <c:if test="${feedback.userId == user.userId}">
-                                                        <h6>${user.name}</h6>
-                                                    </c:if>
-                                                </c:forEach>    
-                                                <p>${feedback.comment}</p>
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
-
-                                                </ul>
+                                            <button type="submit" class="site-btn">Gửi đánh giá</button>
+                                        </form>
+                                        <h5 style="margin-top: 50px">${countReview} Đánh Giá</h5>
+                                        <c:forEach items="${feedback}" var="feedback">
+                                            <div class="blog__comment__item">
+                                                <div class="blog__comment__item__pic">
+                                                    <img src="" alt="">
+                                                </div>
+                                                <div class="blog__comment__item__text">
+                                                    <c:forEach items="${user}" var="user">
+                                                        <c:if test="${feedback.userId == user.userId}">
+                                                            <h6>${user.name}</h6>
+                                                        </c:if>
+                                                    </c:forEach>    
+                                                    <p>${feedback.comment}</p>
+                                                    <ul>
+                                                        <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="related__title">
-                            <h5>SẢN PHẨM LIÊN QUAN</h5>
-                        </div>
-                    </div>
-                    <!--Similar product-->
-                    <c:forEach items="${requestScope.ProductCategory}" var="pc">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
-                                    <c:if test="${top8New.contains(pc.getProductId())}">
-                                        <div class="label new" style="border-radius: 10px;">Mới</div>
-                                    </c:if>
-                                    <c:if test="${lowInStock.contains(pc.getProductId())}">
-                                        <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Sắp hết hàng</div>
-                                    </c:if>
-                                    <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
-                                        <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
-                                    <ul class="product__hover">
-                                        <li><a href="wishlist?service=addWishList&id=${pc.getProductId()}"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${pc.getProductId()}"><span class="icon_cart"></span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h5><a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">${pc.getProductName()}</a></h5>
-                                    <div class="rating">
-                                        <span style="color: #ddb100; font-weight: bold; font-size: 14px">${avgRating}  </span>
-                                        <i class="fa fa-star"></i>
+                                        </c:forEach>
                                     </div>
-                                    <div id="field-price-${pc.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 16px;"></div>
-                                    <script>
-                                        (function () {
-                                            // Function to format the price
-                                            function format(price) {
-                                                // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                let priceString = parseFloat(price).toFixed(0);
+                                </div>
+                                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12 text-center">
+                                            <div class="related__title">
+                                                <h5>${ProductData.getCompanyName()}</h5>
+                                            </div>
+                                        </div>
+                                        <!--Similar product-->
+                                        <c:forEach items="${requestScope.ProductCategory}" var="pc">
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="product__item">
+                                                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
+                                                        <c:if test="${top8New.contains(pc.getProductId())}">
+                                                            <div class="label new" style="border-radius: 10px;">Mới</div>
+                                                        </c:if>
+                                                        <c:if test="${lowInStock.contains(pc.getProductId())}">
+                                                            <div class="label new" style="color: #ff0000; background-color: #ffff66; border-radius: 10px;">Sắp hết hàng</div>
+                                                        </c:if>
+                                                        <a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">
+                                                            <img src="${pc.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand"></span></a>
+                                                        <ul class="product__hover">
+                                                            <li><a href="wishlist?service=addWishList&id=${pc.getProductId()}"><span class="icon_heart_alt"></span></a></li>
+                                                            <li><a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${pc.getProductId()}"><span class="icon_cart"></span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product__item__text">
+                                                        <h5><a href="product?action=productdetail&product_id=${pc.getProductId()}&product_category=${pc.getCateId()}">${pc.getProductName()}</a></h5>
+                                                        <div class="rating">
+                                                            <span style="color: #ddb100; font-weight: bold; font-size: 14px">${avgRating}  </span>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <div id="field-price-${pc.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 16px;"></div>
+                                                        <script>
+                                                            (function () {
+                                                                // Function to format the price
+                                                                function format(price) {
+                                                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                                    let priceString = parseFloat(price).toFixed(0);
 
-                                                // Use a regular expression to insert dots at the thousand places
-                                                priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                    // Use a regular expression to insert dots at the thousand places
+                                                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                // Return the formatted price with ' VNĐ' appended
-                                                return priceString + ' VNĐ';
-                                            }
+                                                                    // Return the formatted price with ' VNĐ' appended
+                                                                    return priceString + ' VNĐ';
+                                                                }
 
-                                            // Use JSP to get the price from the server-side
-                                            let priceNew = ${pc.getPrice()};
+                                                                // Use JSP to get the price from the server-side
+                                                                let priceNew = ${pc.getPrice()};
 
-                                            // Format the price and display it in the specified HTML element
-                                            document.getElementById('field-price-${pc.getProductId()}').innerHTML = format(priceNew);
-                                        })();
-                                    </script>
+                                                                // Format the price and display it in the specified HTML element
+                                                                document.getElementById('field-price-${pc.getProductId()}').innerHTML = format(priceNew);
+                                                            })();
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </c:forEach>
+                    </div>
                 </div>
+
+
             </div>
         </section>
         <!-- Product Details Section End -->
@@ -453,25 +459,25 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        function formatFullName(name) {
-                            name = name.trim().replace(/\s+/g, ' ');
-                            return name;
-                        }
+                                                            document.addEventListener("DOMContentLoaded", function () {
+                                                                function formatFullName(name) {
+                                                                    name = name.trim().replace(/\s+/g, ' ');
+                                                                    return name;
+                                                                }
 
-                        document.getElementById("comment").oninput = function () {
-                            var name = this.value;
-                            this.value = name;
-                            if (name === "") {
-                                document.getElementById("nameError").innerHTML = "Comment must not be empty.";
-                            } else if (/^\s/.test(name)) {
-                                document.getElementById("nameError").innerHTML = "Comment should not have all space.";
-                            } else {
-                                document.getElementById("nameError").innerHTML = "";
-                            }
-                        };
+                                                                document.getElementById("comment").oninput = function () {
+                                                                    var name = this.value;
+                                                                    this.value = name;
+                                                                    if (name === "") {
+                                                                        document.getElementById("nameError").innerHTML = "Comment must not be empty.";
+                                                                    } else if (/^\s/.test(name)) {
+                                                                        document.getElementById("nameError").innerHTML = "Comment should not have all space.";
+                                                                    } else {
+                                                                        document.getElementById("nameError").innerHTML = "";
+                                                                    }
+                                                                };
 
-                    });
+                                                            });
         </script>
     </body>
 

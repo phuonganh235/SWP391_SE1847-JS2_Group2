@@ -58,7 +58,7 @@ public class product extends HttpServlet {
         
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
         if (action.equals("")) {
-            ArrayList<Product> productList = d.getAllProduct();
+            ArrayList<Product> productList = d.getAllProductActive();
             ArrayList<Category> categoryList = c.getAllCategories();
 //          Pagination
             int page = 0, numperpage = 6;

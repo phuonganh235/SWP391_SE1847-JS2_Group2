@@ -94,7 +94,7 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Category Management</h6>
+                            <h6 class="mb-0">Quản lý danh mục</h6>
                             <!--   Seach Form    -->
                             <form class="d-none d-md-flex ms-4" action="managercategory?service=search" method="post">
                                 <input type="hidden" name="service" value="search">
@@ -102,7 +102,7 @@
                                 <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
                                         type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
                             </form>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Category</button>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
                         </div>
                         <!-- Load product Product -->
                         <div class="table-responsive">
@@ -111,11 +111,11 @@
                                     <tr class="text-dark">
                                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">IsActive</th>
-                                        <th scope="col">Create Date</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col">Tên</th>
+                                        <th scope="col">Ảnh</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Ngày tạo</th>
+                                        <th scope="col">Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,11 +125,34 @@
                                             <td>${cat.categoryId}</td>
                                             <td>${cat.categoryName}</td>
                                             <td>${cat.categoryImageUrl}</td>
-                                            <td>${cat.isActive}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${cat.isActive == true}">
+                                                        Active
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        NonActive
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td>${cat.createDate}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="managercategory?service=update&id=${cat.categoryId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}">Delete</a>
+<!--                                                <a class="btn btn-sm btn-primary" href="managercategory?service=update&id=${cat.categoryId}">Update</a>
+                                                <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}">Delete</a>-->
+                                                <form action="managercategory?service=update" method="post" style="display: inline;">
+                                                    <input type="hidden" name="id" value="${cat.categoryId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </button>
+                                                </form>
+                                                <c:choose>
+                                                    <c:when test="${cat.isActive == true}">
+                                                        <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}"><i class="fas fa-trash-alt"></i></a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                        <button class="btn btn-sm btn-danger" disabled><i class="fas fa-trash-alt"></i></button>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -149,24 +172,66 @@
                                         <form id="addCategoryForm" action="managercategory?service=add" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" id="categoryId" name="categoryId" value="0">
                                             <div class="mb-3">
-                                                <label for="categoryName" class="form-label">Category Name</label>
+                                                <label for="categoryName" class="form-label">Tên danh mục</label>
                                                 <input type="text" class="form-control" id="categoryName" name="categoryName" required>
                                                 <span id="nameError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="categoryImageUrl" class="form-label">Category ImageUrl</label>
+                                                <label for="categoryImageUrl" class="form-label">Ảnh</label>
                                                 <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
                                                 <span id="urlError" style="color: red;"></span>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="isActive" class="form-label">Is Active</label>
+                                                <label for="isActive" class="form-label">Trạng thái</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
 
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- update Category Modal -->
+                        <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="managercategory?service=edit" method="post">
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">Cập nhật danh mục</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                         <c:set value="${requestScope.cat}" var="cat"/>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="categoryId">ID</label>
+                                                <input type="number" class="form-control" id="categoryId" name="categoryId" value="${cat.categoryId}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="categoryName">Tên</label>
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" value="${cat.categoryName}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="categoryImageUrl">Ảnh</label>
+                                                <input type="text" class="form-control" id="categoryImageUrl" name="categoryImageUrl" value="${cat.categoryImageUrl}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="isActive">Trạng thái</label>
+                                                <input type="checkbox" class="form-check-input" id="isActive" name="isActive" <c:if test="${cat.isActive}">checked</c:if>>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="createDate">Ngày tạo</label>
+                                                    <input type="text" class="form-control" id="createDate" name="createDate" value="${cat.createDate}" readonly>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-success" value="Update">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -197,6 +262,8 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
+        <!--Mở modal update-->
+
         <script>
                                             $(document).ready(function () {
                                                 var table = $('#categorytable').DataTable({
@@ -221,6 +288,15 @@
 
 
                                             });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // Update
+            <c:if test="${not empty requestScope.cat}">
+                $('#updateCategoryModal').modal('show');
+            </c:if>
+            });
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {

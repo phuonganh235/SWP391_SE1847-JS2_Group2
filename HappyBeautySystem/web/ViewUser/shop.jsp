@@ -113,7 +113,7 @@
                                     </div>
 
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Danh sách loại hàng</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">Danh sách hãng</a>
                                     </div>
                                 </div>
                                 <!-- sidebar widget end-->
@@ -271,30 +271,30 @@
                                             <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
 
                                             <div id="field-price-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 18px;"></div>
-                                                <script>
-                                                    (function () {
-                                                        // Function to format the price
-                                                        function format(price) {
-                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                            let priceString = parseFloat(price).toFixed(0);
+                                            <script>
+                                                (function () {
+                                                    // Function to format the price
+                                                    function format(price) {
+                                                        // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                        let priceString = parseFloat(price).toFixed(0);
 
-                                                            // Use a regular expression to insert dots at the thousand places
-                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                        // Use a regular expression to insert dots at the thousand places
+                                                        priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                            // Return the formatted price with ' VNĐ' appended
-                                                            return priceString + ' VNĐ';
-                                                        }
+                                                        // Return the formatted price with ' VNĐ' appended
+                                                        return priceString + ' VNĐ';
+                                                    }
 
-                                                        // Use JSP to get the price from the server-side
-                                                        let priceNew = ${p.getPrice()};
+                                                    // Use JSP to get the price from the server-side
+                                                    let priceNew = ${p.getPrice()};
 
-                                                        // Format the price and display it in the specified HTML element
-                                                        document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
-                                                    })();
-                                                </script>
+                                                    // Format the price and display it in the specified HTML element
+                                                    document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
+                                                })();
+                                            </script>
                                         </div>
                                     </div>
-                                </div>
+                                </div>    
                             </c:forEach>
                         </div>
                         <!--Pagination-->

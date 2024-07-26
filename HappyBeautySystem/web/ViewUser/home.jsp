@@ -48,7 +48,7 @@
                 <div class="row">
                     <div class="col-lg-6 p-0">
                         <div class="categories__item categories__large__item set-bg"
-                            
+
                              data-setbg="ViewUser/img/shop/banner-5.jpg">
                             <div class="categories__text">
                                 <h1>HappyBeauty</h1>
@@ -102,63 +102,63 @@
                 <div class="row property__gallery">
                     <!-- Product New  -->
                     <c:forEach items="${requestScope.top8New}" var="p">
-                        <div class="col-lg-3 col-md-4 col-sm-6 mix women" style="">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="">
-                                    <div class="label new" style="border-radius: 10px;">Mới</div>
-                                    <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                        <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand">
+                            <div class="col-lg-3 col-md-4 col-sm-6 mix women" style="">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="">
+                                        <div class="label new" style="border-radius: 10px;">Mới</div>
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <img src="${p.getPathImage()}" style = "border-radius: 20px; height: 100%; width: 100%" alt="image product"><span class="arrow_expand">
 
-                                        </span>
-                                    </a>
-                                    <!--  // ToanLV code-->
-                                    <ul class="product__hover">
-                                        <li></li>
-                                        <!--Add Product to WishList-->
-                                        <li><a href="wishlist?service=addWishList&id=${p.getProductId()}">
-                                                <span class="icon_heart_alt"></span>
-                                            </a>
-                                        </li>
-                                        <!--Add Product to Cart-->
-                                        <li>
-                                            <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
-                                                <span class="icon_cart"></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <!--                                                //-->
-                                </div>
-                                <div class="product__item__text">
-                                    <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
-                                        <h6 style="color: black; font-size: 18px; font-weight: 500;">${p.getProductName()}</h6>
-                                    </a>
-                                    <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
-                                    
-                                    <div id="field-price-${p.getProductId()}" class="product__price" style="color: #ea5d8c;"></div>
-                                                <script>
-                                                    (function () {
-                                                        // Function to format the price
-                                                        function format(price) {
-                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                            let priceString = parseFloat(price).toFixed(0);
+                                            </span>
+                                        </a>
+                                        <!--  // ToanLV code-->
+                                        <ul class="product__hover">
+                                            <li></li>
+                                            <!--Add Product to WishList-->
+                                            <li><a href="wishlist?service=addWishList&id=${p.getProductId()}">
+                                                    <span class="icon_heart_alt"></span>
+                                                </a>
+                                            </li>
+                                            <!--Add Product to Cart-->
+                                            <li>
+                                                <a href="/HappyBeautySystem/AddToCart?service=addToCart&id=${p.getProductId()}">
+                                                    <span class="icon_cart"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!--                                                //-->
+                                    </div>
+                                    <div class="product__item__text">
+                                        <a href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">
+                                            <h6 style="color: black; font-size: 18px; font-weight: 500;">${p.getProductName()}</h6>
+                                        </a>
+                                        <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
 
-                                                            // Use a regular expression to insert dots at the thousand places
-                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                        <div id="field-price-${p.getProductId()}" class="product__price" style="color: #ea5d8c;"></div>
+                                        <script>
+                                            (function () {
+                                                // Function to format the price
+                                                function format(price) {
+                                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                    let priceString = parseFloat(price).toFixed(0);
 
-                                                            // Return the formatted price with ' VNĐ' appended
-                                                            return priceString + ' VNĐ';
-                                                        }
+                                                    // Use a regular expression to insert dots at the thousand places
+                                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                        // Use JSP to get the price from the server-side
-                                                        let priceNew = ${p.getPrice()};
+                                                    // Return the formatted price with ' VNĐ' appended
+                                                    return priceString + ' VNĐ';
+                                                }
 
-                                                        // Format the price and display it in the specified HTML element
-                                                        document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
-                                                    })();
-                                                </script>
+                                                // Use JSP to get the price from the server-side
+                                                let priceNew = ${p.getPrice()};
+
+                                                // Format the price and display it in the specified HTML element
+                                                document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
+                                            })();
+                                        </script>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </c:forEach>
                     <!-- Đến đây -->
                 </div>
@@ -227,29 +227,29 @@
                                             <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
                                         <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
-                                       
+
                                         <div id="price-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 13px;"></div>
-                                                <script>
-                                                    (function () {
-                                                        // Function to format the price
-                                                        function Priceformat(price) {
-                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                            let priceString = parseFloat(price).toFixed(0);
+                                        <script>
+                                            (function () {
+                                                // Function to format the price
+                                                function Priceformat(price) {
+                                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                    let priceString = parseFloat(price).toFixed(0);
 
-                                                            // Use a regular expression to insert dots at the thousand places
-                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                    // Use a regular expression to insert dots at the thousand places
+                                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                            // Return the formatted price with ' VNĐ' appended
-                                                            return priceString + ' VNĐ';
-                                                        }
+                                                    // Return the formatted price with ' VNĐ' appended
+                                                    return priceString + ' VNĐ';
+                                                }
 
-                                                        // Use JSP to get the price from the server-side
-                                                        let price = ${p.getPrice()};
+                                                // Use JSP to get the price from the server-side
+                                                let price = ${p.getPrice()};
 
-                                                        // Format the price and display it in the specified HTML element
-                                                        document.getElementById('price-${p.getProductId()}').innerHTML = Priceformat(price);
-                                                    })();
-                                                </script>
+                                                // Format the price and display it in the specified HTML element
+                                                document.getElementById('price-${p.getProductId()}').innerHTML = Priceformat(price);
+                                            })();
+                                        </script>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -276,29 +276,29 @@
                                             <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
                                         <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
-                                        
+
                                         <div id="sellerprice-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 13px;"></div>
-                                                <script>
-                                                    (function () {
-                                                        // Function to format the price
-                                                        function PriceSellerformat(price) {
-                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                            let priceString = parseFloat(price).toFixed(0);
+                                        <script>
+                                            (function () {
+                                                // Function to format the price
+                                                function PriceSellerformat(price) {
+                                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                    let priceString = parseFloat(price).toFixed(0);
 
-                                                            // Use a regular expression to insert dots at the thousand places
-                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                    // Use a regular expression to insert dots at the thousand places
+                                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                            // Return the formatted price with ' VNĐ' appended
-                                                            return priceString + ' VNĐ';
-                                                        }
+                                                    // Return the formatted price with ' VNĐ' appended
+                                                    return priceString + ' VNĐ';
+                                                }
 
-                                                        // Use JSP to get the price from the server-side
-                                                        let priceSeller = ${p.getPrice()};
+                                                // Use JSP to get the price from the server-side
+                                                let priceSeller = ${p.getPrice()};
 
-                                                        // Format the price and display it in the specified HTML element
-                                                        document.getElementById('sellerprice-${p.getProductId()}').innerHTML = PriceSellerformat(priceSeller);
-                                                    })();
-                                                </script>
+                                                // Format the price and display it in the specified HTML element
+                                                document.getElementById('sellerprice-${p.getProductId()}').innerHTML = PriceSellerformat(priceSeller);
+                                            })();
+                                        </script>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -326,29 +326,29 @@
                                             <h6 style="color: black; font-size: 16px; font-weight: 500;">${p.getProductName()}</h6>
                                         </a>
                                         <h6 style="color: #6d6dff; font-size: 15px; font-weight: 500;">${p.getCompanyName()}</h6>
-                                        
+
                                         <div id="likeprice-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 13px;"></div>
-                                                <script>
-                                                    (function () {
-                                                        // Function to format the price
-                                                        function likePrice(price) {
-                                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
-                                                            let priceString = parseFloat(price).toFixed(0);
+                                        <script>
+                                            (function () {
+                                                // Function to format the price
+                                                function likePrice(price) {
+                                                    // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                                    let priceString = parseFloat(price).toFixed(0);
 
-                                                            // Use a regular expression to insert dots at the thousand places
-                                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                    // Use a regular expression to insert dots at the thousand places
+                                                    priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                                            // Return the formatted price with ' VNĐ' appended
-                                                            return priceString + ' VNĐ';
-                                                        }
+                                                    // Return the formatted price with ' VNĐ' appended
+                                                    return priceString + ' VNĐ';
+                                                }
 
-                                                        // Use JSP to get the price from the server-side
-                                                        let likeprice = ${p.getPrice()};
+                                                // Use JSP to get the price from the server-side
+                                                let likeprice = ${p.getPrice()};
 
-                                                        // Format the price and display it in the specified HTML element
-                                                        document.getElementById('likeprice-${p.getProductId()}').innerHTML = likePrice(likeprice);
-                                                    })();
-                                                </script>
+                                                // Format the price and display it in the specified HTML element
+                                                document.getElementById('likeprice-${p.getProductId()}').innerHTML = likePrice(likeprice);
+                                            })();
+                                        </script>
                                     </div>
                                 </div>
                             </c:forEach>
