@@ -52,6 +52,25 @@
             .content{
                 margin-left: 380px;
             }
+
+            .logout-button {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                background-color: red;
+                color: #fff;
+                border: none;
+                border-radius: 15px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                margin-right: 500px;
+            }
+
+            .logout-button:hover {
+                background-color: #e84118;
+            }
         </style>
 
         <!-- External CSS -->
@@ -67,13 +86,15 @@
         <link href="ViewUser/css/style-order-manager.css" rel="stylesheet" type="text/css" />
         <link href="css/style-order-manager.css" rel="stylesheet" type="text/css" />
     </head>
-
     <body>
-
+        <!-- Logout Button -->
+        <div class="logout-button" onclick="window.location.href = '/HappyBeautySystem/logoutForShipper'">
+            Đăng xuất tài khoản
+        </div>
         <!-- Success Message Section Begin -->
         <div class="container status-container">
-            <h2>Danh Sách Đơn Nhiệm Vụ Của Shipper</h2>
-            <p>Mọi nhiệm vụ của shipper được giao tại đây</p>
+            <h2>Danh Sách Nhiệm Vụ Của : <strong style="color:black">${sessionScope.inforUserLogin.name}</strong></h2>
+            <p>Mọi nhiệm vụ của <strong>${sessionScope.inforUserLogin.name}</strong> được giao tại đây</p>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=2" class="btn btn-success">Đơn được giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=3" class="btn btn-danger">Đơn nhận giao</a>
             <a href="/HappyBeautySystem/managerShipper?service=ListTask&option=4" class="btn btn-info">Hoàn thành</a>
@@ -196,4 +217,3 @@
     </body>
 
 </html>
-
