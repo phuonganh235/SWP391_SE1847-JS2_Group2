@@ -425,9 +425,12 @@
                                         </div>
                                         <div class="video-guide" style="background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;">
                                             <h4 style="color: #333; margin-bottom: 15px;">Hướng dẫn đặt lịch tư vấn</h4>
-                                            <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/your_video_id" allowfullscreen></iframe>
+                                            <div class="embed-responsive embed-responsive-16by9">                         
+                                                <video width="320" height="240" controls>
+                                                    <source src="ViewUser/img/Untitled video - Made with Clipchamp.mp4" type="video/mp4">                               
+                                                </video>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

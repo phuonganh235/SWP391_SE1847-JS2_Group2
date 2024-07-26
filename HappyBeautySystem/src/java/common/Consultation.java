@@ -57,7 +57,8 @@ public class Consultation extends HttpServlet {
                 String formattedDate = dateBook.format(formatter);
                 Consultations newConsultation = new Consultations(0, customerName, customeraddress, customerPhone, formattedDate, note, startHour, endHour, 1, Email);
                 consulDao.insertConsultation(newConsultation);
-                request.getRequestDispatcher("ViewUser/ConsultationSuccess.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/consultationSuccess");
+                return;
             }
             //Danh sách chờ xác nhận 
             if (service.equals("listAll1")) {
