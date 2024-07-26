@@ -117,6 +117,19 @@ public class CategoryDAO extends DBContext {
         return categoryList;
     }
     
+    // Updates the IsActive status of a product in the Category table in the database by its ID
+    public void updateCategoryActiveStatus(int catID, boolean isActive) {
+        String sql = "UPDATE Category SET IsActive = ? WHERE CategoryId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setBoolean(1, isActive);
+            st.setInt(2, catID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     //main method
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();

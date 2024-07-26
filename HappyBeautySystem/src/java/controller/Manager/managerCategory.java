@@ -62,7 +62,7 @@ public class managerCategory extends HttpServlet {
                 int catId = Integer.parseInt(request.getParameter("id"));
                 Category cat = dao.getCategoryById(catId);
                 request.setAttribute("cat", cat);
-                request.getRequestDispatcher("ViewAdmin/updateCategory.jsp").forward(request, response);
+                request.getRequestDispatcher("managercategory?service=listall").forward(request, response);
             }
             //Editing a category
             if (service.equals("edit")) {
@@ -78,7 +78,7 @@ public class managerCategory extends HttpServlet {
             //Deleting a category
             if (service.equals("delete")) {
                 int catId = Integer.parseInt(request.getParameter("id"));
-                dao.deleteCategory(catId);
+                dao.updateCategoryActiveStatus(catId, false);
                 response.sendRedirect("managercategory");
             }
             //Searching a category

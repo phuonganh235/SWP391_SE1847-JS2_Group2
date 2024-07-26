@@ -243,7 +243,7 @@
 
                                         <div class="mb-3">
                                             <label for="pathImage" class="form-label">Ảnh</label>
-                                            <input type="text" class="form-control" id="pathImage" name="pathImage" required>
+                                            <input type="file" class="form-control" id="pathImage" name="pathImage" required>
                                             <span id="pathImageError" style="color: red;"></span>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Lưu</button>
@@ -412,9 +412,9 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("nameError").innerHTML = "Product name must not be empty.";
+                    document.getElementById("nameError").innerHTML = "Tên sản phẩm không được để trống.";
                 } else if (/^\s/.test(name)) {
-                    document.getElementById("nameError").innerHTML = "Product name should not start with a space.";
+                    document.getElementById("nameError").innerHTML = "Tên sản phẩm không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("nameError").innerHTML = "";
                 }
@@ -423,9 +423,9 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("shortDesError").innerHTML = "Short Description name must not be empty.";
+                    document.getElementById("shortDesError").innerHTML = "Mô tả ngắn không được để trống.";
                 } else if (/^\s/.test(name)) {
-                    document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space.";
+                    document.getElementById("shortDesError").innerHTML = "Mô tả ngắn không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("shortDesError").innerHTML = "";
                 }
@@ -434,9 +434,9 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("longDesError").innerHTML = "Long Description name must not be empty.";
+                    document.getElementById("longDesError").innerHTML = "Mô tả chi tiết không được để trống.";
                 } else if (/^\s/.test(name)) {
-                    document.getElementById("longDesError").innerHTML = "Long Description should not start with a space.";
+                    document.getElementById("longDesError").innerHTML = "Mô tả chỉ tiết không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("longDesError").innerHTML = "";
                 }
@@ -445,9 +445,9 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("addDesError").innerHTML = "Address Description name must not be empty.";
+                    document.getElementById("addDesError").innerHTML = "Mô tả nguồn gốc không được để trống.";
                 } else if (/^\s/.test(name)) {
-                    document.getElementById("addDesError").innerHTML = "Address Description should not start with a space.";
+                    document.getElementById("addDesError").innerHTML = "Mô tả nguồn gốc không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("addDesError").innerHTML = "";
                 }
@@ -456,9 +456,9 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("companyNameError").innerHTML = "Company name must not be empty.";
+                    document.getElementById("companyNameError").innerHTML = "Tên công ty không được để trống.";
                 } else if (/^\s/.test(name)) {
-                    document.getElementById("companyNameError").innerHTML = "Company name should not start with a space.";
+                    document.getElementById("companyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("companyNameError").innerHTML = "";
                 }
@@ -502,23 +502,23 @@
             document.getElementById("productName").value = name;
 
             if (name === "" || /^\s/.test(name)) {
-                document.getElementById("nameError").innerHTML = "Product name should not start with a space and must not be empty.";
+                document.getElementById("nameError").innerHTML = "Tên sản phẩm không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
             if (shortDes === "" || /^\s/.test(shortDes)) {
-                document.getElementById("shortDesError").innerHTML = "Short Description should not start with a space and must not be empty.";
+                document.getElementById("shortDesError").innerHTML = "Mô tả ngắn không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
             if (longDes === "" || /^\s/.test(longDes)) {
-                document.getElementById("longDesError").innerHTML = "Long Description should not start with a space and must not be empty.";
+                document.getElementById("longDesError").innerHTML = "Mô tả chi tiết không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
             if (addDes === "" || /^\s/.test(addDes)) {
-                document.getElementById("addDesError").innerHTML = "Address Description should not start with a space and must not be empty.";
+                document.getElementById("addDesError").innerHTML = "Mô tả nguồn gốc không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
             if (companyName === "" || /^\s/.test(companyName)) {
-                document.getElementById("companyNameError").innerHTML = "Company name should not start with a space and must not be empty.";
+                document.getElementById("companyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
             if (pathImage === "" || /^\s/.test(pathImage)) {
@@ -529,7 +529,7 @@
             return isValid;
         }
 
-
+        
     </script>
 
 </body>
