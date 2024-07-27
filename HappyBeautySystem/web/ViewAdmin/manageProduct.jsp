@@ -218,14 +218,14 @@
                                             <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="size" class="form-label">Kích cỡ</label>
+                                            <label for="size" class="form-label">Kích thước</label>
                                             <input type="text" class="form-control" id="size" name="size" required>
-                                            <span id="addDesError" style="color: red;"></span>
+                                            <span id="sizeError" style="color: red;"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label for="color" class="form-label">Màu</label>
                                             <input type="text" class="form-control" id="color" name="color" required>
-                                            <span id="addDesError" style="color: red;"></span>
+                                            <span id="colorError" style="color: red;"></span>
                                         </div>
 
                                         <div class="mb-3">
@@ -310,10 +310,12 @@
                                         <div class="mb-3">
                                             <label for="updateSize" class="form-label">Kích thước</label>
                                             <input type="text" class="form-control" id="updateSize" name="size" value="${product.size}" required>
+                                            <span id="updateSizeError" style="color: red;"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label for="updateColor" class="form-label">Màu</label>
                                             <input type="text" class="form-control" id="updateColor" name="color" value="${product.color}" required>
+                                            <span id="updateColorError" style="color: red;"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label for="updateCompanyName" class="form-label">Tên công ty</label>
@@ -488,6 +490,28 @@
                     document.getElementById("addDesError").innerHTML = "";
                 }
             };
+            document.getElementById("size").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("sizeError").innerHTML = "Kích thước không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("sizeError").innerHTML = "Kích thước không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("sizeError").innerHTML = "";
+                }
+            };
+            document.getElementById("color").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("colorError").innerHTML = "Màu không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("colorError").innerHTML = "Màu không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("colorError").innerHTML = "";
+                }
+            };
             document.getElementById("companyName").oninput = function () {
                 var name = this.value;
                 this.value = name;
@@ -637,6 +661,28 @@
                     document.getElementById("updateAddDesError").innerHTML = "Mô tả nguồn gốc không được bắt đầu bằng dấu cách.";
                 } else {
                     document.getElementById("updateAddDesError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateSize").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateSizeError").innerHTML = "Kích thước không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateSizeError").innerHTML = "Kích thước được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateSizeError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateColor").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateColorError").innerHTML = "Màu không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateColorError").innerHTML = "Màu không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateColorError").innerHTML = "";
                 }
             };
             document.getElementById("updateCompanyName").oninput = function () {
