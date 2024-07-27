@@ -41,11 +41,18 @@ public class ManageNews extends HttpServlet {
             service = "viewAllNews";
         }
 
-        if ("viewAllNews".equals(service)) {
-            ArrayList<News> newsList = newsDAO.viewAllNews();
+        if ("viewAllNews".equals(service) || "searchnews".equals(service)) {
+            String searchQuery = request.getParameter("searchQuery");
+            ArrayList<News> newsList;
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                newsList = newsDAO.searchNews(searchQuery);
+            } else {
+                newsList = newsDAO.viewAllNews();
+            }
             ArrayList<Category> categories = newsDAO.getAllCategories();
             request.setAttribute("newsList", newsList);
             request.setAttribute("categories", categories);
+            request.setAttribute("searchQuery", searchQuery); // Thêm dòng này
             request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
         } else if ("addnews".equals(service)) {
             if (submit == null) {
