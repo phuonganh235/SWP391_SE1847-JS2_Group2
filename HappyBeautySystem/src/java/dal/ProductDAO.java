@@ -47,7 +47,7 @@ public class ProductDAO extends DBContext {
     // Retrieves all products are active from the Product table in the database
     public ArrayList<Product> getAllProductActive() {
         ArrayList<Product> pList = new ArrayList<>();
-        String sql = "SELECT * FROM Product where IsActive = 1";
+        String sql = "Select * from Product p inner join Category c on p.CategoryId = c.CategoryId WHERE c.isActive = 1 and p.isActive = 1";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -178,7 +178,8 @@ public class ProductDAO extends DBContext {
     // Retrieves a product by its ID from the Product table
     public Product getProductById(int productId) {
         Product product = null;
-        String sql = "SELECT * FROM Product WHERE ProductId = ? and isActive = 1";
+        String sql = "Select * from Product p inner join Category c on p.CategoryId = c.CategoryId "
+                + "WHERE p.ProductId = ? and c.isActive = 1 and p.isActive = 1";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, productId);
@@ -213,7 +214,7 @@ public class ProductDAO extends DBContext {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "Select * from Product p inner join Category c "
                 + "on p.CategoryId = c.CategoryId "
-                + "WHERE p.CategoryId = ? and p.isActive = 1";
+                + "WHERE p.CategoryId = ? and c.isActive = 1 and p.isActive = 1";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, category_id);
@@ -233,10 +234,9 @@ public class ProductDAO extends DBContext {
 //    Select new Product(8 products just imported 30 days ago)
     public ArrayList<Product> getNewProduct() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 8 *\n"
-                + "FROM [dbo].[Product]\n"
-                + "WHERE [CreateDate] >= DATEADD(day, -30, GETDATE()) and isActive = 1\n"
-                + "ORDER BY [CreateDate] DESC;";
+        String sql = "SELECT TOP 8 * FROM [dbo].[Product] p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "WHERE p.[CreateDate] >= DATEADD(day, -30, GETDATE()) and p.isActive = 1 and c.isActive = 1\n"
+                + "ORDER BY p.[CreateDate] DESC;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -254,8 +254,9 @@ public class ProductDAO extends DBContext {
 //    Sellect the best seller products
     public ArrayList<Product> getSellerProduct() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 3 * FROM [dbo].[Product] where isActive = 1\n"
-                + "ORDER BY Sold DESC";
+        String sql = "SELECT TOP 3 * FROM [dbo].[Product] p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "where p.isActive = 1 and c.isActive = 1\n"
+                + "ORDER BY p.Sold DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -273,8 +274,9 @@ public class ProductDAO extends DBContext {
 //    Sellect the Popular products 
     public ArrayList<Product> getPopularProduct() {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 3 * FROM [dbo].[Product] where isActive = 1\n"
-                + "ORDER BY Quantity DESC";
+        String sql = "SELECT TOP 3 * FROM [dbo].[Product] p inner join Category c on p.CategoryId = c.CategoryId \n"
+                + "where p.isActive = 1 and c.isActive = 1\n"
+                + "ORDER BY p.Quantity DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -298,8 +300,10 @@ public class ProductDAO extends DBContext {
                 + "    GROUP BY [ProductId]\n"
                 + "    ORDER BY UserCount DESC\n"
                 + ")\n"
-                + "SELECT * FROM [Product] p\n"
-                + "JOIN TopProducts tp ON p.[ProductId] = tp.[ProductId] where p.isActive = 1";
+                + "SELECT p.* FROM [Product] p\n"
+                + "INNER JOIN [Category] c ON p.CategoryId = c.CategoryId\n"
+                + "INNER JOIN TopProducts tp ON p.[ProductId] = tp.[ProductId]\n"
+                + "WHERE p.isActive = 1 AND c.isActive = 1;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -339,7 +343,12 @@ public class ProductDAO extends DBContext {
     // Searches for products by product name
     public ArrayList<Product> searchProductByName(String text) {
         ArrayList<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE ProductName LIKE ? and isActive = 1";
+        String sql = "SELECT p.*, c.*\n"
+                + "FROM Product p\n"
+                + "INNER JOIN Category c ON p.CategoryId = c.CategoryId\n"
+                + "WHERE p.ProductName LIKE ?\n"
+                + "  AND p.isActive = 1\n"
+                + "  AND c.isActive = 1;";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -362,13 +371,13 @@ public class ProductDAO extends DBContext {
 
         ArrayList<Product> list = new ArrayList<>();
 
-        String sql = "SELECT *  FROM Product\n"
-                + "WHERE 1=1 and isActive = 1";
+        String sql = "SELECT * FROM Product p inner join Category c on p.CategoryId = c.CategoryId\n"
+                + "WHERE 1=1 and p.isActive = 1 and c.isActive = 1";
         if (from != null) {
-            sql += "and price >= '" + from + "'";
+            sql += "and p.price >= '" + from + "'";
         }
         if (to != null) {
-            sql += "and price <= '" + to + "'";
+            sql += "and p.price <= '" + to + "'";
         }
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -406,7 +415,7 @@ public class ProductDAO extends DBContext {
     public ArrayList<Product> getProductLow() {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "Select *\n"
-                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1 \n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1 and c.isActive = 1\n"
                 + "ORDER BY p.Price";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -427,7 +436,7 @@ public class ProductDAO extends DBContext {
     public ArrayList<Product> getProductHigh() {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "Select *\n"
-                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1 and c.isActive = 1\n"
                 + "ORDER BY p.Price DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -449,7 +458,7 @@ public class ProductDAO extends DBContext {
     public ArrayList<Product> getProductAZ() {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "select *\n"
-                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1 and c.isActive = 1\n"
                 + "ORDER BY p.ProductName";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -471,7 +480,7 @@ public class ProductDAO extends DBContext {
     public ArrayList<Product> getProductZA() {
         ArrayList<Product> list = new ArrayList<>();
         String sql = "select *\n"
-                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1\n"
+                + "from Product p inner join Category c on p.CategoryId = c.CategoryId where p.isActive = 1 and c.isActive = 1\n"
                 + "ORDER BY p.ProductName DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
