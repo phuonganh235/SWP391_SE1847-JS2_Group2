@@ -53,7 +53,6 @@
             }
 
             .filterBox input[type="date"],
-
             .filterBox a {
                 margin-right: 10px;
             }
@@ -84,7 +83,6 @@
                 background-color: #007bff;
                 color: #fff;
             }
-
         </style>
     </head>
 
@@ -102,19 +100,19 @@
                 <!-- Chart Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
-                        <div class="chart-explanation">Biểu đồ này hiển thị doanh thu theo tháng và
-                            theo ngày của hệ thống. Nó cho phép quản trị viên theo dõi và phân tích
-                            sự biến động của doanh thu theo thời gian.
+                        <div class="chart-explanation">Biểu đồ này hiển thị doanh thu theo tháng, tuần, năm và theo ngày của hệ thống. Nó cho phép quản trị viên theo dõi và phân tích sự biến động của doanh thu theo thời gian.
                         </div>
                         <!--Filter by date-->
                         <div class="filterBox">
                             <a href="chart?service=listDay">Ngày</a>
+                            <a href="chart?service=listWeek">Tuần</a>
                             <a href="chart?service=listMonth">Tháng</a>
-                            <label for="startDate">Bắt đầu:</label>
+                            <a href="chart?service=listYear">Năm</a>
+<!--                            <label for="startDate">Bắt đầu:</label>
                             <input type="date" id="startDate">
                             <label for="endDate">Kết thúc:</label>
                             <input type="date" id="endDate">
-                            <button onclick="applyDateFilter()">Áp dụng</button>
+                            <button onclick="applyDateFilter()">Áp dụng</button>-->
                         </div>
 
                         <c:if test="${chartType == 'month'}">
@@ -125,11 +123,30 @@
                                 </div>
                             </div>
                         </c:if>
+
                         <c:if test="${chartType == 'day'}">
                             <div class="col-sm-12 col-xl-12">
                                 <div class="bg-light rounded h-100 p-4">
                                     <h6 class="mb-4">Biểu đồ doanh thu theo ngày</h6>
                                     <canvas id="bar-chart"></canvas>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${chartType == 'week'}">
+                            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h6 class="mb-4">Biểu đồ doanh thu theo tuần</h6>
+                                    <canvas id="week-chart"></canvas>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${chartType == 'year'}">
+                            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h6 class="mb-4">Biểu đồ doanh thu theo năm</h6>
+                                    <canvas id="year-chart"></canvas>
                                 </div>
                             </div>
                         </c:if>
@@ -160,21 +177,33 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script type="text/javascript">
                                 // Initialize the data for the charts
-                                var originalData = [
+                                var monthlyData = [
             <c:forEach var="revenue" items="${revenueList}">
                 ${revenue},
             </c:forEach>
                                 ];
 
-                                var originalData2 = [
+                                var dailyData = [
             <c:forEach var="revenue" items="${revenueListByDay}">
                 ${revenue},
             </c:forEach>
                                 ];
 
+                                var weeklyData = [
+            <c:forEach var="revenue" items="${revenueListByWeek}">
+                ${revenue},
+            </c:forEach>
+                                ];
+
+                                var yearlyData = [
+            <c:forEach var="revenue" items="${revenueListByYear}">
+                ${revenue},
+            </c:forEach>
+                                ];
+
             <c:if test="${chartType == 'month'}">
-                                var ctx3 = $("#line-chart").get(0).getContext("2d");
-                                var myChart3 = new Chart(ctx3, {
+                                var ctx1 = $("#line-chart").get(0).getContext("2d");
+                                new Chart(ctx1, {
                                     type: "bar",
                                     data: {
                                         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
@@ -182,7 +211,7 @@
                                                 label: "Doanh thu",
                                                 fill: false,
                                                 backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: originalData
+                                                data: monthlyData
                                             }]
                                     },
                                     options: {
@@ -192,13 +221,13 @@
             </c:if>
 
             <c:if test="${chartType == 'day'}">
-                                var ctx3 = $("#bar-chart").get(0).getContext("2d");
+                                var ctx2 = $("#bar-chart").get(0).getContext("2d");
                                 var dates = [
                 <c:forEach var="date" items="${dateList}">
                                     '${date}',
                 </c:forEach>
                                 ];
-                                var myChart3 = new Chart(ctx3, {
+                                new Chart(ctx2, {
                                     type: "bar",
                                     data: {
                                         labels: dates,
@@ -206,7 +235,55 @@
                                                 label: "Doanh thu",
                                                 fill: false,
                                                 backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: originalData2
+                                                data: dailyData
+                                            }]
+                                    },
+                                    options: {
+                                        responsive: true
+                                    }
+                                });
+            </c:if>
+
+            <c:if test="${chartType == 'week'}">
+                                var ctx3 = $("#week-chart").get(0).getContext("2d");
+                                var weeks = [
+                <c:forEach var="week" items="${weekList}">
+                                    '${week}',
+                </c:forEach>
+                                ];
+                                new Chart(ctx3, {
+                                    type: "bar",
+                                    data: {
+                                        labels: weeks,
+                                        datasets: [{
+                                                label: "Doanh thu",
+                                                fill: false,
+                                                backgroundColor: "rgba(0, 156, 255, .3)",
+                                                data: weeklyData
+                                            }]
+                                    },
+                                    options: {
+                                        responsive: true
+                                    }
+                                });
+            </c:if>
+
+            <c:if test="${chartType == 'year'}">
+                                var ctx4 = $("#year-chart").get(0).getContext("2d");
+                                var years = [
+                <c:forEach var="year" items="${yearList}">
+                                    '${year}',
+                </c:forEach>
+                                ];
+                                new Chart(ctx4, {
+                                    type: "bar",
+                                    data: {
+                                        labels: years,
+                                        datasets: [{
+                                                label: "Doanh thu",
+                                                fill: false,
+                                                backgroundColor: "rgba(0, 156, 255, .3)",
+                                                data: yearlyData
                                             }]
                                     },
                                     options: {
@@ -224,11 +301,12 @@
                                     var startMonth = startDate ? new Date(startDate).getMonth() + 1 : 1;
                                     var endMonth = endDate ? new Date(endDate).getMonth() + 1 : 12;
 
-                                    var filteredData = originalData.slice(startMonth - 1, endMonth);
+                                    var filteredData = monthlyData.slice(startMonth - 1, endMonth);
 
-                                    myChart3.data.labels = Array.from({length: endMonth - startMonth + 1}, (v, i) => (i + startMonth).toString());
-                                    myChart3.data.datasets[0].data = filteredData;
-                                    myChart3.update();
+                                    var labels = Array.from({length: endMonth - startMonth + 1}, (v, i) => (i + startMonth).toString());
+                                    myChart1.data.labels = labels;
+                                    myChart1.data.datasets[0].data = filteredData;
+                                    myChart1.update();
             </c:if>
 
                                     // Filter for daily chart
@@ -244,17 +322,74 @@
                                             var currentDate = new Date(dates[i]);
                                             if (currentDate >= startDateObj && currentDate <= endDateObj) {
                                                 filteredDates.push(dates[i]);
-                                                filteredData2.push(originalData2[i]);
+                                                filteredData2.push(dailyData[i]);
                                             }
                                         }
                                     } else {
                                         filteredDates = dates;
-                                        filteredData2 = originalData2;
+                                        filteredData2 = dailyData;
                                     }
 
-                                    myChart3.data.labels = filteredDates;
-                                    myChart3.data.datasets[0].data = filteredData2;
+                                    myChart2.data.labels = filteredDates;
+                                    myChart2.data.datasets[0].data = filteredData2;
+                                    myChart2.update();
+            </c:if>
+
+                                    // Filter for weekly chart
+            <c:if test="${chartType == 'week'}">
+                                    var filteredWeeks = [];
+                                    var filteredData3 = [];
+
+                                    if (startDate && endDate) {
+                                        var startDateObj = new Date(startDate);
+                                        var endDateObj = new Date(endDate);
+
+                                        for (var i = 0; i < weeks.length; i++) {
+                                            var week = weeks[i];
+                                            var weekStartDate = new Date(week.split(" of ")[1] + "-01-01");
+                                            weekStartDate.setDate(weekStartDate.getDate() + (parseInt(week.split("Week ")[1]) - 1) * 7);
+                                            var weekEndDate = new Date(weekStartDate);
+                                            weekEndDate.setDate(weekEndDate.getDate() + 6);
+
+                                            if (weekStartDate >= startDateObj && weekEndDate <= endDateObj) {
+                                                filteredWeeks.push(week);
+                                                filteredData3.push(weeklyData[i]);
+                                            }
+                                        }
+                                    } else {
+                                        filteredWeeks = weeks;
+                                        filteredData3 = weeklyData;
+                                    }
+
+                                    myChart3.data.labels = filteredWeeks;
+                                    myChart3.data.datasets[0].data = filteredData3;
                                     myChart3.update();
+            </c:if>
+
+                                    // Filter for yearly chart
+            <c:if test="${chartType == 'year'}">
+                                    var filteredYears = [];
+                                    var filteredData4 = [];
+
+                                    if (startDate && endDate) {
+                                        var startYear = new Date(startDate).getFullYear();
+                                        var endYear = new Date(endDate).getFullYear();
+
+                                        for (var i = 0; i < years.length; i++) {
+                                            var year = parseInt(years[i]);
+                                            if (year >= startYear && year <= endYear) {
+                                                filteredYears.push(years[i]);
+                                                filteredData4.push(yearlyData[i]);
+                                            }
+                                        }
+                                    } else {
+                                        filteredYears = years;
+                                        filteredData4 = yearlyData;
+                                    }
+
+                                    myChart4.data.labels = filteredYears;
+                                    myChart4.data.datasets[0].data = filteredData4;
+                                    myChart4.update();
             </c:if>
                                 }
         </script>

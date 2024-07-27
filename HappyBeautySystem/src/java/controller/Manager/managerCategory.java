@@ -49,7 +49,7 @@ public class managerCategory extends HttpServlet {
                     }
                 }
                 String catName = request.getParameter("categoryName");
-                String catImgUrl = request.getParameter("categoryImageUrl");
+                String catImgUrl = request.getParameter("srcImg");
                 boolean isActive = request.getParameter("isActive") != null;
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String createDate = sdf.format(new Date());

@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class chart extends HttpServlet {
 
@@ -51,6 +53,45 @@ public class chart extends HttpServlet {
             request.setAttribute("revenueList", revenueList);
 
             request.setAttribute("chartType", "month");
+            request.getRequestDispatcher("ViewAdmin/chart.jsp").forward(request, response);
+        }
+
+        if (service.equals("listWeek")) {
+            List<Double> revenueListByWeek = new ArrayList<>();
+            List<String> weekList = new ArrayList<>();
+            LocalDate currentDate = LocalDate.now();
+            WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
+            for (int i = 6; i >= 0; i--) {
+                LocalDate weekStartDate = currentDate.minusWeeks(i).with(weekFields.dayOfWeek(), 1);
+                int year = weekStartDate.getYear();
+                int week = weekStartDate.get(weekFields.weekOfWeekBasedYear());
+                double totalMoney = dao.getTotalMoneyByWeek(year, week);
+                revenueListByWeek.add(totalMoney);
+                weekList.add("Week " + week + " of " + year); // Add week info to the list
+            }
+
+            request.setAttribute("revenueListByWeek", revenueListByWeek);
+            request.setAttribute("weekList", weekList); // Set weekList as request attribute
+
+            request.setAttribute("chartType", "week");
+            request.getRequestDispatcher("ViewAdmin/chart.jsp").forward(request, response);
+        }
+        if (service.equals("listYear")) {
+            List<Double> revenueListByYear = new ArrayList<>();
+            List<Integer> yearList = new ArrayList<>();
+            LocalDate currentDate = LocalDate.now();
+
+            for (int year = currentDate.getYear(); year >= currentDate.getYear() - 6; year--) {
+                double totalMoney = dao.getTotalMoneyByYear(year);
+                revenueListByYear.add(totalMoney);
+                yearList.add(year); // Add year to the list
+            }
+
+            request.setAttribute("revenueListByYear", revenueListByYear);
+            request.setAttribute("yearList", yearList); // Set yearList as request attribute
+
+            request.setAttribute("chartType", "year");
             request.getRequestDispatcher("ViewAdmin/chart.jsp").forward(request, response);
         }
     }

@@ -109,10 +109,9 @@
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="categorytable">
                                 <thead>
                                     <tr class="text-dark">
-                                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                        
                                         <th scope="col">ID</th>
                                         <th scope="col">Tên</th>
-                                        <th scope="col">Ảnh</th>
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Ngày tạo</th>
                                         <th scope="col">Chức năng</th>
@@ -120,11 +119,9 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${listCat}" var="cat">
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox"></td>
+                                        <tr>               
                                             <td>${cat.categoryId}</td>
                                             <td>${cat.categoryName}</td>
-                                            <td>${cat.categoryImageUrl}</td>
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${cat.isActive == true}">
@@ -176,11 +173,7 @@
                                                 <input type="text" class="form-control" id="categoryName" name="categoryName" required>
                                                 <span id="nameError" style="color: red;"></span>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="categoryImageUrl" class="form-label">Ảnh</label>
-                                                <textarea class="form-control" id="categoryImageUrl" name="categoryImageUrl" required></textarea>
-                                                <span id="urlError" style="color: red;"></span>
-                                            </div>
+                                            <input type="hidden" id="categoryImageUrl" name="categoryImageUrl">
 
                                             <div class="mb-3">
                                                 <label for="isActive" class="form-label">Trạng thái</label>
@@ -198,12 +191,12 @@
                         <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="managercategory?service=edit" method="post">
+                                    <form id="updateCategoryForm" action="managercategory?service=edit" method="post" onsubmit="return validateUpdateForm()">
                                         <div class="modal-header">						
                                             <h4 class="modal-title">Cập nhật danh mục</h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                         <c:set value="${requestScope.cat}" var="cat"/>
+                                        <c:set value="${requestScope.cat}" var="cat"/>
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="categoryId">ID</label>
@@ -211,12 +204,10 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="categoryName">Tên</label>
-                                                <input type="text" class="form-control" id="categoryName" name="categoryName" value="${cat.categoryName}" required>
+                                                <input type="text" class="form-control" id="categoryNameUpdate" name="categoryName" value="${cat.categoryName}" required>
+                                                <span id="nameErrorUpdate" style="color: red;"></span>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="categoryImageUrl">Ảnh</label>
-                                                <input type="text" class="form-control" id="categoryImageUrl" name="categoryImageUrl" value="${cat.categoryImageUrl}" required>
-                                            </div>
+                                             <input type="hidden" id="categoryImageUrlUpdate" name="categoryImageUrl" value="${cat.categoryImageUrl}">
 
                                             <div class="form-group">
                                                 <label for="isActive">Trạng thái</label>
@@ -226,7 +217,6 @@
                                                     <label for="createDate">Ngày tạo</label>
                                                     <input type="text" class="form-control" id="createDate" name="createDate" value="${cat.createDate}" readonly>
                                             </div>
-
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" class="btn btn-success" value="Update">
@@ -235,6 +225,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
@@ -265,29 +256,29 @@
         <!--Mở modal update-->
 
         <script>
-                                            $(document).ready(function () {
-                                                var table = $('#categorytable').DataTable({
-                                                    "pageLength": 5,
-                                                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                    "order": [[1, "asc"]],
-                                                    "columnDefs": [
-                                                        {"orderable": false, "targets": 5}
-                                                    ],
-                                                    "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                    "language": {
-                                                        "lengthMenu": "Hiển thị _MENU_ mục",
-                                                        "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                        "paginate": {
-                                                            "first": "Đầu",
-                                                            "last": "Cuối",
-                                                            "next": "Tiếp",
-                                                            "previous": "Trở vể"
-                                                        }
+                                        $(document).ready(function () {
+                                            var table = $('#categorytable').DataTable({
+                                                "pageLength": 5,
+                                                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                "order": [[1, "asc"]],
+                                                "columnDefs": [
+                                                    {"orderable": false, "targets": 4}
+                                                ],
+                                                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                "language": {
+                                                    "lengthMenu": "Hiển thị _MENU_ mục",
+                                                    "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                    "paginate": {
+                                                        "first": "Đầu",
+                                                        "last": "Cuối",
+                                                        "next": "Tiếp",
+                                                        "previous": "Trở vể"
                                                     }
-                                                });
-
-
+                                                }
                                             });
+
+
+                                        });
         </script>
 
         <script>
@@ -299,38 +290,41 @@
             });
         </script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                function formatFullName(name) {
-                    name = name.trim().replace(/\s+/g, ' ');
-                    return name;
+            function validateUpdateForm() {
+                let isValid = true;
+                let name = document.getElementById("categoryNameUpdate").value.trim();
+                let imageUrl = document.getElementById("categoryImageUrlUpdate").value.trim();
+
+                if (name === "") {
+                    document.getElementById("nameErrorUpdate").innerHTML = "Tên danh mục không được để trống.";
+                    isValid = false;
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("nameErrorUpdate").innerHTML = "Tên danh mục không được bắt đầu bằng dấu cách.";
+                    isValid = false;
+                } else {
+                    document.getElementById("nameErrorUpdate").innerHTML = "";
                 }
 
-                document.getElementById("categoryName").oninput = function () {
-                    var name = this.value; // Không cần loại bỏ dấu cách ở đây
-                    this.value = name;
+                return isValid;
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("categoryNameUpdate").oninput = function () {
+                    let name = this.value;
+                    this.value = name.trim();
                     if (name === "") {
-                        document.getElementById("nameError").innerHTML = "Category name must not be empty.";
+                        document.getElementById("nameErrorUpdate").innerHTML = "Tên danh muc không được để trống.";
                     } else if (/^\s/.test(name)) {
-                        document.getElementById("nameError").innerHTML = "Category name should not start with a space.";
+                        document.getElementById("nameErrorUpdate").innerHTML = "Tên danh mục không được bắt đầu bằng dấu cách.";
                     } else {
-                        document.getElementById("nameError").innerHTML = "";
+                        document.getElementById("nameErrorUpdate").innerHTML = "";
                     }
                 };
-                document.getElementById("categoryImageUrl").oninput = function () {
-                    var name = this.value;
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("urlError").innerHTML = "Category Image Url name must not be empty.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("urlError").innerHTML = "Category Image Url should not start with a space.";
-                    } else {
-                        document.getElementById("urlError").innerHTML = "";
-                    }
-                };
+
+                
             });
-
-
         </script>
+
     </body>
 
 </html>

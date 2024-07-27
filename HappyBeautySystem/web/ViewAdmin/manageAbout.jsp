@@ -31,7 +31,7 @@
 
         <!-- Template Stylesheet -->
         <link href="ViewAdmin/css/style.css" rel="stylesheet">
-         <!-- datatable -->
+        <!-- datatable -->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <style>
             .circle {
@@ -72,6 +72,15 @@
                 background-color: #007bff;
                 color: black !important;
             }
+            .loadImage {
+                width: 100%;
+                height: auto;
+                max-width: 300px;
+                display: block;
+                margin: 10px auto;
+                border: 1px solid #ddd;
+                padding: 5px;
+            }
         </style>
     </head>
 
@@ -85,170 +94,131 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <form class="d-none d-md-flex ms-4" action="" method="post">
-                        <input type="hidden" name="service" value="search">
-                        <input class="form-control border-0" type="search" placeholder="Search" name="txt">
-                        <button type="submit" class="btn btn-primary ms-2">Search</button>
-                    </form>
-                    <div class="navbar-nav align-items-center ms-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-envelope me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Message</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                        <div class="ms-2">
-                                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                            <small>15 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all message</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-bell me-lg-2"></i>
-                                <span class="d-none d-lg-inline-flex">Notificatin</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Profile updated</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">New user added</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item">
-                                    <h6 class="fw-normal mb-0">Password changed</h6>
-                                    <small>15 minutes ago</small>
-                                </a>
-                                <hr class="dropdown-divider">
-                                <a href="#" class="dropdown-item text-center">See all notifications</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">John Doe</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <jsp:include page="navbarAdmin.jsp"/>
                 <!-- Navbar End -->
 
                 <!-- Product Management Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Product Management</h6>
+                            <h6 class="mb-0">Quản lý giới thiệu</h6>
                             <a href="manageabout">Show All</a>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add About</button>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm giới thiệu</button>
                         </div>
                         <!-- Load Product -->
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="abouttable">
                                 <thead>
                                     <tr class="text-dark">
-                                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+
                                         <th scope="col">ID</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Content</th>
-                                        <th scope="col">ImageURL</th>  
-                                        <th scope="col">Action</th>  
+                                        <th scope="col">Tiêu đề</th>
+                                        <th scope="col">Nội dung</th>
+
+                                        <th scope="col">Chức năng</th>  
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="about" items="${about}">
+                                    <c:forEach var="about" items="${requestScope.about}">
                                         <tr>
-                                            <td><input class="form-check-input" type="checkbox"></td>
                                             <td>${about.aboutId}</td>
                                             <td>${about.title}</td>
                                             <td>${about.content}</td>
-                                            <td>${about.imageURL}</td>
+
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="manageabout?service=update&id=${about.aboutId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}">Delete</a>
+<!--                                                <a class="btn btn-sm btn-primary" href="manageabout?service=update&id=${about.aboutId}">Update</a>
+                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}">Delete</a>-->
+                                                <form action="manageabout?service=update" method="post" style="display: inline;">
+                                                    <input type="hidden" name="id" value="${about.aboutId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </button>
+                                                </form>
+                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}"><i class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Add Category -->
+                        <!-- Add About -->
                         <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="addProductModalLabel">Add About</h5>
+                                        <h5 class="modal-title" id="addProductModalLabel">Thêm giới thiệu</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <form id="addCategoryForm" action="manageabout?service=add" method="post" onsubmit="return validateForm()">
                                             <input type="hidden" id="aboutId" name="aboutId" value="0">
                                             <div class="mb-3">
-                                                <label for="title" class="form-label">Title</label>
+                                                <label for="title" class="form-label">Tiêu đề</label>
                                                 <input type="text" class="form-control" id="title" name="title" required>
                                                 <span id="titleError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="content" class="form-label">Content</label>
+                                                <label for="content" class="form-label">Nội dung</label>
                                                 <input type="text" class="form-control" id="content" name="content" required>
                                                 <span id="contentError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="imageURL" class="form-label">About ImageUrl</label>
-                                                <textarea class="form-control" id="imageURL" name="imageURL" ></textarea>
-                                                <span id="urlError" style="color: red;"></span>
+                                                <input type="file" class="form-control" id="imageURL" name="imageURL" onchange="loadImg(this, event)" required>
+                                                <span id="pathImageError" style="color: red;"></span>
+                                                <img src=""  alt="Lỗi ảnh" class="loadImage"/> 
+                                                <input type="hidden" name="srcImg" class="srcImg"/>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Update About Modal -->
+                        <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="manageabout?service=edit" method="post" onsubmit="return validateUpdateForm()">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Cập nhật giới thiệu</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <c:set value="${requestScope.aboutUpdate}" var="about" />
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="aboutId">ID</label>
+                                                <input type="number" class="form-control" id="aboutId" name="aboutId" value="${about.aboutId}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateTitle">Tiêu đề</label>
+                                                <input type="text" class="form-control" id="updateTitle" name="title" value="${about.title}" required>
+                                                <span id="titleUpdateError" style="color: red;"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateContent">Nội dung</label>
+                                                <input type="text" class="form-control" id="updateContent" name="content" value="${about.content}" required>
+                                                <span id="contentUpdateError" style="color: red;"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="updateImageURL" class="form-label">Ảnh</label>
+                                                <img src="${about.imageURL}" alt="Lỗi ảnh" class="loadImage"/>
+                                                <input type="file" class="form-control" onchange="loadImg(this, event)">
+                                                <input type="hidden" name="imageURL" class="srcImg" value="${about.imageURL}"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-success" value="Update">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
-                <!-- Product Management End -->
+                <!-- About Management End -->
 
             </div>
             <!-- Content End -->
@@ -256,6 +226,11 @@
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
+        <!--
+               Update About -->
+
+
+
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -273,30 +248,49 @@
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
         <script>
-                                            $(document).ready(function () {
-                                                var table = $('#abouttable').DataTable({
-                                                    "pageLength": 5,
-                                                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                    "order": [[1, "asc"]],
-                                                    "columnDefs": [
-                                                        {"orderable": false, "targets": 4}
-                                                    ],
-                                                    "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                    "language": {
-                                                        "lengthMenu": "Hiển thị _MENU_ mục",
-                                                        "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                        "paginate": {
-                                                            "first": "Đầu",
-                                                            "last": "Cuối",
-                                                            "next": "Tiếp",
-                                                            "previous": "Trở vể"
-                                                        }
-                                                    }
-                                                });
+                                                    $(document).ready(function () {
+                                                        var table = $('#abouttable').DataTable({
+                                                            "pageLength": 5,
+                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                            "order": [[1, "asc"]],
+                                                            "columnDefs": [
+                                                                {"orderable": false, "targets": 3}
+                                                            ],
+                                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                            "language": {
+                                                                "lengthMenu": "Hiển thị _MENU_ mục",
+                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                                "paginate": {
+                                                                    "first": "Đầu",
+                                                                    "last": "Cuối",
+                                                                    "next": "Tiếp",
+                                                                    "previous": "Trở vể"
+                                                                }
+                                                            }
+                                                        });
 
 
-                                            });
+                                                    });
         </script>
+        <script>
+            function loadImg(target, e) {
+                console.log(target);
+                console.log(e.target.files[0]);
+                let file = e.target.files[0];
+                let img = target.parentNode.querySelector(".loadImage");
+                if (file && file.type.match("image.*")) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        img.src = e.target.result;
+                        target.parentNode.querySelector(".srcImg").value = e.target.result;
+                        console.log(target.parentNode.querySelector(".srcImg").value);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+        </script>
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 function formatFullName(name) {
@@ -308,9 +302,9 @@
                     var name = this.value;
                     this.value = name;
                     if (name === "") {
-                        document.getElementById("titleError").innerHTML = "Title must not be empty.";
+                        document.getElementById("titleError").innerHTML = "Tiêu đề không được để trống.";
                     } else if (/^\s/.test(name)) {
-                        document.getElementById("titleError").innerHTML = "Title should not start with a space.";
+                        document.getElementById("titleError").innerHTML = "Tiêu đề không được bắt đầu bằng dấu cách.";
                     } else {
                         document.getElementById("titleError").innerHTML = "";
                     }
@@ -319,13 +313,47 @@
                     var name = this.value;
                     this.value = name;
                     if (name === "") {
-                        document.getElementById("contentError").innerHTML = "Content name must not be empty.";
+                        document.getElementById("contentError").innerHTML = "Nội dung không được để trống.";
                     } else if (/^\s/.test(name)) {
-                        document.getElementById("contentError").innerHTML = "Content should not start with a space.";
+                        document.getElementById("contentError").innerHTML = "Nội dung không được bắt đầu bằng dấu cách.";
                     } else {
                         document.getElementById("contentError").innerHTML = "";
                     }
                 };
+            });
+
+            // Update form validation
+            document.getElementById("updateTitle").oninput = function () {
+                var name = this.value;
+                this.value = name.trim();
+                if (name === "") {
+                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("titleUpdateError").innerHTML = "";
+                }
+            };
+
+            document.getElementById("updateContent").oninput = function () {
+                var content = this.value;
+                this.value = content.trim();
+                if (content === "") {
+                    document.getElementById("contentUpdateError").innerHTML = "Nội dung không được để trống.";
+                } else if (/^\s/.test(content)) {
+                    document.getElementById("contentUpdateError").innerHTML = "Nội dung không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("contentUpdateError").innerHTML = "";
+                }
+            };
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // Update
+            <c:if test="${not empty requestScope.aboutUpdate}">
+                $('#updateCategoryModal').modal('show');
+            </c:if>
             });
         </script>
     </body>

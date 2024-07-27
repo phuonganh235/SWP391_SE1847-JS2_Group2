@@ -77,6 +77,15 @@
                 background-color: #007bff;
                 color: black !important;
             }
+            .loadImage {
+                width: 100%;
+                height: auto;
+                max-width: 300px;
+                display: block;
+                margin: 10px auto;
+                border: 1px solid #ddd;
+                padding: 5px;
+            }
         </style>
     </head>
 
@@ -218,7 +227,7 @@
                                             <input type="text" class="form-control" id="color" name="color" required>
                                             <span id="addDesError" style="color: red;"></span>
                                         </div>
-                                       
+
                                         <div class="mb-3">
                                             <label for="companyName" class="form-label">Tên công ty</label>
                                             <input type="text" class="form-control" id="companyName" name="companyName" required>
@@ -243,9 +252,13 @@
 
                                         <div class="mb-3">
                                             <label for="pathImage" class="form-label">Ảnh</label>
-                                            <input type="file" class="form-control" id="pathImage" name="pathImage" required>
+
+                                            <input type="file" class="form-control" id="pathImage" name="pathImage" onchange="loadImg(this, event)" required>
                                             <span id="pathImageError" style="color: red;"></span>
+                                            <img src=""  alt="lỗi ảnh" class="loadImage"/> 
+                                            <input type="hidden" name="srcImg" class="srcImg"/>
                                         </div>
+
                                         <button type="submit" class="btn btn-primary">Lưu</button>
                                     </form>
                                 </div>
@@ -254,88 +267,94 @@
                     </div>
 
 
+
                     <!-- update Product Modal -->
                     <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form action="manager?service=edit" method="post">
-                                    <div class="modal-header">						
+                                <form id="updateProductForm" action="manager?service=edit" method="post" onsubmit="return validateForm('update')">
+                                    <div class="modal-header">
                                         <h4 class="modal-title">Cập nhật sản phẩm</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-
-                                        <div class="form-group">
-                                            <label for="productId">ID Sản phẩm</label>
-                                            <input type="number" class="form-control" id="productId" name="productId" value="${product.productId}" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="productName">Tên</label>
-                                            <input type="text" class="form-control" id="productName" name="productName" value="${product.productName}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="shortDes">Mô tả ngắn</label>
-                                            <textarea class="form-control" id="shortDes" name="shortDes" required>${product.shortDes}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="longDes">Mô tả chi tiết</label>
-                                            <textarea class="form-control" id="longDes" name="longDes" required>${product.longDes}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="addDes">Nguồn gốc</label>
-                                            <input type="text" class="form-control" id="addDes" name="addDes" value="${product.addDes}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="price">Giá</label>
-                                            <input type="number" class="form-control" id="price" name="price" value="${product.price}" min="0" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quantity">Số lượng</label>
-                                            <input type="number" class="form-control" id="quantity" name="quantity" value="${product.quantity}" min="0" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="size">Kích thước</label>
-                                            <input type="text" class="form-control" id="size" name="size" value="${product.size}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="color">Màu</label>
-                                            <input type="text" class="form-control" id="color" name="color" value="${product.color}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="companyName">Tên công ty</label>
-                                            <input type="text" class="form-control" id="companyName" name="companyName" value="${product.companyName}" required>
+                                        <input type="hidden" id="productId" name="productId" value="${product.productId}" readonly>
+                                        <div class="mb-3">
+                                            <label for="updateProductName" class="form-label">Tên</label>
+                                            <input type="text" class="form-control" id="updateProductName" name="productName" value="${product.productName}" required>
+                                            <span id="updateNameError" style="color: red;"></span>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="cateId" class="form-label">Phân loại</label>
-                                            <select class="form-select" id="cateId" name="cateId" required>
+                                            <label for="updateShortDes" class="form-label">Mô tả ngắn</label>
+                                            <textarea class="form-control" id="updateShortDes" name="shortDes" required>${product.shortDes}</textarea>
+                                            <span id="updateShortDesError" style="color: red;"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateLongDes" class="form-label">Mô tả chi tiết</label>
+                                            <textarea class="form-control" id="updateLongDes" name="longDes" required>${product.longDes}</textarea>
+                                            <span id="updateLongDesError" style="color: red;"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateAddDes" class="form-label">Nguồn gốc</label>
+                                            <input type="text" class="form-control" id="updateAddDes" name="addDes" value="${product.addDes}" required>
+                                            <span id="updateAddDesError" style="color: red;"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updatePrice" class="form-label">Giá</label>
+                                            <input type="number" class="form-control" id="updatePrice" name="price" value="${product.price}" min="0" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateQuantity" class="form-label">Số lượng</label>
+                                            <input type="number" class="form-control" id="updateQuantity" name="quantity" value="${product.quantity}" min="0" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateSize" class="form-label">Kích thước</label>
+                                            <input type="text" class="form-control" id="updateSize" name="size" value="${product.size}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateColor" class="form-label">Màu</label>
+                                            <input type="text" class="form-control" id="updateColor" name="color" value="${product.color}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateCompanyName" class="form-label">Tên công ty</label>
+                                            <input type="text" class="form-control" id="updateCompanyName" name="companyName" value="${product.companyName}" required>
+                                            <span id="updateCompanyNameError" style="color: red;"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updateCateId" class="form-label">Phân loại</label>
+                                            <select class="form-select" id="updateCateId" name="cateId" required>
                                                 <c:forEach items="${listCat}" var="cat">
                                                     <option value="${cat.categoryId}" ${cat.categoryId == product.cateId ? 'selected' : ''}>${cat.categoryName}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
-                                        <input type="hidden" class="form-control" id="subCateId" name="subCateId" value="${product.subCateId}" min="0" required>
-                                        <input type="hidden" class="form-control" id="sold" name="sold" value="${product.sold}" min="0" required>
-                                        <input type="hidden" class="form-check-input" id="isCustomized" name="isCustomized" value="${product.isCustomized}">
-                                        <div class="form-group">
-                                            <label for="isActive">Trạng thái</label>
-                                            <input type="checkbox" class="form-check-input" id="isActive" name="isActive" <c:if test="${product.isActive}">checked</c:if>>
+                                        <input type="hidden" class="form-control" id="updateSubCateId" name="subCateId" value="${product.subCateId}" required>
+                                        <input type="hidden" class="form-control" id="updateSold" name="sold" value="${product.sold}" required>
+                                        <input type="hidden" class="form-check-input" id="updateIsCustomized" name="isCustomized" value="${product.isCustomized}">
+                                        <div class="mb-3">
+                                            <label for="updateIsActive" class="form-label">Trạng thái</label>
+                                            <input type="checkbox" class="form-check-input" id="updateIsActive" name="isActive" <c:if test="${product.isActive}">checked</c:if>>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="createDate">Ngày tạo</label>
+                                            <div class="mb-3">
+                                                <label for="createDate" class="form-label">Ngày tạo</label>
                                                 <input type="text" class="form-control" id="createDate" name="createDate" value="${product.createDate}" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="pathImage">Ảnh</label>
-                                            <input type="text" class="form-control" id="pathImage" name="pathImage" value="${product.pathImage}" required>
+                                        <div class="mb-3">
+                                            <label for="updatePathImage" class="form-label">Ảnh</label>
+                                            <img src="${product.pathImage}" alt="Lỗi ảnh" class="loadImage"/>
+                                            <input type="file" class="form-control" id="updatePathImage" name="pathImage" onchange="loadImg(this, event)">
+                                            <span id="updatePathImageError" style="color: red;"></span>
+                                            <input type="hidden" name="pathImage" class="srcImg"/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <input type="submit" class="btn btn-success" value="Update">
+                                        <input type="submit" class="btn btn-success" value="Cập nhật">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
 
@@ -366,29 +385,46 @@
     <script src="ViewAdmin/js/main.js"></script>
     <!--        xử lý datatable-->
     <script>
-                                        $(document).ready(function () {
-                                            var table = $('#productTable').DataTable({
-                                                "pageLength": 5,
-                                                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                "order": [[1, "asc"]],
-                                                "columnDefs": [
-                                                    {"orderable": false, "targets": 7}
-                                                ],
-                                                "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                "language": {
-                                                    "lengthMenu": "Hiển thị _MENU_ mục",
-                                                    "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                    "paginate": {
-                                                        "first": "Đầu",
-                                                        "last": "Cuối",
-                                                        "next": "Tiếp",
-                                                        "previous": "Trở vể"
-                                                    }
-                                                }
-                                            });
+                                                $(document).ready(function () {
+                                                    var table = $('#productTable').DataTable({
+                                                        "pageLength": 5,
+                                                        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                        "order": [[1, "asc"]],
+                                                        "columnDefs": [
+                                                            {"orderable": false, "targets": 7}
+                                                        ],
+                                                        "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                        "language": {
+                                                            "lengthMenu": "Hiển thị _MENU_ mục",
+                                                            "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                            "paginate": {
+                                                                "first": "Đầu",
+                                                                "last": "Cuối",
+                                                                "next": "Tiếp",
+                                                                "previous": "Trở vể"
+                                                            }
+                                                        }
+                                                    });
 
 
-                                        });
+                                                });
+    </script>
+    <script>
+        function loadImg(target, e) {
+            console.log(target);
+            console.log(e.target.files[0]);
+            let file = e.target.files[0];
+            let img = target.parentNode.querySelector(".loadImage");
+            if (file && file.type.match("image.*")) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    img.src = e.target.result;
+                    target.parentNode.querySelector(".srcImg").value = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
     </script>
     <!--Mở modal update-->
     <script>
@@ -463,17 +499,7 @@
                     document.getElementById("companyNameError").innerHTML = "";
                 }
             };
-            document.getElementById("pathImage").oninput = function () {
-                var name = this.value;
-                this.value = name;
-                if (name === "") {
-                    document.getElementById("pathImageError").innerHTML = "PathImage must not be empty.";
-                } else if (/^\s/.test(name)) {
-                    document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space.";
-                } else {
-                    document.getElementById("pathImageError").innerHTML = "";
-                }
-            };
+            
         });
 
 
@@ -496,7 +522,6 @@
             var longDes = document.getElementById("longDes").value;
             var addDes = document.getElementById("addDes").value;
             var companyName = document.getElementById("companyName").value;
-            var pathImage = document.getElementById("pathImage").value;
 
             name = name.trim().replace(/\s+/g, ' ');
             document.getElementById("productName").value = name;
@@ -521,15 +546,113 @@
                 document.getElementById("companyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
-            if (pathImage === "" || /^\s/.test(pathImage)) {
-                document.getElementById("pathImageError").innerHTML = "PathImage should not start with a space and must not be empty.";
-                isValid = false;
-            }
+            
 
             return isValid;
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            function validateUpdateForm() {
+                var isValid = true;
 
-        
+                var name = document.getElementById("updateProductName").value;
+                var shortDes = document.getElementById("updateShortDes").value;
+                var longDes = document.getElementById("updateLongDes").value;
+                var addDes = document.getElementById("updateAddDes").value;
+                var companyName = document.getElementById("updateCompanyName").value;
+                
+
+                name = name.trim().replace(/\s+/g, ' ');
+                document.getElementById("updateProductName").value = name;
+
+                if (name === "" || /^\s/.test(name)) {
+                    document.getElementById("updateNameError").innerHTML = "Tên sản phẩm không được bắt đầu bằng dấu cách và không được để trống.";
+                    isValid = false;
+                }
+                if (shortDes === "" || /^\s/.test(shortDes)) {
+                    document.getElementById("updateShortDesError").innerHTML = "Mô tả ngắn không được bắt đầu bằng dấu cách và không được để trống.";
+                    isValid = false;
+                }
+                if (longDes === "" || /^\s/.test(longDes)) {
+                    document.getElementById("updateLongDesError").innerHTML = "Mô tả chi tiết không được bắt đầu bằng dấu cách và không được để trống.";
+                    isValid = false;
+                }
+                if (addDes === "" || /^\s/.test(addDes)) {
+                    document.getElementById("updateAddDesError").innerHTML = "Mô tả nguồn gốc không được bắt đầu bằng dấu cách và không được để trống.";
+                    isValid = false;
+                }
+                if (companyName === "" || /^\s/.test(companyName)) {
+                    document.getElementById("updateCompanyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách và không được để trống.";
+                    isValid = false;
+                }
+                
+
+                return isValid;
+            }
+
+            // Attach the validateUpdateForm function to the update form submission
+            document.getElementById("updateProductForm").onsubmit = function () {
+                return validateUpdateForm();
+            };
+
+            // Update form input validations
+            document.getElementById("updateProductName").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateNameError").innerHTML = "Tên sản phẩm không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateNameError").innerHTML = "Tên sản phẩm không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateNameError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateShortDes").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateShortDesError").innerHTML = "Mô tả ngắn không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateShortDesError").innerHTML = "Mô tả ngắn không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateShortDesError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateLongDes").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateLongDesError").innerHTML = "Mô tả chi tiết không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateLongDesError").innerHTML = "Mô tả chi tiết không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateLongDesError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateAddDes").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateAddDesError").innerHTML = "Mô tả nguồn gốc không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateAddDesError").innerHTML = "Mô tả nguồn gốc không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateAddDesError").innerHTML = "";
+                }
+            };
+            document.getElementById("updateCompanyName").oninput = function () {
+                var name = this.value;
+                this.value = name;
+                if (name === "") {
+                    document.getElementById("updateCompanyNameError").innerHTML = "Tên công ty không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("updateCompanyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("updateCompanyNameError").innerHTML = "";
+                }
+            };
+            
+        });
+
     </script>
 
 </body>

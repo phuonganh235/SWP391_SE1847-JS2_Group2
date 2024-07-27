@@ -143,17 +143,38 @@ public class OrderDetailDAO extends DBContext {
         return totalMoney;
     }
     //Get total money by week
-    public double getTotalMoneyByWeek(int week, int year) {
+    // Get total money by week
+
+    public double getTotalMoneyByWeek(int year, int week) {
         double totalMoney = 0;
         String sql = "SELECT SUM(od.Price * od.Quantity) "
-                + "FROM [Orders] o INNER JOIN [OrderDetail] od ON o.OrderId = od.OrderId "
-                + "WHERE DATEPART(week, o.OrderDate) = ? AND DATEPART(year, o.OrderDate) = ?";
+                + "FROM Orders o INNER JOIN OrderDetail od ON o.OrderId = od.OrderId "
+                + "WHERE YEAR(o.OrderDate) = ? AND DATEPART(WEEK, o.OrderDate) = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, week);
-            pre.setInt(2, year);
+            pre.setInt(1, year);
+            pre.setInt(2, week);
             ResultSet rs = pre.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                totalMoney = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalMoney;
+    }
+
+// Get total money by year
+    public double getTotalMoneyByYear(int year) {
+        double totalMoney = 0;
+        String sql = "SELECT SUM(od.Price * od.Quantity) "
+                + "FROM Orders o INNER JOIN OrderDetail od ON o.OrderId = od.OrderId "
+                + "WHERE YEAR(o.OrderDate) = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, year);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
                 totalMoney = rs.getDouble(1);
             }
         } catch (Exception e) {
@@ -170,6 +191,6 @@ public class OrderDetailDAO extends DBContext {
 //        }
         double totalMoneyByWeek = dao.getTotalMoneyByWeek(26, 2024);
         System.out.println("Total money by week: " + totalMoneyByWeek);
-        
+
     }
 }

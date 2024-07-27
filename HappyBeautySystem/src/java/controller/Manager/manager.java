@@ -61,7 +61,7 @@ public class manager extends HttpServlet {
             boolean isActive = request.getParameter("isActive") != null;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String createDate = sdf.format(new Date());
-            String pathImage = request.getParameter("pathImage");
+            String pathImage = request.getParameter("srcImg");
             Product product = new Product(productId, productName, shortDes, longDes, addDes, price, quantity,
                     size, color, companyName, cateId, subCateId, sold, isCustomized, isActive, createDate, pathImage);
             dao.addProduct(product);
