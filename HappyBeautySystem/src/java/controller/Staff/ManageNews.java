@@ -2,15 +2,13 @@ package controller.Staff;
 
 import dal.NewsDAO;
 import dal.UserDAO;
-import jakarta.servlet.RequestDispatcher;
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import model.Category;
@@ -31,40 +29,26 @@ public class ManageNews extends HttpServlet {
         String password = (String) session.getAttribute("password");
         UserDAO uDao = new UserDAO();
 
-        // Kiểm tra null cho username và password
         if (username == null || password == null) {
-            response.sendRedirect("login"); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+            response.sendRedirect("login");
             return;
         }
 
         int userRole = uDao.getRole(username, password);
 
-        if (userRole == 1) {
-            if (service == null || service.isEmpty()) {
-                service = "viewAllNews";
-            }
-
-            if ("viewAllNews".equals(service)) {
-                ArrayList<News> newsList = newsDAO.viewAllNews();
-                ArrayList<News> filteredNewsList = new ArrayList<>();
-                for (News news : newsList) {
-                    if (news.isIsActive()) {
-                        filteredNewsList.add(news);
-                    }
-                }
-                request.setAttribute("newsList", filteredNewsList);
-                request.getRequestDispatcher("/ViewUser/blog.jsp").forward(request, response);
-            }
-        } else if (userRole == 4) {
-            if (service == null) {
-                request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
-                return;
-            }
+        if (service == null || service.isEmpty()) {
+            service = "viewAllNews";
         }
 
-        if (service != null && service.equals("addnews")) {
+        if ("viewAllNews".equals(service)) {
+            ArrayList<News> newsList = newsDAO.viewAllNews();
+            ArrayList<Category> categories = newsDAO.getAllCategories();
+            request.setAttribute("newsList", newsList);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
+        } else if ("addnews".equals(service)) {
             if (submit == null) {
-                ArrayList<Category> categories = newsDAO.getAllCategories(); // Giả sử bạn có phương thức này
+                ArrayList<Category> categories = newsDAO.getAllCategories();
                 request.setAttribute("categories", categories);
                 request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
             } else {
@@ -76,7 +60,8 @@ public class ManageNews extends HttpServlet {
 
                 Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
-                News news = new News(0, title, content, createTime, imgUrl, isActive, false, null, categoryID);
+                News news = new News(0, title, content, createTime, imgUrl, false, isActive, null, categoryID);
+                news.setUserID(uDao.getUserIdByUsername(username));
 
                 boolean result = newsDAO.addNews(news);
                 if (result) {
@@ -84,7 +69,12 @@ public class ManageNews extends HttpServlet {
                 } else {
                     request.setAttribute("message", "Failed to add news.");
                 }
-                response.sendRedirect("managenews?service=viewAllNews");
+
+                ArrayList<News> newsList = newsDAO.viewAllNews();
+                ArrayList<Category> categories = newsDAO.getAllCategories();
+                request.setAttribute("newsList", newsList);
+                request.setAttribute("categories", categories);
+                request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
             }
         }
     }
