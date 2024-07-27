@@ -97,7 +97,7 @@
                                         class="app-sidebar__user-avatar"
                                         src="ViewAdmin/img/admin.jpg"
                                         alt=""
-                                        style="width: 80px; height: 80px"
+                                        style="width: 60px; height: 60px"
                                         />
                                 </c:if>
                                 <c:if test="${sessionScope.inforUserLogin.roleId == 4}">
@@ -105,7 +105,7 @@
                                         class="app-sidebar__user-avatar"
                                         src="ViewAdmin/img/staff.jpg"
                                         alt=""
-                                        style="width: 80px; height: 80px"
+                                        style="width: 60px; height: 60px"
                                         />
                                 </c:if>
                             </a>
@@ -125,7 +125,7 @@
                     </div>
 
                     <div class="navbar-nav w-100">
-                        <a href="dashboard" class="nav-item nav-link active">
+                        <a href="dashboard" class="nav-item nav-link">
                             <i class="fa fa-tachometer-alt me-2"></i>Bảng điều khiển
                         </a>
                         <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
@@ -135,7 +135,7 @@
                                     class="nav-link dropdown-toggle"
                                     data-bs-toggle="dropdown"
                                     >
-                                    <i class="fa fa-user-edit me-2"></i>Quản lý tài khoản
+                                    <i class="fa fa-user-edit me-2"></i>Tài khoản
                                 </a>
                                 <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
                                     <a href="manageAccountAdmin?service=ListAllStaff" class="dropdown-item">Nhân viên</a>
@@ -145,7 +145,7 @@
                         </c:if>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-server"></i> Quản lý đơn hàng
+                                <i class="fa fa-server"></i>  Đơn hàng
                             </a>
                             <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
                                 <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Chưa xác nhận</a>
@@ -154,7 +154,7 @@
                         </div>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-server"></i> Quản lý sản phẩm
+                                <i class="fa fa-server"></i>  Sản phẩm
                             </a>
                             <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
                                 <a href="manager" class="dropdown-item">Tất cả</a>
@@ -162,20 +162,20 @@
                             </div>
                         </div>
                         <a href="managercategory" class="nav-item nav-link">
-                            <i class="fa fa-th me-2"></i>Quản lý danh mục
+                            <i class="fa fa-th me-2"></i>Danh mục
                         </a>
                         
                         <a href="managenews" class="nav-item nav-link">
-                            <i class="fa fa-th me-2"></i>Quản lý bài viết
+                            <i class="fa fa-th me-2"></i>Bài viết
                         </a>
                         
                         <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
-                            <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
+                            <i class="fa fa-tag me-2"></i>Phiếu giảm giá
                         </a>
                         <a
                             href="Consultation?service=listAll1"
                             class="nav-item nav-link"
-                            ><i class="fa fa-chart-bar me-2"></i>Quản lý lịch tư vấn</a
+                            ><i class="fa fa-calendar me-2"></i>Lịch tư vấn</a
                         >
                         <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
                             <a href="chart" class="nav-item nav-link">

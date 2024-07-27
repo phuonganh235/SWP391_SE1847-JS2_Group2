@@ -1,4 +1,3 @@
-
 package controller.Manager;
 
 import dal.CategoryDAO;
@@ -131,6 +130,8 @@ public class manager extends HttpServlet {
                 request.setAttribute("listP", lowProduct);
                 request.getRequestDispatcher("ViewAdmin/manageProduct.jsp").forward(request, response);
             }
+        } else {
+            response.sendRedirect("login");
         }
     }
 

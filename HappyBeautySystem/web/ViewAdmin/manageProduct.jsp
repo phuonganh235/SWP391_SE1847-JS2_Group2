@@ -201,7 +201,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="longDes" class="form-label">Mô tả chi tiết</label>
-                                            <textarea class="form-control" id="longDes" name="longDes" required></textarea>
+                                            <textarea class="form-control" id="longDes" name="longDes" ></textarea>
                                             <span id="longDesError" style="color: red;"></span>
                                         </div>
                                         <div class="mb-3">
@@ -472,7 +472,7 @@
                 var name = this.value;
                 this.value = name;
                 if (name === "") {
-                    document.getElementById("longDesError").innerHTML = "Mô tả chi tiết không được để trống.";
+//                    document.getElementById("longDesError").innerHTML = "Mô tả chi tiết không được để trống.";
                 } else if (/^\s/.test(name)) {
                     document.getElementById("longDesError").innerHTML = "Mô tả chỉ tiết không được bắt đầu bằng dấu cách.";
                 } else {

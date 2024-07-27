@@ -73,6 +73,8 @@ public class manageAbout extends HttpServlet {
                 dao.deleteAbout(aboutId);
                 response.sendRedirect("manageabout");
             }
+        } else {
+            response.sendRedirect("login");
         }
 
     }
