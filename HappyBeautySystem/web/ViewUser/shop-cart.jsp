@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="ViewUser/css/style.css" type="text/css">
         <link href="ViewUser/css/style-shopcart.css" rel="stylesheet" type="text/css"/>
         <style>
-                  .user-profile-points {
+            .user-profile-points {
                 background-color: #f8f9fa;
                 border: 2px solid #28a745;
                 border-radius: 10px;
@@ -105,7 +105,7 @@
                                                 Product pro = daoProduct.getProductById(cart.getProductId());
                                                 if (pro != null) {
                                                     double subtotal = cart.getQuantity() * pro.getPrice();
-                                                    String formattedGranTotal = String.format("%.2f", granTotal);
+                                                    String formattedGranTotal = String.format("%.0f", granTotal);
                                     %>
                                     <tr>
                                         <%
@@ -113,7 +113,7 @@
                                             if (hh >= 1) { // Nếu quantity lớn hơn hoặc bằng 1
 %>
                                         <td>
-                                            <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.2f", subtotal)%>"
+                                            <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.0f", subtotal)%>"
                                                    onclick="updateTotal()">
                                         </td>
                                         <%
@@ -136,41 +136,60 @@
                                                 <h6><a
                                                         href="product?action=productdetail&product_id=<%= pro.getProductId()%>&product_category=<%= pro.getCateId()%>"><%= pro.getProductName()%></a>
                                                 </h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
+
                                             </div>
                                         </td>
-                                        <td class="cart__price"><%= String.format("%.2f", pro.getPrice())%></td>
-                                        <td class="cart__quantity">
-                                            <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
-                                        </td>
+                                       <td class="cart__price" id="field-price-<%= pro.getProductId()%>"><%= pro.getPrice()%></td>
 
-                                        <td class="cart__price sub_total" data-price="<%= String.format("%.2f", subtotal)%>"
-                                            id="subtotal-<%= cart.getCartId()%>"><%= String.format("%.2f", subtotal)%></td>
-                                        <td class="cart__close">
-                                            <a
-                                                href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
-                                                <span class="icon_close"></span>
-                                            </a>
-                                        </td>
+                                <script>
+                                    (function () {
+                                        // Function to format the price
+                                        function format(price) {
+                                            // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                            let priceString = parseFloat(price).toFixed(0);
 
-                                    </tr>
-                                    <%
-                                            }
+                                            // Use a regular expression to insert dots at the thousand places
+                                            priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                            // Return the formatted price with ' VNĐ' appended
+                                            return priceString + ' VNĐ';
                                         }
-                                    } else {
-                                    %>
-                                    <tr>
-                                        <td colspan="5" class="text-center">Giỏ hàng trống</td>
-                                    </tr>
-                                    <%
+
+                                        // Get the price from the element
+                                        let priceNew = <%= pro.getPrice()%>;
+
+                                        // Format the price and display it in the specified HTML element
+                                        document.getElementById('field-price-<%= pro.getProductId()%>').innerHTML = format(priceNew);
+                                    })();
+                                </script>
+
+                                <td class="cart__quantity">
+                                    <input type="number" value="<%= cart.getQuantity()%>" style="width: 50%" onblur="changeQuantity(this, `<%= cart%>`, <%= pro.getPrice()%>)"/>
+                                </td>
+
+                                <td class="cart__price sub_total" data-price="<%= String.format("%.0f", subtotal)%>"
+                                    id="subtotal-<%= cart.getCartId()%>"><%= String.format("%.0f", subtotal)%></td>
+                                <td class="cart__close">
+                                    
+                                    
+                                    <a
+                                        href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
+                                        <span class="icon_close"></span>
+                                    </a>
+                                </td>
+
+                                </tr>
+                                <%
                                         }
-                                    %>
+                                    }
+                                } else {
+                                %>
+                                <tr>
+                                    <td colspan="5" class="text-center">Giỏ hàng trống</td>
+                                </tr>
+                                <%
+                                    }
+                                %>
                                 </tbody>
                             </table>
                         </div>
@@ -195,21 +214,21 @@
                             <p id="couponMessage"></p>
                         </div>
                         <div class="discount__content">
-                            
-                            
+
+
                             <h6>Quy đổi điểm</h6>
-                            <form action="#" id="pointForm" class="poit-customer">
-                                <select id="pointSelect" class="poit-select-customer">
+                            <form action="#" id="pointForm" class="poit-customer" >
+                                <select id="pointSelect" class="poit-select-customer" style=" border-radius: 25px; margin-left: -8px">
                                     <option value="0">Chọn số điểm</option>
                                     <option value="100">100 điểm - Giảm 5%</option>
                                     <option value="200">200 điểm - Giảm 10%</option>
                                     <option value="300">300 điểm - Giảm 15%</option>
                                     <option value="400">400 điểm - Giảm 20%</option>
                                 </select>
-                                <button type="button" onclick="applyPoints()" class="site-btn hh">Áp dụng</button>
+                                <button type="button" onclick="applyPoints()" class="site-btn hh" >Áp dụng</button>
                             </form>
-                            
-                            
+
+
                             <p id="pointMessage"></p>
                         </div>
 
@@ -223,9 +242,9 @@
                         <div class="cart__total__procced">
                             <h6>Thông tin mua hàng</h6>
                             <ul>
-                                <li>Tạm tính  <span id="originalTotal"><%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Tạm tính  <span id="originalTotal"><%= String.format("%.0f", granTotal)%></span></li>
                                 <li>Giảm giá <span id="discountAmount">0.00</span></li>
-                                <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.2f", granTotal)%></span></li>
+                                <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.0f", granTotal)%></span></li>
                             </ul>
                             <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Xác nhận thanh toán</button></div>
                     </div>
@@ -291,7 +310,7 @@
         <!-- Instagram End -->
 
         <!-- Footer Section Begin -->
-          <jsp:include page="footer.jsp"/>
+        <jsp:include page="footer.jsp"/>
         <!-- Footer Section End -->
 
         <!-- Js Plugins -->
@@ -306,117 +325,138 @@
         <script src="ViewUser/js/jquery.nicescroll.min.js"></script>
         <script src="ViewUser/js/main.js"></script>
         <script>
-                                    // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
-                                    let listProcductIdChoose = [];
-                                    function updateTotal() {
-                                        var checkboxes = document.querySelectorAll('.product-checkbox');
-                                        var total = 0;
-                                        checkboxes.forEach(function (checkbox) {
-                                            if (checkbox.checked) {
-                                                total += parseFloat(checkbox.dataset.price);
-                                            }
-                                        });
-                                        document.getElementById('originalTotal').innerText = total.toFixed(2);
+                                (function () {
+                                    // Function to format the price
+                                    function format(price) {
+                                        // Convert the price to a string with a fixed number of decimal places (0 in this case)
+                                        let priceString = parseFloat(price).toFixed(0);
 
-                                        // Apply discount
-                                        // Tính tổng giảm giá (từ mã giảm giá và điểm quy đổi)
-                                        var discountAmount = total * (currentDiscount + currentPointDiscount);
-                                        // Đảm bảo tổng giảm giá không vượt quá tổng tiền
-                                        discountAmount = Math.min(discountAmount, total);
-                                        var finalTotal = total - discountAmount;
-                                        if (finalTotal < 0)
-                                            finalTotal = 0; // Ensure total is not negative
+                                        // Use a regular expression to insert dots at the thousand places
+                                        priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                                        document.getElementById('discountAmount').innerText = discountAmount.toFixed(2);
-                                        document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
-                                        sessionStorage.setItem('cartTotal', finalTotal.toFixed(2));
-                                        sessionStorage.setItem('cartDiscount', discountAmount.toFixed(2));
+                                        // Return the formatted price with ' VNĐ' appended
+                                        return priceString + ' VNĐ';
                                     }
 
-                                    document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
-                                        checkbox.addEventListener('change', updateTotal);
-                                    });
+                                    // Use JSP to get the price from the server-side
+                                    let priceNew = ${pc.getPrice()};
 
-                                    function stringToObject(string) {
-                                        let keyValuePairs = string.split(", ");
-                                        let obj = {};
+                                    // Format the price and display it in the specified HTML element
+                                    document.getElementById('field-price-${pc.getProductId()}').innerHTML = format(priceNew);
+                                })();
+        </script>
+        <script>
+            // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
+            let listProcductIdChoose = [];
+            function updateTotal() {
+                var checkboxes = document.querySelectorAll('.product-checkbox');
+                var total = 0;
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        total += parseFloat(checkbox.dataset.price);
+                    }
+                });
+                document.getElementById('originalTotal').innerText = total.toFixed(2);
 
-                                        for (let i = 0; i < keyValuePairs.length; i++) {
-                                            let keyValue = keyValuePairs[i].split("=");
-                                            let key = keyValue[0].trim();
-                                            let value = keyValue[1].trim();
+                // Apply discount
+                // Tính tổng giảm giá (từ mã giảm giá và điểm quy đổi)
+                var discountAmount = total * (currentDiscount + currentPointDiscount);
+                // Đảm bảo tổng giảm giá không vượt quá tổng tiền
+                discountAmount = Math.min(discountAmount, total);
+                var finalTotal = total - discountAmount;
+                if (finalTotal < 0)
+                    finalTotal = 0; // Ensure total is not negative
 
-                                            if (!isNaN(value)) {
-                                                value = parseFloat(value);
-                                            }
+                document.getElementById('discountAmount').innerText = discountAmount.toFixed(2);
+                document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
+                sessionStorage.setItem('cartTotal', finalTotal.toFixed(2));
+                sessionStorage.setItem('cartDiscount', discountAmount.toFixed(2));
+            }
 
-                                            obj[key] = value;
-                                        }
+            document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
+                checkbox.addEventListener('change', updateTotal);
+            });
 
-                                        return obj;
-                                    }
+            function stringToObject(string) {
+                let keyValuePairs = string.split(", ");
+                let obj = {};
 
-                                    function changeQuantity(position, obj_raw, price) {
-                                        let value = +position.value;
-                                        if (value <= 0) {
-                                            position.value = 1;
-                                            value = 1;
-                                        }
-                                        let obj = stringToObject(obj_raw);
-                                        $.ajax({
-                                            url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + value,
-                                            type: "POST",
-                                            success: function (data) {
-                                                let id = obj.cartId;
-                                                let subtotalElement = document.getElementById('subtotal-' + id);
-                                                let newSubtotal = price * value;
-                                                subtotalElement.innerHTML = newSubtotal.toFixed(2);
-                                                subtotalElement.setAttribute('data-price', newSubtotal.toFixed(2));
+                for (let i = 0; i < keyValuePairs.length; i++) {
+                    let keyValue = keyValuePairs[i].split("=");
+                    let key = keyValue[0].trim();
+                    let value = keyValue[1].trim();
 
-                                                // Cập nhật lại data-price của checkbox tương ứng
-                                                var checkbox = document.querySelector('.product-checkbox[data-product-id="' + obj.productId + '"]');
-                                                if (checkbox) {
-                                                    checkbox.setAttribute('data-price', newSubtotal.toFixed(2));
-                                                }
+                    if (!isNaN(value)) {
+                        value = parseFloat(value);
+                    }
 
-                                                updateTotal();  // Gọi updateTotal để cập nhật tổng giá khi thay đổi số lượng
-                                            },
-                                            error: function (xhr, status, error) {
-                                                console.log(error);
-                                            }
-                                        });
-                                    }
+                    obj[key] = value;
+                }
 
-                                    function confirm(btn) {
-                                        var checkboxes = document.querySelectorAll('.product-checkbox:checked');
-                                        listProcductIdChoose = [];
+                return obj;
+            }
 
-                                        checkboxes.forEach(function (checkbox) {
-                                            var productId = checkbox.getAttribute('data-product-id');
-                                            listProcductIdChoose.push(productId);
-                                        });
+            function changeQuantity(position, obj_raw, price) {
+                let value = +position.value;
+                if (value <= 0) {
+                    position.value = 1;
+                    value = 1;
+                }
+                let obj = stringToObject(obj_raw);
+                $.ajax({
+                    url: "/HappyBeautySystem/AddToCart?service=updateQuantity&productId=" + obj.productId + "&userId=" + obj.userId + "&quantity=" + value,
+                    type: "POST",
+                    success: function (data) {
+                        let id = obj.cartId;
+                        let subtotalElement = document.getElementById('subtotal-' + id);
+                        let newSubtotal = price * value;
+                        subtotalElement.innerHTML = newSubtotal.toFixed(2);
+                        subtotalElement.setAttribute('data-price', newSubtotal.toFixed(2));
 
-                                        if (listProcductIdChoose.length > 0) {
-                                            let link = "OrderController?service=showAll";
-                                            let params = new URLSearchParams();
+                        // Cập nhật lại data-price của checkbox tương ứng
+                        var checkbox = document.querySelector('.product-checkbox[data-product-id="' + obj.productId + '"]');
+                        if (checkbox) {
+                            checkbox.setAttribute('data-price', newSubtotal.toFixed(2));
+                        }
 
-                                            for (let i = 0; i < listProcductIdChoose.length; i++) {
-                                                params.append('id', listProcductIdChoose[i]);
-                                            }
-                                            if (appliedCouponCode) {
-                                                params.append('couponCode', appliedCouponCode);
-                                            }
-                                            // đẩy tổng tiền và số tiền giảm giá sang trang check out note: annp
-                                            link += '&total=' + sessionStorage.getItem('cartTotal');
-                                            link += '&discount=' + sessionStorage.getItem('cartDiscount');
+                        updateTotal();  // Gọi updateTotal để cập nhật tổng giá khi thay đổi số lượng
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
 
-                                            link += '&' + params.toString();
-                                            window.location.href = link;
-                                        }
-                                    }
+            function confirm(btn) {
+                var checkboxes = document.querySelectorAll('.product-checkbox:checked');
+                listProcductIdChoose = [];
+
+                checkboxes.forEach(function (checkbox) {
+                    var productId = checkbox.getAttribute('data-product-id');
+                    listProcductIdChoose.push(productId);
+                });
+
+                if (listProcductIdChoose.length > 0) {
+                    let link = "OrderController?service=showAll";
+                    let params = new URLSearchParams();
+
+                    for (let i = 0; i < listProcductIdChoose.length; i++) {
+                        params.append('id', listProcductIdChoose[i]);
+                    }
+                    if (appliedCouponCode) {
+                        params.append('couponCode', appliedCouponCode);
+                    }
+                    // đẩy tổng tiền và số tiền giảm giá sang trang check out note: annp
+                    link += '&total=' + sessionStorage.getItem('cartTotal');
+                    link += '&discount=' + sessionStorage.getItem('cartDiscount');
+
+                    link += '&' + params.toString();
+                    window.location.href = link;
+                }
+            }
 
 // Gọi updateTotal ban đầu để đảm bảo tổng giá ban đầu là 0
-                                    updateTotal();
+            updateTotal();
 
 
 

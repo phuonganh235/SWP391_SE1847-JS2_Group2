@@ -19,21 +19,9 @@ import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author phuan
- */
+
 public class Consultation extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
@@ -42,10 +30,9 @@ public class Consultation extends HttpServlet {
             ConsultationDao consulDao = new ConsultationDao();
             UserDAO uDao = new UserDAO();
             HttpSession session = request.getSession();
-            String username = (String) session.getAttribute("username");
-            String password = (String) session.getAttribute("password");
 
-            if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4) {
+
+          
                 if (service == null) {
                 return;
             }
@@ -131,9 +118,6 @@ public class Consultation extends HttpServlet {
                         request.getRequestDispatcher("ViewAdmin/consultationSuccess.jsp").forward(request, response);
                     }
                 }
-            } else {
-                response.sendRedirect("login");
-            }
 
         }
     }

@@ -287,11 +287,18 @@
 
                                 <script>
                                     function addToCart(productId) {
-                                        var quantity = document.getElementById("quantity").value;
+                                        var quantityElement = document.getElementById("quantity");
+                                        var quantity = quantityElement.value;
+
+                                        if (quantity.trim() === "") {
+                                            quantity = 1;
+                                        }
+
                                         var url = "/HappyBeautySystem/AddToCart?service=addToCartDetail&id=" + productId + "&quantity=" + quantity;
                                         window.location.href = url;
                                     }
                                 </script>
+
 
                                 <div style="margin-top: 19px;">
                                     <ul>
