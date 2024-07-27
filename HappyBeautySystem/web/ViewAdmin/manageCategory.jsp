@@ -109,7 +109,7 @@
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="categorytable">
                                 <thead>
                                     <tr class="text-dark">
-                                        
+
                                         <th scope="col">ID</th>
                                         <th scope="col">Tên</th>
                                         <th scope="col">Trạng thái</th>
@@ -207,7 +207,7 @@
                                                 <input type="text" class="form-control" id="categoryNameUpdate" name="categoryName" value="${cat.categoryName}" required>
                                                 <span id="nameErrorUpdate" style="color: red;"></span>
                                             </div>
-                                             <input type="hidden" id="categoryImageUrlUpdate" name="categoryImageUrl" value="${cat.categoryImageUrl}">
+                                            <input type="hidden" id="categoryImageUrlUpdate" name="categoryImageUrl" value="${cat.categoryImageUrl}">
 
                                             <div class="form-group">
                                                 <label for="isActive">Trạng thái</label>
@@ -290,6 +290,36 @@
             });
         </script>
         <script>
+            function validateForm() {
+                let isValid = true;
+                let name = document.getElementById("categoryName").value.trim();
+
+                if (name === "") {
+                    document.getElementById("nameError").innerHTML = "Tên danh mục không được để trống.";
+                    isValid = false;
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("nameError").innerHTML = "Tên danh mục không được bắt đầu bằng dấu cách.";
+                    isValid = false;
+                } else {
+                    document.getElementById("nameError").innerHTML = "";
+                }
+
+                return isValid;
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("categoryName").oninput = function () {
+                    let name = this.value;
+                    this.value = name.trim();
+                    if (name === "") {
+                        document.getElementById("nameError").innerHTML = "Tên danh mục không được để trống.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("nameError").innerHTML = "Tên danh mục không được bắt đầu bằng dấu cách.";
+                    } else {
+                        document.getElementById("nameError").innerHTML = "";
+                    }
+                };
+            });
             function validateUpdateForm() {
                 let isValid = true;
                 let name = document.getElementById("categoryNameUpdate").value.trim();
@@ -321,7 +351,7 @@
                     }
                 };
 
-                
+
             });
         </script>
 

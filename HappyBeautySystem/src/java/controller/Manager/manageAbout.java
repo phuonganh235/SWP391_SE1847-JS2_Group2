@@ -27,39 +27,6 @@ public class manageAbout extends HttpServlet {
             if (service == null) {
                 service = "listall";
             }
-
-            String title = request.getParameter("title");
-            String content = request.getParameter("content");
-            String aboutUrl = request.getParameter("srcImg");
-            About about = new About(aboutId, title, content, aboutUrl);
-            dao.addAbout(about);
-            response.sendRedirect("manageabout");
-        }
-        
-        if (service.equals("update")) {
-            int aboutId = Integer.parseInt(request.getParameter("id"));
-            About about = dao.getAboutById(aboutId);
-            request.setAttribute("aboutUpdate", about);
-            request.getRequestDispatcher("manageabout?service=listall").forward(request, response);
-        }
-        //Editing a about
-        if (service.equals("edit")) {
-            int aboutId = Integer.parseInt(request.getParameter("aboutId"));
-            String title = request.getParameter("title");
-            String content = request.getParameter("content");
-            String aboutUrl = request.getParameter("imageURL");
-            About about = new About(aboutId, title, content, aboutUrl);
-            dao.updateAbout(about);
-            response.sendRedirect("manageabout");
-        }
-        //Deleting a about
-        if (service.equals("delete")) {
-            int aboutId = Integer.parseInt(request.getParameter("id"));
-            dao.deleteAbout(aboutId);
-            response.sendRedirect("manageabout");
-        }
-    } 
-
             if (service.equals("listall")) {
                 ArrayList<About> about = dao.getAllAbouts();
                 request.setAttribute("about", about);
@@ -78,7 +45,7 @@ public class manageAbout extends HttpServlet {
                 }
                 String title = request.getParameter("title");
                 String content = request.getParameter("content");
-                String aboutUrl = request.getParameter("imageURL");
+                String aboutUrl = request.getParameter("srcImg");
                 About about = new About(aboutId, title, content, aboutUrl);
                 dao.addAbout(about);
                 response.sendRedirect("manageabout");
@@ -87,8 +54,8 @@ public class manageAbout extends HttpServlet {
             if (service.equals("update")) {
                 int aboutId = Integer.parseInt(request.getParameter("id"));
                 About about = dao.getAboutById(aboutId);
-                request.setAttribute("about", about);
-                request.getRequestDispatcher("ViewAdmin/updateAbout.jsp").forward(request, response);
+                request.setAttribute("aboutUpdate", about);
+                request.getRequestDispatcher("manageabout?service=listall").forward(request, response);
             }
             //Editing a about
             if (service.equals("edit")) {
@@ -106,11 +73,9 @@ public class manageAbout extends HttpServlet {
                 dao.deleteAbout(aboutId);
                 response.sendRedirect("manageabout");
             }
-        } else {
-            response.sendRedirect("login");
         }
-    }
 
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
