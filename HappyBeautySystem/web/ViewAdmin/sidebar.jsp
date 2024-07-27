@@ -164,6 +164,11 @@
                         <a href="managercategory" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Quản lý danh mục
                         </a>
+                        
+                        <a href="managenews" class="nav-item nav-link">
+                            <i class="fa fa-th me-2"></i>Quản lý bài viết
+                        </a>
+                        
                         <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
                             <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
                         </a>
