@@ -63,7 +63,7 @@ public class product extends HttpServlet {
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
             if (action.equals("")) {
                 ArrayList<Product> productList = d.getAllProductActive();
-                ArrayList<Category> categoryList = c.getAllCategories();
+                ArrayList<Category> categoryList = c.getAllCategoriesActive();
 //          Pagination
                 int page = 0, numperpage = 6;
                 int size = productList.size();
@@ -100,7 +100,7 @@ public class product extends HttpServlet {
                 String category_id = request.getParameter("category_id");
                 int category_id1 = Integer.parseInt(category_id);
                 ArrayList<Product> productList = d.getProductByCategory(category_id1);
-                ArrayList<Category> category = c.getAllCategories();
+                ArrayList<Category> category = c.getAllCategoriesActive();
                 int page = 0, numperpage = 6;
                 int size = productList.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
@@ -142,7 +142,7 @@ public class product extends HttpServlet {
                 request.setAttribute("lowInStock", lowProductIds);
                 if (type.equals("low")) {
                     ArrayList<Product> productList = d.getProductLow();
-                    ArrayList<Category> category = c.getAllCategories();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
 //              Pagination
                     int page = 0, numperpage = 6;
                     int size = productList.size();
@@ -166,7 +166,7 @@ public class product extends HttpServlet {
 
                 if (type.equals("high")) {
                     ArrayList<Product> productList = d.getProductHigh();
-                    ArrayList<Category> category = c.getAllCategories();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
 //              Pagination
                     int page = 0, numperpage = 6;
                     int size = productList.size();
@@ -189,7 +189,7 @@ public class product extends HttpServlet {
                 }
                 if (type.equals("a-z")) {
                     ArrayList<Product> productList = d.getProductAZ();
-                    ArrayList<Category> category = c.getAllCategories();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
                     //Pagination
                     int page = 0, numperpage = 6;
                     int size = productList.size();
@@ -212,7 +212,7 @@ public class product extends HttpServlet {
                 }
                 if (type.equals("z-a")) {
                     ArrayList<Product> productList = d.getProductZA();
-                    ArrayList<Category> category = c.getAllCategories();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
                     //Pagination
                     int page = 0, numperpage = 6;
                     int size = productList.size();
@@ -339,7 +339,7 @@ public class product extends HttpServlet {
             ArrayList<Product> productList = d.searchProductByName(text);
             request.setAttribute("productList", productList);
 
-            ArrayList<Category> category = c.getAllCategories();
+            ArrayList<Category> category = c.getAllCategoriesActive();
             //Pagination
             int page = 0, numperpage = 6;
             int size = productList.size();
@@ -365,7 +365,7 @@ public class product extends HttpServlet {
         if (service.equalsIgnoreCase("searchPrice")) {
             String fromPrice = request.getParameter("fromPrice");
             String toPrice = request.getParameter("toPrice");
-            ArrayList<Category> category = c.getAllCategories();
+            ArrayList<Category> category = c.getAllCategoriesActive();
 
             Double from, to;
             try {

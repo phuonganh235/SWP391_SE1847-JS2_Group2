@@ -28,6 +28,28 @@ public class CategoryDAO extends DBContext {
         }
         return categoryList;
     }
+    
+    // Retrieves all categories from the Category table in the database
+    public ArrayList<Category> getAllCategoriesActive() {
+        ArrayList<Category> categoryList = new ArrayList<>();
+        String sql = "SELECT * FROM Category where isActive = 1";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategoryId(rs.getInt("CategoryId"));
+                category.setCategoryName(rs.getString("CategoryName"));
+                category.setCategoryImageUrl(rs.getString("CategoryImageUrl"));
+                category.setIsActive(rs.getBoolean("IsActive"));
+                category.setCreateDate(rs.getString("CreateDate"));
+                categoryList.add(category);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categoryList;
+    }
 
     // Retrieves a category by its ID from the Category table
     public Category getCategoryById(int categoryId) {
