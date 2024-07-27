@@ -33,7 +33,7 @@ public class manageAccountAdmin extends HttpServlet {
             String usename = (String) session.getAttribute("username");
             String passWord = (String) session.getAttribute("password");
 
-            if (userDao.getRole(usename, passWord) == 1 || userDao.getRole(usename, passWord) == 4) {
+            if (userDao.getRole(usename, passWord) == 1) {
                 if (service == null) {
                     response.sendRedirect("ViewAdmin/Widget.jsp");
                     return;

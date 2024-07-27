@@ -90,13 +90,24 @@
 
                     <div class="d-flex align-items-center ms-3 mb-3">
                         <div class="position-relative">
-                            <a href="customerprofile?service=ViewProfile">
-                                <img
-                                    class="app-sidebar__user-avatar"
-                                    src="ViewAdmin/img/user.jpg"
-                                    alt=""
-                                    style="width: 80px; height: 80px"
-                                    />
+                            <a href="#">
+
+                                <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                                    <img
+                                        class="app-sidebar__user-avatar"
+                                        src="ViewAdmin/img/admin.jpg"
+                                        alt=""
+                                        style="width: 80px; height: 80px"
+                                        />
+                                </c:if>
+                                <c:if test="${sessionScope.inforUserLogin.roleId == 4}">
+                                    <img
+                                        class="app-sidebar__user-avatar"
+                                        src="ViewAdmin/img/staff.jpg"
+                                        alt=""
+                                        style="width: 80px; height: 80px"
+                                        />
+                                </c:if>
                             </a>
                             <div
                                 class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"
@@ -107,9 +118,6 @@
                             <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
                                 <span>Quản trị viên</span>
                             </c:if>
-                            <c:if test="${sessionScope.inforUserLogin.roleId == 3}">
-                                <span>Người Giao Hàng</span>
-                            </c:if>
                             <c:if test="${sessionScope.inforUserLogin.roleId == 4}">
                                 <span>Nhân viên</span>
                             </c:if>
@@ -117,11 +125,9 @@
                     </div>
 
                     <div class="navbar-nav w-100">
-                        <%--<c:if test="${sessionScope.inforUserLogin.roleId != 3}">--%>
-                            <a href="dashboard" class="nav-item nav-link active">
-                                <i class="fa fa-tachometer-alt me-2"></i>Bảng điều khiển
-                            </a>
-                        <%--</c:if>--%>
+                        <a href="dashboard" class="nav-item nav-link active">
+                            <i class="fa fa-tachometer-alt me-2"></i>Bảng điều khiển
+                        </a>
                         <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
                             <div class="nav-item dropdown">
                                 <a
@@ -137,56 +143,48 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${sessionScope.inforUserLogin.roleId != 1 && sessionScope.inforUserLogin.roleId != 2 && sessionScope.inforUserLogin.roleId != 4}">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="fa fa-server"></i> Quản lý đơn hàng
-                                </a>
-                                <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
-                                    <!--<a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Chưa xác nhận</a>-->
-                                    <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2" class="dropdown-item">Đơn hàng cần giao</a>
-                                </div>
-                            </div>
-                        </c:if>
-                        <c:if test="${sessionScope.inforUserLogin.roleId != 3}">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="fa fa-server"></i> Quản lý đơn hàng
-                                </a>
-                                <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
-                                    <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Chưa xác nhận</a>
-                                    <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2" class="dropdown-item">Đã xác nhận</a>
-                                </div>
-                            </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="fa fa-server"></i> Quản lý sản phẩm
-                                </a>
-                                <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
-                                    <a href="manager" class="dropdown-item">Tất cả</a>
-                                    <a href="manager?service=low" class="dropdown-item">Sắp hết hàng</a>
-                                </div>
-                            </div>
-                            <a href="managercategory" class="nav-item nav-link">
-                                <i class="fa fa-th me-2"></i>Quản lý danh mục
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-server"></i> Quản lý đơn hàng
                             </a>
-                            <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
-                                <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
+                            <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
+                                <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=1" class="dropdown-item">Chưa xác nhận</a>
+                                <a href="/HappyBeautySystem/managerOrder?service=listAllOrder&status=2" class="dropdown-item">Đã xác nhận</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-server"></i> Quản lý sản phẩm
                             </a>
-                            <a
-                                href="Consultation?service=listAll1"
-                                class="nav-item nav-link"
-                                ><i class="fa fa-chart-bar me-2"></i>Quản lý lịch tư vấn</a
-                            >
-                            <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
-                                <a href="chart" class="nav-item nav-link">
-                                    <i class="fa fa-chart-bar me-2"></i>Biểu đồ
-                                </a>
-                            </c:if>
-                            <a href="manageabout" class="nav-link">
-                                <i class="far fa-file-alt me-2"></i>Giới thiệu
+                            <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
+                                <a href="manager" class="dropdown-item">Tất cả</a>
+                                <a href="manager?service=low" class="dropdown-item">Sắp hết hàng</a>
+                            </div>
+                        </div>
+                        <a href="managercategory" class="nav-item nav-link">
+                            <i class="fa fa-th me-2"></i>Quản lý danh mục
+                        </a>
+                        
+                        <a href="managenews" class="nav-item nav-link">
+                            <i class="fa fa-th me-2"></i>Quản lý bài viết
+                        </a>
+                        
+                        <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
+                            <i class="fa fa-tag me-2"></i>Quản lý phiếu giảm giá
+                        </a>
+                        <a
+                            href="Consultation?service=listAll1"
+                            class="nav-item nav-link"
+                            ><i class="fa fa-chart-bar me-2"></i>Quản lý lịch tư vấn</a
+                        >
+                        <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
+                            <a href="chart" class="nav-item nav-link">
+                                <i class="fa fa-chart-bar me-2"></i>Biểu đồ
                             </a>
                         </c:if>
+                        <a href="manageabout" class="nav-link">
+                            <i class="far fa-file-alt me-2"></i>Giới thiệu
+                        </a>
                     </div>
                 </nav>
             </div>

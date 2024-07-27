@@ -55,243 +55,250 @@ public class product extends HttpServlet {
         FeedbackDAO f = new FeedbackDAO();
         UserDAO u = new UserDAO();
         WishListDAO wishlist = new WishListDAO();
-        
-//        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-        if (action.equals("")) {
-            ArrayList<Product> productList = d.getAllProduct();
-            ArrayList<Category> categoryList = c.getAllCategories();
-//          Pagination
-            int page = 0, numperpage = 6;
-            int size = productList.size();
-            // Number of pages needed for each page with 6 product sections
-            int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
-            String xpage = request.getParameter("page");
-            if (xpage == null) {
-                page = 1;
-            } else {
-                page = Integer.parseInt(xpage);
-            }
-            int start, end;
-            // Index of the first product on the page 
-            start = (page - 1) * numperpage;
-            // The end index cannot exceed the number of products
-            end = Math.min(page * numperpage, size);
-            ArrayList<Product> productByPage = d.getListByPage(productList, start, end);
-            ArrayList<Product> productNew = d.getNewProduct();
-            // Save a list of IDs of new products
-            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
-            ArrayList<Product> productLowInStock = d.getProductLowStock();
-            // Save a list of IDs of low products
-            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("lowInStock", lowProductIds);
-            request.setAttribute("top8New", newProductIds);
-            request.setAttribute("page", page);
-            request.setAttribute("num", num);
-            request.setAttribute("productList", productByPage);
-            request.setAttribute("categoryList", categoryList);
-            request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-        }
+        HttpSession session = request.getSession();
+        String usename = (String) session.getAttribute("username");
+        String passWord = (String) session.getAttribute("password");
 
-        if (action.equalsIgnoreCase("listByCategory")) {
-            String category_id = request.getParameter("category_id");
-            int category_id1 = Integer.parseInt(category_id);
-            ArrayList<Product> productList = d.getProductByCategory(category_id1);
-            ArrayList<Category> category = c.getAllCategories();
-            int page = 0, numperpage = 6;
-            int size = productList.size();
-            int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-            String xpage = request.getParameter("page");
-            if (xpage == null) {
-                page = 1;
-            } else {
-                page = Integer.parseInt(xpage);
+        if (u.getRole(usename, passWord) != 1 && u.getRole(usename, passWord) != 3 && u.getRole(usename, passWord) !=4) {
+//        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            if (action.equals("")) {
+                ArrayList<Product> productList = d.getAllProductActive();
+                ArrayList<Category> categoryList = c.getAllCategoriesActive();
+//          Pagination
+                int page = 0, numperpage = 6;
+                int size = productList.size();
+                // Number of pages needed for each page with 6 product sections
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                // Index of the first product on the page 
+                start = (page - 1) * numperpage;
+                // The end index cannot exceed the number of products
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> productByPage = d.getListByPage(productList, start, end);
+                ArrayList<Product> productNew = d.getNewProduct();
+                // Save a list of IDs of new products
+                List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+                ArrayList<Product> productLowInStock = d.getProductLowStock();
+                // Save a list of IDs of low products
+                List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("lowInStock", lowProductIds);
+                request.setAttribute("top8New", newProductIds);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("productList", productByPage);
+                request.setAttribute("categoryList", categoryList);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
             }
-            int start, end;
-            start = (page - 1) * numperpage;
-            end = Math.min(page * numperpage, size);
-            ArrayList<Product> product = d.getListByPage(productList, start, end);
-            ArrayList<Product> productNew = d.getNewProduct();
-            // Save a list of IDs of new products
-            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
-            ArrayList<Product> productLowInStock = d.getProductLowStock();
-            // Save a list of IDs of low products
-            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("lowInStock", lowProductIds);
-            request.setAttribute("top8New", newProductIds);
-            request.setAttribute("page", page);
-            request.setAttribute("num", num);
-            request.setAttribute("categoryList", category);
-            request.setAttribute("productList", product);
-            request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-        }
+
+            if (action.equalsIgnoreCase("listByCategory")) {
+                String category_id = request.getParameter("category_id");
+                int category_id1 = Integer.parseInt(category_id);
+                ArrayList<Product> productList = d.getProductByCategory(category_id1);
+                ArrayList<Category> category = c.getAllCategoriesActive();
+                int page = 0, numperpage = 6;
+                int size = productList.size();
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Product> product = d.getListByPage(productList, start, end);
+                ArrayList<Product> productNew = d.getNewProduct();
+                // Save a list of IDs of new products
+                List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+                ArrayList<Product> productLowInStock = d.getProductLowStock();
+                // Save a list of IDs of low products
+                List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("lowInStock", lowProductIds);
+                request.setAttribute("top8New", newProductIds);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categoryList", category);
+                request.setAttribute("productList", product);
+                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
+            }
 
 //        Sort Product
-        if (action.equals("sort")) {
-            String type = request.getParameter("type");
-            ArrayList<Product> productNew = d.getNewProduct();
-            // Save a list of IDs of new products
-            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("top8New", newProductIds);
-            ArrayList<Product> productLowInStock = d.getProductLowStock();
-            // Save a list of IDs of low products
-            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("lowInStock", lowProductIds);
-            if (type.equals("low")) {
-                ArrayList<Product> productList = d.getProductLow();
-                ArrayList<Category> category = c.getAllCategories();
+            if (action.equals("sort")) {
+                String type = request.getParameter("type");
+                ArrayList<Product> productNew = d.getNewProduct();
+                // Save a list of IDs of new products
+                List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("top8New", newProductIds);
+                ArrayList<Product> productLowInStock = d.getProductLowStock();
+                // Save a list of IDs of low products
+                List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("lowInStock", lowProductIds);
+                if (type.equals("low")) {
+                    ArrayList<Product> productList = d.getProductLow();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
 //              Pagination
-                int page = 0, numperpage = 6;
-                int size = productList.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
+                    int page = 0, numperpage = 6;
+                    int size = productList.size();
+                    int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                    String xpage = request.getParameter("page");
+                    if (xpage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(xpage);
+                    }
+                    int start, end;
+                    start = (page - 1) * numperpage;
+                    end = Math.min(page * numperpage, size);
+                    ArrayList<Product> product = d.getListByPage(productList, start, end);
+                    request.setAttribute("page", page);
+                    request.setAttribute("num", num);
+                    request.setAttribute("categoryList", category);
+                    request.setAttribute("productList", product);
+                    request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
                 }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                ArrayList<Product> product = d.getListByPage(productList, start, end);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("categoryList", category);
-                request.setAttribute("productList", product);
-                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-            }
 
-            if (type.equals("high")) {
-                ArrayList<Product> productList = d.getProductHigh();
-                ArrayList<Category> category = c.getAllCategories();
+                if (type.equals("high")) {
+                    ArrayList<Product> productList = d.getProductHigh();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
 //              Pagination
-                int page = 0, numperpage = 6;
-                int size = productList.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
+                    int page = 0, numperpage = 6;
+                    int size = productList.size();
+                    int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                    String xpage = request.getParameter("page");
+                    if (xpage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(xpage);
+                    }
+                    int start, end;
+                    start = (page - 1) * numperpage;
+                    end = Math.min(page * numperpage, size);
+                    ArrayList<Product> product = d.getListByPage(productList, start, end);
+                    request.setAttribute("page", page);
+                    request.setAttribute("num", num);
+                    request.setAttribute("categoryList", category);
+                    request.setAttribute("productList", product);
+                    request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
                 }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                ArrayList<Product> product = d.getListByPage(productList, start, end);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("categoryList", category);
-                request.setAttribute("productList", product);
-                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-            }
-            if (type.equals("a-z")) {
-                ArrayList<Product> productList = d.getProductAZ();
-                ArrayList<Category> category = c.getAllCategories();
-                //Pagination
-                int page = 0, numperpage = 6;
-                int size = productList.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
+                if (type.equals("a-z")) {
+                    ArrayList<Product> productList = d.getProductAZ();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
+                    //Pagination
+                    int page = 0, numperpage = 6;
+                    int size = productList.size();
+                    int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                    String xpage = request.getParameter("page");
+                    if (xpage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(xpage);
+                    }
+                    int start, end;
+                    start = (page - 1) * numperpage;
+                    end = Math.min(page * numperpage, size);
+                    ArrayList<Product> product = d.getListByPage(productList, start, end);
+                    request.setAttribute("page", page);
+                    request.setAttribute("num", num);
+                    request.setAttribute("categoryList", category);
+                    request.setAttribute("productList", product);
+                    request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
                 }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                ArrayList<Product> product = d.getListByPage(productList, start, end);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("categoryList", category);
-                request.setAttribute("productList", product);
-                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
-            }
-            if (type.equals("z-a")) {
-                ArrayList<Product> productList = d.getProductZA();
-                ArrayList<Category> category = c.getAllCategories();
-                //Pagination
-                int page = 0, numperpage = 6;
-                int size = productList.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
+                if (type.equals("z-a")) {
+                    ArrayList<Product> productList = d.getProductZA();
+                    ArrayList<Category> category = c.getAllCategoriesActive();
+                    //Pagination
+                    int page = 0, numperpage = 6;
+                    int size = productList.size();
+                    int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                    String xpage = request.getParameter("page");
+                    if (xpage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(xpage);
+                    }
+                    int start, end;
+                    start = (page - 1) * numperpage;
+                    end = Math.min(page * numperpage, size);
+                    ArrayList<Product> product = d.getListByPage(productList, start, end);
+                    request.setAttribute("page", page);
+                    request.setAttribute("num", num);
+                    request.setAttribute("categoryList", category);
+                    request.setAttribute("productList", product);
+                    request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
                 }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                ArrayList<Product> product = d.getListByPage(productList, start, end);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("categoryList", category);
-                request.setAttribute("productList", product);
-                request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
             }
-        }
 
-        //View Product detail
-        if (action.equalsIgnoreCase("productdetail")) {
-            String product_id = request.getParameter("product_id");
+            //View Product detail
+            if (action.equalsIgnoreCase("productdetail")) {
+                String product_id = request.getParameter("product_id");
 
-            int productId = Integer.parseInt(product_id);
-            int product_category = Integer.parseInt(request.getParameter("product_category"));
-            CategoryDAO dao = new CategoryDAO();
-            //get image of one product
-            ArrayList<ProductImage> i = d.getProductImage(productId);
+                int productId = Integer.parseInt(product_id);
+                int product_category = Integer.parseInt(request.getParameter("product_category"));
+                CategoryDAO dao = new CategoryDAO();
+                //get image of one product
+                ArrayList<ProductImage> i = d.getProductImage(productId);
 
-            //Retrieve products by id
-            Product product = d.getProductById(productId);
+                //Retrieve products by id
+                Product product = d.getProductById(productId);
 
 //            Get product size
-            ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
+                ArrayList<ProductSize> sizeList = d.getSizeByProductId(product.getProductId());
 
 //            Get products with the same category: To get common products
-            //Get products with the same category: To get common products
-            ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
+                //Get products with the same category: To get common products
+                ArrayList<Product> productByCategory = d.getProductByCategory(product_category);
 
-            // To retrieve the product category
-            ArrayList<Product> productNew = d.getNewProduct();
-            // Save a list of IDs of new products
-            List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("top8New", newProductIds);
-            ArrayList<Product> productLowInStock = d.getProductLowStock();
-            // Save a list of IDs of low products
-            List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
-            request.setAttribute("lowInStock", lowProductIds);
+                // To retrieve the product category
+                ArrayList<Product> productNew = d.getNewProduct();
+                // Save a list of IDs of new products
+                List<Integer> newProductIds = productNew.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("top8New", newProductIds);
+                ArrayList<Product> productLowInStock = d.getProductLowStock();
+                // Save a list of IDs of low products
+                List<Integer> lowProductIds = productLowInStock.stream().map(Product::getProductId).collect(Collectors.toList());
+                request.setAttribute("lowInStock", lowProductIds);
 //           To retrieve the product category
 
-            Category cat = dao.getCategoryById(product_category);
+                Category cat = dao.getCategoryById(product_category);
 
-            //Feedback by productID
-            int countReview = f.countReviewByProductId(productId);
+                //Feedback by productID
+                int countReview = f.countReviewByProductId(productId);
 
-            int countFavourite = wishlist.countFavouriteByProductId(productId);
-            ArrayList<User> user = u.getUserByProductId(productId);
-            ArrayList<User> user2 = u.getUserByProductId2(productId);
+                int countFavourite = wishlist.countFavouriteByProductId(productId);
+                ArrayList<User> user = u.getUserByProductId(productId);
+                ArrayList<User> user2 = u.getUserByProductId2(productId);
 //            request.setAttribute("user", user);
-            request.setAttribute("user", user2);
+                request.setAttribute("user", user2);
 
-            ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
-            request.setAttribute("feedback", feedback);
-            //Get avg rating by productId
-            double avgRating = f.getAverageRatingByProductId(productId);
-            request.setAttribute("avgRating", avgRating);
+                ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
+                request.setAttribute("feedback", feedback);
+                //Get avg rating by productId
+                double avgRating = f.getAverageRatingByProductId(productId);
+                request.setAttribute("avgRating", avgRating);
 
-            request.setAttribute("Category", cat);
-            request.setAttribute("image", getPath(i));
-            request.setAttribute("sizeList", sizeList);
+                request.setAttribute("Category", cat);
+                request.setAttribute("image", getPath(i));
+                request.setAttribute("sizeList", sizeList);
 //            Show first value of price and size, quantity
-            request.setAttribute("price", sizeList.get(0).getPrice());
-            request.setAttribute("size", sizeList.get(0).getSize());
-            request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
-            request.setAttribute("ProductData", product);
-            request.setAttribute("countFavourite", countFavourite);
-            request.setAttribute("countReview", countReview);
-            request.setAttribute("ProductCategory", productByCategory);
-            request.setAttribute("Category", cat);
-            request.getRequestDispatcher("/ViewUser/product-details.jsp").forward(request, response);
+                request.setAttribute("price", sizeList.get(0).getPrice());
+                request.setAttribute("size", sizeList.get(0).getSize());
+                request.setAttribute("quantitySize", sizeList.get(0).getQuantity());
+                request.setAttribute("ProductData", product);
+                request.setAttribute("countFavourite", countFavourite);
+                request.setAttribute("countReview", countReview);
+                request.setAttribute("ProductCategory", productByCategory);
+                request.setAttribute("Category", cat);
+                request.getRequestDispatcher("/ViewUser/product-details.jsp").forward(request, response);
+            }
+        } else {
+            response.sendRedirect("login");
         }
 
     }
@@ -332,7 +339,7 @@ public class product extends HttpServlet {
             ArrayList<Product> productList = d.searchProductByName(text);
             request.setAttribute("productList", productList);
 
-            ArrayList<Category> category = c.getAllCategories();
+            ArrayList<Category> category = c.getAllCategoriesActive();
             //Pagination
             int page = 0, numperpage = 6;
             int size = productList.size();
@@ -358,7 +365,7 @@ public class product extends HttpServlet {
         if (service.equalsIgnoreCase("searchPrice")) {
             String fromPrice = request.getParameter("fromPrice");
             String toPrice = request.getParameter("toPrice");
-            ArrayList<Category> category = c.getAllCategories();
+            ArrayList<Category> category = c.getAllCategoriesActive();
 
             Double from, to;
             try {

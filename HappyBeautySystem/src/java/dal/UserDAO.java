@@ -529,9 +529,25 @@ public class UserDAO extends DBContext {
         }
     }
 
-   
+     public int getUserIdByUsername(String username) {
+        int userId = -1;
+        String query = "SELECT id FROM Users WHERE username = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    userId = rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+
     public static void main(String[] args) {
-            UserDAO userDB = new UserDAO();
+        UserDAO userDB = new UserDAO();
         // Kiểm tra hàm checkExistEmail
         String testEmail = "sang@gmail.com";
         int testRoleId = 3;
@@ -543,6 +559,5 @@ public class UserDAO extends DBContext {
         boolean userExists = userDB.userExists(testUsername, testRoleId);
         System.out.println("User " + testUsername + " exists: " + userExists);
 
-    
-}
+    }
 }

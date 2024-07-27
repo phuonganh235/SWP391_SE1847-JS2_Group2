@@ -150,6 +150,7 @@
                 color: #343a40;
                 font-weight: bold;
             }
+            
         </style>
     </head>
 
@@ -161,23 +162,15 @@
         <header class="header">
             <div class="header__container">
                 <div class="header__logo">
-                    <a href="./home"><img src="ViewUser/img/image_av.jpg" alt="Logo"></a>
+                    <a href="./home"><img style="max-width: 400px; height: 400px" src="ViewUser/img/authen/logoweb.png" alt="Logo"></a>
                 </div>
                 <nav class="header__menu">
                     <ul>
                         <li><a href="home">Trang chủ</a></li>
                         <li><a href="about">Giới thiệu</a></li>
-                        <li><a href="product">Sản phẩm</a>
-                            <!--                            <ul class="dropdown">
-                                                            <li><a href="./product-details.html">Bodycare</a></li>
-                                                            <li><a href="./shop-cart.html">Skincare</a></li>
-                                                            <li><a href="./checkout.html">Haircare</a></li>
-                                                            <li><a href="./blog-details.html">Makerup</a></li>
-                                                            <li><a href="./blog-details.html">Perfume</a></li>
-                                                        </ul>-->
-                        </li>
+                        <li><a href="product">Sản phẩm</a></li>
                         <li><a href="news">Tin mới</a></li>
-                        <li><a type="button" data-toggle="modal"  data-target="#bookingModal">Tư Vấn</a></li>
+                        <li><a type="button" data-toggle="modal" data-target="#bookingModal">Tư Vấn</a></li>
                         <li><a href="coupon">Mã giảm giá</a></li>
                     </ul>
                 </nav>
@@ -199,7 +192,7 @@
                                             <span class="font-weight-bold" style="font-size: 16px">${sessionScope.inforUserLogin.name}</span>
                                         </c:if>
                                         <c:if test="${sessionScope.inforUserLogin.image == null || sessionScope.inforUserLogin.image eq ''}">
-                                            <img class="rounded-circle" width="20px" src="ViewUser/img/avatar.png">
+                                            <img class="rounded-circle" width="20px" src="ViewAdmin/img/1.jpg">
 
                                             <span class="font-weight-bold" style="font-size: 16px">${sessionScope.inforUserLogin.name}</span>
                                         </c:if>
@@ -207,9 +200,6 @@
 
                                     <ul class="dropdown">
                                         <li><a  type="button" data-toggle="modal"  data-target="#userProfileModal">Thông tin cá nhân</a></li>
-                                            <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
-                                            <li><a href="dashboard">Quản lý</a></li>
-                                            </c:if>
                                         <li><a href="logout">Đăng xuất</a></li>
                                     </ul>
                                 </li>
@@ -248,7 +238,7 @@
                                                         <img class="rounded-circle mt-5" width="150px" height="150px" src="${sessionScope.inforUserLogin.image}">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img class="rounded-circle mt-5" width="150px" src="ViewUser/img/avatar.png">
+                                                        <img class="rounded-circle mt-5" width="150px" src="ViewAdmin/img/1.jpg">
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <span class="font-weight-bold">${sessionScope.inforUserLogin.name}</span>

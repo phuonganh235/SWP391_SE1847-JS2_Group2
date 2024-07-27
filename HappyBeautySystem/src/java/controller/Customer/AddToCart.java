@@ -35,7 +35,7 @@ public class AddToCart extends HttpServlet {
         User inforUser = (User) session.getAttribute("inforUserLogin");
         try (PrintWriter out = response.getWriter()) {
             // Add to Cart
-            if (inforUser == null) {
+            if (inforUser == null || inforUser.getRoleId() == 1 || inforUser.getRoleId() == 3 || inforUser.getRoleId() == 4) {
                 response.sendRedirect("login");
             } else {
                 if (service != null && service.equals("addToCart")) {

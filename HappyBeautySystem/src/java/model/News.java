@@ -17,7 +17,16 @@ public class News {
     private boolean isActive;
     private Timestamp updateTime;
     private int categoryID;
+    private String categoryName;
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+    
     public News() {
     }
 

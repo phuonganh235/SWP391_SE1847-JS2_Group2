@@ -32,7 +32,16 @@ public class WishListDAO extends DBContext {
     // Get all wishlist by userID
     public List<WishList> getAllWishListByUserId(int userId) {
         List<WishList> wishList = new ArrayList<>();
-        String sql = "SELECT * FROM Wishlist WHERE UserId = ?";
+        String sql = "WITH List AS (\n"
+                + "    SELECT wl.WishlistId, p.ProductId, p.CategoryId, wl.CreateDate\n"
+                + "    FROM Wishlist wl\n"
+                + "    INNER JOIN Product p ON p.ProductId = wl.ProductId\n"
+                + "    WHERE wl.UserId = ? AND p.isActive = 1\n"
+                + ")\n"
+                + "SELECT l.*\n"
+                + "FROM List l\n"
+                + "INNER JOIN Category c ON l.CategoryId = c.CategoryId\n"
+                + "WHERE c.isActive = 1;";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -89,7 +98,7 @@ public class WishListDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     // Counts the number of reviews for a specific product ID in the Feedback table
     public int countFavouriteByProductId(int productId) {
         String sql = "SELECT COUNT(*) FROM Wishlist WHERE ProductId = ?";
@@ -109,8 +118,8 @@ public class WishListDAO extends DBContext {
     //Test
     public static void main(String[] args) {
         WishListDAO dao = new WishListDAO();
-        dao.deleteWishListByProductIdAndUserId(1, 6);
-        List<WishList> list = dao.getAllWishListByUserId(6);
+//        dao.deleteWishListByProductIdAndUserId(1, 6);
+        List<WishList> list = dao.getAllWishListByUserId(5);
         for (WishList product : list) {
             System.out.println(product);
         }
