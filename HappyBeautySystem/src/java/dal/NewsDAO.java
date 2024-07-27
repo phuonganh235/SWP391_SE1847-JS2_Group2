@@ -10,30 +10,31 @@ import model.News;
 public class NewsDAO extends DBContext {
 
     public ArrayList<News> viewAllNews() {
-        ArrayList<News> nList = new ArrayList<>();
-        String sql = "SELECT * FROM News";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                News n = new News();
-                n.setNewsId(rs.getInt("NewsID"));
-                n.setTitle(rs.getString("Title"));
-                n.setContent(rs.getString("Content"));
-                n.setCreateTime(rs.getTimestamp("CreateTime"));
-                n.setImgUrl(rs.getString("ImageURL"));
-                n.setIsConfirm(rs.getBoolean("IsConfirmed"));
-                n.setUserID(rs.getInt("UserID"));
-                n.setIsActive(rs.getBoolean("IsActive"));
-                n.setUpdateTime(rs.getTimestamp("UpdateTime"));
-                n.setCategoryID(rs.getInt("CategoryID"));
-                nList.add(n);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    ArrayList<News> nList = new ArrayList<>();
+    String sql = "SELECT n.*, c.CategoryName FROM News n JOIN Category c ON n.CategoryID = c.CategoryID";
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        
+        while (rs.next()) {
+            News n = new News();
+            n.setNewsId(rs.getInt("NewsID"));
+            n.setTitle(rs.getString("Title"));
+            n.setContent(rs.getString("Content"));
+            n.setCreateTime(rs.getTimestamp("CreateTime"));
+            n.setImgUrl(rs.getString("ImageURL"));
+            n.setIsConfirm(rs.getBoolean("IsConfirmed"));
+            n.setUserID(rs.getInt("UserID"));
+            n.setIsActive(rs.getBoolean("IsActive"));
+            n.setUpdateTime(rs.getTimestamp("UpdateTime"));
+            n.setCategoryID(rs.getInt("CategoryID"));
+            n.setCategoryName(rs.getString("CategoryName")); // Add this line to set the category name
+            nList.add(n);
         }
-        return nList;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return nList;
+}
 
     public boolean addNews(News news) {
     String sql = "INSERT INTO [dbo].[News]([Title],[Content],[CreateTime],[ImageURL],[IsConfirmed],[UserID],[IsActive],[UpdateTime],[CategoryID])"
@@ -86,20 +87,18 @@ public class NewsDAO extends DBContext {
         return false; // Trả về false nếu có lỗi xảy ra
     }
 }
-
-
-    public void hideNews(int newsId) {
-        String sql = "UPDATE [dbo].[News] "
-                + "SET [IsConfirmed] = 0, [IsActive] = 0 "
-                + "WHERE [NewsID] = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, newsId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    
+    public boolean hideNews(int newsId) {
+    String sql = "UPDATE News SET isActive = 0 WHERE newsId = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, newsId);
+        int affectedRows = stmt.executeUpdate();
+        return affectedRows > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     public News getNewsById(int newsId) {
         News news = null;
