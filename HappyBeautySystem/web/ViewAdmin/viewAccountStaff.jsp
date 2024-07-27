@@ -187,7 +187,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="mobile" class="form-label">Số điện thoại</label>
-                                                <input type="tel" class="form-control" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : ''}" required>
+                                                <input type="number" class="form-control" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : ''}" required>
                                                 <div id="mobileError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
@@ -196,9 +196,9 @@
                                                 <div id="addressError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="birth" class="form-label">Sinh nhật</label>
-                                                <input type="date" class="form-control" id="birth" name="birth" value="${not empty param.birth ? param.birth : ''}" required>
-                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
+                                                <label for="dateOfbirth" class="form-label">Sinh nhật</label>
+                                                <input type="date" class="form-control" id="dateOfbirth" name="birth" value="${not empty param.birth ? param.birth : ''}" required>
+                                                <div id="dateOfBirthError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Mật khẩu</label>
@@ -255,7 +255,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="updateMobile" class="form-label">Số điện thoại</label>
-                                                <input type="tel" class="form-control" id="updateMobile" name="mobile" value="${not empty param.mobile ? param.mobile : staff.mobile}" required>
+                                                <input type="number" class="form-control" id="updateMobile" name="mobile" value="${not empty param.mobile ? param.mobile : staff.mobile}" required>
                                                 <div id="updateMobileError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
@@ -264,9 +264,9 @@
                                                 <div id="updateAddressError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="birth" class="form-label">Sinh nhật</label>
-                                                <input type="date" class="form-control" id="birth" name="birth" value="${not empty param.birth ? param.birth : staff.dateofbirth}" required>
-                                                <div id="addressError" class="form-text text-danger fst-italic"></div>
+                                                <label for="dateOfBirthUpdate" class="form-label">Sinh nhật</label>
+                                                <input type="date" class="form-control" id="dateOfBirthUpdate" name="birth" value="${not empty param.birth ? param.birth : staff.dateofbirth}" required>
+                                                <div id="updateDateOfBirthError" class="form-text text-danger fst-italic"></div>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="updatePassword" class="form-label">Mật khẩu</label>
@@ -393,6 +393,12 @@
                 var addressAdd = document.getElementById('address');
                 var passwordAdd = document.getElementById('password');
 
+                var dateOfBirthAdd = document.getElementById('dateOfbirth');
+                var dateOfBirthUpdate = document.getElementById('dateOfBirthUpdate');
+
+                var dateOfBirthAddError = document.getElementById('dateOfBirthError');
+                var dateOfBirthUpdateError = document.getElementById('updateDateOfBirthError');
+
                 var nameUpdate = document.getElementById('updateName');
                 var usernameUpdate = document.getElementById('updateUsername');
                 var emailUpdate = document.getElementById('updateEmail');
@@ -432,8 +438,22 @@
                     }
                 }
 
-                function validateForm(form, nameField, usernameField, emailField, mobileField, addressField, passwordField,
-                        nameError, usernameError, emailError, mobileError, addressError, passwordError) {
+                function validateDateOfBirth(field, errorElement) {
+                    var value = field.value.trim();
+                    var currentDate = new Date();
+                    var inputDate = new Date(value);
+
+                    if (inputDate > currentDate) {
+                        errorElement.innerHTML = 'Ngày sinh không được vượt quá ngày hiện tại.';
+                        return false;
+                    } else {
+                        errorElement.innerHTML = '';
+                        return true;
+                    }
+                }
+
+                function validateForm(form, nameField, usernameField, emailField, mobileField, addressField, passwordField, dateOfBirthField,
+                        nameError, usernameError, emailError, mobileError, addressError, passwordError, dateOfBirthError) {
                     let isValid = true;
                     isValid = validateField(nameField, nameError) && isValid;
                     isValid = validateField(usernameField, usernameError) && isValid;
@@ -441,46 +461,55 @@
                     isValid = validateField(mobileField, mobileError, mobilePattern, 'Số điện thoại không hợp lệ.') && isValid;
                     isValid = validateField(addressField, addressError) && isValid;
                     isValid = validateField(passwordField, passwordError, passwordPattern, 'Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.') && isValid;
+                    isValid = validateDateOfBirth(dateOfBirthField, dateOfBirthError) && isValid;
                     return isValid;
                 }
 
                 if (formShipperAdd) {
-                    [nameAdd, usernameAdd, emailAdd, mobileAdd, addressAdd, passwordAdd].forEach(field => {
+                    [nameAdd, usernameAdd, emailAdd, mobileAdd, addressAdd, passwordAdd,dateOfBirthAdd].forEach(field => {
                         field.addEventListener('input', function () {
-                            validateField(this, document.getElementById(this.id + 'Error'),
-                                    this.id === 'email' ? emailPattern :
-                                    this.id === 'mobile' ? mobilePattern :
-                                    this.id === 'password' ? passwordPattern : null,
-                                    this.id === 'email' ? 'Email không hợp lệ.Email có dạng ***@gamil.com' :
-                                    this.id === 'mobile' ? 'Số điện thoại không hợp lệ.số điện thoại là các số điện thoại ở VN vd: 03, 09....' :
-                                    this.id === 'password' ? 'Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.' : '');
+                            if (this.id === 'dateOfbirth') {
+                                validateDateOfBirth(this, dateOfBirthAddError);
+                            } else {
+                                validateField(this, document.getElementById(this.id + 'Error'),
+                                        this.id === 'email' ? emailPattern :
+                                        this.id === 'mobile' ? mobilePattern :
+                                        this.id === 'password' ? passwordPattern : null,
+                                        this.id === 'email' ? 'Email không hợp lệ.Email có dạng ***@gamil.com' :
+                                        this.id === 'mobile' ? 'Số điện thoại không hợp lệ.số điện thoại là các số điện thoại ở VN vd: 03, 09....' :
+                                        this.id === 'password' ? 'Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.' : '');
+                            }
                         });
                     });
 
                     formShipperAdd.addEventListener('submit', function (e) {
-                        if (!validateForm(this, nameAdd, usernameAdd, emailAdd, mobileAdd, addressAdd, passwordAdd,
-                                nameAddError, usernameAddError, emailAddError, mobileAddError, addressAddError, passwordAddError)) {
+                        if (!validateForm(this, nameAdd, usernameAdd, emailAdd, mobileAdd, addressAdd, passwordAdd, dateOfBirthAdd,
+                                nameAddError, usernameAddError, emailAddError, mobileAddError, addressAddError, passwordAddError, dateOfBirthAddError)) {
                             e.preventDefault();
                         }
                     });
                 }
 
                 if (formShipperUpdate) {
-                    [nameUpdate, usernameUpdate, emailUpdate, mobileUpdate, addressUpdate, passwordUpdate].forEach(field => {
+                    [nameUpdate, usernameUpdate, emailUpdate, mobileUpdate, addressUpdate, passwordUpdate,dateOfBirthUpdate].forEach(field => {
                         field.addEventListener('input', function () {
-                            validateField(this, document.getElementById(this.id + 'Error'),
-                                    this.id === 'updateEmail' ? emailPattern :
-                                    this.id === 'updateMobile' ? mobilePattern :
-                                    this.id === 'updatePassword' ? passwordPattern : null,
-                                    this.id === 'updateEmail' ? 'Email không hợp lệ.Email có dạng ***@gamil.com' :
-                                    this.id === 'updateMobile' ? 'Số điện thoại không hợp lệ.số điện thoại là các số điện thoại ở VN vd: 03, 09....' :
-                                    this.id === 'updatePassword' ? 'Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.' : '');
+                            if (this.id === 'dateOfBirthUpdate') {
+                                validateDateOfBirth(this, dateOfBirthUpdateError);
+                            } else {
+                                validateField(this, document.getElementById(this.id + 'Error'),
+                                        this.id === 'updateEmail' ? emailPattern :
+                                        this.id === 'updateMobile' ? mobilePattern :
+                                        this.id === 'updatePassword' ? passwordPattern : null,
+                                        this.id === 'updateEmail' ? 'Email không hợp lệ.Email có dạng ***@gamil.com' :
+                                        this.id === 'updateMobile' ? 'Số điện thoại không hợp lệ.số điện thoại là các số điện thoại ở VN vd: 03, 09....' :
+                                        this.id === 'updatePassword' ? 'Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.' : '');
+                            }
                         });
                     });
 
                     formShipperUpdate.addEventListener('submit', function (e) {
-                        if (!validateForm(this, nameUpdate, usernameUpdate, emailUpdate, mobileUpdate, addressUpdate, passwordUpdate,
-                                nameUpdateError, usernameUpdateError, emailUpdateError, mobileUpdateError, addressUpdateError, passwordUpdateError)) {
+                        if (!validateForm(this, nameUpdate, usernameUpdate, emailUpdate, mobileUpdate, addressUpdate, passwordUpdate, dateOfBirthUpdate,
+                                nameUpdateError, usernameUpdateError, emailUpdateError, mobileUpdateError, addressUpdateError, passwordUpdateError, dateOfBirthUpdateError)) {
                             e.preventDefault();
                         }
                     });

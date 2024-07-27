@@ -55,9 +55,9 @@ public class manageAccountAdmin extends HttpServlet {
                     String userName = request.getParameter("username");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
-
-               
-
+                    String name1 = name.replaceAll(" {2,}", " ");
+                    String userName1 = userName.replaceAll(" {2,}", " ");
+                    String address1 = address.replaceAll(" {2,}", " ");
                     String errorUserNameExit = null;
                     String errorEmaildExit = null;
                     boolean isValid = true;
@@ -75,7 +75,7 @@ public class manageAccountAdmin extends HttpServlet {
                         Date today = new Date();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDate = formatter.format(today);
-                        User newUser = new User(0, name, userName, phone, email, address, "", "", 4, currentDate, password, 0, dateOfBirth);
+                        User newUser = new User(0, name1, userName1, phone, email, address1, "", "", 4, currentDate, password, 0, dateOfBirth);
                         userDao.insertUser(newUser);
                         response.sendRedirect("manageAccountAdmin?service=ListAllStaff");
                     } else {
@@ -102,10 +102,13 @@ public class manageAccountAdmin extends HttpServlet {
                     String username = request.getParameter("username");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
+                    String name1 = name.replaceAll(" {2,}", " ");
+                    String userName1 = username.replaceAll(" {2,}", " ");
+                    String address1 = address.replaceAll(" {2,}", " ");
                     Date today = new Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDate = formatter.format(today);
-                    User newUser = new User(staffId, name, username, mobile, email, address, "", "", 4, currentDate, password, 0, dateOfBirth);
+                    User newUser = new User(staffId, name1, userName1, mobile, email, address1, "", "", 4, currentDate, password, 0, dateOfBirth);
                     userDao.updateUser(newUser);
                     response.sendRedirect("manageAccountAdmin?service=ListAllStaff");
                 }
@@ -148,6 +151,9 @@ public class manageAccountAdmin extends HttpServlet {
                     String userName = request.getParameter("username");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
+                    String name1 = name.replaceAll(" {2,}", " ");
+                    String userName1 = userName.replaceAll(" {2,}", " ");
+                    String address1 = address.replaceAll(" {2,}", " ");
 
                     String errorUserNameExit = null;
                     String errorEmaildExit = null;
@@ -166,7 +172,7 @@ public class manageAccountAdmin extends HttpServlet {
                         Date today = new Date();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDate = formatter.format(today);
-                        User newUser = new User(0, name, userName, phone, email, address, "", "", 3, currentDate, password, 0, dateOfBirth);
+                        User newUser = new User(0, name1, userName1, phone, email, address1, "", "", 3, currentDate, password, 0, dateOfBirth);
                         userDao.insertUser(newUser);
                         response.sendRedirect("manageAccountAdmin?service=ListAllShipper");
                     } else {
@@ -194,11 +200,14 @@ public class manageAccountAdmin extends HttpServlet {
                     String username = request.getParameter("username");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
+                    String name1 = name.replaceAll(" {2,}", " ");
+                    String userName1 = username.replaceAll(" {2,}", " ");
+                    String address1 = address.replaceAll(" {2,}", " ");
 
                     Date today = new Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String currentDate = formatter.format(today);
-                    User newUser = new User(staffId, name, username, mobile, email, address, "", "", 3, currentDate, password, 0, dateOfBirth);
+                    User newUser = new User(staffId, name1, userName1, mobile, email, address1, "", "", 3, currentDate, password, 0, dateOfBirth);
                     userDao.updateUser(newUser);
                     response.sendRedirect("manageAccountAdmin?service=ListAllShipper");
 

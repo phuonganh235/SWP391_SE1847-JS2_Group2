@@ -20,7 +20,7 @@ import model.User;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, maxFileSize = 1024 * 1024 * 50, maxRequestSize = 1024 * 1024 * 50)
 public class ManageAccount extends HttpServlet {
 
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
@@ -32,17 +32,19 @@ public class ManageAccount extends HttpServlet {
         String phone = request.getParameter("mobile");
         String birth = request.getParameter("birth");
         String address = request.getParameter("address");
+        String name1 = name.replaceAll(" {2,}", " ");
+        String address1 = address.replaceAll(" {2,}", " ");
         if (editProfileUser == null) {
             response.sendRedirect("login");
             return;
         }
 
         // Update user information
-        editProfileUser.setName(name);
+        editProfileUser.setName(name1);
         editProfileUser.setEmail(email);
         editProfileUser.setMobile(phone);
         editProfileUser.setDateofbirth(birth);
-        editProfileUser.setAddress(address);
+        editProfileUser.setAddress(address1);
 
         // Handle file upload
         Part filePart = request.getPart("avatar");

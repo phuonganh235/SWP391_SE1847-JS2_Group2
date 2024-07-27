@@ -47,50 +47,53 @@ public class Consultation extends HttpServlet {
 
             if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4) {
                 if (service == null) {
-                    return;
-                }
-                if (service.equals("insert")) {
-                    String customerName = request.getParameter("customerName");
-                    String customeraddress = request.getParameter("customerAddress");
-                    String customerPhone = request.getParameter("customerPhone");
-                    String Date = request.getParameter("consultationDate");
-                    String timeslot = request.getParameter("timeSlot");
-                    String note = request.getParameter("note");
-                    String Email = request.getParameter("customerEmail");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate dateBook = LocalDate.parse(Date, formatter);
-                    String[] times = timeslot.split("-");
-                    String startHour = times[0];
-                    String endHour = times[1];
-                    String formattedDate = dateBook.format(formatter);
-                    Consultations newConsultation = new Consultations(0, customerName, customeraddress, customerPhone, formattedDate, note, startHour, endHour, 1, Email);
-                    consulDao.insertConsultation(newConsultation);
-                    response.sendRedirect(request.getContextPath() + "/consultationSuccess");
-                    return;
-                }
-                //Danh sách chờ xác nhận 
-                if (service.equals("listAll1")) {
-                    ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 1");
-                    request.setAttribute("listAll1", list);
-                    request.getRequestDispatcher("ViewAdmin/confirmBooking.jsp").forward(request, response);
-                }
-                //Danh sách chờ tư vấn
-                if (service.equals("listAll2")) {
-                    ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 2");
-                    request.setAttribute("listAll2", list);
-                    request.getRequestDispatcher("ViewAdmin/confirmConsultaion.jsp").forward(request, response);
-                }
-                //Danh sách chờ tư vấn
-                if (service.equals("listAll3")) {
-                    ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 3");
-                    request.setAttribute("listAll3", list);
-                    request.getRequestDispatcher("ViewAdmin/consultationSuccess.jsp").forward(request, response);
-                }
-                //xác nhận đặt lịch
-                if (service.equals("confirm")) {
-                    int consultationId = Integer.parseInt(request.getParameter("idConfirm"));
-                    consulDao.updateConsultationStatus(consultationId, 2);
-                    Consultations consultation = consulDao.getConsultationById(consultationId);
+                return;
+            }
+            if (service.equals("insert")) {
+                String customerName = request.getParameter("customerName");
+                String customeraddress = request.getParameter("customerAddress");
+                String customerPhone = request.getParameter("customerPhone");
+                String Date = request.getParameter("consultationDate");
+                String timeslot = request.getParameter("timeSlot");
+                String note = request.getParameter("note");
+                String Email = request.getParameter("customerEmail");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate dateBook = LocalDate.parse(Date, formatter);
+                String[] times = timeslot.split("-");
+                String startHour = times[0];
+                String endHour = times[1];
+                String formattedDate = dateBook.format(formatter);
+                String customerName1 = customerName.replaceAll(" {2,}", " ");
+                String customeraddress1 = customeraddress.replaceAll(" {2,}", " ");
+                String note1 = note.replaceAll(" {2,}", " ");
+                Consultations newConsultation = new Consultations(0, customerName1, customeraddress1, customerPhone, formattedDate, note1, startHour, endHour, 1, Email);
+                consulDao.insertConsultation(newConsultation);
+                response.sendRedirect(request.getContextPath() + "/consultationSuccess");
+                return;
+            }
+            //Danh sách chờ xác nhận 
+            if (service.equals("listAll1")) {
+                ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 1");
+                request.setAttribute("listAll1", list);
+                request.getRequestDispatcher("ViewAdmin/confirmBooking.jsp").forward(request, response);
+            }
+            //Danh sách chờ tư vấn
+            if (service.equals("listAll2")) {
+                ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 2");
+                request.setAttribute("listAll2", list);
+                request.getRequestDispatcher("ViewAdmin/confirmConsultaion.jsp").forward(request, response);
+            }
+            //Danh sách chờ tư vấn
+            if (service.equals("listAll3")) {
+                ArrayList<Consultations> list = consulDao.getConsultationWithStatus1("select * from [dbo].[Consultations] where Status = 3");
+                request.setAttribute("listAll3", list);
+                request.getRequestDispatcher("ViewAdmin/consultationSuccess.jsp").forward(request, response);
+            }
+            //xác nhận đặt lịch
+            if (service.equals("confirm")) {
+                int consultationId = Integer.parseInt(request.getParameter("idConfirm"));
+                consulDao.updateConsultationStatus(consultationId, 2);
+                Consultations consultation = consulDao.getConsultationById(consultationId);
 
                     //Send email
                     String recipinentEmail = consultation.getEmail();

@@ -150,7 +150,7 @@
                 color: #343a40;
                 font-weight: bold;
             }
-            
+
         </style>
     </head>
 
@@ -179,7 +179,7 @@
                     <c:if test="${sessionScope.inforUserLogin == null}">
                         <div class="header__right__auth">
                             <a href="login">Đăng Nhập</a>
-                            <a href="register">Dăng kí</a>
+                            <a href="register">Đăng kí</a>
                         </div>
                     </c:if>
                     <c:if test="${sessionScope.inforUserLogin != null}">
@@ -251,26 +251,29 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="p-3 py-5">
-                                                <form action="customerprofile" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
+                                                <form action="customerprofile" id="formProfile" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Họ và tên</label>
+                                                            <label for="fullName" class="labels font-weight-bold" style="font-size: 20px;">Họ và tên</label>
                                                             <input id="fullName" type="text" class="form-control" name="fullName" placeholder="Full Name" value="${sessionScope.inforUserLogin.name}">
                                                             <span id="nameError" style="color: red;"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Số điện thoại</label>
-                                                            <input type="text" class="form-control" name="mobile" placeholder="Mobile" value="${sessionScope.inforUserLogin.mobile}">
+                                                            <label for="mobileprofile" class="labels font-weight-bold" style="font-size: 20px;">Số điện thoại</label>
+                                                            <input type="number" class="form-control" id="mobileprofile" name="mobile" placeholder="Mobile" value="${sessionScope.inforUserLogin.mobile}">
+                                                            <span id="mobileErrorProfile" style="color: red;"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Địa chỉ</label>
-                                                            <input type="text" class="form-control" name="address" placeholder="Address" value="${sessionScope.inforUserLogin.address}">
+                                                            <label for="addressProfile" class="labels font-weight-bold" style="font-size: 20px;">Địa chỉ</label>
+                                                            <input type="text" class="form-control" id="addressProfile" name="address" placeholder="Address" value="${sessionScope.inforUserLogin.address}">
+                                                            <span id="addressErrorProfile" style="color: red;"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Email</label>
-                                                            <input type="text" class="form-control" name="email" placeholder="Email" value="${sessionScope.inforUserLogin.email}" readonly>
+                                                            <label for="email" class="labels font-weight-bold" style="font-size: 20px;">Email</label>
+                                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="${sessionScope.inforUserLogin.email}" readonly>
+                                                            <span id="emailError" style="color: red;"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-4">
@@ -279,8 +282,9 @@
                                                             <input type="file" class="form-control" name="avatar" placeholder="Avatar" value="${sessionScope.inforUserLogin.image}">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="labels font-weight-bold" style="font-size: 20px;">Ngày sinh</label>
-                                                            <input type="date" class="form-control" name="birth" placeholder="Birth" value="${sessionScope.inforUserLogin.dateofbirth}">
+                                                            <label for="birth" class="labels font-weight-bold" style="font-size: 20px;">Ngày sinh</label>
+                                                            <input type="date" class="form-control" id="birth" name="birth" placeholder="Birth" value="${sessionScope.inforUserLogin.dateofbirth}">
+                                                            <span id="birthError" style="color: red;"></span>
                                                         </div>
                                                     </div>
 
@@ -345,8 +349,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- form booking -->
+  <!-- form booking -->
             <div class="modal fade" role="dialog" id="bookingModal">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content" style="border-radius: 10px; margin-bottom: 30px">
@@ -366,16 +369,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="customerAddress" class="font-weight-bold">Địa chỉ:</label>
-                                                <input type="text" class="form-control" id="customerAddress" name="customerAddress" required>
+                                                <input type="text" class="form-control" id="customerAddress" name="customerAddress" required="">
+                                                <small class="text-danger" id="addressError"></small>
                                             </div>
                                             <div class="form-group">
                                                 <label for="customerPhone" class="font-weight-bold">Số điện thoại:</label>
-                                                <input type="tel" class="form-control" id="customerPhone" name="customerPhone" required>
+                                                <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
                                                 <small class="text-danger" id="phoneError"></small>
                                             </div>
                                             <div class="form-group">
                                                 <label for="customerEmail" class="font-weight-bold">Email:</label>
-                                                <input type="tel" class="form-control" id="customerEmail" name="customerEmail" required>
+                                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" required>
 
                                             </div>
                                             <div class="form-group">
@@ -534,7 +538,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var fullName = document.getElementById('fullName');
-            var form = document.querySelector('form');
+            var address = document.getElementById('addressProfile');
+            var mobile = document.getElementById('mobileprofile');
+            var datOfBirth = document.getElementById('birth');
+            var form = document.getElementById('formProfile');
 
             function validateFullName() {
                 var fullNameValue = fullName.value.trim();
@@ -548,26 +555,73 @@
                 }
             }
 
-            fullName.addEventListener("input", validateFullName);
+            function validateAddress() {
+                var addressValue = address.value.trim();
+                var addressErrorProfile = document.getElementById("addressErrorProfile");
+                if (!addressValue.replace(/\s/g, '').length) {
+                    addressErrorProfile.innerHTML = "Địa chỉ không được chỉ chứa khoảng trắng.";
+                    return false;
+                } else {
+                    addressErrorProfile.innerHTML = "";
+                    return true;
+                }
+            }
 
-            form.addEventListener("submit", function (event) {
-                var isFullNameValid = validateFullName();
-                if (!isFullNameValid) { // Thay đổi ở đây
-                    event.preventDefault(); // Ngăn form submit nếu có lỗi
+            function validateMobile() {
+                var mobileValue = mobile.value.trim();
+                var mobileErrorProfile = document.getElementById("mobileErrorProfile");
+                if (mobileValue.length < 10 || mobileValue.length > 11) {
+                    mobileErrorProfile.innerHTML = "Số điện thoại tối thiểu là 10 tối đa 11 số.";
+                    return false;
+                } else {
+                    mobileErrorProfile.innerHTML = "";
+                    return true;
+                }
+            }
+
+            function validateDateOfBirth() {
+                var dateOfbirth = new Date(datOfBirth.value);
+                var currentDate = new Date();
+                var birthError = document.getElementById("birthError");
+                if (dateOfbirth > currentDate) {
+                    birthError.innerHTML = "Ngày sinh không được vượt quá ngày hiện tại.";
+                    return false;
+                } else {
+                    birthError.innerHTML = "";
+                    return true;
+                }
+            }
+
+            fullName.addEventListener("input", validateFullName);
+            address.addEventListener("input", validateAddress);
+            mobile.addEventListener("input", validateMobile);
+            datOfBirth.addEventListener("input", validateDateOfBirth);
+
+            form.addEventListener('submit', function (e) {
+                let isValid = true;
+                // Gọi tất cả các hàm validate khi submit form
+                isValid = validateFullName() && isValid;
+                isValid = validateAddress() && isValid;
+                isValid = validateMobile() && isValid;
+                isValid = validateDateOfBirth() && isValid;
+                if (!isValid) {
+                    e.preventDefault();
                 }
             });
-        });
+        }
+        );
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var formConsultion = document.getElementById('consultationForm');
             var nameInput = document.getElementById('customerName');
             var phoneInput = document.getElementById('customerPhone');
             var dateInput = document.getElementById('consultationDate');
+            var address = document.getElementById("customerAddress");
             var nameCustomerError = document.getElementById('nameCustomerError');
             var phoneError = document.getElementById('phoneError');
             var dateError = document.getElementById('dateError');
+            var addressError = document.getElementById("addressError")
             function validateName() {
                 var name = nameInput.value.trim();
                 if (name === '' || name.replace(/\s/g, '').length === 0) {
@@ -578,11 +632,24 @@
                     return true;
                 }
             }
+            function validateAddress() {
+                var adress = address.value.trim();
+                if (adress.replace(/\s/g, '').length === 0) {
+                    addressError.innerHTML = 'Địa chỉ không được  chỉ chứa khoảng trắng.';
+                    return false;
+                } else {
+                    addressError.innerHTML = '';
+                    return true;
+                }
+            }
 
             function validatePhone() {
                 var phone = phoneInput.value.trim();
                 if (phone === '' || phone.replace(/\s/g, '').length === 0 || !/^[0-9]+$/.test(phone)) {
                     phoneError.innerHTML = 'Số điện thoại không hợp lệ hoặc chỉ chứa khoảng trắng.';
+                    return false;
+                } else if (phone.length < 10 || phone.length > 11) {
+                    phoneError.innerHTML = 'Số điện thoại tối thiểu là 10 tối đa 11 số.';
                     return false;
                 } else {
                     phoneError.innerHTML = '';
@@ -612,6 +679,7 @@
 
             nameInput.addEventListener('input', validateName);
             phoneInput.addEventListener('input', validatePhone);
+            address.addEventListener('input', validateAddress);
             dateInput.addEventListener('change', validateDate);
 
             formConsultion.addEventListener('submit', function (e) {
@@ -620,6 +688,7 @@
                 isValid = validateName() && isValid;
                 isValid = validatePhone() && isValid;
                 isValid = validateDate() && isValid;
+                isValid = validateAddress() && isValid;
                 if (!isValid) {
                     e.preventDefault();
                 }
