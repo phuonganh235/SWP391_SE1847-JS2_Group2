@@ -64,24 +64,24 @@
     <body>
         <div class="container">
             <div class="mb-5">
-                <h2>Verify Your Email</h2>
-                <p>Please Enter The Verification Code We Sent To ${sessionScope.email}</p>
+                <h2>Xác nhận email của bạn</h2>
+                <p>Vui lòng nhập mã xác minh chúng tôi đã gửi tới ${sessionScope.email}</p>
             </div>
             <form id="verificationForm" action="validateotp" method="post">
                 <div class="mb-3">
-                    <label for="verification-code" class="form-label">Verification Code <span>*</span></label>
-                    <input type="text" class="form-control" name="verification-code" id="verification-code" placeholder="Enter Verification Code" maxlength="6" required />
+                    <label for="verification-code" class="form-label">Mã xác minh<span>*</span></label>
+                    <input type="text" class="form-control" name="verification-code" id="verification-code" placeholder="Nhập mã xác minh" maxlength="6" required />
                     <div id="verificationCodeError" class="error-message"></div>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-primary btn-block" type="submit">Confirm</button>
+                    <button class="btn btn-primary btn-block" type="submit">Xác nhận</button>
                 </div>
             </form>
             <div class="mt-4">
-                <p>Don't Receive The Email?
+                <p>Không nhận được Email?
                 <form action="forgotpass" method="post" style="display: inline;">
                     <input type="hidden" name="email" value="${sessionScope.email}">
-                    <button type="submit" style="background: none; border: none; padding: 0; color: #ff66a3; cursor: pointer;">Resend Email</button>
+                    <button type="submit" style="background: none; border: none; padding: 0; color: #ff66a3; cursor: pointer;">Gửi lại Email</button>
                 </form>
                 </p>
             </div>
@@ -91,8 +91,8 @@
             <div class="text-center mt-4">
                 <hr/>
                 <div>
-                    <a href="#!" class="link-secondary text-decoration-none">Login</a>
-                    <a href="#!" class="link-secondary text-decoration-none">Register</a>
+                    <a href="login" class="link-secondary text-decoration-none">Đăng nhập</a>
+                    <a href="register" class="link-secondary text-decoration-none">Đăng ký</a>
                 </div>
             </div>
         </div>
@@ -109,13 +109,13 @@
                 function validateVerificationCode() {
                     var code = verificationCodeInput.value;
                     if (code.trim() === "") {
-                        verificationCodeError.textContent = "Verification code must not be empty.";
+                        verificationCodeError.textContent = "Mã xác minh không được để trống.";
                         return false;
                     } else if (/\s/.test(code)) {
-                        verificationCodeError.textContent = "Verification code should not contain spaces.";
+                        verificationCodeError.textContent = "Mã xác minh không được chứa khoảng trắng.";
                         return false;
                     } else if (!/^\d{6}$/.test(code)) {
-                        verificationCodeError.textContent = "Verification code must be a 6-digit number.";
+                        verificationCodeError.textContent = "Mã xác minh phải là số có 6 chữ số.";
                         return false;
                     } else {
                         verificationCodeError.textContent = "";
@@ -130,7 +130,6 @@
                     if (!validateVerificationCode()) {
                         event.preventDefault();
                     } else {
-                        // If validation passes, submit the form
                         this.submit();
                     }
                 });

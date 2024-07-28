@@ -36,41 +36,47 @@ public class Register extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String postCode = request.getParameter("postCode");
-
         HttpSession session = request.getSession();
 
         String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         String mobilePattern = "^(?:\\+84|0)(3|5|7|8|9)[0-9]{8}$";
         String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
 
+        UserDAO dao = new UserDAO();
+        boolean hasError = false;
+
         if (!Pattern.matches(emailPattern, email)) {
-            session.setAttribute("error", "Invalid email format!");
-            request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-            return;
+            request.setAttribute("emailError", "Invalid email format!");
+            hasError = true;
+        } else if (dao.checkExistEmail(email, 2)) {
+            request.setAttribute("emailError", "Email đã tồn tại! Vui lòng sử dụng email khác.");
+            hasError = true;
         }
 
         if (!Pattern.matches(mobilePattern, mobile)) {
-            session.setAttribute("error", "Invalid Vietnam mobile number!");
-            request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-            return;
+            request.setAttribute("mobileError", "Số điện thoại di động Việt Nam không hợp lệ!");
+            hasError = true;
         }
 
         if (!Pattern.matches(passwordPattern, password)) {
-            session.setAttribute("error", "Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
-            request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-            return;
+            request.setAttribute("passwordError", "Mật khẩu phải dài ít nhất 8 ký tự và bao gồm ít nhất một chữ cái, một số và một ký tự đặc biệt.");
+            hasError = true;
         }
-
-        UserDAO dao = new UserDAO();
 
         if (dao.getUserByUsername(username) != null) {
-            session.setAttribute("error", "Username already exists!");
-            request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
-            return;
+            request.setAttribute("usernameError", "Tên người dùng đã tồn tại!");
+            hasError = true;
         }
 
-        if (dao.checkExistEmail(email,2)) {
-            session.setAttribute("error", "Email already exists!");
+        if (hasError) {
+            // Set all form fields as attributes to preserve user input
+            request.setAttribute("name", name);
+            request.setAttribute("username", username);
+            request.setAttribute("mobile", mobile);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("postCode", postCode);
+
             request.getRequestDispatcher("/ViewUser/register.jsp").forward(request, response);
             return;
         }
@@ -85,7 +91,7 @@ public class Register extends HttpServlet {
         u.setPostCode(postCode);
         u.setRoleId(2);
         String date = daoDate.getDateTimeNow();
-        dao.register(name, username, password, mobile, email, address, postCode, date, 2 ,1,"");
+        dao.register(name, username, password, mobile, email, address, postCode, date, 2, 1, "");
         session.setAttribute("message", "Register successfully, please enter Username and Password to login.");
         response.sendRedirect("login");
     }

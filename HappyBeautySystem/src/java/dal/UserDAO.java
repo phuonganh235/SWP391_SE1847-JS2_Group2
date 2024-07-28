@@ -40,6 +40,54 @@ public class UserDAO extends DBContext {
         return uList;
     }
 
+    public User getUserByEmail(String email) {
+        User user = null;
+        String sql = "SELECT * FROM Users WHERE Email = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            ps.setString(1, email);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setUserId(rs.getInt("UserId"));
+                    user.setName(rs.getString("Name"));
+                    user.setUsername(rs.getString("Username"));
+                    user.setMobile(rs.getString("Mobile"));
+                    user.setEmail(rs.getString("Email"));
+                    user.setAddress(rs.getString("Address"));
+                    user.setPostCode(rs.getString("PostCode"));
+                    user.setImage(rs.getString("ImageUrl"));
+                    user.setRoleId(rs.getInt("RoleId"));
+                    user.setCreateDate(rs.getString("CreateDate"));
+                    user.setPassword(rs.getString("Password"));
+                    user.setStatuss(rs.getInt("Statuss"));
+                    user.setDateofbirth(rs.getString("DateOfBirth"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getUserByEmail: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return user;
+    }
+    
+    public boolean emailExistsInDatabase(String email) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE Email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public ArrayList<User> SearchStaffByName(String name) {
         ArrayList<User> uList = new ArrayList<>();
         String sql = "SELECT * FROM Users WHERE name LIKE ? AND RoleId = 4";

@@ -1,5 +1,6 @@
 package controller.Authentication;
 
+import dal.UserDAO;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.Session;
@@ -18,7 +19,6 @@ import java.util.Random;
 
 @WebServlet(name="ForgotPass", urlPatterns={"/forgotpass"})
 public class ForgotPass extends HttpServlet {
-
    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,52 +32,56 @@ public class ForgotPass extends HttpServlet {
         final String fromEmail = "anhptphe170125@fpt.edu.vn";
         final String password = "eajp ikhz sqcw jxrc";
         String toEmail = request.getParameter("email");
-        int otpvalue = 0;
 
         if (toEmail != null && !toEmail.isEmpty()) {
-            try {
-                Random random = new Random();
-                otpvalue = 100000 + random.nextInt(900000);
+            UserDAO userDAO = new UserDAO();
+            if (userDAO.emailExistsInDatabase(toEmail)) {
+                try {
+                    Random random = new Random();
+                    int otpvalue = 100000 + random.nextInt(900000);
 
-                Properties pr = new Properties();
-                pr.setProperty("mail.smtp.host", "smtp.gmail.com");
-                pr.setProperty("mail.smtp.port", "587");
-                pr.setProperty("mail.smtp.auth", "true");
-                pr.setProperty("mail.smtp.starttls.enable", "true");
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.port", "587");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.starttls.enable", "true");
 
-                Session session = Session.getInstance(pr, new Authenticator() {
-                @Override
-                    protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-                        return new jakarta.mail.PasswordAuthentication(fromEmail, password);
-                    }
-                });
-                Message mess = new MimeMessage(session);
-                mess.setHeader("Content-type", "text/html; charset=UTF-8");
-                mess.setFrom(new InternetAddress(fromEmail));
-                mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-                mess.setSubject("Verify your password");
-                mess.setText("Your OTP is: " + otpvalue);
-                Transport.send(mess);
+                    Session session = Session.getInstance(props, new Authenticator() {
+                        @Override
+                        protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
+                            return new jakarta.mail.PasswordAuthentication(fromEmail, password);
+                        }
+                    });
 
-                request.setAttribute("message", "OTP is sent to your email id");
-                HttpSession mySession = request.getSession();
-                mySession.setAttribute("otp", otpvalue);
-                mySession.setAttribute("email", toEmail);
-                response.sendRedirect("validateotp");
-            } catch (Exception e) {
-                e.printStackTrace();
-                request.setAttribute("message", "There was an error sending the email. Please try again.");
+                    Message message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress(fromEmail));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+                    message.setSubject("Mật khẩu đặt lại OTP");
+                    message.setText("Mã OTP để đặt lại mật khẩu của bạn là: " + otpvalue);
+
+                    Transport.send(message);
+
+                    HttpSession httpSession = request.getSession();
+                    httpSession.setAttribute("otp", otpvalue);
+                    httpSession.setAttribute("email", toEmail);
+                    response.sendRedirect("validateotp");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("message", "Đã xảy ra lỗi khi gửi email. Vui lòng thử lại.");
+                    request.getRequestDispatcher("/ViewUser/forgotpass.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("message", "Email này chưa được đăng ký trong hệ thống của chúng tôi.");
                 request.getRequestDispatcher("/ViewUser/forgotpass.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("message", "Please enter a valid email address.");
+            request.setAttribute("message", "Vui lòng nhập địa chỉ email hợp lệ.");
             request.getRequestDispatcher("/ViewUser/forgotpass.jsp").forward(request, response);
         }
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "ForgotPass Servlet handles password reset requests";
+    }
 }

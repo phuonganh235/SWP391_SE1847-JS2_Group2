@@ -45,11 +45,11 @@
 
                         <div class="signin-image">
                             <figure><img src="ViewUser/img/authen/logo1.png" alt="sign up image"></figure>
-                            <a href="home" class="signup-image-link">Back home</a>
+                            <a href="home" class="signup-image-link">Trang chủ</a>
                         </div>
 
                         <div class="signin-form">
-                            <h2 class="form-title">Login</h2>
+                            <h2 class="form-title">Đăng nhập</h2>
                             <form action="login" method="post" class="register-form" id="login-form">
                                 <div class="form-group">
                                     <label for="username">
@@ -69,7 +69,7 @@
 
                                 <div class="form-group">
                                     <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" <%= !rememberedUsername.isEmpty() ? "checked" : ""%> />
-                                    <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                    <label for="remember-me" class="label-agree-term"><span><span></span></span>Nhớ mật khẩu</label>
                                 </div>
                                 <c:choose>
                                     <c:when test="${check.equals('success')}">
@@ -77,7 +77,7 @@
                                         <br />
                                     </c:when>
                                     <c:when test="${check.equals('fail')}">
-                                        <span class="error-message">Invalid Username or Password</span>
+                                        <span class="error-message">Sai tên người dùng hoặc mật khẩu</span>
                                         <br/>
                                     </c:when>
                                     <c:otherwise>
@@ -86,16 +86,16 @@
                                 </c:choose>
                                 <div class="form-group form-button">
                                     <input type="submit" name="submit" id="login" class="form-submit" value="Log in"/>
-                                    <a href="register" style="margin-top: 20px" class="signup-image-link">Create an account</a>
-                                    <a href="forgotpass" style="margin-top: 20px" class="signup-image-link">Forgot Password</a>
+                                    <a href="register" style="margin-top: 20px" class="signup-image-link">Tạo tài khoản</a>
+                                    <a href="forgotpass" style="margin-top: 20px" class="signup-image-link">Quên mật khẩu</a>
                                 </div>
                             </form>
-                            <div class="social-login">
+<!--                            <div class="social-login">
                                 <span class="social-label">Or login with</span>
                                 <ul class="socials">
                                     <li><a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/HappyBeautySystem/LoginGoogle&response_type=code&client_id=476100370923-o65hi8ub2g7m0nn9iqkk4gguhv1h80nk.apps.googleusercontent.com&approval_prompt=force"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                                 </ul>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -115,10 +115,10 @@
                 function validateUsername() {
                     var username = usernameInput.value.trim();
                     if (username === "") {
-                        usernameError.textContent = "Username must not be empty.";
+                        usernameError.textContent = "Tên người dùng không được để trống.";
                         return false;
                     } else if (username.length < 3 || username.length > 20) {
-                        usernameError.textContent = "Username must be between 3 and 20 characters.";
+                        usernameError.textContent = "Tên người dùng phải có từ 3 đến 20 ký tự.";
                         return false;
                     } else {
                         usernameError.textContent = "";
@@ -129,10 +129,10 @@
                 function validatePassword() {
                     var password = passwordInput.value;
                     if (password === "") {
-                        passwordError.textContent = "Password must not be empty.";
+                        passwordError.textContent = "Mật khẩu không được để trống.";
                         return false;
                     } else if (password.length < 8) {
-                        passwordError.textContent = "Password must be at least 8 characters.";
+                        passwordError.textContent = "Mật khẩu cần dài ít nhất 8 ký tự.";
                         return false;
                     } else {
                         passwordError.textContent = "";
