@@ -345,9 +345,9 @@
                                         <div class="mb-3">
                                             <label for="updatePathImage" class="form-label">Ảnh</label>
                                             <img src="${product.pathImage}" alt="Lỗi ảnh" class="loadImage"/>
-                                            <input type="file" class="form-control" id="updatePathImage" name="pathImage" onchange="loadImg(this, event)">
+                                            <input type="file" class="form-control" onchange="loadImg(this, event)">
                                             <span id="updatePathImageError" style="color: red;"></span>
-                                            <input type="hidden" name="pathImage" class="srcImg"/>
+                                            <input type="hidden" name="pathImage" class="srcImg" value="${product.pathImage}"/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
