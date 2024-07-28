@@ -148,3 +148,5 @@ public class ManageNews extends HttpServlet {
         return "Manage News Servlet";
     }
 }
+
+

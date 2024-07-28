@@ -6,23 +6,14 @@
         <meta charset="utf-8">
         <title>Manage News - Bootstrap Admin Template</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Icon Font Stylesheet -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-        <!-- Libraries Stylesheet -->
         <link href="ViewAdmin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="ViewAdmin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-        <!-- Customized Bootstrap Stylesheet -->
         <link href="ViewAdmin/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Template Stylesheet -->
         <link href="ViewAdmin/css/style.css" rel="stylesheet">
-        <!-- DataTable -->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <style>
             /* Your custom styles here */
@@ -89,7 +80,7 @@
                                             <td>${news.createTime}</td>
                                             <td>${news.isActive ? 'Hiện' : 'Ẩn'}</td>
                                             <td>
-                                                <button onclick="openEditModal(${news.newsId})" class="btn btn-sm btn-primary">Sửa</button>
+                                                <button onclick="openEditModal(${news.newsId})" class="btn btn-sm btn-primary" data-bs-toggle="modal"  data-bs-target="#editNewsModal">Sửa</button>
                                                 <a href="managenews?service=hidenews&newsId=${news.newsId}" class="btn btn-sm btn-warning">${news.isActive ? 'Ẩn' : 'Hiện'}</a>
                                             </td>
                                         </tr>
@@ -208,67 +199,66 @@
         <script src="ViewAdmin/js/main.js"></script>
 
         <script>
-                                                    $(document).ready(function () {
-                                                        $('#newstable').DataTable({
-                                                            "pageLength": 10,
-                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                            "order": [[1, "asc"]],
-                                                            "columnDefs": [
-                                                                {"orderable": false, "targets": [0, 8]}
-                                                            ],
-                                                            "language": {
-                                                                "lengthMenu": "Hiển thị _MENU_ mục",
-                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                                "paginate": {
-                                                                    "first": "Đầu",
-                                                                    "last": "Cuối",
-                                                                    "next": "Tiếp",
-                                                                    "previous": "Trước"
-                                                                }
-                                                            }
-                                                        });
-                                                    });
+            $(document).ready(function () {
+                $('#newstable').DataTable({
+                    "pageLength": 10,
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "order": [[1, "asc"]],
+                    "columnDefs": [
+                        {"orderable": false, "targets": [0, 8]}
+                    ],
+                    "language": {
+                        "lengthMenu": "Hiển thị _MENU_ mục",
+                        "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                        "paginate": {
+                            "first": "Đầu",
+                            "last": "Cuối",
+                            "next": "Tiếp",
+                            "previous": "Trước"
+                        }
+                    }
+                });
+            });
 
-                                                    function openEditModal(newsId) {
-                                                        $.ajax({
-                                                            url: "managenews",
-                                                            type: "GET",
-                                                            data: {
-                                                                service: "getNewsById",
-                                                                newsId: newsId
-                                                            },
-                                                            success: function (data) {
-                                                                console.log(data); // Check the data received
-                                                                var news = JSON.parse(data);
-                                                                $('#editNewsId').val(news.newsId);
-                                                                $('#editTitle').val(news.title);
-                                                                $('#editContent').val(news.content);
-                                                                $('#editImageURL').val(news.imgUrl);
-                                                                $('#editCategoryID').val(news.categoryId); // Ensure this matches the backend field name
-                                                                $('#editIsActive').prop('checked', news.isActive);
-                                                                $('#editNewsModal').modal('show');
-                                                            },
-                                                            error: function () {
-                                                                alert('Failed to fetch news details.');
-                                                            }
-                                                        });
-                                                    }
+            function openEditModal(newsId) {
+                $.ajax({
+                    url: "managenews",
+                    type: "GET",
+                    data: {
+                        service: "getNewsById",
+                        newsId: newsId
+                    },
+                    success: function (data) {
+                        var news = JSON.parse(data);
+                        $('#editNewsId').val(news.newsId);
+                        $('#editTitle').val(news.title);
+                        $('#editContent').val(news.content);
+                        $('#editImageURL').val(news.imgUrl);
+                        $('#editCategoryID').val(news.categoryId); 
+                        $('#editIsActive').prop('checked', news.isActive);
+                        $('#editNewsModal').modal('show');
+                    },
+                    error: function () {
+                        alert('Failed to fetch news details.');
+                    }
+                });
+            }
 
-                                                    $('#editNewsForm').submit(function (e) {
-                                                        e.preventDefault();
-                                                        $.ajax({
-                                                            url: $(this).attr('action'),
-                                                            type: 'POST',
-                                                            data: $(this).serialize(),
-                                                            success: function (response) {
-                                                                $('#editNewsModal').modal('hide');
-                                                                location.reload();
-                                                            },
-                                                            error: function () {
-                                                                alert('Failed to update news.');
-                                                            }
-                                                        });
-                                                    });
+            $('#editNewsForm').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('#editNewsModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Failed to update news.');
+                    }
+                });
+            });
         </script>
     </body>
 </html>
