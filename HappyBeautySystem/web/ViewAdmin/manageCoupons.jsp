@@ -366,7 +366,7 @@
                 }
                 function validateQuantity() {
                     var quantity = parseFloat(document.getElementById("quantity").value);
-                    if (isNaN(quantity) || quantity <= 0) {
+                    if (isNaN(quantity) || quantity < 0) {
                         document.getElementById("quantityError").innerHTML = "Số lượng  giảm giá phải là số dương.";
                         return false;
                     } else {

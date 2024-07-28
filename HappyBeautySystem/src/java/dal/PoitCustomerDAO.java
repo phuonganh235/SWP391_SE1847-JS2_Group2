@@ -13,7 +13,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to check if a UserID exists
     public boolean checkUserIDExists(int userID) {
-        String sql = "SELECT COUNT(*) FROM poitCustomer WHERE UserId = ?";
+        String sql = "SELECT COUNT(*) FROM PoitCustomer WHERE UserId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userID);
@@ -29,7 +29,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to add a new poitCustomer
     public boolean addPoitCustomer(int userID, int point) {
-        String sql = "INSERT INTO poitCustomer (UserId, Point) VALUES (?, ?)";
+        String sql = "INSERT INTO PoitCustomer (UserId, Point) VALUES (?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userID);
@@ -43,7 +43,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to update point for an existing UserID
     public boolean updatePoitCustomer(int userID, int point) {
-        String sql = "UPDATE poitCustomer SET Point = Point + ? WHERE UserId = ?";
+        String sql = "UPDATE PoitCustomer SET Point = Point + ? WHERE UserId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, point);

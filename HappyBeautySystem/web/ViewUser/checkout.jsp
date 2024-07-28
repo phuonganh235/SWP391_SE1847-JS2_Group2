@@ -119,155 +119,159 @@
             <div class="container">
                 <form action="OrderController?service=confirmOrder" id="checkoutForm" class="checkout__form" method="post">
                     <div class="row">
-                        <div class="col-lg-8">
-
-                            <c:if test="${sessionScope.inforUserLogin != null}">
-                                <div class="form-container">
-                                    <h2>THÔNG TIN - CHI TIẾT - ĐƠN HÀNG</h2>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="fullName">Thành phố</label>
-                                            <select class="css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành" disabled>
-                                                <!-- Hà Nội sẽ được thêm vào từ JavaScript và bị vô hiệu hóa -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="categoryName">Quận / Huyện</label>
-                                            <select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện" required>
-                                                <option value="">Chọn Quận Huyện</option>
-                                                <!-- Các option khác của quận/huyện sẽ được thêm vào từ mã JavaScript -->
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="categoryName">Phường / Xã</label>
-                                            <select required class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã" required> 
-                                                <option value="">Phường / Xã</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="categoryName">Số điện thoại nhận hàng</label>
-                                            <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.inforUserLogin.getMobile()}" required>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="categoryName">Địa chỉ chi tiết</label>
-                                            <input type="text" class="form-control" id="phone" name="AddressDetail" value="" required>
-                                        </div>
-                                    </div>
-                                    <h2>Đặt thời gian giao hàng</h2>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="note">Ghi chú</label>
-                                            <select class="form-control" id="note" name="note">
-                                                <option value="">Chọn ghi chú</option>
-                                                <option value="Giao hàng nhanh chóng">Giao hàng nhanh chóng</option>
-                                                <option value="Giao hàng ngoài giờ hành chính">Giao hàng ngoài giờ hành chính</option>
-                                                <option value="Giao hàng trong giờ hành chính">Giao hàng trong giờ hành chính</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="fromTime">Từ</label>
-                                            <input type="time" class="form-control" id="fromTime" name="fromTime" required>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="toTime">Đến</label>
-                                            <input type="time" class="form-control" id="toTime" name="toTime" required>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="deliveryDate">Ngày</label>
-                                            <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
-                                        </div>
-                                    </div>
-                                    <div id="timeWarning" class="alert alert-danger" style="display:none;">
-                                        Ngoài thời gian làm việc (6:00 AM - 8:00 PM). Làm ơn chọn lại.
-                                    </div>
-                                    <div id="dateWarning" class="alert alert-danger" style="display:none;">
-                                        Không được chọn ngày ở quá khứ
-                                    </div>
-                                </div>
-                            </c:if>
-
-                        </div
+                        <div style="display: flex">
 
 
+                            <div class="col-lg-8">
 
-                        <div class="col-lg-4">
-                            <div class="checkout__order">
-                                <h5>Đơn hàng của bạn</h5>
-                                <div class="checkout__order__product">
-                                    <ul>
-                                        <li>
-                                            <span class="top__text">Sản phẩm </span>
-                                            <span class="top__text__right">Tổng</span>
-                                        </li>
+                                <c:if test="${sessionScope.inforUserLogin != null}">
+                                    <div class="form-container">
+                                        <h2>THÔNG TIN - CHI TIẾT - ĐƠN HÀNG</h2>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="fullName">Thành phố</label>
+                                                <select class="css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành" disabled>
+                                                    <!-- Hà Nội sẽ được thêm vào từ JavaScript và bị vô hiệu hóa -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="categoryName">Quận / Huyện</label>
+                                                <select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện" required>
+                                                    <option value="">Chọn Quận Huyện</option>
+                                                    <!-- Các option khác của quận/huyện sẽ được thêm vào từ mã JavaScript -->
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                        <%
-                                            List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
-                                            // lấy giá trị đơn hàng và số tiền giảm ở bên shop_cart
-                                            // annp them
-                                            double cartTotal = Double.parseDouble(request.getParameter("total"));
-                                            double cartDiscount = Double.parseDouble(request.getParameter("discount"));
-                                            if (listCart != null && !listCart.isEmpty()) {
-                                                ProductDAO daoProduct = new ProductDAO();
-                                                for (Cart cart : listCart) {
-                                                    Product pro = daoProduct.getProductById(cart.getProductId());
-                                                    if (pro != null) {
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="categoryName">Phường / Xã</label>
+                                                <select required class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã" required> 
+                                                    <option value="">Phường / Xã</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="categoryName">Số điện thoại nhận hàng</label>
+                                                <input type="text" class="form-control" id="phone" name="phone" value="${sessionScope.inforUserLogin.getMobile()}" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="categoryName">Địa chỉ chi tiết</label>
+                                                <input type="text" class="form-control" id="phone" name="AddressDetail" value="" required>
+                                            </div>
+                                        </div>
+                                        <h2>Đặt thời gian giao hàng</h2>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="note">Ghi chú</label>
+                                                <select class="form-control" id="note" name="note">
+                                                    <option value="">Chọn ghi chú</option>
+                                                    <option value="Giao hàng nhanh chóng">Giao hàng nhanh chóng</option>
+                                                    <option value="Giao hàng ngoài giờ hành chính">Giao hàng ngoài giờ hành chính</option>
+                                                    <option value="Giao hàng trong giờ hành chính">Giao hàng trong giờ hành chính</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                        %>
-                                        <li><%= pro.getProductName()%> <span><%= pro.getPrice() * cart.getQuantity()%></span></li>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="fromTime">Từ</label>
+                                                <input type="time" class="form-control" id="fromTime" name="fromTime" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="toTime">Đến</label>
+                                                <input type="time" class="form-control" id="toTime" name="toTime" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="deliveryDate">Ngày</label>
+                                                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
+                                            </div>
+                                        </div>
+                                        <div id="timeWarning" class="alert alert-danger" style="display:none;">
+                                            Ngoài thời gian làm việc (6:00 AM - 8:00 PM). Làm ơn chọn lại.
+                                        </div>
+                                        <div id="dateWarning" class="alert alert-danger" style="display:none;">
+                                            Không được chọn ngày ở quá khứ
+                                        </div>
+                                    </div>
+                                </c:if>
+
+                            </div
+
+
+
+                            <div class="col-lg-2" style="height: 60% ; margin-left: 20px">
+                                <div class="checkout__order">
+                                    <h5>Đơn hàng của bạn</h5>
+                                    <div class="checkout__order__product">
+                                        <ul>
+                                            <li>
+                                                <span class="top__text">Sản phẩm </span>
+                                                <span class="top__text__right">Tổng</span>
+                                            </li>
+
                                             <%
+                                                List<Cart> listCart = (List<Cart>) request.getAttribute("listCart");
+                                                // lấy giá trị đơn hàng và số tiền giảm ở bên shop_cart
+                                                // annp them
+                                                double cartTotal = Double.parseDouble(request.getParameter("total"));
+                                                double cartDiscount = Double.parseDouble(request.getParameter("discount"));
+                                                if (listCart != null && !listCart.isEmpty()) {
+                                                    ProductDAO daoProduct = new ProductDAO();
+                                                    for (Cart cart : listCart) {
+                                                        Product pro = daoProduct.getProductById(cart.getProductId());
+                                                        if (pro != null) {
+
+                                            %>
+                                            <li><%= pro.getProductName()%> <span><%= pro.getPrice() * cart.getQuantity()%></span></li>
+                                                <%
+                                                        }
                                                     }
-                                                }
-                                            } else {
-                                            %>
-                                        <li>No Product</span></li>
-                                            <%
-                                                }
-                                            %>
-                                    </ul>
-                                </div>
-                                <div class="checkout__order__total">
-                                    <ul>
-                                        <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount)%></span></li>
-                                        <li>Giảm giá <span><%= String.format("%.2f", cartDiscount)%></span></li>
-                                        <li>Tổng tiền <span><%= String.format("%.2f", cartTotal)%></span></li>
+                                                } else {
+                                                %>
+                                            <li>No Product</span></li>
+                                                <%
+                                                    }
+                                                %>
+                                        </ul>
+                                    </div>
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount)%></span></li>
+                                            <li>Giảm giá <span><%= String.format("%.2f", cartDiscount)%></span></li>
+                                            <li>Tổng tiền <span><%= String.format("%.2f", cartTotal)%></span></li>
 
-                                    </ul>
-                                </div>
-                                <div class="checkout__order__widget">
-                                    <label for="check-payment-1">
-                                        COD
-                                        <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
-                                        <span class="checkmark"></span>
-                                    </label>
+                                        </ul>
+                                    </div>
+                                    <div class="checkout__order__widget">
+                                        <label for="check-payment-1">
+                                            COD
+                                            <input type="checkbox" id="check-payment-1" class="paymentMethod" name="paymentMethod" value="1">
+                                            <span class="checkmark"></span>
+                                        </label>
 
-                                    <label for="check-payment-2">
-                                        VNPay
-                                        <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
-                                        <span class="checkmark"></span>
-                                        <input type="hidden" name="total_cost" value="<%= cartTotal%>"/>
-                                    </label>
-                                </div>
+                                        <label for="check-payment-2">
+                                            VNPay
+                                            <input type="checkbox" id="check-payment-2" class="paymentMethod" name="paymentMethod" value="2">
+                                            <span class="checkmark"></span>
+                                            <input type="hidden" name="total_cost" value="<%= cartTotal%>"/>
+                                        </label>
+                                    </div>
 
-                                <input type="hidden" id="selectedQuan" name="selectedQuan">
-                                <input type="hidden" id="selectedPhuong" name="selectedPhuong">
-                                <input type="hidden" name="couponCode" id="appliedCouponCode" value="">
-                                <button type="submit" class="btn btn-success">Mua Hàng</button>
+                                    <input type="hidden" id="selectedQuan" name="selectedQuan">
+                                    <input type="hidden" id="selectedPhuong" name="selectedPhuong">
+                                    <input type="hidden" name="couponCode" id="appliedCouponCode" value="">
+                                    <button type="submit" class="btn btn-success">Mua Hàng</button>
+                                </div>
                             </div>
                         </div>
 

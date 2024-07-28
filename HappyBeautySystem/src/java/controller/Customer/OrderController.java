@@ -176,7 +176,7 @@ public class OrderController extends HttpServlet {
                                 session.setAttribute("Point", points);
 
                             }
-                            response.sendRedirect("home");
+                            response.sendRedirect("/HappyBeautySystem/ManagerOrder?service=managerOrder&option=1");
                             return;
                         }
 
