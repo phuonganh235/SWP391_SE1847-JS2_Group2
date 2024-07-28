@@ -53,12 +53,11 @@
                             <div class="blog__details__item">
                                 <img src="<c:url value='${news.imgUrl}' />" alt="News Image">
                                 <div class="blog__details__item__title">
-                                    <span class="tip">Street style</span>
+                                    <span class="tip">Làm đẹp</span>
                                     <h4><c:out value="${news.title}" /></h4>
                                     <ul>
                                         <li><fmt:formatDate value="${news.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></li>
                                         <!-- You can adjust or remove this as per your news model -->
-                                        <li>39 Comments</li>
                                     </ul>
                                 </div>
                             </div>
@@ -66,12 +65,12 @@
                                 <p><c:out value="${news.content}" /></p>
                                 <!-- Display other attributes as needed -->
                             </div>
-                            <div class="blog__details__tags">
+<!--                            <div class="blog__details__tags">
                                 <a href="#">Fashion</a>
                                 <a href="#">Street style</a>
                                 <a href="#">Diversity</a>
                                 <a href="#">Beauty</a>
-                            </div>
+                            </div>-->
                             <div class="blog__details__btns">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -86,7 +85,7 @@
                                     </div>
                                 </div>
                             </div>   
-                            <div class="blog__details__comment">
+<!--                            <div class="blog__details__comment">
                                 <h5>3 Comment</h5>
                                 <a href="#" class="leave-btn">Leave a comment</a>
                                 <div class="blog__comment__item">
@@ -134,10 +133,10 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4">
+<!--                    <div class="col-lg-4 col-md-4">
                         <div class="blog__sidebar">
                             <div class="blog__sidebar__item">
                                 <div class="section-title">
@@ -193,7 +192,7 @@
                                     <a href="#">Diversity</a>
                                     <a href="#">Beauty</a>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

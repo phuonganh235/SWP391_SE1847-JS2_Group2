@@ -47,8 +47,8 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="login">Login</a>
-                <a href="register">Register</a>
+                <a href="login">Đăng nhập</a>
+                <a href="register">Đăng ký</a>
             </div>
         </div>
         <!-- Offcanvas Menu End -->
@@ -87,10 +87,6 @@
                                         <h6><a href="newsdetail?service=viewNewsDetail&newsID=${news.newsId}">${news.title}</a></h6>
                                         <ul>
                                             <li>${news.createTime}</li>
-                                            <li>Category: ${news.categoryID}</li>
-                                            <li>Updated: ${news.updateTime}</li>
-                                            <li>Active: ${news.isActive}</li>
-                                            <li>Confirmed: ${news.isConfirm}</li>
                                         </ul>
                                         <p>${news.content}</p>
                                     </div>

@@ -30,6 +30,18 @@ public class News {
     public News() {
     }
 
+    public News(int newsId, String title, String content, Timestamp createTime, String imgUrl, boolean isConfirm, int userID, boolean isActive, Timestamp updateTime) {
+        this.newsId = newsId;
+        this.title = title;
+        this.content = content;
+        this.createTime = createTime;
+        this.imgUrl = imgUrl;
+        this.isConfirm = isConfirm;
+        this.userID = userID;
+        this.isActive = isActive;
+        this.updateTime = updateTime;
+    }
+
     public News(int newsId, String title, String content, Timestamp createTime, String imgUrl, boolean isConfirm, int userID, boolean isActive, Timestamp updateTime, int categoryID) {
         this.newsId = newsId;
         this.title = title;
