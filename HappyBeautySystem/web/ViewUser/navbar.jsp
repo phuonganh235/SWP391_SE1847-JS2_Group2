@@ -244,10 +244,10 @@
                                                 <span class="font-weight-bold">${sessionScope.inforUserLogin.name}</span>
                                                 <span class="text-black-50">${sessionScope.inforUserLogin.email}</span>
                                             </div>
-<!--                                            <div class="user-profile-points">
-                                                <span class="points-label">Điểm tích lũy mua hàng:</span>
-                                                <span class="points-value">${sessionScope.Point}</span>
-                                            </div>-->
+                                            <!--                                            <div class="user-profile-points">
+                                                                                            <span class="points-label">Điểm tích lũy mua hàng:</span>
+                                                                                            <span class="points-value">${sessionScope.Point}</span>
+                                                                                        </div>-->
                                         </div>
                                         <div class="col-md-8">
                                             <div class="p-3 py-5">
@@ -279,8 +279,42 @@
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
                                                             <label class="labels font-weight-bold" style="font-size: 20px;">Ảnh đại diện</label>
-                                                            <input type="file" class="form-control" name="avatar" placeholder="Avatar" value="${sessionScope.inforUserLogin.image}">
+                                                            <input type="file" class="form-control" name="avatar" placeholder="Avatar" onchange="loadImg(this, event)" required>
+                                                            <span id="updatePathImageError" style="color: red;"></span>
+                                                            <img src="${sessionScope.inforUserLogin.image}" alt="lỗi ảnh" class="loadImage" />
                                                         </div>
+
+                                                        <script>
+                                                            function loadImg(input, event) {
+                                                                var file = input.files[0];
+                                                                var pathImageError = document.getElementById('updatePathImageError');
+                                                                var loadImage = document.querySelector('.loadImage');
+
+                                                                if (file) {
+                                                                    var fileName = file.name;
+                                                                    var fileExtension = fileName.split('.').pop().toLowerCase();
+
+                                                                    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                                                                        var reader = new FileReader();
+
+                                                                        reader.onload = function (e) {
+                                                                            loadImage.src = e.target.result;
+                                                                        }
+
+                                                                        reader.readAsDataURL(file);
+                                                                        pathImageError.textContent = ''; // Clear error message if file is valid
+                                                                    } else {
+                                                                        pathImageError.textContent = 'Chỉ được tải lên các tệp hình ảnh (jpg, jpeg, png, gif).';
+                                                                        input.value = ''; // Clear the input value to prevent form submission with invalid file
+                                                                        loadImage.src = ''; // Clear the image preview
+                                                                    }
+                                                                } else {
+                                                                    pathImageError.textContent = 'Vui lòng chọn một tệp hình ảnh.';
+                                                                    loadImage.src = ''; // Clear the image preview
+                                                                }
+                                                            }
+                                                        </script>
+
                                                         <div class="col-md-6">
                                                             <label for="birth" class="labels font-weight-bold" style="font-size: 20px;">Ngày sinh</label>
                                                             <input type="date" class="form-control" id="birth" name="birth" placeholder="Birth" value="${sessionScope.inforUserLogin.dateofbirth}">
@@ -349,7 +383,7 @@
                     </div>
                 </div>
             </div>
-  <!-- form booking -->
+            <!-- form booking -->
             <div class="modal fade" role="dialog" id="bookingModal">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content" style="border-radius: 10px; margin-bottom: 30px">

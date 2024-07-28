@@ -252,12 +252,43 @@
 
                                         <div class="mb-3">
                                             <label for="pathImage" class="form-label">Ảnh</label>
-
-                                            <input type="file" class="form-control" id="pathImage" name="pathImage" onchange="loadImg(this, event)" required>
+                                            <input type="file" class="form-control" id="pathImage" name="pathImage" onchange="loadImg1(this, event)" required>
                                             <span id="pathImageError" style="color: red;"></span>
-                                            <img src=""  alt="lỗi ảnh" class="loadImage"/> 
+                                            <img src="" alt="lỗi ảnh" class="loadImage"/> 
                                             <input type="hidden" name="srcImg" class="srcImg"/>
                                         </div>
+
+                                        <script>
+                                            function loadImg1(input, event) {
+                                                var file = input.files[0];
+                                                var pathImageError = document.getElementById('pathImageError');
+                                                var loadImage = document.querySelector('.loadImage');
+
+                                                if (file) {
+                                                    var fileName = file.name;
+                                                    var fileExtension = fileName.split('.').pop().toLowerCase();
+
+                                                    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                                                        var reader = new FileReader();
+
+                                                        reader.onload = function (e) {
+                                                            loadImage.src = e.target.result;
+                                                        }
+
+                                                        reader.readAsDataURL(file);
+                                                        pathImageError.textContent = ''; // Clear error message if file is valid
+                                                    } else {
+                                                        pathImageError.textContent = 'Chỉ được tải lên các tệp hình ảnh (jpg, jpeg, png, gif).';
+                                                        input.value = ''; // Clear the input value to prevent form submission with invalid file
+                                                        loadImage.src = ''; // Clear the image preview
+                                                    }
+                                                } else {
+                                                    pathImageError.textContent = 'Vui lòng chọn một tệp hình ảnh.';
+                                                    loadImage.src = ''; // Clear the image preview
+                                                }
+                                            }
+                                        </script>
+
 
                                         <button type="submit" class="btn btn-primary">Lưu</button>
                                     </form>
@@ -345,10 +376,42 @@
                                         <div class="mb-3">
                                             <label for="updatePathImage" class="form-label">Ảnh</label>
                                             <img src="${product.pathImage}" alt="Lỗi ảnh" class="loadImage"/>
-                                            <input type="file" class="form-control" onchange="loadImg(this, event)">
+                                            <input type="file" class="form-control" onchange="loadImgupdate(this, event)">
                                             <span id="updatePathImageError" style="color: red;"></span>
                                             <input type="hidden" name="pathImage" class="srcImg" value="${product.pathImage}"/>
                                         </div>
+                                        
+                                                                                <script>
+                                            function loadImgupdate(input, event) {
+                                                var file = input.files[0];
+                                                var pathImageError = document.getElementById('updatePathImageError');
+                                                var loadImage = document.querySelector('.loadImage');
+
+                                                if (file) {
+                                                    var fileName = file.name;
+                                                    var fileExtension = fileName.split('.').pop().toLowerCase();
+
+                                                    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                                                        var reader = new FileReader();
+
+                                                        reader.onload = function (e) {
+                                                            loadImage.src = e.target.result;
+                                                        }
+
+                                                        reader.readAsDataURL(file);
+                                                        pathImageError.textContent = ''; // Clear error message if file is valid
+                                                    } else {
+                                                        pathImageError.textContent = 'Chỉ được tải lên các tệp hình ảnh (jpg, jpeg, png, gif).';
+                                                        input.value = ''; // Clear the input value to prevent form submission with invalid file
+                                                        loadImage.src = ''; // Clear the image preview
+                                                    }
+                                                } else {
+                                                    pathImageError.textContent = 'Vui lòng chọn một tệp hình ảnh.';
+                                                    loadImage.src = ''; // Clear the image preview
+                                                }
+                                            }
+                                        </script>
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <input type="submit" class="btn btn-success" value="Cập nhật">
@@ -524,7 +587,7 @@
                     document.getElementById("companyNameError").innerHTML = "";
                 }
             };
-            
+
         });
 
 
@@ -571,7 +634,7 @@
                 document.getElementById("companyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách và không được để trống.";
                 isValid = false;
             }
-            
+
 
             return isValid;
         }
@@ -584,7 +647,7 @@
                 var longDes = document.getElementById("updateLongDes").value;
                 var addDes = document.getElementById("updateAddDes").value;
                 var companyName = document.getElementById("updateCompanyName").value;
-                
+
 
                 name = name.trim().replace(/\s+/g, ' ');
                 document.getElementById("updateProductName").value = name;
@@ -609,7 +672,7 @@
                     document.getElementById("updateCompanyNameError").innerHTML = "Tên công ty không được bắt đầu bằng dấu cách và không được để trống.";
                     isValid = false;
                 }
-                
+
 
                 return isValid;
             }
@@ -697,7 +760,7 @@
                     document.getElementById("updateCompanyNameError").innerHTML = "";
                 }
             };
-            
+
         });
 
     </script>

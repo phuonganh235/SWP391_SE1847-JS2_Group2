@@ -29,8 +29,8 @@ public class ConfigVNpay {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_ReturnUrl = "http://localhost:9999/HappyBeautySystem/OrderController?service=vnpay_return";
     public static Map<String,Integer> transaction = new HashMap<>();
-    public static String vnp_TmnCode = "TNVPM89B";
-    public static String secretKey = "15F8J0K8W53WB0LSQ4PJTE2RX27R0UA6";
+    public static String vnp_TmnCode = "53MPDJN9";
+    public static String secretKey = "OERHL7WJID82XNYUYPXMCSA7CG15PLI1";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
     public static String md5(String message) throws NoSuchAlgorithmException {

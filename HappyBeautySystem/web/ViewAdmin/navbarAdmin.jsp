@@ -52,7 +52,7 @@
                 <span class="d-none d-lg-inline-flex">${sessionScope.inforUserLogin.getName()}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                <a href="logout" class="dropdown-item">Đăng xuất</a>
+                <a href="/HappyBeautySystem/logoutForShipper" class="dropdown-item">Đăng xuất</a>
             </div>
         </div>
     </div>
