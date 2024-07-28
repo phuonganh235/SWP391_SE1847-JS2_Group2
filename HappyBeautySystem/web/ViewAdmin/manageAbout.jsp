@@ -134,7 +134,8 @@
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>
                                                 </form>
-                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}"><i class="fas fa-trash-alt"></i></a>
+                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}" onclick="confirmDelete(${about.aboutId})"><i class="fas fa-trash-alt"></i></a>
+
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -346,6 +347,11 @@
                     document.getElementById("contentUpdateError").innerHTML = "";
                 }
             };
+            function confirmDelete(id) {
+                if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+                    window.location.href = `manageabout?service=delete&id=${id}`;
+                }
+            }
         </script>
 
         <script>

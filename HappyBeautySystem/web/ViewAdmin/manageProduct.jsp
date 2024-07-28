@@ -277,6 +277,7 @@
                                         <h4 class="modal-title">Cập nhật sản phẩm</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
+                                    <c:set value="${requestScope.product}" var="product"/>
                                     <div class="modal-body">
                                         <input type="hidden" id="productId" name="productId" value="${product.productId}" readonly>
                                         <div class="mb-3">

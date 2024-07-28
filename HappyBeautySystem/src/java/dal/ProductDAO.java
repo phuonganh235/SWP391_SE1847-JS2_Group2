@@ -179,7 +179,7 @@ public class ProductDAO extends DBContext {
     public Product getProductById(int productId) {
         Product product = null;
         String sql = "Select * from Product p inner join Category c on p.CategoryId = c.CategoryId "
-                + "WHERE p.ProductId = ? and c.isActive = 1 and p.isActive = 1";
+                + "WHERE p.ProductId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, productId);
