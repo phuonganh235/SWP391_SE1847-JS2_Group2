@@ -45,27 +45,27 @@
                 width: 10px;
                 border-radius: 50%;
             }
-            #consultationTable {
+            #consultationTable3 {
                 width: 100% !important;
                 margin-bottom: 1rem;
                 color: #212529;
                 border-collapse: collapse;
             }
-            #consultationTable th,
-            #consultationTable td {
+            #consultationTable3 th,
+            #consultationTable3 td {
                 padding: 0.75rem;
                 vertical-align: top;
                 border-top: 1px solid #dee2e6;
             }
-            #consultationTable thead th {
+            #consultationTable3 thead th {
                 vertical-align: bottom;
                 border-bottom: 2px solid #dee2e6;
                 background-color: #f8f9fa;
             }
-            #consultationTable tbody tr:nth-of-type(odd) {
+            #consultationTable3 tbody tr:nth-of-type(odd) {
                 background-color: rgba(0, 0, 0, 0.05);
             }
-            #consultationTable tbody tr:hover {
+            #consultationTable3 tbody tr:hover {
                 background-color: rgba(0, 0, 0, 0.075);
             }
             .dataTables_wrapper .dataTables_paginate .paginate_button {

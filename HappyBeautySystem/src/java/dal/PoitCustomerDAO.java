@@ -13,7 +13,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to check if a UserID exists
     public boolean checkUserIDExists(int userID) {
-        String sql = "SELECT COUNT(*) FROM poitCustomer WHERE UserID = ?";
+        String sql = "SELECT COUNT(*) FROM poitCustomer WHERE UserId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userID);
@@ -29,7 +29,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to add a new poitCustomer
     public boolean addPoitCustomer(int userID, int point) {
-        String sql = "INSERT INTO poitCustomer (UserID, Ponit) VALUES (?, ?)";
+        String sql = "INSERT INTO poitCustomer (UserId, Point) VALUES (?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userID);
@@ -43,7 +43,7 @@ public class PoitCustomerDAO extends DBContext {
 
     // Method to update point for an existing UserID
     public boolean updatePoitCustomer(int userID, int point) {
-        String sql = "UPDATE poitCustomer SET Ponit = Ponit + ? WHERE UserID = ?";
+        String sql = "UPDATE poitCustomer SET Point = Point + ? WHERE UserId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, point);
@@ -66,13 +66,13 @@ public class PoitCustomerDAO extends DBContext {
 
     public int getCustomerPoints(int userId) {
         int points = 0;
-        String sql = "SELECT Ponit FROM poitCustomer WHERE UserId = ?";
+        String sql = "SELECT Point FROM [dbo].[PoitCustomer] WHERE UserId = ?";
         try (PreparedStatement pre = connection.prepareStatement(sql)) {
             pre.setInt(1, userId);
             ResultSet rs = pre.executeQuery();
 
             if (rs.next()) {
-                points = rs.getInt("Ponit");
+                points = rs.getInt("Point");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class PoitCustomerDAO extends DBContext {
 
     public void subtractPoints(int userId, int points) {
 
-        String sql = "UPDATE [dbo].[PoitCustomer] SET Ponit = Ponit - ? WHERE UserId = ?";
+        String sql = "UPDATE [dbo].[PoitCustomer] SET Point = Point - ? WHERE UserId = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, points);
             st.setInt(2, userId);
@@ -97,8 +97,8 @@ public class PoitCustomerDAO extends DBContext {
         PoitCustomerDAO dao = new PoitCustomerDAO();
        
         int userId = 16; 
-        int pointsToSubtract = 50; 
-         dao.subtractPoints(userId, pointsToSubtract);
+      int point =  dao.getCustomerPoints(userId);
+        System.out.println("poiint" + point);
        
     }
 }

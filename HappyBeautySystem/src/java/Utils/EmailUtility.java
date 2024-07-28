@@ -22,8 +22,8 @@ public class EmailUtility {
 
     public static void sendEmail(String recipientEmail, String subject, String message) throws Exception {
 
-        final String username = "annphe173268@fpt.edu.vn";
-        final String appPassword = "upfr spxe rhvr osqt";
+        final String username = "anhptphe170125@fpt.edu.vn";
+        final String appPassword = "eajp ikhz sqcw jxrc";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

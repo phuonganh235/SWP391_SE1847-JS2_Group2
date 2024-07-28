@@ -244,10 +244,10 @@
                                                 <span class="font-weight-bold">${sessionScope.inforUserLogin.name}</span>
                                                 <span class="text-black-50">${sessionScope.inforUserLogin.email}</span>
                                             </div>
-                                            <div class="user-profile-points">
+<!--                                            <div class="user-profile-points">
                                                 <span class="points-label">Điểm tích lũy mua hàng:</span>
                                                 <span class="points-value">${sessionScope.Point}</span>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="col-md-8">
                                             <div class="p-3 py-5">

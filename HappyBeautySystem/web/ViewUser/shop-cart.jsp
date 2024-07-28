@@ -234,8 +234,12 @@
 
                         <div class="user-profile-points">
                             <span class="points-label">Điểm tích lũy mua hàng:</span>
-                            <span class="points-value">${sessionScope.Point}</span>
+                            <span class="points-value">${requestScope.point}</span>
                         </div>
+                        <div style="padding-top: 30px">
+                            Với 100000đ bạn được 5 điểm tích lũy
+                        </div>
+                        
                     </div>
 
                     <div class="col-lg-4 offset-lg-2">

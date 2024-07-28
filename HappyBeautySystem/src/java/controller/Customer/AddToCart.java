@@ -2,6 +2,7 @@ package controller.Customer;
 
 import common.CommonDAO;
 import dal.CartDAO;
+import dal.PoitCustomerDAO;
 
 import dal.ProductDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -28,6 +29,7 @@ public class AddToCart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
+                PoitCustomerDAO pointDao = new PoitCustomerDAO();
         ProductDAO daoProduct = new ProductDAO();
         CommonDAO commonDAO = new CommonDAO();
         CartDAO cart = new CartDAO();
@@ -118,7 +120,10 @@ public class AddToCart extends HttpServlet {
                 //chek login
                 int userId = inforUser.getUserId();
                 List<Cart> listCart = cart.getAllCartsByUserId(userId);
+                int points = pointDao.getCustomerPoints(inforUser.getUserId());
+                
                 request.setAttribute("listCart", listCart);
+                request.setAttribute("point", points);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/shop-cart.jsp");
                 dispatcher.forward(request, response);
 

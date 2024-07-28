@@ -187,8 +187,8 @@
                                 <div id="descriptionError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="discountAmount" class="form-label">Giá trị</label>
-                                <input type="number" class="form-control" id="discountAmount" name="discountAmount" min="0" required>
+                                <label for="discountAmount" class="form-label">Giá trị(%)</label>
+                                <input type="number" class="form-control" id="discountAmount" name="discountAmount" min="0"  max="100" required>
                                 <div id="discountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
@@ -240,8 +240,8 @@
                                 <div id="updateDescriptionError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="updateDiscountAmount" class="form-label">Giá trị</label>
-                                <input type="number" class="form-control" id="updateDiscountAmount" name="discountAmount" value="${couponUpdate.discountAmount}" min="0" required>
+                                <label for="updateDiscountAmount" class="form-label">Giá trị(%)</label>
+                                <input type="number" min="0" max="100" class="form-control" id="updateDiscountAmount" name="discountAmount" value="${couponUpdate.discountAmount}"  required>
                                 <div id="updateDiscountAmountError" class="form-text text-danger fst-italic"></div>
                             </div>
                             <div class="mb-3">
