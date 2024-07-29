@@ -157,12 +157,35 @@ public class FeedbackDAO extends DBContext {
         return 0.0;
     }
 
+    // Retrieves feedback by star rating from the Feedback table in the database
+    public ArrayList<Feedback> getFeedbackByStar(int star) {
+        ArrayList<Feedback> feedbackList = new ArrayList<>();
+        String sql = "SELECT * FROM Feedback WHERE rating = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, star);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Feedback feedback = new Feedback();
+                feedback.setFeedbackId(rs.getInt("feedback_id"));
+                feedback.setProductId(rs.getInt("product_id"));
+                feedback.setUserId(rs.getInt("user_id"));
+                feedback.setRating(rs.getInt("rating"));
+                feedback.setComment(rs.getString("comment"));
+                feedback.setCreatedAt(rs.getString("created_at"));
+                feedbackList.add(feedback);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return feedbackList;
+    }
+    
     // Main method for testing
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
-        dao.addFeedback2(new Feedback(2, 1, 16, 5,
-                "This product is very good bro. I love it552", "2-2-2024"));
-        ArrayList<Feedback> fb = dao.getAllFeedbacks();
+        
+        ArrayList<Feedback> fb = dao.getFeedbackByStar(5);
         for (Feedback feedback : fb) {
             System.out.println(feedback);
         }

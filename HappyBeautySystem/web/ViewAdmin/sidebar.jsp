@@ -164,6 +164,9 @@
                         <a href="managercategory" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Danh mục
                         </a>
+                        <a href="managefeedback" class="nav-item nav-link">
+                            <i class="fa fa-th me-2"></i>Phản hồi
+                        </a>
                         
                         <a href="managenews" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Bài viết

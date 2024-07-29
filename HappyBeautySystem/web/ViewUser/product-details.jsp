@@ -369,7 +369,8 @@
                                                 <div class="blog__comment__item__text">
                                                     <c:forEach items="${user}" var="user">
                                                         <c:if test="${feedback.userId == user.userId}">
-                                                            <h6>${user.name}</h6>
+                                                            <h6 style="display: inline;">${user.name}</h6><h6 style="display: inline; color: #ddb100; font-weight: bold; font-size: 14px;">(${feedback.rating}<i class="fa fa-star"></i>)</h6>
+
                                                         </c:if>
                                                     </c:forEach>    
                                                     <p>${feedback.comment}</p>

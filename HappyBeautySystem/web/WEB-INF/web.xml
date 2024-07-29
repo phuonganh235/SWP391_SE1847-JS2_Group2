@@ -96,6 +96,10 @@
         <servlet-name>changePasswordSucess</servlet-name>
         <servlet-class>common.changePasswordSucess</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>manageFeedback</servlet-name>
+        <servlet-class>controller.Manager.manageFeedback</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -187,5 +191,9 @@
     <servlet-mapping>
         <servlet-name>changePasswordSucess</servlet-name>
         <url-pattern>/changePasswordSucess</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageFeedback</servlet-name>
+        <url-pattern>/managefeedback</url-pattern>
     </servlet-mapping>
 </web-app>
