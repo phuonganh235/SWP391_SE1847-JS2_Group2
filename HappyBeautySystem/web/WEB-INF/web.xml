@@ -100,6 +100,18 @@
         <servlet-name>manageFeedback</servlet-name>
         <servlet-class>controller.Manager.manageFeedback</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Promotions</servlet-name>
+        <servlet-class>common.Promotions</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>managePromotion</servlet-name>
+        <servlet-class>controller.Manager.managePromotion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageRole</servlet-name>
+        <servlet-class>controller.Manager.manageRole</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -195,5 +207,17 @@
     <servlet-mapping>
         <servlet-name>manageFeedback</servlet-name>
         <url-pattern>/managefeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Promotions</servlet-name>
+        <url-pattern>/promotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>managePromotion</servlet-name>
+        <url-pattern>/managepromotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageRole</servlet-name>
+        <url-pattern>/manageRole</url-pattern>
     </servlet-mapping>
 </web-app>

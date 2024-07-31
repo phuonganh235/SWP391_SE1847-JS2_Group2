@@ -14,7 +14,7 @@
 }
 .header__logo img {
     max-height: 80px; /* Giảm chiều cao của logo */
-    margin-left: 120px;
+    margin-left: 0px;/* căn trái
 }
 .header__menu ul {
     list-style: none;
@@ -79,10 +79,10 @@
 .header__right__widget {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 0px;
 }
 .header__right__widget li {
-    margin-left: 10px;
+    margin-left: 0px;
 }
 .header__right__widget li a {
     text-decoration: none;

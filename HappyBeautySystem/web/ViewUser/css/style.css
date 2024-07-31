@@ -433,8 +433,8 @@ ol {
 }
 
 .header__right__auth a {
-	font-size: 12px;
-	color: #666666;
+	font-size: 16px;
+	color: black;
 	position: relative;
 	margin-right: 8px;
 }

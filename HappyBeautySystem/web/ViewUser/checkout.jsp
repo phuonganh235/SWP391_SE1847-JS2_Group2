@@ -225,6 +225,7 @@
                                                 // annp them
                                                 double cartTotal = Double.parseDouble(request.getParameter("total"));
                                                 double cartDiscount = Double.parseDouble(request.getParameter("discount"));
+                                                double cartPromotion = Double.parseDouble(request.getParameter("promotion"));
                                                 if (listCart != null && !listCart.isEmpty()) {
                                                     ProductDAO daoProduct = new ProductDAO();
                                                     for (Cart cart : listCart) {
@@ -246,7 +247,8 @@
                                     </div>
                                     <div class="checkout__order__total">
                                         <ul>
-                                            <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount)%></span></li>
+                                            <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount + cartPromotion)%></span></li>
+                                            <li>Khuyến mãi <span><%= String.format("%.2f", cartPromotion)%></span></li>
                                             <li>Giảm giá <span><%= String.format("%.2f", cartDiscount)%></span></li>
                                             <li>Tổng tiền <span><%= String.format("%.2f", cartTotal)%></span></li>
 

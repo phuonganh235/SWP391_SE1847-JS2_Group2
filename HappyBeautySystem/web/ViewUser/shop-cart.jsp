@@ -1,8 +1,12 @@
+<%@page import="com.google.gson.Gson"%>
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Cart"%>
 <%@page import="model.ProductCart"%>
+<%@page import="dal.PromotionDAO"%>
+<%@page import="model.Promotions"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -54,6 +58,25 @@
                 color: #343a40;
                 font-weight: bold;
             }
+            @keyframes blink {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            .points-label-promotion {
+                animation: blink 1.5s infinite;
+                color: #ff0000; /* Example color, change as needed */
+                text-decoration: none; /* Remove underline */
+                font-weight: bold; /* Make text bold */
+            }
+
         </style>
 
     </head>
@@ -111,7 +134,7 @@
                                         <%
                                             // Kiểm tra nếu quantity nhỏ hơn 1 thì không hiển thị checkbox
                                             if (hh >= 1) { // Nếu quantity lớn hơn hoặc bằng 1
-%>
+                                        %>
                                         <td>
                                             <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.0f", subtotal)%>"
                                                    onclick="updateTotal()">
@@ -125,7 +148,7 @@
                                         </td>
                                         <%
                                             } // Kết thúc kiểm tra điều kiện
-%>
+                                        %>
 
                                         <td class="cart__product__item">
                                             <a
@@ -139,7 +162,7 @@
 
                                             </div>
                                         </td>
-                                       <td class="cart__price" id="field-price-<%= pro.getProductId()%>"><%= pro.getPrice()%></td>
+                                        <td class="cart__price" id="field-price-<%= pro.getProductId()%>"><%= pro.getPrice()%></td>
 
                                 <script>
                                     (function () {
@@ -170,8 +193,8 @@
                                 <td class="cart__price sub_total" data-price="<%= String.format("%.0f", subtotal)%>"
                                     id="subtotal-<%= cart.getCartId()%>"><%= String.format("%.0f", subtotal)%></td>
                                 <td class="cart__close">
-                                    
-                                    
+
+
                                     <a
                                         href="AddToCart?service=deleteCart&productId=<%= cart.getProductId()%>&userId=<%= cart.getUserId()%>">
                                         <span class="icon_close"></span>
@@ -231,7 +254,14 @@
 
                             <p id="pointMessage"></p>
                         </div>
-
+                        <%
+                            PromotionDAO promotionDAO = new PromotionDAO();
+                            List<Promotions> activePromotions = promotionDAO.getActivePromotion();
+                            int promotioncount = promotionDAO.countPromotion();
+                        %>
+                        <div class="user-profile-points">
+                            <a href="promotion" class="points-label-promotion">Chương trình khuyến mãi (<%=  promotioncount%>)</a>
+                        </div>
                         <div class="user-profile-points">
                             <span class="points-label">Điểm tích lũy mua hàng:</span>
                             <span class="points-value">${requestScope.point}</span>
@@ -239,7 +269,7 @@
                         <div style="padding-top: 30px">
                             Với 100000đ bạn được 5 điểm tích lũy
                         </div>
-                        
+
                     </div>
 
                     <div class="col-lg-4 offset-lg-2">
@@ -247,6 +277,7 @@
                             <h6>Thông tin mua hàng</h6>
                             <ul>
                                 <li>Tạm tính  <span id="originalTotal"><%= String.format("%.0f", granTotal)%></span></li>
+                                <li>Khuyến mãi <span id="promotion">0.00</span></li>
                                 <li>Giảm giá <span id="discountAmount">0.00</span></li>
                                 <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.0f", granTotal)%></span></li>
                             </ul>
@@ -255,63 +286,6 @@
                 </div>
         </section>
         <!-- Shop Cart Section End -->
-
-        <!-- Instagram Begin -->
-        <div class="instagram">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                        <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                            <div class="instagram__text">
-                                <i class="fa fa-instagram"></i>
-                                <a href="#">@ ashion_shop</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Instagram End -->
 
         <!-- Footer Section Begin -->
         <jsp:include page="footer.jsp"/>
@@ -350,6 +324,11 @@
                                 })();
         </script>
         <script>
+            // Define the condition and promotion amount
+//            const promotionCondition = 100000; // example condition, change as needed
+//            const promotionAmount = 30000; // example promotion amount, change as needed
+            //// Chuyển danh sách khuyến mãi thành JSON
+            var promotions = <%= new Gson().toJson(activePromotions)%>;
             // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
             let listProcductIdChoose = [];
             function updateTotal() {
@@ -365,16 +344,31 @@
                 // Apply discount
                 // Tính tổng giảm giá (từ mã giảm giá và điểm quy đổi)
                 var discountAmount = total * (currentDiscount + currentPointDiscount);
+                // Apply promotion if condition is met
+//                var promotion = 0;
+//                if (total > promotionCondition) {
+//                    promotion = promotionAmount;
+//                }
+                // Apply promotion if conditions are met
+                var promotionAmount = 0;
+                promotions.forEach(function (promotion) {
+                    if (total >= promotion.condition) {
+                        promotionAmount = Math.max(promotionAmount, promotion.discountAmount);
+                    }
+                });
                 // Đảm bảo tổng giảm giá không vượt quá tổng tiền
                 discountAmount = Math.min(discountAmount, total);
-                var finalTotal = total - discountAmount;
-                if (finalTotal < 0)
-                    finalTotal = 0; // Ensure total is not negative
 
+                // Calculate final total after applying discounts and promotion
+                var finalTotal = total - discountAmount - promotionAmount;
+                finalTotal = finalTotal < 0 ? 0 : finalTotal; // Ensure total is not negative
+
+                document.getElementById('promotion').innerText = promotionAmount.toFixed(2);
                 document.getElementById('discountAmount').innerText = discountAmount.toFixed(2);
                 document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
                 sessionStorage.setItem('cartTotal', finalTotal.toFixed(2));
                 sessionStorage.setItem('cartDiscount', discountAmount.toFixed(2));
+                sessionStorage.setItem('cartPromotion', promotionAmount.toFixed(2));
             }
 
             document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
@@ -453,7 +447,7 @@
                     // đẩy tổng tiền và số tiền giảm giá sang trang check out note: annp
                     link += '&total=' + sessionStorage.getItem('cartTotal');
                     link += '&discount=' + sessionStorage.getItem('cartDiscount');
-
+                    link += '&promotion=' + sessionStorage.getItem('cartPromotion');
                     link += '&' + params.toString();
                     window.location.href = link;
                 }
@@ -499,7 +493,6 @@
                 });
             }
         </script>
-
 
         <script>
             let appliedPoint = ''; // Biến để lưu diểm đã  áp dụng
