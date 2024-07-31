@@ -335,7 +335,7 @@
                                         <h5>Viết Đánh Giá</h5>
                                         <form action="product?action=productdetail&service=addfeedback&product_id=${ProductData.getProductId()}&product_category=${ProductData.getCateId()}&user_id=${sessionScope.inforUserLogin.userId}" method="POST">
                                             <div class="form-group">
-                                                <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Viết đánh giá của quý khách ở đây..." required></textarea>
+                                                <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Viết đánh giá của quý khách ở đây..." ></textarea>
                                                 <span id="nameError" style="color: red;"></span>
                                             </div>
                                             <div class="form-group">
@@ -378,6 +378,18 @@
                                                         <li><i class="fa fa-clock-o"></i> ${feedback.createdAt}</li>
                                                     </ul>
                                                 </div>
+
+                                            </div>
+                                                    <div class="blog__comment__item__text" style="margin-left: 80px;margin-bottom: 30px">
+                                                <c:forEach items="${repfb}" var="repfb">
+                                                    <c:if test="${repfb.fbId==feedback.feedbackId}">
+                                                        <h6>Phản hồi của cửa hàng</h6>
+                                                        <p>${repfb.comment}</p>
+                                                        <ul>
+                                                            <li><i class="fa fa-clock-o"></i> ${repfb.creatAt}</li>
+                                                        </ul>
+                                                    </c:if>
+                                                </c:forEach>
                                             </div>
                                         </c:forEach>
                                     </div>

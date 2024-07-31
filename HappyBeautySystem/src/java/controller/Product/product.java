@@ -3,6 +3,7 @@ package controller.Product;
 import dal.CategoryDAO;
 import dal.FeedbackDAO;
 import dal.ProductDAO;
+import dal.RepFeedbackDAO;
 import dal.UserDAO;
 import dal.WishListDAO;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import model.ProductImage;
 import model.User;
 
 import model.ProductSize;
+import model.RepFeedback;
 
 public class product extends HttpServlet {
 
@@ -49,7 +51,7 @@ public class product extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-
+        RepFeedbackDAO repDao = new RepFeedbackDAO();
         ProductDAO d = new ProductDAO();
         CategoryDAO c = new CategoryDAO();
         FeedbackDAO f = new FeedbackDAO();
@@ -275,8 +277,10 @@ public class product extends HttpServlet {
                 ArrayList<User> user = u.getUserByProductId(productId);
                 ArrayList<User> user2 = u.getUserByProductId2(productId);
 //            request.setAttribute("user", user);
-                request.setAttribute("user", user2);
 
+                request.setAttribute("user", user2);
+                ArrayList<RepFeedback> repfb = repDao.getAllRepFeedback();
+                request.setAttribute("repfb", repfb);
                 ArrayList<Feedback> feedback = f.getFeedbackByProductId(productId);
                 request.setAttribute("feedback", feedback);
                 //Get avg rating by productId

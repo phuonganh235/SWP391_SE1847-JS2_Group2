@@ -8,10 +8,23 @@ public class Feedback {
     private int rating;
     private String comment;
     private String createdAt;
-
+    private String userName;
+    private String productName;
     public Feedback() {
     }
 
+    public Feedback(int feedbackId, int productId, int userId, int rating, String comment, String createdAt, String userName, String productName) {
+        this.feedbackId = feedbackId;
+        this.productId = productId;
+        this.userId = userId;
+        this.rating = rating;
+        this.comment = comment;
+        this.createdAt = createdAt;
+        this.userName = userName;
+        this.productName = productName;
+    }
+    
+    
     public Feedback(int productId, int userId, int rating, String comment, String createdAt) {
         this.productId = productId;
         this.userId = userId;
@@ -39,6 +52,22 @@ public class Feedback {
 
     public int getProductId() {
         return productId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public void setProductId(int productId) {

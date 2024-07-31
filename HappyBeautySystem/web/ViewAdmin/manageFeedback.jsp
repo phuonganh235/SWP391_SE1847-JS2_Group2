@@ -81,6 +81,19 @@
                 border: 1px solid #ddd;
                 padding: 5px;
             }
+            .review-box {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                padding: 15px;
+                margin-bottom: 15px;
+                background-color: #f8f9fa;
+            }
+            .review-container {
+                display: flex;
+                justify-content: space-between;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
         </style>
     </head>
 
@@ -104,6 +117,32 @@
                             <h6 class="mb-0">Quản lý phản hồi</h6>
                             <a href="managefeedback">Show All</a>
                         </div>
+                        <div class="review-container">
+                            <div class="review-box">
+                                <h6>Tổng lượt đánh giá: ${countReview}</h6>
+                            </div>
+                            <div class="review-box">
+                                <h6>Tỉ lệ đánh giá tốt: ${goodReview}%</h6>
+                            </div>
+                            <div class="review-box">
+                                <h6>Đánh giá tiêu cực cần phản hồi: ${badReview}</h6>
+                            </div>
+                        </div>
+
+                        <!-- Filter By Star Form -->
+                        <form action="managefeedback" method="get">
+                            <input type="hidden" name="service" value="filterByStar"/>
+                            <label for="star">Lọc theo sao:</label>
+                            <select name="star" id="star">
+                                <option value="1">1 Sao </option>
+                                <option value="2">2 Sao</option>
+                                <option value="3">3 Sao</option>
+                                <option value="4">4 Sao</option>
+                                <option value="5">5 Sao</option>
+                            </select>
+                            <button type="submit">Lọc</button>
+                        </form>
+
                         <!-- Load Product -->
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="abouttable">
@@ -111,37 +150,61 @@
                                     <tr class="text-dark">
                                         <th scope="col">ID</th>
                                         <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Người dùng</th>
                                         <th scope="col">Nhận xét</th>
                                         <th scope="col">Độ hài lòng</th>  
                                         <th scope="col">Ngày tạo</th>  
+                                        <th scope="col">Phản hồi</th>  
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach var="feedback" items="${requestScope.feedback}">
                                         <tr>
                                             <td>${feedback.feedbackId}</td>
-                                            <td>${feedback.productId}</td>
+                                            <td>${feedback.productName}</td>
+                                            <td>${feedback.userName}</td>
                                             <td>${feedback.comment}</td>
                                             <td>${feedback.rating}</td>
                                             <td>${feedback.createdAt}</td>
+                                            <td>
 
-<!--                                            <td>
-                                                <a class="btn btn-sm btn-primary" href="manageabout?service=update&id=${about.aboutId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}">Delete</a>
-                                                <form action="manageabout?service=update" method="post" style="display: inline;">
-                                                    <input type="hidden" name="id" value="${about.aboutId}"/>
-                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
-                                                        <i class="fas fa-user-edit"></i>
+                                                <form action="managefeedback?service=add&feedbackId=${feedback.feedbackId}" method="post" style="display: inline;">
+                                                    <input type="hidden" name="feedbackId" value="${feedback.feedbackId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary"  data-bs-target="#updateCategoryModal">
+                                                        Trả lời
                                                     </button>
                                                 </form>
-                                                <a class="btn btn-sm btn-danger" href="manageabout?service=delete&id=${about.aboutId}" onclick="confirmDelete(${about.aboutId})"><i class="fas fa-trash-alt"></i></a>
-                                            </td>-->
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
 
+                        <!-- update Category Modal -->
+                        <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form id="updateCategoryForm" action="managefeedback?service=addRep" method="post" onsubmit="return validateUpdateForm()">
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">Trả lời phản hồi</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <input type="hidden" id="repId" name="repId" value="0">
+                                        <input type="hidden" id="fbid" name="fbid" value="${fb.feedbackId}">
+                                        <input type="hidden" id="userid" name="userid" value="${fb.userId}">
+                                        <div class="mb-3">
+                                            <label for="comment" class="form-label">Phản hồi</label>
+                                            <textarea class="form-control" id="comment" name="comment" required></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Feedback Management End -->
@@ -166,102 +229,41 @@
 
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
-        <script>
-                                                    $(document).ready(function () {
-                                                        var table = $('#abouttable').DataTable({
-                                                            "pageLength": 5,
-                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                            "order": [[1, "asc"]],
-                                                            "columnDefs": [
-                                                                {"orderable": false, "targets": 3}
-                                                            ],
-                                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                            "language": {
-                                                                "lengthMenu": "Hiển thị _MENU_ mục",
-                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                                "paginate": {
-                                                                    "first": "Đầu",
-                                                                    "last": "Cuối",
-                                                                    "next": "Tiếp",
-                                                                    "previous": "Trở vể"
-                                                                }
-                                                            }
-                                                        });
-
-
-                                                    });
-        </script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                function formatFullName(name) {
-                    name = name.trim().replace(/\s+/g, ' ');
-                    return name;
-                }
+                                        $(document).ready(function () {
+                                            var table = $('#abouttable').DataTable({
+                                                "pageLength": 5,
+                                                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                "order": [[1, "asc"]],
+                                                "columnDefs": [
+                                                    {"orderable": false, "targets": 6}
+                                                ],
+                                                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                "language": {
+                                                    "lengthMenu": "Hiển thị _MENU_ mục",
+                                                    "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                    "paginate": {
+                                                        "first": "Đầu",
+                                                        "last": "Cuối",
+                                                        "next": "Tiếp",
+                                                        "previous": "Trở vể"
+                                                    }
+                                                }
+                                            });
 
-                document.getElementById("title").oninput = function () {
-                    var name = this.value;
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("titleError").innerHTML = "Tiêu đề không được để trống.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("titleError").innerHTML = "Tiêu đề không được bắt đầu bằng dấu cách.";
-                    } else {
-                        document.getElementById("titleError").innerHTML = "";
-                    }
-                };
-                document.getElementById("content").oninput = function () {
-                    var name = this.value;
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("contentError").innerHTML = "Nội dung không được để trống.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("contentError").innerHTML = "Nội dung không được bắt đầu bằng dấu cách.";
-                    } else {
-                        document.getElementById("contentError").innerHTML = "";
-                    }
-                };
-            });
 
-            // Update form validation
-            document.getElementById("updateTitle").oninput = function () {
-                var name = this.value;
-                this.value = name.trim();
-                if (name === "") {
-                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được để trống.";
-                } else if (/^\s/.test(name)) {
-                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được bắt đầu bằng dấu cách.";
-                } else {
-                    document.getElementById("titleUpdateError").innerHTML = "";
-                }
-            };
-
-            document.getElementById("updateContent").oninput = function () {
-                var content = this.value;
-                this.value = content.trim();
-                if (content === "") {
-                    document.getElementById("contentUpdateError").innerHTML = "Nội dung không được để trống.";
-                } else if (/^\s/.test(content)) {
-                    document.getElementById("contentUpdateError").innerHTML = "Nội dung không được bắt đầu bằng dấu cách.";
-                } else {
-                    document.getElementById("contentUpdateError").innerHTML = "";
-                }
-            };
-            function confirmDelete(id) {
-                if (confirm("Bạn có chắc chắn muốn xóa không?")) {
-                    window.location.href = `manageabout?service=delete&id=${id}`;
-                }
-            }
+                                        });
         </script>
-
         <script>
             $(document).ready(function () {
                 // Update
-            <c:if test="${not empty requestScope.aboutUpdate}">
+            <c:if test="${not empty requestScope.fb}">
                 $('#updateCategoryModal').modal('show');
             </c:if>
             });
         </script>
+
     </body>
 
 </html>
