@@ -100,6 +100,10 @@
         <servlet-name>manageFeedback</servlet-name>
         <servlet-class>controller.Manager.manageFeedback</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SettingPoint</servlet-name>
+        <servlet-class>controller.Manager.SettingPoint</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
         <url-pattern>/manager</url-pattern>
@@ -195,5 +199,9 @@
     <servlet-mapping>
         <servlet-name>manageFeedback</servlet-name>
         <url-pattern>/managefeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingPoint</servlet-name>
+        <url-pattern>/SettingPoint</url-pattern>
     </servlet-mapping>
 </web-app>

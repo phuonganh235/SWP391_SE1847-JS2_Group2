@@ -9,8 +9,10 @@ import dal.CouponsDAO;
 import dal.InforOrderDetailDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
+import dal.PointConfigDAO;
 import dal.PoitCustomerDAO;
 import dal.ProductDAO;
+import dal.PointConfigDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -37,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import model.InforOrderDetail;
+import model.PointConfig;
 //import nl.captcha.Captcha;
 
 @WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
@@ -56,6 +59,7 @@ public class OrderController extends HttpServlet {
         User inforUserLogin = (User) session.getAttribute("inforUserLogin");
         InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
         PoitCustomerDAO poitCustomer = new PoitCustomerDAO();
+        PointConfigDAO pointConfigDao = new PointConfigDAO();
 
         try (PrintWriter out = response.getWriter()) {
             String service = request.getParameter("service");
@@ -114,9 +118,7 @@ public class OrderController extends HttpServlet {
 
                     if (idPaymentInt == 1) {
                         Order newOrder = new Order(inforUserLogin.getUserId(), idPaymentInt, dateNow, true, name, addressFull, phone, idPaymentInt);
-                        // poit 
-                        double poit = 0;
-                        int poitInt = 0;
+
                         //add order
                         List<Cart> listCart = _list;
                         ///CHECK PRODUCT HAVE QUANTITY = 0
@@ -139,24 +141,42 @@ public class OrderController extends HttpServlet {
                             return;
                         } else {
                             int idADD = daoOrder.insertOrderGetID(newOrder);
-                            ///END CHECK PRODUCT HAVE QUANTITY = 0
-                            for (Cart cart1 : listCart) {
-                                //add order detail
-                                Product pro = daoProduct.getProductById(cart1.getProductId());
-                                detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
-                                // update product
-                                daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
-                                // add poit 
-                                Product newProduct = new Product();
-                                newProduct = daoProduct.getProductById(cart1.getProductId());
-                                poit += cart1.getQuantity() * newProduct.getPrice();
+                            PointConfig pointConfig = pointConfigDao.getConfigById(1);
+                            if (pointConfig != null && pointConfig.isIsEnabled() == true) {
+                                int totaPriceOrder = 0;
+                                ///END CHECK PRODUCT HAVE QUANTITY = 0
+                                for (Cart cart1 : listCart) {
+                                    //add order detail
+                                    Product pro = daoProduct.getProductById(cart1.getProductId());
+                                    detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                    // update product
+                                    daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                    // add poit 
+                                    Product newProduct = new Product();
+                                    newProduct = daoProduct.getProductById(cart1.getProductId());
+                                    totaPriceOrder += cart1.getQuantity() * newProduct.getPrice();
 
+                                }
+                                int poitEarned = (int) (totaPriceOrder / pointConfig.getPointsPerAmount() * pointConfig.getPointsEarned());
+                                poitCustomer.addOrUpdatePoitCustomer(userId, poitEarned); // add order infor detail
+                                InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
+                                daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
+                            } else {
+                                for (Cart cart1 : listCart) {
+                                    //add order detail
+                                    Product pro = daoProduct.getProductById(cart1.getProductId());
+                                    detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                    // update product
+                                    daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                    // add poit 
+                                    Product newProduct = new Product();
+                                    newProduct = daoProduct.getProductById(cart1.getProductId());
+
+                                }
+                                InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
+                                daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
                             }
-                            poitInt = (int) (poit / 20000);
-                            // add poit 
-                            poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
-                            InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", selectedPhuong, selectedQuan, chiTiet, ghiChu, tu, den, date);
-                            daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
+
                             // delete cart
                             for (Cart cart1 : _list) {
                                 cart.deleteCartByProductIdAndUserId(cart1.getProductId(), inforUserLogin.getUserId());
@@ -182,6 +202,13 @@ public class OrderController extends HttpServlet {
 
                     }
                     if (idPaymentInt == 2) {
+                        session.setAttribute("phuong", selectedPhuong);
+                        session.setAttribute("Quan", selectedQuan);
+                        session.setAttribute("chiTiet", chiTiet);
+                        session.setAttribute("ghiChu", ghiChu);
+                        session.setAttribute("tu", tu);
+                        session.setAttribute("den", den);
+                        session.setAttribute("date", date);
                         String couponCode = request.getParameter("couponCode");
                         if (couponCode != null && !couponCode.isEmpty()) {
                             session.setAttribute("couponCode", couponCode);
@@ -281,15 +308,21 @@ public class OrderController extends HttpServlet {
                         // Payment successful
                         String vnp_TxnRef = request.getParameter("vnp_TxnRef");
                         String vnp_Amount = request.getParameter("vnp_Amount");
+
+                        String phuong = (String) session.getAttribute("phuong");
+                        String Quan = (String) session.getAttribute("Quan");
+                        String chiTiet = (String) session.getAttribute("chiTiet");
+                        String ghiChu = (String) session.getAttribute("ghiChu");
+                        String tu = (String) session.getAttribute("tu");
+                        String den = (String) session.getAttribute("den");
+                        String date = (String) session.getAttribute("date");
+                        String dateNow = common.getDateTimeNow();
                         String name = (String) session.getAttribute("orderName");
                         String address = (String) session.getAttribute("orderAddress");
                         String phone = (String) session.getAttribute("orderPhone");
-                        String dateNow = common.getDateTimeNow();
 
                         Order newOrder = new Order(inforUserLogin.getUserId(), 2, dateNow, true, name, address, phone, 1);
 
-                        double poit = 0;
-                        int poitInt = 0;
                         //add orrder detail
                         List<Cart> listCart = _list;
                         // List product have quantity = 0 
@@ -309,21 +342,44 @@ public class OrderController extends HttpServlet {
                             dispatcher.forward(request, response);
                             return;
                         } else {
+                            Integer userId = (Integer) session.getAttribute("UserID");
                             //add order
                             int idADD = daoOrder.insertOrderGetID(newOrder);
-                            for (Cart cart1 : _list) {
-                                Product pro = daoProduct.getProductById(cart1.getProductId());
-                                detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
-                                daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
-                                // add poit 
-                                Product newProduct = new Product();
-                                newProduct = daoProduct.getProductById(cart1.getProductId());
-                                poit += cart1.getQuantity() * newProduct.getPrice();
-                            }
-                            poitInt = (int) (poit / 20000);
+                            PointConfig pointConfig = pointConfigDao.getConfigById(1);
+                            if (pointConfig != null && pointConfig.isIsEnabled() == true) {
+                                int totaPriceOrder = 0;
+                                ///END CHECK PRODUCT HAVE QUANTITY = 0
+                                for (Cart cart1 : listCart) {
+                                    //add order detail
+                                    Product pro = daoProduct.getProductById(cart1.getProductId());
+                                    detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                    // update product
+                                    daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                    // add poit 
+                                    Product newProduct = new Product();
+                                    newProduct = daoProduct.getProductById(cart1.getProductId());
+                                    totaPriceOrder += cart1.getQuantity() * newProduct.getPrice();
 
-                            Integer userId = (Integer) session.getAttribute("UserID");
-                            poitCustomer.addOrUpdatePoitCustomer(userId, poitInt); // add order infor detail
+                                }
+                                int poitEarned = (int) (totaPriceOrder / pointConfig.getPointsPerAmount() * pointConfig.getPointsEarned());
+                                poitCustomer.addOrUpdatePoitCustomer(userId, poitEarned); // add order infor detail
+                                InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", phuong, Quan, chiTiet, ghiChu, tu, den, date);
+                                daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
+                            } else {
+                                for (Cart cart1 : listCart) {
+                                    //add order detail
+                                    Product pro = daoProduct.getProductById(cart1.getProductId());
+                                    detailDAO.addOrderDetail(idADD, cart1.getProductId(), cart1.getQuantity(), pro.getPrice());
+                                    // update product
+                                    daoProduct.updateProductQuantityTru(cart1.getProductId(), cart1.getQuantity());
+                                    // add poit 
+                                    Product newProduct = new Product();
+                                    newProduct = daoProduct.getProductById(cart1.getProductId());
+
+                                }
+                                InforOrderDetail newInforOrderDetail = new InforOrderDetail(idADD, "Thành Phố Hà Nội", phuong, Quan, chiTiet, ghiChu, tu, den, date);
+                                daoInforOrderDetail.insertInforOrderDetail(newInforOrderDetail);
+                            }
 
                             //delete cart
                             for (Cart cart1 : _list) {
