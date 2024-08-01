@@ -8,6 +8,7 @@ import java.util.List;
 import model.OrderDetail;
 import java.sql.*;
 import java.util.ArrayList;
+import model.Product;
 
 //ToanLV
 public class OrderDetailDAO extends DBContext {
@@ -164,6 +165,25 @@ public class OrderDetailDAO extends DBContext {
         return totalMoney;
     }
 
+    // Thêm vào lớp OrderDetailDAO
+    public List<String> getCategoryNames(List<Integer> categoryIds) {
+        List<String> categoryNames = new ArrayList<>();
+        String sql = "SELECT CategoryId, CategoryName FROM Category WHERE CategoryId IN ("
+                + String.join(",", categoryIds.stream().map(String::valueOf).toArray(String[]::new)) + ")";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String categoryName = resultSet.getString("CategoryName");
+                    categoryNames.add(categoryName);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categoryNames;
+    }
+
 // Get total money by year
     public double getTotalMoneyByYear(int year) {
         double totalMoney = 0;
@@ -183,6 +203,32 @@ public class OrderDetailDAO extends DBContext {
         return totalMoney;
     }
 
+     public List<Product> getTopSellingProducts() {
+        List<Product> topSellingProducts = new ArrayList<>();
+        String sql = "SELECT TOP 10 od.ProductId, p.ProductName, SUM(od.Quantity) AS TotalQuantity "
+                   + "FROM OrderDetail od "
+                   + "INNER JOIN Product p ON od.ProductId = p.ProductId "
+                   + "GROUP BY od.ProductId, p.ProductName "
+                   + "ORDER BY TotalQuantity DESC";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                int productId = resultSet.getInt("ProductId");
+                String productName = resultSet.getString("ProductName");
+                int totalQuantity = resultSet.getInt("TotalQuantity");
+                
+                // Giả sử bạn có một lớp Product để chứa thông tin sản phẩm
+                Product product = new Product(productId, productName, totalQuantity);
+                topSellingProducts.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return topSellingProducts;
+    }
+    
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
 //        List<OrderDetail> lis = dao.getOrderDetailsByOrderId(2003);

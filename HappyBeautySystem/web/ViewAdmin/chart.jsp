@@ -91,6 +91,7 @@
             <!-- Sidebar Start -->
             <jsp:include page="sidebar.jsp"/>
             <!-- Sidebar End -->
+
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
@@ -100,7 +101,8 @@
                 <!-- Chart Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row g-4">
-                        <div class="chart-explanation">Biểu đồ này hiển thị doanh thu theo tháng, tuần, năm và theo ngày của hệ thống. Nó cho phép quản trị viên theo dõi và phân tích sự biến động của doanh thu theo thời gian.
+                        <div class="chart-explanation">
+                            Biểu đồ này hiển thị doanh thu theo tháng, tuần, năm và theo ngày của hệ thống. Nó cho phép quản trị viên theo dõi và phân tích sự biến động của doanh thu theo thời gian.
                         </div>
                         <!--Filter by date-->
                         <div class="filterBox">
@@ -108,48 +110,43 @@
                             <a href="chart?service=listWeek">Tuần</a>
                             <a href="chart?service=listMonth">Tháng</a>
                             <a href="chart?service=listYear">Năm</a>
-<!--                            <label for="startDate">Bắt đầu:</label>
-                            <input type="date" id="startDate">
-                            <label for="endDate">Kết thúc:</label>
-                            <input type="date" id="endDate">
-                            <button onclick="applyDateFilter()">Áp dụng</button>-->
                         </div>
 
-                        <c:if test="${chartType == 'month'}">
-                            <div class="col-sm-12 col-xl-12">
-                                <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Biểu đồ doanh thu theo tháng</h6>
-                                    <canvas id="line-chart"></canvas>
+                        <div class="col-sm-6 col-xl-6">
+                            <div class="bg-light text-center rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Biểu đồ doanh thu</h6>
                                 </div>
+                                <canvas id="revenue-chart"></canvas>
                             </div>
-                        </c:if>
+                        </div>
 
-                        <c:if test="${chartType == 'day'}">
-                            <div class="col-sm-12 col-xl-12">
-                                <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Biểu đồ doanh thu theo ngày</h6>
-                                    <canvas id="bar-chart"></canvas>
+                        <div class="col-sm-6 col-xl-6">
+                            <div class="bg-light text-center rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Biểu đồ số lượng sản phẩm đã bán theo danh mục</h6>
                                 </div>
+                                <canvas id="product-count-chart"></canvas>
                             </div>
-                        </c:if>
+                        </div>
 
-                        <c:if test="${chartType == 'week'}">
-                            <div class="col-sm-12 col-xl-12">
-                                <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Biểu đồ doanh thu theo tuần</h6>
-                                    <canvas id="week-chart"></canvas>
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="bg-light text-center rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Biểu đồ số lượng sản phẩm bán chạy nhất</h6>
                                 </div>
+                                <canvas id="top-selling-products-chart"></canvas>
                             </div>
-                        </c:if>
+                        </div>
 
-                        <c:if test="${chartType == 'year'}">
-                            <div class="col-sm-12 col-xl-12">
-                                <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Biểu đồ doanh thu theo năm</h6>
-                                    <canvas id="year-chart"></canvas>
+                        <div class="col-sm-6 col-xl-6">
+                            <div class="bg-light text-center rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Số lượng sản phẩm bán được theo ngày </h6>
                                 </div>
+                                <canvas id="orders-by-day-chart"></canvas>
                             </div>
-                        </c:if>
+                        </div>
                     </div>
                 </div>
                 <!-- Chart End -->
@@ -176,223 +173,192 @@
         <script src="js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script type="text/javascript">
-                                // Initialize the data for the charts
-                                var monthlyData = [
-            <c:forEach var="revenue" items="${revenueList}">
+
+            var orderDates = [
+            <c:forEach var="date" items="${last7Days}">
+                '${date}',
+            </c:forEach>
+            ];
+
+            var orderCounts = [
+            <c:forEach var="count" items="${orderCountsByDay}">
+                ${count},
+            </c:forEach>
+            ];
+
+            var ctxOrdersByDay = document.getElementById("orders-by-day-chart").getContext("2d");
+            var ordersByDayChart = new Chart(ctxOrdersByDay, {
+                type: 'bar',
+                data: {
+                    labels: orderDates,
+                    datasets: [{
+                            label: 'Số lượng sản phẩm bán được',
+                            backgroundColor: 'rgba(0, 156, 255, .3)',
+                            borderColor:'rgba(0, 156, 255, .3)',
+                            borderWidth: 1,
+                            data: orderCounts
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            var productNames = [
+            <c:forEach var="name" items="${productNames}">
+                '${name}',
+            </c:forEach>
+            ];
+
+            var productQuantities = [
+            <c:forEach var="quantity" items="${productQuantities}">
+                ${quantity},
+            </c:forEach>
+            ];
+
+            var ctx3 = document.getElementById("top-selling-products-chart").getContext("2d");
+            var topSellingProductsChart = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: productNames,
+                    datasets: [{
+                            label: 'Số lượng sản phẩm bán chạy nhất',
+                            backgroundColor: 'rgba(0, 156, 255, .3)',
+                            data: productQuantities
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+            // Initialize the data for the charts
+            var monthlyData = [
+            <c:forEach var="revenue" items="${revenueListByMonth}">
                 ${revenue},
             </c:forEach>
-                                ];
+            ];
 
-                                var dailyData = [
+            var dailyData = [
             <c:forEach var="revenue" items="${revenueListByDay}">
                 ${revenue},
             </c:forEach>
-                                ];
+            ];
 
-                                var weeklyData = [
+            var weeklyData = [
             <c:forEach var="revenue" items="${revenueListByWeek}">
                 ${revenue},
             </c:forEach>
-                                ];
+            ];
 
-                                var yearlyData = [
+            var yearlyData = [
             <c:forEach var="revenue" items="${revenueListByYear}">
                 ${revenue},
             </c:forEach>
-                                ];
+            ];
 
-            <c:if test="${chartType == 'month'}">
-                                var ctx1 = $("#line-chart").get(0).getContext("2d");
-                                new Chart(ctx1, {
-                                    type: "bar",
-                                    data: {
-                                        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-                                        datasets: [{
-                                                label: "Doanh thu",
-                                                fill: false,
-                                                backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: monthlyData
-                                            }]
-                                    },
-                                    options: {
-                                        responsive: true
-                                    }
-                                });
-            </c:if>
+            var productCounts = [
+            <c:forEach var="count" items="${productCounts}">
+                ${count},
+            </c:forEach>
+            ];
 
-            <c:if test="${chartType == 'day'}">
-                                var ctx2 = $("#bar-chart").get(0).getContext("2d");
-                                var dates = [
-                <c:forEach var="date" items="${dateList}">
-                                    '${date}',
-                </c:forEach>
-                                ];
-                                new Chart(ctx2, {
-                                    type: "bar",
-                                    data: {
-                                        labels: dates,
-                                        datasets: [{
-                                                label: "Doanh thu",
-                                                fill: false,
-                                                backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: dailyData
-                                            }]
-                                    },
-                                    options: {
-                                        responsive: true
-                                    }
-                                });
-            </c:if>
+            var categoryNames = [
+            <c:forEach var="name" items="${categoryNames}">
+                '${name}',
+            </c:forEach>
+            ];
 
-            <c:if test="${chartType == 'week'}">
-                                var ctx3 = $("#week-chart").get(0).getContext("2d");
-                                var weeks = [
-                <c:forEach var="week" items="${weekList}">
-                                    '${week}',
-                </c:forEach>
-                                ];
-                                new Chart(ctx3, {
-                                    type: "bar",
-                                    data: {
-                                        labels: weeks,
-                                        datasets: [{
-                                                label: "Doanh thu",
-                                                fill: false,
-                                                backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: weeklyData
-                                            }]
-                                    },
-                                    options: {
-                                        responsive: true
-                                    }
-                                });
-            </c:if>
+            var dates = [
+            <c:forEach var="date" items="${dateList}">
+                '${date}',
+            </c:forEach>
+            ];
 
-            <c:if test="${chartType == 'year'}">
-                                var ctx4 = $("#year-chart").get(0).getContext("2d");
-                                var years = [
-                <c:forEach var="year" items="${yearList}">
-                                    '${year}',
-                </c:forEach>
-                                ];
-                                new Chart(ctx4, {
-                                    type: "bar",
-                                    data: {
-                                        labels: years,
-                                        datasets: [{
-                                                label: "Doanh thu",
-                                                fill: false,
-                                                backgroundColor: "rgba(0, 156, 255, .3)",
-                                                data: yearlyData
-                                            }]
-                                    },
-                                    options: {
-                                        responsive: true
-                                    }
-                                });
-            </c:if>
+            var weeks = [
+            <c:forEach var="week" items="${weekList}">
+                '${week}',
+            </c:forEach>
+            ];
 
-                                function applyDateFilter() {
-                                    var startDate = document.getElementById('startDate').value;
-                                    var endDate = document.getElementById('endDate').value;
+            var years = [
+            <c:forEach var="year" items="${yearList}">
+                ${year},
+            </c:forEach>
+            ];
+            var months = [
+            <c:forEach var="month" items="${monthList}">
+                ${month},
+            </c:forEach>
+            ];
 
-                                    // Filter for monthly chart
-            <c:if test="${chartType == 'month'}">
-                                    var startMonth = startDate ? new Date(startDate).getMonth() + 1 : 1;
-                                    var endMonth = endDate ? new Date(endDate).getMonth() + 1 : 12;
+            var ctx = document.getElementById("revenue-chart").getContext("2d");
+            var revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: categoryNames,
+                    datasets: [{
+                            label: 'Doanh thu theo tháng',
+                            backgroundColor: 'rgba(0, 156, 255, .3)',
+                            data: monthlyData
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
 
-                                    var filteredData = monthlyData.slice(startMonth - 1, endMonth);
+            var ctx2 = document.getElementById("product-count-chart").getContext("2d");
+            var productCountChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: categoryNames,
+                    datasets: [{
+                            label: 'Số lượng sản phẩm theo danh mục',
+                            backgroundColor: 'rgba(0, 156, 255, .3)',
+                            data: productCounts
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
 
-                                    var labels = Array.from({length: endMonth - startMonth + 1}, (v, i) => (i + startMonth).toString());
-                                    myChart1.data.labels = labels;
-                                    myChart1.data.datasets[0].data = filteredData;
-                                    myChart1.update();
-            </c:if>
-
-                                    // Filter for daily chart
-            <c:if test="${chartType == 'day'}">
-                                    var filteredDates = [];
-                                    var filteredData2 = [];
-
-                                    if (startDate && endDate) {
-                                        var startDateObj = new Date(startDate);
-                                        var endDateObj = new Date(endDate);
-
-                                        for (var i = 0; i < dates.length; i++) {
-                                            var currentDate = new Date(dates[i]);
-                                            if (currentDate >= startDateObj && currentDate <= endDateObj) {
-                                                filteredDates.push(dates[i]);
-                                                filteredData2.push(dailyData[i]);
-                                            }
-                                        }
-                                    } else {
-                                        filteredDates = dates;
-                                        filteredData2 = dailyData;
-                                    }
-
-                                    myChart2.data.labels = filteredDates;
-                                    myChart2.data.datasets[0].data = filteredData2;
-                                    myChart2.update();
-            </c:if>
-
-                                    // Filter for weekly chart
-            <c:if test="${chartType == 'week'}">
-                                    var filteredWeeks = [];
-                                    var filteredData3 = [];
-
-                                    if (startDate && endDate) {
-                                        var startDateObj = new Date(startDate);
-                                        var endDateObj = new Date(endDate);
-
-                                        for (var i = 0; i < weeks.length; i++) {
-                                            var week = weeks[i];
-                                            var weekStartDate = new Date(week.split(" of ")[1] + "-01-01");
-                                            weekStartDate.setDate(weekStartDate.getDate() + (parseInt(week.split("Week ")[1]) - 1) * 7);
-                                            var weekEndDate = new Date(weekStartDate);
-                                            weekEndDate.setDate(weekEndDate.getDate() + 6);
-
-                                            if (weekStartDate >= startDateObj && weekEndDate <= endDateObj) {
-                                                filteredWeeks.push(week);
-                                                filteredData3.push(weeklyData[i]);
-                                            }
-                                        }
-                                    } else {
-                                        filteredWeeks = weeks;
-                                        filteredData3 = weeklyData;
-                                    }
-
-                                    myChart3.data.labels = filteredWeeks;
-                                    myChart3.data.datasets[0].data = filteredData3;
-                                    myChart3.update();
-            </c:if>
-
-                                    // Filter for yearly chart
-            <c:if test="${chartType == 'year'}">
-                                    var filteredYears = [];
-                                    var filteredData4 = [];
-
-                                    if (startDate && endDate) {
-                                        var startYear = new Date(startDate).getFullYear();
-                                        var endYear = new Date(endDate).getFullYear();
-
-                                        for (var i = 0; i < years.length; i++) {
-                                            var year = parseInt(years[i]);
-                                            if (year >= startYear && year <= endYear) {
-                                                filteredYears.push(years[i]);
-                                                filteredData4.push(yearlyData[i]);
-                                            }
-                                        }
-                                    } else {
-                                        filteredYears = years;
-                                        filteredData4 = yearlyData;
-                                    }
-
-                                    myChart4.data.labels = filteredYears;
-                                    myChart4.data.datasets[0].data = filteredData4;
-                                    myChart4.update();
-            </c:if>
-                                }
+            // Add event listeners for the filter links
+            document.querySelector(".filterBox").addEventListener("click", function (e) {
+                if (e.target.tagName === "A") {
+                    var service = e.target.getAttribute("href").split("=")[1];
+                    switch (service) {
+                        case "listDay":
+                            revenueChart.data.labels = dates;
+                            revenueChart.data.datasets[0].data = dailyData;
+                            revenueChart.data.datasets[0].label = "Doanh thu theo ngày";
+                            break;
+                        case "listWeek":
+                            revenueChart.data.labels = weeks;
+                            revenueChart.data.datasets[0].data = weeklyData;
+                            revenueChart.data.datasets[0].label = "Doanh thu theo tuần";
+                            break;
+                        case "listMonth":
+                            revenueChart.data.labels = months;
+                            revenueChart.data.datasets[0].data = monthlyData;
+                            revenueChart.data.datasets[0].label = "Doanh thu theo tháng";
+                            break;
+                        case "listYear":
+                            revenueChart.data.labels = years;
+                            revenueChart.data.datasets[0].data = yearlyData;
+                            revenueChart.data.datasets[0].label = "Doanh thu theo năm";
+                            break;
+                    }
+                    revenueChart.update();
+                    e.preventDefault();
+                }
+            });
         </script>
     </body>
+
 
 </html>

@@ -140,7 +140,7 @@
                                 <option value="4">4 Sao</option>
                                 <option value="5">5 Sao</option>
                             </select>
-                            <button type="submit">Lọc</button>
+                            <button type="submit" class="btn btn-sm btn-primary">Lọc</button>
                         </form>
 
                         <!-- Load Product -->
