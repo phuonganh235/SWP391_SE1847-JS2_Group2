@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -55,6 +56,8 @@ public class Coupons extends HttpServlet {
                     request.setAttribute("page", page);
                     request.setAttribute("num", num);
                     request.setAttribute("couponList", couponPage);
+                    Date currentDate = new Date();
+                    request.setAttribute("currentDate", currentDate);
                     request.getRequestDispatcher("/ViewUser/Coupons.jsp").forward(request, response);
                 }
                 if (service.equals("checkCoupon")) {

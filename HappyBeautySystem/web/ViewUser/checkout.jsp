@@ -247,10 +247,10 @@
                                     </div>
                                     <div class="checkout__order__total">
                                         <ul>
-                                            <li>Số tiền <span><%= String.format("%.2f", cartTotal + cartDiscount + cartPromotion)%></span></li>
-                                            <li>Khuyến mãi <span><%= String.format("%.2f", cartPromotion)%></span></li>
-                                            <li>Giảm giá <span><%= String.format("%.2f", cartDiscount)%></span></li>
-                                            <li>Tổng tiền <span><%= String.format("%.2f", cartTotal)%></span></li>
+                                            <li>Số tiền <span><%= String.format("%.0f", cartTotal + cartDiscount + cartPromotion)%></span></li>
+                                            <li>Khuyến mãi <span><%= String.format("%.0f", cartPromotion)%></span></li>
+                                            <li>Giảm giá <span><%= String.format("%.0f", cartDiscount)%></span></li>
+                                            <li>Tổng tiền <span><%= String.format("%.0f", cartTotal)%></span></li>
 
                                         </ul>
                                     </div>

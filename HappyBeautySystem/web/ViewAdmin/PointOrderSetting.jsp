@@ -119,21 +119,21 @@
                                     <div class="mb-3">
                                         <label for="tyLeQuyDoi" class="form-label">Tỷ lệ quy đổi điểm thưởng</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="pointsPerAmount" id="tyLeQuyDoi" value="${pointConfigUpdate.pointsPerAmount}">
+                                            <input type="number" class="form-control" min="0" name="pointsPerAmount" id="tyLeQuyDoi" value="${pointConfigUpdate.pointsPerAmount}">
                                             <span class="input-group-text">VNĐ</span>
                                             <span class="input-group-text">=</span>
-                                            <input type="number" class="form-control" name="pointsEarned" id="diemThuong" value="${pointConfigUpdate.pointsEarned}" >
+                                            <input type="number" class="form-control" min="0" name="pointsEarned" id="diemThuong" value="${pointConfigUpdate.pointsEarned}" >
                                             <span class="input-group-text">điểm thưởng</span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-check-label" for="choPhepThanhToan">Thanh toán bằng điểm</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="pointsRedeemed" id="diemThanhToan" value="${pointConfigUpdate.pointsRedeemed}">
+                                            <input type="number" class="form-control"  min="0"name="pointsRedeemed" id="diemThanhToan" value="${pointConfigUpdate.pointsRedeemed}">
                                             <span class="input-group-text">điểm</span>
                                             <span class="input-group-text">=</span>
-                                            <input type="number" class="form-control" name="redeemValue" id="giaTriThanhToan" value="${pointConfigUpdate.redeemValue}">
-                                            <span class="input-group-text">%</span>
+                                            <input type="number" class="form-control" min="0" name="redeemValue" id="giaTriThanhToan" value="${pointConfigUpdate.redeemValue}">
+                                            <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
                                   

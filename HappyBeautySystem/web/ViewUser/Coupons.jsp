@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -32,7 +33,7 @@
                 background:#2c3e50
             }
             .peter-river{
-                background:#3498db
+                background:#F08080
             }
             .dl{
                 background:#f0f0f0;
@@ -88,7 +89,7 @@
                 border-top:20px solid #e74c3c
             }
             .dl .discount.peter-river:after{
-                border-top:20px solid #3498db
+                border-top:20px solid #F08080
             }
             .dl .discount.emerald:after{
                 border-top:20px solid #2ecc71
@@ -176,24 +177,31 @@
                 </div>
             </div>
         </div>
-            
+
         <!-- Filter Section End -->
 
         <section id="labels">
             <div class="container ">
                 <div class="row">
                     <c:forEach items="${requestScope.couponList}" var="c">
-                        <div class="col-sm-6 col-md-3 coupon-card ${c.isActive == 1 ? 'active' : 'inactive'}">
-                            <div class="dl ${c.isActive == 1 ? 'active' : 'inactive'}">
+                        <fmt:parseDate value="${c.endDate}" pattern="yyyy-MM-dd" var="parsedEndDate" />
+                        <c:set var="isExpired" value="${currentDate.time > parsedEndDate.time}" />
+
+                        <div class="col-sm-6 col-md-3 coupon-card ${c.isActive == 1 && !isExpired ? 'active' : 'inactive'}">
+                            <div class="dl ${c.isActive == 1 && !isExpired ? 'active' : isExpired ? 'expired' : 'inactive'}">
                                 <div class="brand">
                                     <h5>Từ : ${c.startDate}</h5>
                                     <h5>Đến : ${c.endDate}</h5>
                                 </div>
-                                <div class="discount emerald">${c.discountAmount}%
+                                <div class="discount ${c.isActive == 1 && !isExpired ? 'emerald' : 'peter-river'}">
+                                    ${c.discountAmount}%
                                     <div class="type">
                                         <c:choose>
-                                            <c:when test="${c.isActive == 1}">
+                                            <c:when test="${c.isActive == 1 && !isExpired}">
                                                 Đang còn
+                                            </c:when>
+                                            <c:when test="${isExpired}">
+                                                Đã hết hạn
                                             </c:when>
                                             <c:otherwise>
                                                 Đã hết
@@ -220,9 +228,9 @@
 
             <div class="col-lg-12 text-center">
                 <div class="pagination__option">
-                      
+
                     <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                <a href="coupon?page=${i}">${i}</a>      
+                        <a href="coupon?page=${i}">${i}</a>      
                     </c:forEach>
                 </div>
             </div>

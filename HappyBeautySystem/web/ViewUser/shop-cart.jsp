@@ -1,3 +1,5 @@
+<%@page import="model.PointConfig"%>
+<%@page import="dal.PointConfigDAO"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
@@ -134,7 +136,7 @@
                                         <%
                                             // Kiểm tra nếu quantity nhỏ hơn 1 thì không hiển thị checkbox
                                             if (hh >= 1) { // Nếu quantity lớn hơn hoặc bằng 1
-                                        %>
+%>
                                         <td>
                                             <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.0f", subtotal)%>"
                                                    onclick="updateTotal()">
@@ -148,7 +150,7 @@
                                         </td>
                                         <%
                                             } // Kết thúc kiểm tra điều kiện
-                                        %>
+%>
 
                                         <td class="cart__product__item">
                                             <a
@@ -236,39 +238,40 @@
                             </form>
                             <p id="couponMessage"></p>
                         </div>
-                        <div class="discount__content">
 
-
-                            <h6>Quy đổi điểm</h6>
-                            <form action="#" id="pointForm" class="poit-customer" >
-                                <select id="pointSelect" class="poit-select-customer" style=" border-radius: 25px; margin-left: -8px">
-                                    <option value="0">Chọn số điểm</option>
-                                    <option value="100">100 điểm - Giảm 5%</option>
-                                    <option value="200">200 điểm - Giảm 10%</option>
-                                    <option value="300">300 điểm - Giảm 15%</option>
-                                    <option value="400">400 điểm - Giảm 20%</option>
-                                </select>
-                                <button type="button" onclick="applyPoints()" class="site-btn hh" >Áp dụng</button>
-                            </form>
-
-
-                            <p id="pointMessage"></p>
-                        </div>
                         <%
                             PromotionDAO promotionDAO = new PromotionDAO();
                             List<Promotions> activePromotions = promotionDAO.getActivePromotion();
                             int promotioncount = promotionDAO.countPromotion();
                         %>
+                        <%
+                            PointConfigDAO pointConfigDAO = new PointConfigDAO();
+                            PointConfig pointConfig = pointConfigDAO.getConfigById(1);
+                            request.setAttribute("pointConfig", pointConfig);
+                        %>
                         <div class="user-profile-points">
                             <a href="promotion" class="points-label-promotion">Chương trình khuyến mãi (<%=  promotioncount%>)</a>
                         </div>
-                        <div class="user-profile-points">
-                            <span class="points-label">Điểm tích lũy mua hàng:</span>
-                            <span class="points-value">${requestScope.point}</span>
-                        </div>
-                        <div style="padding-top: 30px">
-                            Với 100000đ bạn được 5 điểm tích lũy
-                        </div>
+                        <c:if test="${pointConfig.isEnabled == true}">
+                            <div class="discount__content">
+                                <h6>Quy đổi điểm</h6>
+                                <form action="#" id="pointForm" class="poit-customer" >
+                                    <input type="number" id="pointInput" placeholder="Nhập số điểm muốn đổi" min="0" max="${requestScope.point}">
+                                    <button type="button" onclick="applyPoints()" class="site-btn hh" >Áp dụng</button>
+                                </form>
+                                <p id="pointMessage"></p>
+                            </div>
+
+                            <div class="user-profile-points">
+                                <span class="points-label">Điểm tích lũy mua hàng:</span>
+                                <span class="points-value">${requestScope.point}</span>
+                            </div>
+                            <div style="padding-top: 30px">
+                                -Với ${pointConfig.pointsPerAmount}đ bạn được ${pointConfig.pointsEarned} điểm tích lũy
+                                <br>
+                                -Với ${pointConfig.pointsRedeemed}điểm bạn được giảm ${pointConfig.redeemValue} VND
+                            </div>
+                        </c:if>
 
                     </div>
 
@@ -277,8 +280,8 @@
                             <h6>Thông tin mua hàng</h6>
                             <ul>
                                 <li>Tạm tính  <span id="originalTotal"><%= String.format("%.0f", granTotal)%></span></li>
-                                <li>Khuyến mãi <span id="promotion">0.00</span></li>
-                                <li>Giảm giá <span id="discountAmount">0.00</span></li>
+                                <li>Khuyến mãi <span id="promotion">0</span></li>
+                                <li>Giảm giá <span id="discountAmount">0</span></li>
                                 <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.0f", granTotal)%></span></li>
                             </ul>
                             <button class="primary-btn " style="background-color: green" onclick="confirm(this);" >Xác nhận thanh toán</button></div>
@@ -339,11 +342,13 @@
                         total += parseFloat(checkbox.dataset.price);
                     }
                 });
-                document.getElementById('originalTotal').innerText = total.toFixed(2);
+                document.getElementById('originalTotal').innerText = total.toFixed(0);
 
                 // Apply discount
                 // Tính tổng giảm giá (từ mã giảm giá và điểm quy đổi)
-                var discountAmount = total * (currentDiscount + currentPointDiscount);
+                var discountAmount = (total * currentDiscount) + currentPointDiscount;
+                // Đảm bảo tổng giảm giá không vượt quá tổng tiền
+                discountAmount = Math.min(discountAmount, total);
                 // Apply promotion if condition is met
 //                var promotion = 0;
 //                if (total > promotionCondition) {
@@ -363,12 +368,12 @@
                 var finalTotal = total - discountAmount - promotionAmount;
                 finalTotal = finalTotal < 0 ? 0 : finalTotal; // Ensure total is not negative
 
-                document.getElementById('promotion').innerText = promotionAmount.toFixed(2);
-                document.getElementById('discountAmount').innerText = discountAmount.toFixed(2);
-                document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
-                sessionStorage.setItem('cartTotal', finalTotal.toFixed(2));
-                sessionStorage.setItem('cartDiscount', discountAmount.toFixed(2));
-                sessionStorage.setItem('cartPromotion', promotionAmount.toFixed(2));
+                document.getElementById('promotion').innerText = promotionAmount.toFixed(0);
+                document.getElementById('discountAmount').innerText = discountAmount.toFixed(0);
+                document.getElementById('finalTotal').innerText = finalTotal.toFixed(0);
+                sessionStorage.setItem('cartTotal', finalTotal.toFixed(0));
+                sessionStorage.setItem('cartDiscount', discountAmount.toFixed(0));
+                sessionStorage.setItem('cartPromotion', promotionAmount.toFixed(0));
             }
 
             document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
@@ -495,10 +500,10 @@
         </script>
 
         <script>
-            let appliedPoint = ''; // Biến để lưu diểm đã  áp dụng
+
             let currentPointDiscount = 0; //Biến để lưu giá trị giảm giá hiện tại
             function applyPoints() {
-                let points = parseInt(document.getElementById('pointSelect').value);
+                let points = parseInt(document.getElementById('pointInput').value);
 
                 $.ajax({
                     url: "applypoint?service=applyPoints",
@@ -509,8 +514,8 @@
                     dataType: 'json',
                     success: function (result) {
                         if (result.success) {
-                            currentPointDiscount = result.discount / 100; // Chuyển % thành số thập phân
-                            document.getElementById('pointMessage').innerHTML = "Quy đổi điểm thành công. Giảm " + result.discount + "%.";
+                            document.getElementById('pointMessage').innerHTML = "Quy đổi điểm thành công. Giảm " + result.discount.toFixed(0) + " VNĐ.";
+                            currentPointDiscount = result.discount;
                             updateTotal(); // Cập nhật tổng tiền với giảm giá mới
                         } else {
                             document.getElementById('pointMessage').innerHTML = result.message;
