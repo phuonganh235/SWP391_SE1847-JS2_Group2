@@ -140,6 +140,7 @@
                                 <div class="dropdown-menu bg-transparent border-0" style="text-align: center">
                                     <!--<a href="ViewAdmin/manageRole.jsp" class="dropdown-item">Phân vai trò</a>-->
                                     <a href="manageRole" class="dropdown-item">Phân vai trò</a>
+                                    <a href="managerole" class="dropdown-item">Tất cả</a>
                                     <a href="manageAccountAdmin?service=ListAllStaff" class="dropdown-item">Nhân viên</a>
                                     <a href="manageAccountAdmin?service=ListAllShipper" class="dropdown-item">Người giao hàng</a>
                                 </div>

@@ -1,6 +1,5 @@
 package controller.Manager;
 
-import dal.AboutDAO;
 import dal.RoleDAO;
 import dal.UserDAO;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import model.About;
 import model.Role;
 
 public class manageRole extends HttpServlet {
@@ -18,7 +16,6 @@ public class manageRole extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        AboutDAO dao = new AboutDAO();
         UserDAO uDao = new UserDAO();
         RoleDAO roleDao = new RoleDAO();
         String service = request.getParameter("service");
@@ -48,8 +45,7 @@ public class manageRole extends HttpServlet {
                 }
                 int roleId = Integer.parseInt(request.getParameter("title"));
                 String content = request.getParameter("content");
-                String description = request.getParameter("description");
-                Role role = new Role(roleId, content, description);
+                Role role = new Role(roleId, content);
                 roleDao.addRole(role);
                 response.sendRedirect("manageRole");
             }
@@ -64,8 +60,7 @@ public class manageRole extends HttpServlet {
             if (service.equals("edit")) {
                 int roleId = Integer.parseInt(request.getParameter("title"));
                 String content = request.getParameter("content");
-                String description = request.getParameter("description");
-                Role role = new Role(roleId, content, description);
+                Role role = new Role(roleId, content);
                 roleDao.updateRole(role);
                 response.sendRedirect("manageRole");
             }

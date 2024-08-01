@@ -110,19 +110,18 @@
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="abouttable">
                                 <thead>
                                     <tr class="text-dark">
-
+                                        <th></th>
                                         <th scope="col">Mã Vai Trò</th>
                                         <th scope="col">Tên Vai Trò</th>
-                                        <th scope="col">Mô Tả</th>
                                         <th scope="col">Hành Động</th>  
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach var="about" items="${requestScope.about}">
                                         <tr>
+                                            <td><input class="form-check-input" type="checkbox"></td>
                                             <td>${about.getRoleId()}</td>
-                                            <td>${about.getName()}</td>
-                                            <td>${about.getDescription()}</td>
+                                            <td>${about.getRoleName()}</td>
                                             <td>
                                                 <form action="manageRole?service=update" method="post" style="display: inline;">
                                                     <input type="hidden" name="id" value="${about.getRoleId()}"/>
@@ -130,7 +129,6 @@
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                 </form>
-                                                <a class="btn btn-sm btn-success" href="#"><i class="fas fa-user-plus"></i></a>
                                                 <a class="btn btn-sm btn-danger" href="#" onclick="confirmDelete('${about.getRoleId()}')"> <i class="fas fa-trash-alt" style="float: right"></i></a>
                                             </td>
                                         </tr>
@@ -159,11 +157,6 @@
                                                 <input type="text" class="form-control" id="content" name="content" required>
                                                 <span id="contentError" style="color: red;"></span>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="description" class="form-label">Mô tả</label>
-                                                <input type="text" class="form-control" id="description" name="description" required>
-                                                <span id="descriptionError" style="color: red;"></span>
-                                            </div>
                                             <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
@@ -188,13 +181,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="updateContent">Tên vai trò</label>
-                                                <input type="text" class="form-control" id="updateContent" name="content" value="${about.getName()}" required>
+                                                <input type="text" class="form-control" id="updateContent" name="content" value="${about.getRoleName()}" required>
                                                 <span id="contentUpdateError" style="color: red;"></span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="updateDescription">Mô tả</label>
-                                                <input type="text" class="form-control" id="updateDescription" name="description" value="${about.getDescription()}" required>
-                                                <span id="descriptionUpdateError" style="color: red;"></span>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -289,17 +277,6 @@
                         document.getElementById("contentError").innerHTML = "";
                     }
                 };
-                document.getElementById("description").oninput = function () {
-                    var name = this.value;
-                    this.value = name;
-                    if (name === "") {
-                        document.getElementById("descriptionError").innerHTML = "Mô tả không được để trống.";
-                    } else if (/^\s/.test(name)) {
-                        document.getElementById("descriptionError").innerHTML = "Mô tả không được bắt đầu bằng dấu cách.";
-                    } else {
-                        document.getElementById("descriptionError").innerHTML = "";
-                    }
-                };
             });
 
             // Update form validation
@@ -315,17 +292,6 @@
                 }
             };
 
-            document.getElementById("updateDescription").oninput = function () {
-                var description = this.value;
-                this.value = description;
-                if (description === "") {
-                    document.getElementById("descriptionUpdateError").innerHTML = "Mô tả không được để trống.";
-                } else if (/^\s/.test(description)) {
-                    document.getElementById("descriptionUpdateError").innerHTML = "Mô tả không được bắt đầu bằng dấu cách.";
-                } else {
-                    document.getElementById("descriptionUpdateError").innerHTML = "";
-                }
-            };
             function confirmDelete(roleid) {
                 if (confirm("Bạn có chắc chắn muốn xóa vai trò này không?")) {
                     window.location = "manageRole?service=delete&id=" + roleid;

@@ -21,8 +21,7 @@ public class RoleDAO extends DBContext {
             while (rs.next()) {
                 Role u = new Role();
                 u.setRoleId(rs.getInt("RoleId"));
-                u.setName(rs.getString("Name"));
-                u.setDescription(rs.getString("Description"));
+                u.setRoleName(rs.getString("RoleName"));
 
                 uList.add(u);
             }
@@ -42,8 +41,7 @@ public class RoleDAO extends DBContext {
             if (rs.next()) {
                 role = new Role();
                 role.setRoleId(rs.getInt("RoleId"));
-                role.setName(rs.getString("Name"));
-                role.setDescription(rs.getString("Description"));
+                role.setRoleName(rs.getString("RoleName"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,12 +50,11 @@ public class RoleDAO extends DBContext {
     }
     
     public void addRole(Role about) {
-        String sql = "INSERT INTO Roles (RoleId, Name, Description) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Roles (RoleId, RoleName) VALUES (?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, about.getRoleId());
-            st.setString(2, about.getName());
-            st.setString(3, about.getDescription());
+            st.setString(2, about.getRoleName());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,13 +62,12 @@ public class RoleDAO extends DBContext {
     }
     
     public void updateRole(Role about) {
-        String sql = "UPDATE Roles SET RoleId = ?, Name = ?, Description = ? WHERE RoleID = ?";
+        String sql = "UPDATE Roles SET RoleId = ?, RoleName = ? WHERE RoleID = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, about.getRoleId());
-            st.setString(2, about.getName());
-            st.setString(3, about.getDescription());
-            st.setInt(4, about.getRoleId());
+            st.setString(2, about.getRoleName());
+            st.setInt(3, about.getRoleId());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

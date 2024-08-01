@@ -10,18 +10,16 @@ package model;
  */
 public class Role {
     private int RoleId;
-    private String Name;
-    private String Description;
+    private String RoleName;
 
     public Role() {
     }
 
-    public Role(int RoleId, String Name, String Description) {
+    public Role(int RoleId, String RoleName) {
         this.RoleId = RoleId;
-        this.Name = Name;
-        this.Description = Description;
+        this.RoleName = RoleName;
     }
-    
+
     public int getRoleId() {
         return RoleId;
     }
@@ -30,25 +28,17 @@ public class Role {
         this.RoleId = RoleId;
     }
 
-    public String getName() {
-        return Name;
+    public String getRoleName() {
+        return RoleName;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setRoleName(String RoleName) {
+        this.RoleName = RoleName;
     }
 
     @Override
     public String toString() {
-        return "Role{" + "RoleId=" + RoleId + ", Name=" + Name + ", Description=" + Description + '}';
+        return "Role{" + "RoleId=" + RoleId + ", RoleName=" + RoleName + '}';
     }
     
 }

@@ -85,6 +85,65 @@
                 border: 1px solid #ddd;
                 padding: 5px;
             }
+            /* Custom modal styling */
+            .modal-content {
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Modal header styling */
+            .modal-header {
+                background-color: #f8f9fa;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            /* Modal title styling */
+            .modal-title {
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #333;
+            }
+
+            /* Form field styling */
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-label {
+                font-weight: bold;
+                color: #555;
+            }
+
+            .form-control {
+                border-radius: 5px;
+                border: 1px solid #ced4da;
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            .form-control:focus {
+                border-color: #80bdff;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+            }
+
+            /* Checkbox styling */
+            .form-check-input {
+                margin-top: 0.3rem;
+            }
+
+            /* Submit button styling */
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+                border-radius: 5px;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+
         </style>
     </head>
 
@@ -106,12 +165,10 @@
                         <div class="table-responsive">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Quản lý chương trình khuyến mãi</h6>
-                                <form class="d-none d-md-flex ms-4" action="managepromotion?service=search" method="post">
-                                    <input type="hidden" name="service" value="search">
-                                    <input class="form-control border-0" type="search" placeholder="Tìm kiếm" name="txt">
-                                    <button style="color: black; background-color: #99ccff; border-radius: 40px;" 
-                                            type="submit" class="btn btn-secondary btn-number"><i class="fa fa-search"></i></button>
-                                </form>
+                                <div class="d-flex" style="margin-top: 10px">
+                                    <input class="form-control border-0 me-2" id="searchInput" type="text" placeholder="Tìm kiếm">
+                                    <button style="color: black; background-color: #99ccff; border-radius: 40px;" id="searchButton" class="btn btn-outline-secondary" ><i class="fa fa-search"></i></button>
+                                </div>
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPromotionModal">Thêm Chương Trình</button>
                             </div>
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="productTable">
@@ -166,7 +223,8 @@
                             </table>
 
                         </div>
-                        <!-- Add Promotion -->
+                        
+                        <!-- Add Promotion Modal -->
                         <div class="modal fade" id="addPromotionModal" tabindex="-1" aria-labelledby="addPromotionModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -176,57 +234,59 @@
                                     </div>
                                     <div class="modal-body">
                                         <form id="addPromotionForm" action="managepromotion?service=add" method="post">
+                                            <!-- Promotion ID -->
                                             <div class="mb-3">
                                                 <label for="promoId" class="form-label">ID</label>
                                                 <input type="number" class="form-control" id="promoId" name="promoId" required>
-                                                <!--<span id="promoIdError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Promotion Code -->
                                             <div class="mb-3">
                                                 <label for="promoCode" class="form-label">Mã Khuyến Mãi</label>
                                                 <input type="text" class="form-control" id="promoCode" name="promoCode" required>
-                                                <!--<span id="promoCodeError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Promotion Name -->
                                             <div class="mb-3">
                                                 <label for="promoName" class="form-label">Tên khuyến mãi</label>
                                                 <input type="text" class="form-control" id="promoName" name="promoName" required>
-                                                <!--<span id="promoNameError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Start Date -->
                                             <div class="mb-3">
                                                 <label for="start" class="form-label">Ngày bắt đầu</label>
                                                 <input type="datetime-local" class="form-control" id="start" name="start" required>
-                                                <!--<span id="startError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- End Date -->
                                             <div class="mb-3">
                                                 <label for="end" class="form-label">Ngày kết thúc</label>
                                                 <input type="datetime-local" class="form-control" id="end" name="end" required>
-                                                <!--<span id="endError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Active Status -->
                                             <div class="mb-3">
                                                 <label for="isActive" class="form-label">Trạng thái</label>
                                                 <input type="checkbox" class="form-check-input" id="isActive" name="isActive">
                                             </div>
+                                            <!-- Description -->
                                             <div class="mb-3">
                                                 <label for="description" class="form-label">Mô tả</label>
                                                 <input type="text" class="form-control" id="description" name="description" required>
-                                                <!--<span id="descriptionError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Discount Amount -->
                                             <div class="mb-3">
                                                 <label for="discountAmount" class="form-label">Giá trị KM</label>
                                                 <input type="number" class="form-control" id="discountAmount" name="discountAmount" min="0" required>
-                                                <!--<span id="discountAmountError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Minimum Order Condition -->
                                             <div class="mb-3">
                                                 <label for="condition" class="form-label">Đơn tối thiểu</label>
                                                 <input type="number" class="form-control" id="condition" name="condition" min="0" required>
-                                                <!--<span id="conditionError" style="color: red;"></span>-->
                                             </div>
+                                            <!-- Submit Button -->
                                             <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- update Coupons Modal -->
                         <div class="modal fade" id="updateCouponModal" tabindex="-1" aria-labelledby="CouponModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -263,11 +323,11 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="updateQuantity">Trạng thái</label>
                                                 <input type="checkbox" class="form-control" id="updateQuantity" name="status" <c:if test="${couponUpdate.status}">checked</c:if>>
-                                                <!--<div id="updateQuantityError" class="form-text text-danger fst-italic"></div>-->
-                                            </div> 
-                                            <div class="mb-3">
-                                                <label for="updateDescription" class="form-label">Mô tả</label>
-                                                <input type="text" class="form-control" id="updateDescription" name="description" value="${couponUpdate.description}" required>
+                                                    <!--<div id="updateQuantityError" class="form-text text-danger fst-italic"></div>-->
+                                                </div> 
+                                                <div class="mb-3">
+                                                    <label for="updateDescription" class="form-label">Mô tả</label>
+                                                    <input type="text" class="form-control" id="updateDescription" name="description" value="${couponUpdate.description}" required>
                                                 <!--<div id="updateDescriptionError" class="form-text text-danger fst-italic"></div>-->
                                             </div>
                                             <div class="mb-3">
@@ -338,7 +398,22 @@
                                                                 }
                                                             }
                                                         });
+                                                         // Kết nối thanh tìm kiếm tùy chỉnh với DataTable
+                                                        $('#searchInput').on('keyup', function () {
+                                                            table.search(this.value).draw();
+                                                        });
 
+                                                        // Xử lý tìm kiếm khi nhấn nút tìm kiếm
+                                                        $('#searchButton').on('click', function () {
+                                                            table.search($('#searchInput').val()).draw();
+                                                        });
+
+                                                        // Xử lý tìm kiếm khi nhấn Enter trong ô tìm kiếm
+                                                        $('#searchInput').on('keypress', function (e) {
+                                                            if (e.which == 13) {  // 13 là mã phím cho Enter
+                                                                table.search(this.value).draw();
+                                                            }
+                                                        });
                                                     });
     </script>
     <script>
@@ -348,11 +423,11 @@
             }
         }
         $(document).ready(function () {
-                // Update
-            <c:if test="${not empty requestScope.PromotionIdUpdate}">
-                $('#updateCouponModal').modal('show');
-            </c:if>
-            });
+            // Update
+        <c:if test="${not empty requestScope.PromotionIdUpdate}">
+            $('#updateCouponModal').modal('show');
+        </c:if>
+        });
     </script>
 </body>
 
