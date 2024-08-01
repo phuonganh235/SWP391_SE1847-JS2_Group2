@@ -81,17 +81,20 @@ public class Register extends HttpServlet {
             return;
         }
 
-        User u = new User();
+        String encodedPassword = PasswordUtil.encodePassword(password);
+        
+         User u = new User();
         u.setName(name);
         u.setUsername(username);
-        u.setPassword(password);
+        u.setPassword(encodedPassword);
         u.setMobile(mobile);
         u.setEmail(email);
         u.setAddress(address);
         u.setPostCode(postCode);
         u.setRoleId(2);
         String date = daoDate.getDateTimeNow();
-        dao.register(name, username, password, mobile, email, address, postCode, date, 2, 1, "");
+        
+        dao.register(name, username, encodedPassword, mobile, email, address, postCode, date, 2, 1, "");
         session.setAttribute("message", "Register successfully, please enter Username and Password to login.");
         response.sendRedirect("login");
     }

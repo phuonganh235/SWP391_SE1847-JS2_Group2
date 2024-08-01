@@ -1,5 +1,6 @@
 package dal;
 
+import controller.Authentication.PasswordUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -179,34 +180,36 @@ public class UserDAO extends DBContext {
 
     // Authenticates a user with the provided username and password
     public User login(String username, String password) {
-        String sql = "SELECT * FROM [Users] WHERE Username = ? AND Password = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
+    String sql = "SELECT * FROM [Users] WHERE Username = ? AND Password = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        String encodedPassword = PasswordUtil.encodePassword(password);
+        ps.setString(1, username);
+        ps.setString(2, encodedPassword);
+        
+        try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return new User(
-                        rs.getInt("UserId"),
-                        rs.getString("Name"),
-                        rs.getString("Username"),
-                        rs.getString("Mobile"),
-                        rs.getString("Email"),
-                        rs.getString("Address"),
-                        rs.getString("PostCode"),
-                        rs.getString("ImageUrl"),
-                        rs.getInt("RoleId"),
-                        rs.getString("CreateDate"),
-                        rs.getString("Password"),
-                        rs.getInt("Statuss"),
-                        rs.getString("DateOfBirth") // Lấy giá trị trường dateOfBirth
+                    rs.getInt("UserId"),
+                    rs.getString("Name"),
+                    rs.getString("Username"),
+                    rs.getString("Mobile"),
+                    rs.getString("Email"),
+                    rs.getString("Address"),
+                    rs.getString("PostCode"),
+                    rs.getString("ImageUrl"),
+                    rs.getInt("RoleId"),
+                    rs.getString("CreateDate"),
+                    rs.getString("Password"),
+                    rs.getInt("Statuss"),
+                    rs.getString("DateOfBirth")
                 );
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return null;
+}
 
     // Retrieves a user by their userId
     public User getUserById(String userId) {
@@ -313,24 +316,26 @@ public class UserDAO extends DBContext {
 
     // Registers a new user with the provided details
     public void register(String name, String username, String password, String mobile, String email, String address, String postCode, String createDate, int roleId, int statuss, String dateOfBirth) {
-        String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, name);
-            ps.setString(2, username);
-            ps.setString(3, mobile);
-            ps.setString(4, email);
-            ps.setString(5, address);
-            ps.setString(6, postCode);
-            ps.setInt(7, roleId);
-            ps.setString(8, createDate);
-            ps.setString(9, password);
-            ps.setInt(10, statuss);
-            ps.setString(11, dateOfBirth); // Thêm giá trị dateOfBirth
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        String encodedPassword = PasswordUtil.encodePassword(password);
+        
+        ps.setString(1, name);
+        ps.setString(2, username);
+        ps.setString(3, mobile);
+        ps.setString(4, email);
+        ps.setString(5, address);
+        ps.setString(6, postCode);
+        ps.setInt(7, roleId);
+        ps.setString(8, createDate);
+        ps.setString(9, encodedPassword);
+        ps.setInt(10, statuss);
+        ps.setString(11, dateOfBirth);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
     // Retrieves the role of a user based on their username and password
     public int getRole(String username, String password) {
