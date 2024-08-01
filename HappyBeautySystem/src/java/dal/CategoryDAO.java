@@ -28,7 +28,7 @@ public class CategoryDAO extends DBContext {
         }
         return categoryList;
     }
-    
+
     // Retrieves all categories from the Category table in the database
     public ArrayList<Category> getAllCategoriesActive() {
         ArrayList<Category> categoryList = new ArrayList<>();
@@ -138,7 +138,7 @@ public class CategoryDAO extends DBContext {
         }
         return categoryList;
     }
-    
+
     // Updates the IsActive status of a product in the Category table in the database by its ID
     public void updateCategoryActiveStatus(int catID, boolean isActive) {
         String sql = "UPDATE Category SET IsActive = ? WHERE CategoryId = ?";
@@ -151,7 +151,22 @@ public class CategoryDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
+    public boolean isCategoryNameExist(String categoryName) {
+        String sql = "SELECT COUNT(*) FROM Category WHERE CategoryName = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, categoryName);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //main method
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();

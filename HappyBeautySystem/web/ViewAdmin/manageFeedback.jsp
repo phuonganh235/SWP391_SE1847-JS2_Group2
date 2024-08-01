@@ -175,6 +175,13 @@
                                                         Trả lời
                                                     </button>
                                                 </form>
+
+                                                <form action="managefeedback?service=update&feedbackId=${feedback.feedbackId}" method="post" style="display: inline;">
+                                                    <input type="hidden" name="id" value="${feedback.feedbackId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -200,11 +207,44 @@
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
-
                                     </form>
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form id="updateProductForm" action="managefeedback?service=edit" method="post">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Cập nhật trả lời</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <c:set value="${requestScope.repfbupdate}" var="repfb"/>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="repfbid">ID</label>
+                                                <input type="number" class="form-control" id="repfbid" name="repfbid" value="${repfb.repFbId}" readonly>
+                                            </div>
+                                            <input type="hidden" id="feedbackId" name="feedbackId" value="${repfb.fbId}">
+                                            <input type="hidden" id="userid" name="userid" value="${repfb.userId}">
+                                            <div class="mb-3">
+                                                <label for="comment" class="form-label">Phản hồi</label>
+                                                <textarea class="form-control" id="comment" name="comment" required>${repfb.comment}</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="comment" class="form-label">Phản hồi</label>
+                                                <input type="text" class="form-control" id="createDate" name="createDate" value="${repfb.creatAt}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-success" value="Cập nhật">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>               
                     </div>
                 </div>
                 <!-- Feedback Management End -->
@@ -231,29 +271,29 @@
         <script src="ViewAdmin/js/main.js"></script>
 
         <script>
-                                        $(document).ready(function () {
-                                            var table = $('#abouttable').DataTable({
-                                                "pageLength": 5,
-                                                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                "order": [[1, "asc"]],
-                                                "columnDefs": [
-                                                    {"orderable": false, "targets": 6}
-                                                ],
-                                                "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                "language": {
-                                                    "lengthMenu": "Hiển thị _MENU_ mục",
-                                                    "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                    "paginate": {
-                                                        "first": "Đầu",
-                                                        "last": "Cuối",
-                                                        "next": "Tiếp",
-                                                        "previous": "Trở vể"
-                                                    }
+                                    $(document).ready(function () {
+                                        var table = $('#abouttable').DataTable({
+                                            "pageLength": 5,
+                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                            "order": [[1, "asc"]],
+                                            "columnDefs": [
+                                                {"orderable": false, "targets": 6}
+                                            ],
+                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                            "language": {
+                                                "lengthMenu": "Hiển thị _MENU_ mục",
+                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                "paginate": {
+                                                    "first": "Đầu",
+                                                    "last": "Cuối",
+                                                    "next": "Tiếp",
+                                                    "previous": "Trở vể"
                                                 }
-                                            });
-
-
+                                            }
                                         });
+
+
+                                    });
         </script>
         <script>
             $(document).ready(function () {
@@ -263,7 +303,15 @@
             </c:if>
             });
         </script>
-
+        <!--Mở modal update-->
+        <script>
+            $(document).ready(function () {
+                // Update
+            <c:if test="${not empty requestScope.repfbupdate}">
+                $('#updateProductModal').modal('show');
+            </c:if>
+            });
+        </script>
     </body>
 
 </html>

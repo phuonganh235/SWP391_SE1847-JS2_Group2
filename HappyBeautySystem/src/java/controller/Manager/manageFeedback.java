@@ -49,7 +49,6 @@ public class manageFeedback extends HttpServlet {
                 int badReview = dao.countNegativeFeedbacks();
                 request.setAttribute("badReview", badReview);
 
-                
                 request.getRequestDispatcher("/ViewAdmin/manageFeedback.jsp").forward(request, response);
             }
             if (service.equals("filterByStar")) {
@@ -65,11 +64,11 @@ public class manageFeedback extends HttpServlet {
                 request.setAttribute("badReview", badReview);
                 request.getRequestDispatcher("/ViewAdmin/manageFeedback.jsp").forward(request, response);
             }
-            
+
             //Updating a category
             if (service.equals("add")) {
                 int feedbackId = Integer.parseInt(request.getParameter("feedbackId"));
-                Feedback fb = dao.getFeedbackById(feedbackId);               
+                Feedback fb = dao.getFeedbackById(feedbackId);
                 request.setAttribute("fb", fb);
                 ArrayList<Feedback> feedback = dao.getAllFeedbacks();
                 request.setAttribute("feedback", feedback);
@@ -81,9 +80,7 @@ public class manageFeedback extends HttpServlet {
                 request.setAttribute("badReview", badReview);
                 request.getRequestDispatcher("/ViewAdmin/manageFeedback.jsp").forward(request, response);
             }
-            
-            
-            
+
             if (service.equals("addRep")) {
                 String repIdStr = request.getParameter("repId");
                 Integer repId = null;
@@ -94,8 +91,8 @@ public class manageFeedback extends HttpServlet {
                         e.printStackTrace();
                     }
                 }
-               
-                int feedbackId =Integer.parseInt(request.getParameter("fbid"));
+
+                int feedbackId = Integer.parseInt(request.getParameter("fbid"));
                 int userId = Integer.parseInt(request.getParameter("userid"));
                 String comment = request.getParameter("comment");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -105,6 +102,23 @@ public class manageFeedback extends HttpServlet {
                 response.sendRedirect("managefeedback");
             }
 
+            if (service.equals("update")) {
+                int fbId = Integer.parseInt(request.getParameter("feedbackId"));
+                RepFeedback rep = repDao.getRepFeedbackByFeedbackId(fbId);
+                request.setAttribute("repfbupdate", rep);
+                request.getRequestDispatcher("managefeedback?service=listall").forward(request, response);
+            }
+            //Editing a category
+            if (service.equals("edit")) {
+                int repfbid = Integer.parseInt(request.getParameter("repfbid"));
+                int feedbackId = Integer.parseInt(request.getParameter("feedbackId"));
+                int userId = Integer.parseInt(request.getParameter("userid"));
+                String comment = request.getParameter("comment");
+                String createDate = request.getParameter("createDate");
+                RepFeedback repfb = new RepFeedback(repfbid, feedbackId, userId, comment, createDate);
+                repDao.updateRepFeedback(repfb);
+                response.sendRedirect("managefeedback");
+            }
         } else {
             response.sendRedirect("login");
         }

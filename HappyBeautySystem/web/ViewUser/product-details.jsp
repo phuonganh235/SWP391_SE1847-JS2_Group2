@@ -369,8 +369,8 @@
                                                 <div class="blog__comment__item__text">
                                                     <c:forEach items="${user}" var="user">
                                                         <c:if test="${feedback.userId == user.userId}">
-                                                            <h6 style="display: inline;">${user.name}</h6><h6 style="display: inline; color: #ddb100; font-weight: bold; font-size: 14px;">(${feedback.rating}<i class="fa fa-star"></i>)</h6>
-
+                                                            <h6 style="display: inline;">${user.name}</h6>
+                                                            <h6 style="display: inline; color: #ddb100; font-weight: bold; font-size: 14px;">(${feedback.rating}<i class="fa fa-star"></i>)</h6>
                                                         </c:if>
                                                     </c:forEach>    
                                                     <p>${feedback.comment}</p>
@@ -383,10 +383,10 @@
                                                     <div class="blog__comment__item__text" style="margin-left: 80px;margin-bottom: 30px">
                                                 <c:forEach items="${repfb}" var="repfb">
                                                     <c:if test="${repfb.fbId==feedback.feedbackId}">
-                                                        <h6>Phản hồi của cửa hàng</h6>
+                                                        <h6 style="display: inline;">Phản hồi của cửa hàng</h6>
                                                         <p>${repfb.comment}</p>
                                                         <ul>
-                                                            <li><i class="fa fa-clock-o"></i> ${repfb.creatAt}</li>
+                                                            <li ><i class="fa fa-clock-o"></i> ${repfb.creatAt}</li>
                                                         </ul>
                                                     </c:if>
                                                 </c:forEach>

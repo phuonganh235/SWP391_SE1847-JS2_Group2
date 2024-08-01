@@ -164,11 +164,41 @@
                                                 <span id="contentError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <input type="file" class="form-control" id="imageURL" name="imageURL" onchange="loadImg(this, event)" required>
+                                                <input type="file" class="form-control" id="imageURL" name="imageURL" onchange="loadImg1(this, event)" required>
                                                 <span id="pathImageError" style="color: red;"></span>
                                                 <img src=""  alt="Lỗi ảnh" class="loadImage"/> 
                                                 <input type="hidden" name="srcImg" class="srcImg"/>
                                             </div>
+                                            <script>
+                                                function loadImg1(input, event) {
+                                                    var file = input.files[0];
+                                                    var pathImageError = document.getElementById('pathImageError');
+                                                    var loadImage = document.querySelector('.loadImage');
+
+                                                    if (file) {
+                                                        var fileName = file.name;
+                                                        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+                                                        if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                                                            var reader = new FileReader();
+
+                                                            reader.onload = function (e) {
+                                                                loadImage.src = e.target.result;
+                                                            }
+
+                                                            reader.readAsDataURL(file);
+                                                            pathImageError.textContent = ''; // Clear error message if file is valid
+                                                        } else {
+                                                            pathImageError.textContent = 'Chỉ được tải lên các tệp hình ảnh (jpg, jpeg, png, gif).';
+                                                            input.value = ''; // Clear the input value to prevent form submission with invalid file
+                                                            loadImage.src = ''; // Clear the image preview
+                                                        }
+                                                    } else {
+                                                        pathImageError.textContent = 'Vui lòng chọn một tệp hình ảnh.';
+                                                        loadImage.src = ''; // Clear the image preview
+                                                    }
+                                                }
+                                            </script>
                                             <button type="submit" class="btn btn-primary">Lưu</button>
                                         </form>
                                     </div>
@@ -204,9 +234,40 @@
                                             <div class="form-group">
                                                 <label for="updateImageURL" class="form-label">Ảnh</label>
                                                 <img src="${about.imageURL}" alt="Lỗi ảnh" class="loadImage"/>
-                                                <input type="file" class="form-control" onchange="loadImg(this, event)">
+                                                <input type="file" class="form-control" onchange="loadImgupdate(this, event)">
                                                 <input type="hidden" name="imageURL" class="srcImg" value="${about.imageURL}"/>
+                                                <span id="updatePathImageError" style="color: red;"></span>
                                             </div>
+                                            <script>
+                                                function loadImgupdate(input, event) {
+                                                    var file = input.files[0];
+                                                    var pathImageError = document.getElementById('updatePathImageError');
+                                                    var loadImage = document.querySelector('.loadImage');
+
+                                                    if (file) {
+                                                        var fileName = file.name;
+                                                        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+                                                        if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                                                            var reader = new FileReader();
+
+                                                            reader.onload = function (e) {
+                                                                loadImage.src = e.target.result;
+                                                            }
+
+                                                            reader.readAsDataURL(file);
+                                                            pathImageError.textContent = ''; // Clear error message if file is valid
+                                                        } else {
+                                                            pathImageError.textContent = 'Chỉ được tải lên các tệp hình ảnh (jpg, jpeg, png, gif).';
+                                                            input.value = ''; // Clear the input value to prevent form submission with invalid file
+                                                            loadImage.src = ''; // Clear the image preview
+                                                        }
+                                                    } else {
+                                                        pathImageError.textContent = 'Vui lòng chọn một tệp hình ảnh.';
+                                                        loadImage.src = ''; // Clear the image preview
+                                                    }
+                                                }
+                                            </script>
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" class="btn btn-success" value="Update">
@@ -249,29 +310,29 @@
         <!-- Template Javascript -->
         <script src="ViewAdmin/js/main.js"></script>
         <script>
-                                                    $(document).ready(function () {
-                                                        var table = $('#abouttable').DataTable({
-                                                            "pageLength": 5,
-                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                            "order": [[1, "asc"]],
-                                                            "columnDefs": [
-                                                                {"orderable": false, "targets": 3}
-                                                            ],
-                                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                            "language": {
-                                                                "lengthMenu": "Hiển thị _MENU_ mục",
-                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                                "paginate": {
-                                                                    "first": "Đầu",
-                                                                    "last": "Cuối",
-                                                                    "next": "Tiếp",
-                                                                    "previous": "Trở vể"
-                                                                }
+                                                $(document).ready(function () {
+                                                    var table = $('#abouttable').DataTable({
+                                                        "pageLength": 5,
+                                                        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                        "order": [[1, "asc"]],
+                                                        "columnDefs": [
+                                                            {"orderable": false, "targets": 3}
+                                                        ],
+                                                        "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                        "language": {
+                                                            "lengthMenu": "Hiển thị _MENU_ mục",
+                                                            "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                            "paginate": {
+                                                                "first": "Đầu",
+                                                                "last": "Cuối",
+                                                                "next": "Tiếp",
+                                                                "previous": "Trở vể"
                                                             }
-                                                        });
-
-
+                                                        }
                                                     });
+
+
+                                                });
         </script>
         <script>
             function loadImg(target, e) {

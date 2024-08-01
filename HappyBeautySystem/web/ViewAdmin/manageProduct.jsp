@@ -380,8 +380,8 @@
                                             <span id="updatePathImageError" style="color: red;"></span>
                                             <input type="hidden" name="pathImage" class="srcImg" value="${product.pathImage}"/>
                                         </div>
-                                        
-                                                                                <script>
+
+                                        <script>
                                             function loadImgupdate(input, event) {
                                                 var file = input.files[0];
                                                 var pathImageError = document.getElementById('updatePathImageError');
@@ -411,7 +411,7 @@
                                                 }
                                             }
                                         </script>
-                                        
+
                                     </div>
                                     <div class="modal-footer">
                                         <input type="submit" class="btn btn-success" value="Cập nhật">
@@ -451,29 +451,29 @@
     <script src="ViewAdmin/js/main.js"></script>
     <!--        xử lý datatable-->
     <script>
-                                                $(document).ready(function () {
-                                                    var table = $('#productTable').DataTable({
-                                                        "pageLength": 5,
-                                                        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                                        "order": [[1, "asc"]],
-                                                        "columnDefs": [
-                                                            {"orderable": false, "targets": 7}
-                                                        ],
-                                                        "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                                        "language": {
-                                                            "lengthMenu": "Hiển thị _MENU_ mục",
-                                                            "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                            "paginate": {
-                                                                "first": "Đầu",
-                                                                "last": "Cuối",
-                                                                "next": "Tiếp",
-                                                                "previous": "Trở vể"
-                                                            }
-                                                        }
-                                                    });
+                                                                                    $(document).ready(function () {
+                                                                                        var table = $('#productTable').DataTable({
+                                                                                            "pageLength": 5,
+                                                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                                                            "order": [[1, "asc"]],
+                                                                                            "columnDefs": [
+                                                                                                {"orderable": false, "targets": 7}
+                                                                                            ],
+                                                                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                                                            "language": {
+                                                                                                "lengthMenu": "Hiển thị _MENU_ mục",
+                                                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                                                                "paginate": {
+                                                                                                    "first": "Đầu",
+                                                                                                    "last": "Cuối",
+                                                                                                    "next": "Tiếp",
+                                                                                                    "previous": "Trở vể"
+                                                                                                }
+                                                                                            }
+                                                                                        });
 
 
-                                                });
+                                                                                    });
     </script>
     <script>
         function loadImg(target, e) {

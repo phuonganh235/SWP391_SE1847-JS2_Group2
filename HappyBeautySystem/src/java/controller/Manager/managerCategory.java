@@ -49,13 +49,20 @@ public class managerCategory extends HttpServlet {
                     }
                 }
                 String catName = request.getParameter("categoryName");
-                String catImgUrl = request.getParameter("categoryImageUrl");
-                boolean isActive = request.getParameter("isActive") != null;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String createDate = sdf.format(new Date());
-                Category cat = new Category(categoryId, catName, catImgUrl, isActive, createDate);
-                dao.addCategory(cat);
-                response.sendRedirect("managercategory");
+                if (dao.isCategoryNameExist(catName)) {
+                    request.setAttribute("error", "Category name already exists.");
+                    ArrayList<Category> cat = dao.getAllCategories();
+                    request.setAttribute("listCat", cat);
+                    request.getRequestDispatcher("ViewAdmin/manageCategory.jsp").forward(request, response);
+                } else {
+                    String catImgUrl = request.getParameter("categoryImageUrl");
+                    boolean isActive = request.getParameter("isActive") != null;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String createDate = sdf.format(new Date());
+                    Category cat = new Category(categoryId, catName, catImgUrl, isActive, createDate);
+                    dao.addCategory(cat);
+                    response.sendRedirect("managercategory");
+                }
             }
             //Updating a category
             if (service.equals("update")) {

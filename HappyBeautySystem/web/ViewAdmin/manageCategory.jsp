@@ -79,11 +79,9 @@
 
     <body>
         <div class="container-xxl position-relative bg-white d-flex p-0">
-
             <!-- Sidebar Start -->
             <jsp:include page="sidebar.jsp"/>
             <!-- Sidebar End -->
-
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
@@ -104,12 +102,16 @@
                             </form>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
                         </div>
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger">${error}</div>
+                            <a href="managercategory">Quay lại</a>
+                        </c:if>
+
                         <!-- Load product Product -->
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0" id="categorytable">
                                 <thead>
                                     <tr class="text-dark">
-
                                         <th scope="col">ID</th>
                                         <th scope="col">Tên</th>
                                         <th scope="col">Trạng thái</th>
@@ -134,8 +136,6 @@
                                             </td>
                                             <td>${cat.createDate}</td>
                                             <td>
-<!--                                                <a class="btn btn-sm btn-primary" href="managercategory?service=update&id=${cat.categoryId}">Update</a>
-                                                <a class="btn btn-sm btn-danger" href="managercategory?service=delete&id=${cat.categoryId}">Delete</a>-->
                                                 <form action="managercategory?service=update" method="post" style="display: inline;">
                                                     <input type="hidden" name="id" value="${cat.categoryId}"/>
                                                     <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
