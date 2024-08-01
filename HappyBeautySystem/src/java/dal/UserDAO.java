@@ -39,15 +39,16 @@ public class UserDAO extends DBContext {
         }
         return uList;
     }
+    
 
     public User getUserByEmail(String email) {
         User user = null;
         String sql = "SELECT * FROM Users WHERE Email = ?";
-        
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            
+
             ps.setString(1, email);
-            
+
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     user = new User();
@@ -70,10 +71,10 @@ public class UserDAO extends DBContext {
             System.out.println("Error in getUserByEmail: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
         return user;
     }
-    
+
     public boolean emailExistsInDatabase(String email) {
         String sql = "SELECT COUNT(*) FROM Users WHERE Email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -88,6 +89,7 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+
     public ArrayList<User> SearchStaffByName(String name) {
         ArrayList<User> uList = new ArrayList<>();
         String sql = "SELECT * FROM Users WHERE name LIKE ? AND RoleId = 4";
@@ -229,6 +231,29 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    // Retrieves a user by their userId
+    public User getUserByUserId(int userId) {
+        String sql = "SELECT * FROM Users WHERE UserId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User(rs.getInt("UserId"), rs.getString("Name"),
+                        rs.getString("Username"), rs.getString("Mobile"),
+                        rs.getString("Email"), rs.getString("Address"),
+                        rs.getString("PostCode"), rs.getString("ImageUrl"),
+                        rs.getInt("RoleId"), rs.getString("CreateDate"),
+                        rs.getString("Password"), rs.getInt("Statuss"),
+                        rs.getString("DateOfBirth")); // Lấy giá trị trường dateOfBirth
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     // Retrieves a user by their username
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE Username = ?";
@@ -355,6 +380,21 @@ public class UserDAO extends DBContext {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return n;
+    }
+
+    public int updateUserRole(int roleId, int userId) {
+        int n = 0;
+        String sqlUpdate = "UPDATE [dbo].[Users] SET [RoleId] = ? WHERE userId = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
+            pre.setInt(1, roleId);  // Set the roleId parameter
+            pre.setInt(2, userId);  // Set the userId parameter
+
+            n = pre.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;  // Return the number of rows affected
     }
 
     public int updateUserCustomer(User user) {
@@ -577,7 +617,7 @@ public class UserDAO extends DBContext {
         }
     }
 
-     public int getUserIdByUsername(String username) {
+    public int getUserIdByUsername(String username) {
         int userId = -1;
         String query = "SELECT id FROM Users WHERE username = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -592,7 +632,6 @@ public class UserDAO extends DBContext {
         }
         return userId;
     }
-
 
     public static void main(String[] args) {
         UserDAO userDB = new UserDAO();

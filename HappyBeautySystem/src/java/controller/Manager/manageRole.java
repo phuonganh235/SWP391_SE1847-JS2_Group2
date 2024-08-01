@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.Role;
+import model.User;
 
 public class manageRole extends HttpServlet {
 
@@ -29,8 +30,23 @@ public class manageRole extends HttpServlet {
             }
             if (service.equals("listall")) {
                 ArrayList<Role> about = roleDao.getAllRole();
+                
                 request.setAttribute("about", about);
                 request.getRequestDispatcher("/ViewAdmin/manageRole.jsp").forward(request, response);
+            }
+            // Edit role
+            if (service.equals("editRole")) {
+                int roleId = Integer.parseInt(request.getParameter("id"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                ArrayList<Role> about = roleDao.getAllRole();
+                Role role = roleDao.getRoleById(roleId);
+                User user = uDao.getUserByUserId(userId);
+                
+                request.setAttribute("role", role);
+                request.setAttribute("userId", userId);
+                request.setAttribute("about", about);
+                request.setAttribute("user", user);
+                request.getRequestDispatcher("ViewAdmin/manageRole.jsp").forward(request, response);
             }
 
             if (service.equals("add")) {

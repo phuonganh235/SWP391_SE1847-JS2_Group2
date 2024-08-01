@@ -49,18 +49,43 @@ public class ManageRole extends HttpServlet {
             // Listing all products
             if (service.equals("listall")) {
                 ArrayList<User> promotion = uDao.getAllUser("SELECT * FROM Users");
-                Role roleName = roleDao.getRoleById(0);
                 request.setAttribute("listP", promotion);
                 request.getRequestDispatcher("ViewAdmin/viewAllAccount.jsp").forward(request, response);
             }
-            // Edit role
-//            if (service.equals("editRole")) {
-//                request.setAttribute("roleList", roleList);
-//                request.setAttribute("listP", promotion);
-//                ArrayList<Role> about = roleDao.getAllRole();
-//                request.setAttribute("about", about);
-//                request.getRequestDispatcher("ViewAdmin/manageRole.jsp").forward(request, response);
-//            }
+            // Update role
+            if (service.equals("updateRole")) {
+                int roleId = Integer.parseInt(request.getParameter("id"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int n = uDao.updateUserRole(roleId, userId);
+
+                if (n > 0) {
+                    response.getWriter().println("User role updated successfully.");
+                } else {
+                    response.getWriter().println("Failed to update user role.");
+                }
+
+                ArrayList<User> promotion = uDao.getAllUser("SELECT * FROM Users");
+                request.setAttribute("listP", promotion);
+                request.getRequestDispatcher("ViewAdmin/viewAllAccount.jsp").forward(request, response);
+            }
+            if (service.equals("saveRole")) {
+                int roleId = Integer.parseInt(request.getParameter("roleId"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+
+                // Update role for the user or other logic
+                int n = uDao.updateUserRole(roleId, userId);
+
+                if (n > 0) {
+                    response.getWriter().println("Role saved successfully.");
+                } else {
+                    response.getWriter().println("Failed to save role.");
+                }
+                ArrayList<User> promotion = uDao.getAllUser("SELECT * FROM Users");
+                request.setAttribute("listP", promotion);
+                // Redirect or forward to another page if needed
+                response.sendRedirect("managerole");
+            }
+
         } else {
             response.sendRedirect("login");
         }

@@ -101,41 +101,83 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0" style="text-align: center; font-size: 25px">Quản lý vai trò cho người dùng</h6>
-                            <a href="manageRole">Tất cả</a>
+                            <h6 class="mb-0" style="text-align: center; font-size: 25px">Quản lý vai trò cho người dùng: ${user.getName()}</h6>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addRoleModal">Thêm mới vai trò</button>
                         </div>
                         <!-- Load Product -->
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="abouttable">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="roleTable">
                                 <thead>
                                     <tr class="text-dark">
-                                        <th></th>
-                                        <th scope="col">Mã Vai Trò</th>
-                                        <th scope="col">Tên Vai Trò</th>
-                                        <th scope="col">Hành Động</th>  
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Tên vai trò</th>
+                                        <th scope="col">Chọn vai trò</th>
                                     </tr>
                                 </thead>
+                                <script>
+                                    function updateRoleId(checkbox, userId) {
+                                        // Uncheck all checkboxes
+                                        document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+                                            cb.checked = false;
+                                        });
+
+                                        // Check the clicked checkbox
+                                        checkbox.checked = true;
+
+                                        // Update hidden form fields
+                                        var roleId = checkbox.value;
+                                        document.getElementById("selectedRoleId").value = roleId;
+                                        document.getElementById("selectedUserId").value = userId;
+                                    }
+
+                                    function saveRole() {
+                                        var selectedRoleId = document.getElementById("selectedRoleId").value;
+                                        if (!selectedRoleId) {
+                                            document.getElementById("errorMessage").style.display = 'block';
+                                        } else {
+                                            document.getElementById("updateRoleForm").submit();
+                                        }
+                                    }
+                                </script>
+
+                                <form id="updateRoleForm" action="managerole?service=saveRole" method="post" style="display: none;">
+                                    <input type="hidden" id="selectedRoleId" name="roleId">
+                                    <input type="hidden" id="selectedUserId" name="userId">
+                                </form>
+
+                                <div id="errorMessage" style="color: red; display: none;">
+                                    Ấn vào vai trò bạn muốn thay đổi để lưu.
+                                </div>
+
                                 <tbody>
+                                    <c:set var="specificUserId" value="${requestScope.role.getRoleId()}" />
                                     <c:forEach var="about" items="${requestScope.about}">
                                         <tr>
-                                            <td><input class="form-check-input" type="checkbox"></td>
                                             <td>${about.getRoleId()}</td>
                                             <td>${about.getRoleName()}</td>
                                             <td>
-                                                <form action="manageRole?service=update" method="post" style="display: inline;">
-                                                    <input type="hidden" name="id" value="${about.getRoleId()}"/>
-                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                </form>
-                                                <a class="btn btn-sm btn-danger" href="#" onclick="confirmDelete('${about.getRoleId()}')"> <i class="fas fa-trash-alt" style="float: right"></i></a>
+                                                <c:choose>
+                                                    <c:when test="${about.getRoleId() == specificUserId}">
+                                                        <input class="form-check-input" type="checkbox" value="${about.getRoleId()}" checked onclick="updateRoleId(this, ${requestScope.userId})">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input class="form-check-input" type="checkbox" value="${about.getRoleId()}" onclick="updateRoleId(this, ${requestScope.userId})">
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
+                        <button class="btn btn-primary mt-3" onclick="saveRole()">Lưu vai trò</button>
+                        <button class="btn btn-secondary mt-3" onclick="goBack()">Quay lại</button>
+
+                        <script>
+                            function goBack() {
+                                window.location.href = 'managerole';
+                            }
+                        </script>
                         <!-- Add Role -->
                         <div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

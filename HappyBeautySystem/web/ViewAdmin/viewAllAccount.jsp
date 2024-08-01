@@ -1,4 +1,9 @@
-<%@page import="java.util.ArrayList"%>
+<%-- 
+    Document   : viewAccountShipper
+    Created on : May 27, 2024, 4:17:18 PM
+    Author     : phuan
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -115,14 +120,11 @@
                                 <tbody>
                                     <c:forEach items="${requestScope.listP}" var="data">
                                         <tr>
-
                                             <td>${data.userId}</td>
                                             <td>${data.name}</td>
                                             <td>${data.roleId}</td>
                                             <td>
-                                                <form action="manageRole" method="post" style="display:inline;">
-                                                    <input type="hidden" name="service" value="editRole"/>
-                                                    <input type="hidden" name="id" value="${data.userId}"/>
+                                                <form action="manageRole?service=editRole&id=${data.roleId}&userId=${data.userId}" method="post" style="display:inline;">
                                                     <button type="submit" class="btn btn-sm btn-primary">
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>

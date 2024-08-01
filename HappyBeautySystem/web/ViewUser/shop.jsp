@@ -1,3 +1,7 @@
+<%@page import="model.Promotions"%>
+<%@page import="java.util.List"%>
+<%@page import="dal.PromotionDAO"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page isErrorPage="true" %>
@@ -269,27 +273,46 @@
                                         <div class="product__item__text">
                                             <h5><a style="color: black; font-size: 18px; font-weight: 350;" href="product?action=productdetail&product_id=${p.getProductId()}&product_category=${p.getCateId()}">${p.getProductName()}</a></h5>
                                             <h6 style="color: #6d6dff; font-size: 22px; font-weight: 500;">${p.getCompanyName()}</h6>
-
-                                            <div id="field-price-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 18px;"></div>
+                                            <%
+                                                PromotionDAO promotionDAO = new PromotionDAO();
+                                                List<Promotions> activePromotions = promotionDAO.getActivePromotion();
+                                                int promotioncount = promotionDAO.countPromotion();
+                                            %>
+                                            <div id="field-price-${p.getProductId()}" class="product__price" style="color: #c0bfbf; font-size: 15px;; text-decoration: line-through;"></div>
+                                            <div id="field-price2-${p.getProductId()}" class="product__price" style="color: #ea5d8c; font-size: 18px;"></div>
                                             <script>
                                                 (function () {
                                                     // Function to format the price
                                                     function format(price) {
-                                                        // Convert the price to a string with a fixed number of decimal places (0 in this case)
                                                         let priceString = parseFloat(price).toFixed(0);
-
-                                                        // Use a regular expression to insert dots at the thousand places
                                                         priceString = priceString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-                                                        // Return the formatted price with ' VNĐ' appended
                                                         return priceString + ' VNĐ';
                                                     }
 
-                                                    // Use JSP to get the price from the server-side
+                                                    // Get the price from the server-side
                                                     let priceNew = ${p.getPrice()};
 
-                                                    // Format the price and display it in the specified HTML element
+                                                    // Format the original price and display it
                                                     document.getElementById('field-price-${p.getProductId()}').innerHTML = format(priceNew);
+
+                                                    // Get the active promotions from server-side
+                                                    var promotions = <%= new Gson().toJson(activePromotions)%>;
+
+                                                    // Calculate the promotional price
+                                                    var promotionAmount = 0;
+                                                    promotions.forEach(function (promotion) {
+                                                        if (priceNew >= promotion.condition) {
+                                                            promotionAmount = Math.max(promotionAmount, promotion.discountAmount);
+                                                        }
+                                                    });
+
+                                                    // Calculate final price after discount
+                                                    var priceAfterPromo = priceNew - promotionAmount;
+                                                    priceAfterPromo = priceAfterPromo < 0 ? 0 : priceAfterPromo; // Ensure price is not negative
+
+                                                    // Format the promotional price and display it
+                                                    document.getElementById('field-price2-${p.getProductId()}').innerHTML = format(priceAfterPromo);
+                                                    sessionStorage.setItem('priceAfterPromo', priceAfterPromo.toFixed(2));
                                                 })();
                                             </script>
                                         </div>
