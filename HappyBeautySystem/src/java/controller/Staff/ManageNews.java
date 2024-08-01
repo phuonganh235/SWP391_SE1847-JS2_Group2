@@ -101,33 +101,41 @@ public class ManageNews extends HttpServlet {
         } else if ("getNewsById".equals(service)) {
             int newsId = Integer.parseInt(request.getParameter("newsId"));
             News news = newsDAO.getNewsById(newsId);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(news));
+            if (news != null) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(new Gson().toJson(news));
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("News not found");
+            }
             return;
         } else if ("editnews".equals(service)) {
             int newsId = Integer.parseInt(request.getParameter("newsId"));
             String title = request.getParameter("title");
             String content = request.getParameter("content");
-            String imgUrl = request.getParameter("ImageURL");
-            int categoryID = Integer.parseInt(request.getParameter("CategoryID"));
+            String imgUrl = request.getParameter("imgUrl");
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
             boolean isActive = request.getParameter("isActive") != null;
 
-            News news = new News(newsId, title, content, null, imgUrl, false, isActive, null, categoryID);
-            news.setUserID(uDao.getUserIdByUsername(username));
+            News existingNews = newsDAO.getNewsById(newsId);
+            if (existingNews != null) {
+                existingNews.setTitle(title);
+                existingNews.setContent(content);
+                existingNews.setImgUrl(imgUrl);
+                existingNews.setCategoryID(categoryId);
+                existingNews.setIsActive(isActive);
 
-            boolean result = newsDAO.updateNews(news);
-            if (result) {
-                request.setAttribute("message", "News updated successfully!");
+                boolean result = newsDAO.updateNews(existingNews);
+                if (result) {
+                    response.getWriter().write("News updated successfully!");
+                } else {
+                    response.getWriter().write("Failed to update news.");
+                }
             } else {
-                request.setAttribute("message", "Failed to update news.");
+                response.getWriter().write("News not found.");
             }
-
-            ArrayList<News> newsList = newsDAO.viewAllNews();
-            ArrayList<Category> categories = newsDAO.getAllCategories();
-            request.setAttribute("newsList", newsList);
-            request.setAttribute("categories", categories);
-            request.getRequestDispatcher("/ViewAdmin/manageNews.jsp").forward(request, response);
+            return;
         }
     }
 
@@ -148,5 +156,3 @@ public class ManageNews extends HttpServlet {
         return "Manage News Servlet";
     }
 }
-
-

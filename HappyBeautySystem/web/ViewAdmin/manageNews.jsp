@@ -124,8 +124,9 @@
                                                 <label for="editIsActive" class="form-label">Kích hoạt</label>
                                                 <input type="checkbox" class="form-check-input" id="editIsActive" name="isActive">
                                             </div>
-                                            <button type="submit" name="submit" class="btn btn-primary">Lưu</button>
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        </form>" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                         </form>
                                     </div>
                                 </div>
@@ -199,66 +200,68 @@
         <script src="ViewAdmin/js/main.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $('#newstable').DataTable({
-                    "pageLength": 10,
-                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                    "order": [[1, "asc"]],
-                    "columnDefs": [
-                        {"orderable": false, "targets": [0, 8]}
-                    ],
-                    "language": {
-                        "lengthMenu": "Hiển thị _MENU_ mục",
-                        "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                        "paginate": {
-                            "first": "Đầu",
-                            "last": "Cuối",
-                            "next": "Tiếp",
-                            "previous": "Trước"
-                        }
-                    }
-                });
-            });
+                                                    $(document).ready(function () {
+                                                        $('#newstable').DataTable({
+                                                            "pageLength": 10,
+                                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                            "order": [[1, "asc"]],
+                                                            "columnDefs": [
+                                                                {"orderable": false, "targets": [0, 8]}
+                                                            ],
+                                                            "language": {
+                                                                "lengthMenu": "Hiển thị _MENU_ mục",
+                                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                                "paginate": {
+                                                                    "first": "Đầu",
+                                                                    "last": "Cuối",
+                                                                    "next": "Tiếp",
+                                                                    "previous": "Trước"
+                                                                }
+                                                            }
+                                                        });
+                                                    });
 
-            function openEditModal(newsId) {
-                $.ajax({
-                    url: "managenews",
-                    type: "GET",
-                    data: {
-                        service: "getNewsById",
-                        newsId: newsId
-                    },
-                    success: function (data) {
-                        var news = JSON.parse(data);
-                        $('#editNewsId').val(news.newsId);
-                        $('#editTitle').val(news.title);
-                        $('#editContent').val(news.content);
-                        $('#editImageURL').val(news.imgUrl);
-                        $('#editCategoryID').val(news.categoryId); 
-                        $('#editIsActive').prop('checked', news.isActive);
-                        $('#editNewsModal').modal('show');
-                    },
-                    error: function () {
-                        alert('Failed to fetch news details.');
-                    }
-                });
-            }
+                                                    function openEditModal(newsId) {
+                                                        $.ajax({
+                                                            url: "managenews",
+                                                            type: "GET",
+                                                            data: {
+                                                                service: "getNewsById",
+                                                                newsId: newsId
+                                                            },
+                                                            success: function (data) {
+                                                                var news = JSON.parse(data);
+                                                                $('#editNewsId').val(news.newsId);
+                                                                $('#editTitle').val(news.title);
+                                                                $('#editContent').val(news.content);
+                                                                $('#editImageURL').val(news.imgUrl);
+                                                                $('#editCategoryID').val(news.categoryId);
+                                                                $('#editIsActive').prop('checked', news.isActive === true);
+                                                                $('#editNewsModal').modal('show');
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                console.error("AJAX error: " + status + "\nError: " + error);
+                                                                alert('Failed to fetch news details. Please try again.');
+                                                            }
+                                                        });
+                                                    }
 
-            $('#editNewsForm').submit(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        $('#editNewsModal').modal('hide');
-                        location.reload();
-                    },
-                    error: function () {
-                        alert('Failed to update news.');
-                    }
-                });
-            });
+                                                    $('#editNewsForm').submit(function (e) {
+                                                        e.preventDefault();
+                                                        $.ajax({
+                                                            url: $(this).attr('action'),
+                                                            type: 'POST',
+                                                            data: $(this).serialize(),
+                                                            success: function (response) {
+                                                                $('#editNewsModal').modal('hide');
+                                                                location.reload();
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                console.error("AJAX error: " + status + "\nError: " + error);
+                                                                alert('Failed to update news. Please try again.');
+                                                            }
+                                                        });
+                                                    });
         </script>
     </body>
 </html>

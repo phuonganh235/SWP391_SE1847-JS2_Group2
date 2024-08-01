@@ -89,29 +89,22 @@ public class NewsDAO extends DBContext {
 
     public boolean updateNews(News news) {
         String sql = "UPDATE [dbo].[News] "
-                + "SET [Title] = ?, [Content] = ?, [CreateTime] = ?, [ImageURL] = ?, "
-                + "[IsConfirmed] = 0, [UserID] = ?, [IsActive] = 1, [UpdateTime] = ?, [CategoryID] = ? "
+                + "SET [Title] = ?, [Content] = ?, [ImageURL] = ?, "
+                + "[IsActive] = ?, [UpdateTime] = GETDATE(), [CategoryID] = ? "
                 + "WHERE [NewsID] = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, news.getTitle());
             ps.setString(2, news.getContent());
-            ps.setTimestamp(3, news.getCreateTime());
-            ps.setString(4, news.getImgUrl());
-            ps.setInt(5, news.getUserID());
-            if (news.getUpdateTime() != null) {
-                ps.setTimestamp(6, news.getUpdateTime());
-            } else {
-                ps.setNull(6, java.sql.Types.TIMESTAMP);
-            }
-            ps.setInt(7, news.getCategoryID());
-            ps.setInt(8, news.getNewsId());
+            ps.setString(3, news.getImgUrl());
+            ps.setBoolean(4, news.isIsActive());
+            ps.setInt(5, news.getCategoryID());
+            ps.setInt(6, news.getNewsId());
 
             int rowsUpdated = ps.executeUpdate();
-            return rowsUpdated > 0; // Trả về true nếu có ít nhất một dòng được cập nhật thành công
+            return rowsUpdated > 0;
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Trả về false nếu có lỗi xảy ra
+            return false;
         }
     }
 
