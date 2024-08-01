@@ -6,6 +6,7 @@ package controller.Customer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import dal.PointConfigDAO;
 import org.json.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.PointConfig;
 
 /**
  *
@@ -34,7 +36,8 @@ public class ApplyPointCustomer extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            PointConfigDAO pointConfigDao = new PointConfigDAO();
+            PointConfig pointConfig = pointConfigDao.getConfigById(1);
             String service = request.getParameter("service");
             HttpSession session = (HttpSession) request.getSession(true);
             if (service.equals("applyPoints")) {
@@ -65,20 +68,27 @@ public class ApplyPointCustomer extends HttpServlet {
     }
 
     private double calculateDiscount(int points) {
-        return (points / 100) * 5;
+        PointConfigDAO pointConfigDao = new PointConfigDAO();
+        PointConfig pointConfig = pointConfigDao.getConfigById(1);
+        if (pointConfig.isIsEnabled() == false) {
+            return 0;
+        }
+        int pointValue = (int) pointConfig.getRedeemValue() / pointConfig.getPointsRedeemed();
+        return points * pointValue;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -92,7 +102,7 @@ public class ApplyPointCustomer extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -103,7 +113,7 @@ public class ApplyPointCustomer extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
