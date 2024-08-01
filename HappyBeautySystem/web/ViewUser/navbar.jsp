@@ -175,16 +175,11 @@
                         <li><a href="coupon">Mã giảm giá</a></li>
                     </ul>
                 </nav>
-                <ul class="header__right__widget">
-                    <!--<li><a id="videoCallIcon" type="button" data-toggle="modal" data-target="#joinRoomModal"><i class="fa fa-video-camera"></i></a></li>-->
-                    <li><a href="wishlist?service=showWishList"><span class="icon_heart_alt"></span></a></li>
-                    <li><a href="AddToCart?service=showCart"><span class="fa fa-shopping-cart"></span></a></li>
-                    <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa fa-bars"></i></a></li>
-                </ul>
+               
                 <div class="header__right">
 
                     <c:if test="${sessionScope.inforUserLogin == null}">
-                        <div class="header__right__auth">
+                        <div class="header__right__auth" >
                             <a href="login">Đăng Nhập</a>
                             <a href="register">Đăng kí</a>
                         </div>
@@ -214,9 +209,17 @@
                         </nav>
                     </c:if>
                 </div>
+                <ul class="header__right__widget" >
+                    <li><a id="videoCallIcon" type="button" data-toggle="modal" data-target="#joinRoomModal"><i class="fa fa-video-camera"></i></a></li>
+                    <li><a href="wishlist?service=showWishList"><span class="icon_heart_alt"></span></a></li>
+                    <li><a href="AddToCart?service=showCart"><span class="fa fa-shopping-cart"></span></a></li>
+                    <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa fa-bars"></i></a></li>
+                </ul>
             </div>
+           
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
+                
             </div>
 
 
@@ -282,7 +285,7 @@
                                                             <label class="labels font-weight-bold" style="font-size: 20px;">Ảnh đại diện</label>
                                                             <input type="file" class="form-control" name="avatar" placeholder="Avatar" onchange="loadImg(this, event)" required>
                                                             <span id="updatePathImageError" style="color: red;"></span>
-                                                            <img src="${sessionScope.inforUserLogin.image}" alt="lỗi ảnh" class="loadImage" />
+<!--                                                            <img src="${sessionScope.inforUserLogin.image}" alt="lỗi ảnh" class="loadImage" />-->
                                                         </div>
 
                                                         <script>
