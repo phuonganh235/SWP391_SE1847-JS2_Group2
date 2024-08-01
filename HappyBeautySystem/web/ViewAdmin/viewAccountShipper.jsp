@@ -200,11 +200,7 @@
                                                 <input type="date" class="form-control" id="dateOfbirth" name="birth" value="${not empty param.birth ? param.birth : ''}" required>
                                                 <div id="dateOfBirthError" class="form-text text-danger fst-italic"></div>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Mật khẩu</label>
-                                                <input type="password" class="form-control" id="password" name="password" value="${not empty param.password ? param.password : ''}" required>
-                                                <div id="passwordError" class="form-text text-danger fst-italic"></div>
-                                            </div>
+                                          
                                             <button type="submit" class="btn btn-primary">Tạo</button>
                                         </form>
                                     </div>
@@ -235,7 +231,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="updateUsername" class="form-label">Tài khoản</label>
-                                                <input type="text" class="form-control" id="updateUsername" name="username" value="${not empty param.username ? param.username : dataShipper.username}"required>
+                                                <input type="text" class="form-control" readonly="" id="updateUsername" name="username" value="${not empty param.username ? param.username : dataShipper.username}"required>
                                                 <div id="updateUsernameError" class="form-text text-danger fst-italic"></div>
                                                 <c:if test="${not empty requestScope.errorUsrNameExit}">
                                                     <div class="alert alert-danger" role="alert">
@@ -270,7 +266,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="updatePassword" class="form-label">Mật khẩu</label>
-                                                <input type="password" class="form-control" id="updatePassword" name="password" value="${not empty param.password ? param.password : dataShipper.password}"  required>
+                                                <input type="password" class="form-control" readonly="" id="updatePassword" name="password" value="${not empty param.password ? param.password : dataShipper.password}"  required>
                                                 <div id="updatePasswordError" class="form-text text-danger fst-italic"></div>
                                             </div>              
                                             <div class="modal-footer">

@@ -171,9 +171,16 @@
                         <li><a href="product">Sản phẩm</a></li>
                         <li><a href="news">Tin mới</a></li>
                         <li><a type="button" data-toggle="modal" data-target="#bookingModal">Tư Vấn</a></li>
+                        <li><a href="promotion">Khuyến mãi</a></li>
                         <li><a href="coupon">Mã giảm giá</a></li>
                     </ul>
                 </nav>
+                <ul class="header__right__widget">
+                    <!--<li><a id="videoCallIcon" type="button" data-toggle="modal" data-target="#joinRoomModal"><i class="fa fa-video-camera"></i></a></li>-->
+                    <li><a href="wishlist?service=showWishList"><span class="icon_heart_alt"></span></a></li>
+                    <li><a href="AddToCart?service=showCart"><span class="fa fa-shopping-cart"></span></a></li>
+                    <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa fa-bars"></i></a></li>
+                </ul>
                 <div class="header__right">
 
                     <c:if test="${sessionScope.inforUserLogin == null}">
@@ -206,12 +213,6 @@
                             </ul>
                         </nav>
                     </c:if>
-                    <ul class="header__right__widget">
-                        <li><a id="videoCallIcon" type="button" data-toggle="modal" data-target="#joinRoomModal"><i class="fa fa-video-camera"></i></a></li>
-                        <li><a href="wishlist?service=showWishList"><span class="icon_heart_alt"></span></a></li>
-                        <li><a href="AddToCart?service=showCart"><span class="fa fa-shopping-cart"></span></a></li>
-                        <li><a href="/HappyBeautySystem/ManagerOrder?service=managerOrder&option=0"><i class="fa fa-bars"></i></a></li>
-                    </ul>
                 </div>
             </div>
             <div class="canvas__open">

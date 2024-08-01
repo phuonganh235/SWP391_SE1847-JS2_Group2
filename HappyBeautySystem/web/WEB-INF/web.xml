@@ -101,8 +101,24 @@
         <servlet-class>controller.Manager.manageFeedback</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Promotions</servlet-name>
+        <servlet-class>common.Promotions</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>managePromotion</servlet-name>
+        <servlet-class>controller.Manager.managePromotion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageRole</servlet-name>
+        <servlet-class>controller.Manager.manageRole</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SettingPoint</servlet-name>
         <servlet-class>controller.Manager.SettingPoint</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageRole</servlet-name>
+        <servlet-class>controller.Customer.ManageRole</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
@@ -201,7 +217,23 @@
         <url-pattern>/managefeedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Promotions</servlet-name>
+        <url-pattern>/promotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>managePromotion</servlet-name>
+        <url-pattern>/managepromotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageRole</servlet-name>
+        <url-pattern>/manageRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SettingPoint</servlet-name>
         <url-pattern>/SettingPoint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageRole</servlet-name>
+        <url-pattern>/managerole</url-pattern>
     </servlet-mapping>
 </web-app>

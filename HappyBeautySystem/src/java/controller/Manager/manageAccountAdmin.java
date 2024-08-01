@@ -1,5 +1,6 @@
 package controller.Manager;
 
+import Utils.EmailUtility;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,11 +14,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 // Author     : phuan
 @WebServlet(name = "manageAccountAdmin", urlPatterns = {"/manageAccountAdmin"})
@@ -72,11 +75,27 @@ public class manageAccountAdmin extends HttpServlet {
                     }
 
                     if (isValid) {
+                        // Tạo mật khẩu ngẫu nhiên
+                        String plainPassword = generateRandomPassword();
+
+                        // Mã hóa mật khẩu
+                        String hashedPassword = hashPassword(plainPassword);
                         Date today = new Date();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDate = formatter.format(today);
-                        User newUser = new User(0, name1, userName1, phone, email, address1, "", "", 4, currentDate, password, 0, dateOfBirth);
+                        User newUser = new User(0, name1, userName1, phone, email, address1, "", "", 4, currentDate, hashedPassword, 0, dateOfBirth);
                         userDao.insertUser(newUser);
+                        User userEmail = userDao.getUserByUsername(userName);
+                        //Send email
+                        String recipinentEmail = userEmail.getEmail();
+                        String subject = "Thông tin Tài khoản";
+                        String message = "Xin chào " + userEmail.getUsername() + ",\n\nLịch tư vấn của bạn đã được xác nhận .\n\nNgày tư vấn: " + plainPassword;
+                        try {
+                            EmailUtility.sendEmail(recipinentEmail, subject, message);
+                        } catch (Exception ex) {
+                            Logger.getLogger(manageAccountAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                         response.sendRedirect("manageAccountAdmin?service=ListAllStaff");
                     } else {
                         request.setAttribute("errorUsrNameExit", errorUserNameExit);
@@ -99,7 +118,7 @@ public class manageAccountAdmin extends HttpServlet {
                     String email = request.getParameter("email");
                     String mobile = request.getParameter("mobile");
                     String password = request.getParameter("password");
-                    String username = request.getParameter("username");
+                    String username = request.getParameter("usernameUpdate");
                     String address = request.getParameter("address");
                     String dateOfBirth = request.getParameter("birth");
                     String name1 = name.replaceAll(" {2,}", " ");
@@ -122,15 +141,6 @@ public class manageAccountAdmin extends HttpServlet {
                         request.getRequestDispatcher("manageAccountAdmin?service=ListAllStaff").forward(request, response);
                     } catch (NumberFormatException e) {
                     }
-                }
-
-                // search account staff theo ten
-                if (service.equals("search")) {
-                    String search = request.getParameter("search");
-                    ArrayList<User> list = userDao.SearchStaffByName(search);
-                    request.setAttribute("dataStaff", list);
-                    request.setAttribute("valueSearch", search);
-                    request.getRequestDispatcher("ViewAdmin/viewAccountStaff.jsp").forward(request, response);
                 }
 
                 //Manage Account Staff end            //----------------------------------------------------------------------------//
@@ -169,11 +179,27 @@ public class manageAccountAdmin extends HttpServlet {
                     }
 
                     if (isValid) {
+                        // Tạo mật khẩu ngẫu nhiên
+                        String plainPassword = generateRandomPassword();
+
+                        // Mã hóa mật khẩu
+                        String hashedPassword = hashPassword(plainPassword);
                         Date today = new Date();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDate = formatter.format(today);
                         User newUser = new User(0, name1, userName1, phone, email, address1, "", "", 3, currentDate, password, 0, dateOfBirth);
                         userDao.insertUser(newUser);
+                        User userEmail = userDao.getUserByUsername(userName1);
+                        //Send email
+                        String recipinentEmail = userEmail.getEmail();
+                        String subject = "Thông tin Tài khoản";
+                        String message = "Xin chào " + userEmail.getUsername() + ",\n\nLịch tư vấn của bạn đã được xác nhận .\n\nNgày tư vấn: " + plainPassword;
+                        try {
+                            EmailUtility.sendEmail(recipinentEmail, subject, message);
+                        } catch (Exception ex) {
+                            Logger.getLogger(manageAccountAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                         response.sendRedirect("manageAccountAdmin?service=ListAllShipper");
                     } else {
                         request.setAttribute("errorUsrNameExit", errorUserNameExit);
@@ -223,22 +249,36 @@ public class manageAccountAdmin extends HttpServlet {
                     } catch (NumberFormatException e) {
                     }
                 }
-// search account shipper theo ten
-                if (service.equals("searchShipper")) {
-                    String search = request.getParameter("search");
-                    ArrayList<User> list = userDao.SearchShipperByName(search);
-                    request.setAttribute("dataShipper", list);
-                    request.setAttribute("valueSearchShipper", search);
-                    request.getRequestDispatcher("ViewAdmin/viewAccountShipper.jsp").forward(request, response);
-                }
 
                 //Manage Account Shipper End
             } else {
                 response.sendRedirect("login");
             }
-        } catch (Exception e) {
-//            response.sendRedirect("404.jsp");
+        } 
+    }
+
+    private String generateRandomPassword() {
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String specialChars = "!@#$%^&*()_-+=<>?";
+
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers + specialChars;
+        StringBuilder sb = new StringBuilder();
+
+        Random random = new Random();
+        int length = 12;
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(alphaNumeric.length());
+            sb.append(alphaNumeric.charAt(index));
         }
+
+        return sb.toString();
+    }
+
+    private String hashPassword(String plainTextPassword) {
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
     }
 
     @Override
