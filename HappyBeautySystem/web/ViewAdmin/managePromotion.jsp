@@ -208,14 +208,13 @@
                                             <td>${product.condition}00 VNĐ</td>
                                             <td style="display: flex">
                                                 <form action="managepromotion?service=update" method="post" >
-
-                                                    <input type="hidden" name="id" value="${product.promoId}"/>
-                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateCouponModal" >
+                                                    <input type="hidden" name="idUpdate" value="${product.promoId}"/>
+                                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateProModal" >
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>
 
                                                 </form>
-                                                <a class="btn btn-sm btn-danger" href="#" onclick="confirmDelete('${product.promoCode}')"> <i class="fas fa-trash-alt" style="float: right"></i></a>
+                                                <a class="btn btn-sm btn-danger" href="#" onclick="confirmDelete('${product.promoId}')"> <i class="fas fa-trash-alt" style="float: right"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -223,7 +222,7 @@
                             </table>
 
                         </div>
-                        
+
                         <!-- Add Promotion Modal -->
                         <div class="modal fade" id="addPromotionModal" tabindex="-1" aria-labelledby="addPromotionModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -234,11 +233,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form id="addPromotionForm" action="managepromotion?service=add" method="post">
-                                            <!-- Promotion ID -->
-                                            <div class="mb-3">
-                                                <label for="promoId" class="form-label">ID</label>
-                                                <input type="number" class="form-control" id="promoId" name="promoId" required>
-                                            </div>
+
                                             <!-- Promotion Code -->
                                             <div class="mb-3">
                                                 <label for="promoCode" class="form-label">Mã Khuyến Mãi</label>
@@ -288,11 +283,11 @@
                         </div>
 
                         <!-- update Coupons Modal -->
-                        <div class="modal fade" id="updateCouponModal" tabindex="-1" aria-labelledby="CouponModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="updateProModal" tabindex="-1" aria-labelledby="CouponModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="updateCouponModal"></h5>
+                                        <h5 class="modal-title" id="updateProModal"></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -300,7 +295,7 @@
                                         <form id="updateCouponForm" action="managepromotion?service=edit" method="post">
                                             <div class="mb-3">
                                                 <label for="couponid" class="form-label">ID</label>
-                                                <input type="text" class="form-control" id="couponid" name="couponid" readonly value="${couponUpdate.promoId}">
+                                                <input type="text" class="form-control"  id="couponid" name="couponid" readonly value="${couponUpdate.promoId}">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="couponid" class="form-label">Mã Khuyến Mãi</label>
@@ -398,7 +393,7 @@
                                                                 }
                                                             }
                                                         });
-                                                         // Kết nối thanh tìm kiếm tùy chỉnh với DataTable
+                                                        // Kết nối thanh tìm kiếm tùy chỉnh với DataTable
                                                         $('#searchInput').on('keyup', function () {
                                                             table.search(this.value).draw();
                                                         });
@@ -417,18 +412,21 @@
                                                     });
     </script>
     <script>
-        function confirmDelete(code) {
+        function confirmDelete(promoId) {
             if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
-                window.location = "managepromotion?service=delete&id=" + code;
+                window.location = "managepromotion?service=delete&id=" + promoId;
             }
         }
-        $(document).ready(function () {
+
+
+    </script>
+    <script>    $(document).ready(function () {
             // Update
         <c:if test="${not empty requestScope.PromotionIdUpdate}">
-            $('#updateCouponModal').modal('show');
+            $('#updateProModal').modal('show');
         </c:if>
-        });
-    </script>
+        });</script>
+
 </body>
 
 </html>

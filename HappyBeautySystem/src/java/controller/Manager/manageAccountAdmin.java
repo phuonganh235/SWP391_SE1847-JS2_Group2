@@ -89,7 +89,7 @@ public class manageAccountAdmin extends HttpServlet {
                         //Send email
                         String recipinentEmail = userEmail.getEmail();
                         String subject = "Thông tin Tài khoản";
-                        String message = "Xin chào " + userEmail.getUsername() + ",\n\nLịch tư vấn của bạn đã được xác nhận .\n\nNgày tư vấn: " + plainPassword;
+                        String message = "Tên tài khoản: " + userEmail.getUsername() + "\n\nMật Khẩu: " + plainPassword;
                         try {
                             EmailUtility.sendEmail(recipinentEmail, subject, message);
                         } catch (Exception ex) {
@@ -193,7 +193,7 @@ public class manageAccountAdmin extends HttpServlet {
                         //Send email
                         String recipinentEmail = userEmail.getEmail();
                         String subject = "Thông tin Tài khoản";
-                        String message = "Xin chào " + userEmail.getUsername() + ",\n\nLịch tư vấn của bạn đã được xác nhận .\n\nNgày tư vấn: " + plainPassword;
+                        String message = "Tên tài khoản :" + userEmail.getUsername() + "\n\nMật Khẩu: " + plainPassword;
                         try {
                             EmailUtility.sendEmail(recipinentEmail, subject, message);
                         } catch (Exception ex) {

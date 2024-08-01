@@ -28,11 +28,12 @@ public class PromotionDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Promotions promotion = new Promotions();
+                  promotion.setPromoId(rs.getInt("promoId"));
                 promotion.setPromoCode(rs.getString("promoCode"));
                 promotion.setPromoName(rs.getString("promoName"));
                 promotion.setStartDate(rs.getString("startDate"));
                 promotion.setEndDate(rs.getString("endDate"));
-                promotion.setStatus(rs.getInt("status"));
+                promotion.setStatus(rs.getBoolean("Status") ? 1 : 0);
                 promotion.setDescription(rs.getString("description"));
                 promotion.setDiscountAmount(rs.getDouble("discountAmount"));
                 promotion.setCondition(rs.getDouble("condition"));
@@ -43,7 +44,7 @@ public class PromotionDAO extends DBContext {
         }
         return promotionList;
     }
-    
+
 //Lấy các mã KM đang hoạt động
     public ArrayList<Promotions> getActivePromotion() {
         ArrayList<Promotions> promotionList = new ArrayList<>();
@@ -68,7 +69,7 @@ public class PromotionDAO extends DBContext {
         }
         return promotionList;
     }
-    
+
     public ArrayList<Promotions> getListByPage(ArrayList<Promotions> list, int start, int end) {
         ArrayList<Promotions> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -78,12 +79,12 @@ public class PromotionDAO extends DBContext {
     }
 
     // Retrieves a promotion by its ID from the Product table
-    public Promotions getPromotionById(String promoCode) {
+    public Promotions getPromotionById(String promoId) {
         Promotions promotion = null;
         String sql = "Select * from Promotions WHERE promoCode = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, promoCode);
+            st.setString(1, promoId);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 promotion = new Promotions();
@@ -91,7 +92,7 @@ public class PromotionDAO extends DBContext {
                 promotion.setPromoName(rs.getString("promoName"));
                 promotion.setStartDate(rs.getString("startDate"));
                 promotion.setEndDate(rs.getString("endDate"));
-                promotion.setStatus(rs.getInt("status"));
+                promotion.setStatus(rs.getBoolean("Status") ? 1 : 0);
                 promotion.setDescription(rs.getString("description"));
                 promotion.setDiscountAmount(rs.getDouble("discountAmount"));
                 promotion.setCondition(rs.getDouble("condition"));
@@ -103,37 +104,29 @@ public class PromotionDAO extends DBContext {
     }
 
     public void addPromotion(Promotions promotion) {
-        String sql = "INSERT INTO [dbo].[Promotions]\n"
-                + "           ([promoId]\n"
-                + "           ,[promoCode]\n"
-                + "           ,[promoName]\n"
-                + "           ,[startDate]\n"
-                + "           ,[endDate]\n"
-                + "           ,[status]\n"
-                + "           ,[Description]\n"
-                + "           ,[DiscountAmount]\n"
-                + "           ,[condition])\n"
-                + "     VALUES (?,?,?,?,?,?,?,?,?)";
-
+        String sql = "INSERT INTO [dbo].[Promotions] "
+                + "           ([promoCode] "
+                + "           ,[promoName] "
+                + "           ,[startDate] "
+                + "           ,[endDate] "
+                + "           ,[status] "
+                + "           ,[Description] "
+                + "           ,[DiscountAmount] "
+                + "           ,[condition]) "
+                + "     VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, promotion.getPromoId());
-            pre.setString(2, promotion.getPromoCode());
-            pre.setString(3, promotion.getPromoName());
-            pre.setString(4, promotion.getStartDate());
-            pre.setString(5, promotion.getEndDate());
-            pre.setInt(6, promotion.getStatus());
-            pre.setString(7, promotion.getDescription());
-            pre.setDouble(8, promotion.getDiscountAmount());
-            pre.setDouble(9, promotion.getCondition());
-
-            System.out.println("Executing SQL: " + sql);
-            System.out.println("Promo ID: " + promotion.getPromoId());
-            System.out.println("Promo Code: " + promotion.getPromoCode());
-
+            pre.setString(1, promotion.getPromoCode());
+            pre.setString(2, promotion.getPromoName());
+            pre.setString(3, promotion.getStartDate());
+            pre.setString(4, promotion.getEndDate());
+            pre.setInt(5, promotion.getStatus());
+            pre.setString(6, promotion.getDescription());
+            pre.setDouble(7, promotion.getDiscountAmount());
+            pre.setDouble(8, promotion.getCondition());
             pre.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(CouponsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PromotionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -169,7 +162,7 @@ public class PromotionDAO extends DBContext {
     }
 
     public void deletePromotion(String proCode) {
-        String sql = "DELETE FROM Promotions WHERE promoCode = ?";
+        String sql = "DELETE FROM Promotions WHERE promoId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, proCode);
@@ -193,32 +186,7 @@ public class PromotionDAO extends DBContext {
         }
         return count;
     }
-    
-    public static void main(String[] args) {
-        PromotionDAO PromotionDAO = new PromotionDAO();
 
-        Promotions promotion = PromotionDAO.getPromotionById("KM1");
-//        System.out.println("Executing SQL: " + sql);
-//        System.out.println("Promo ID: " + promotion.getPromoId());
-//        System.out.println("Promo Code: " + promotion.getPromoCode());
-        int pro = PromotionDAO.countPromotion();
-//        ArrayList<Promotions> pList = PromotionDAO.getAllPromotions();
-//        for (Promotions promotion : pList) {
-        System.out.println(pro);
-//        }
-//        if (coupon != null) {
-//            System.out.println("Coupon found:");
-//            System.out.println("ID: " + coupon.getCouponsId());
-//            System.out.println("Code: " + coupon.getCode());
-//            System.out.println("Description: " + coupon.getDescription());
-//            System.out.println("Discount Amount: " + coupon.getDiscountAmount());
-//            System.out.println("Start Date: " + coupon.getStartDate());
-//            System.out.println("End Date: " + coupon.getEndDate());
-//            System.out.println("Quantity: " + coupon.getQuantity());
-//            System.out.println("isActive: " + coupon.getIsActive());
-//        } else {
-//            System.out.println("Coupon not found or invalid.");
-//        }
-    }
+    
 
 }
