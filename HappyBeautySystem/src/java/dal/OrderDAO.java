@@ -360,6 +360,26 @@ public class OrderDAO extends DBContext {
         return order;
     }
 
+    // Add the new method to count the number of orders by day
+    public int countOrdersByDay(String date) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) as count FROM Orders WHERE CAST(OrderDate AS DATE) = ?";
+
+        try (PreparedStatement pre = connection.prepareStatement(sql)) {
+            pre.setString(1, date);
+
+            try (ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt("count");
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return count;
+    }
+
     public static void main(String[] args) {
         OrderDAO dao = new OrderDAO();
         boolean check = dao.deleteOrderAndDetails(2059);

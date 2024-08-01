@@ -169,7 +169,7 @@
                         <a href="managefeedback" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Phản hồi
                         </a>
-                        
+
                         <a href="managenews" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Bài viết
                         </a>
@@ -184,6 +184,9 @@
                             class="nav-item nav-link"
                             ><i class="fa fa-calendar me-2"></i>Lịch tư vấn</a
                         >
+                        <a href="SettingPoint?service=update&id=1" class="nav-item nav-link">
+                            <i class="fa fa-tag me-2"></i>Tích điểm
+                        </a>
                         <c:if test="${sessionScope.inforUserLogin.roleId == 1}">
                             <a href="chart" class="nav-item nav-link">
                                 <i class="fa fa-chart-bar me-2"></i>Biểu đồ

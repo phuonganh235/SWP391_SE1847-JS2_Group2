@@ -23,6 +23,24 @@ public class Product {
     private String createDate;
     private String pathImage;
 
+    private int totalQuantity;
+
+    public Product(int productId, String productName, int totalQuantity) {
+        this.productId = productId;
+        this.productName = productName;
+        this.totalQuantity = totalQuantity;
+    }
+
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    
     public Product() {
     }
 

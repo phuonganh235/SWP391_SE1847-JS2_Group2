@@ -111,6 +111,8 @@
     <servlet>
         <servlet-name>manageRole</servlet-name>
         <servlet-class>controller.Manager.manageRole</servlet-class>
+        <servlet-name>SettingPoint</servlet-name>
+        <servlet-class>controller.Manager.SettingPoint</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>manager</servlet-name>
@@ -219,5 +221,7 @@
     <servlet-mapping>
         <servlet-name>manageRole</servlet-name>
         <url-pattern>/manageRole</url-pattern>
+        <servlet-name>SettingPoint</servlet-name>
+        <url-pattern>/SettingPoint</url-pattern>
     </servlet-mapping>
 </web-app>
