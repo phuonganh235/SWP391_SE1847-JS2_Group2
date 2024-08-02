@@ -171,7 +171,7 @@
                         <li><a href="product">Sản phẩm</a></li>
                         <li><a href="news">Tin mới</a></li>
                         <li><a type="button" data-toggle="modal" data-target="#bookingModal">Tư Vấn</a></li>
-                        <li><a href="promotion">Khuyến mãi</a></li>
+<!--                        <li><a href="promotion">Khuyến mãi</a></li>-->
                         <li><a href="coupon">Mã giảm giá</a></li>
                     </ul>
                 </nav>

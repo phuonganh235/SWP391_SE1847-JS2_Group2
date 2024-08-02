@@ -172,9 +172,9 @@
                         <a href="managenews" class="nav-item nav-link">
                             <i class="fa fa-th me-2"></i>Bài viết
                         </a>
-                        <a href="managepromotion" class="nav-item nav-link">
+<!--                        <a href="managepromotion" class="nav-item nav-link">
                             <i class="fa fa-bell me-2"></i>Khuyến mãi
-                        </a>
+                        </a>-->
                         <a href="manageCoupons?service=listAllCoupon" class="nav-item nav-link">
                             <i class="fa fa-tag me-2"></i>Phiếu giảm giá
                         </a>

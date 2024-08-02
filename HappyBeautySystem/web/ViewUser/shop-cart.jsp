@@ -1,14 +1,10 @@
 <%@page import="model.PointConfig"%>
 <%@page import="dal.PointConfigDAO"%>
-<%@page import="com.google.gson.Gson"%>
 <%@page import="model.Product"%>
 <%@page import="dal.ProductDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Cart"%>
 <%@page import="model.ProductCart"%>
-<%@page import="dal.PromotionDAO"%>
-<%@page import="model.Promotions"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -60,25 +56,6 @@
                 color: #343a40;
                 font-weight: bold;
             }
-            @keyframes blink {
-                0% {
-                    opacity: 1;
-                }
-                50% {
-                    opacity: 0;
-                }
-                100% {
-                    opacity: 1;
-                }
-            }
-
-            .points-label-promotion {
-                animation: blink 1.5s infinite;
-                color: #ff0000; /* Example color, change as needed */
-                text-decoration: none; /* Remove underline */
-                font-weight: bold; /* Make text bold */
-            }
-
         </style>
 
     </head>
@@ -136,7 +113,7 @@
                                         <%
                                             // Kiểm tra nếu quantity nhỏ hơn 1 thì không hiển thị checkbox
                                             if (hh >= 1) { // Nếu quantity lớn hơn hoặc bằng 1
-%>
+                                        %>
                                         <td>
                                             <input type="checkbox" class="product-checkbox" data-product-id="<%= pro.getProductId()%>" data-price="<%= String.format("%.0f", subtotal)%>"
                                                    onclick="updateTotal()">
@@ -150,7 +127,7 @@
                                         </td>
                                         <%
                                             } // Kết thúc kiểm tra điều kiện
-%>
+                                        %>
 
                                         <td class="cart__product__item">
                                             <a
@@ -238,20 +215,11 @@
                             </form>
                             <p id="couponMessage"></p>
                         </div>
-
-                        <%
-                            PromotionDAO promotionDAO = new PromotionDAO();
-                            List<Promotions> activePromotions = promotionDAO.getActivePromotion();
-                            int promotioncount = promotionDAO.countPromotion();
-                        %>
                         <%
                             PointConfigDAO pointConfigDAO = new PointConfigDAO();
                             PointConfig pointConfig = pointConfigDAO.getConfigById(1);
                             request.setAttribute("pointConfig", pointConfig);
                         %>
-                        <div class="user-profile-points">
-                            <a href="promotion" class="points-label-promotion">Chương trình khuyến mãi (<%=  promotioncount%>)</a>
-                        </div>
                         <c:if test="${pointConfig.isEnabled == true}">
                             <div class="discount__content">
                                 <h6>Quy đổi điểm</h6>
@@ -272,7 +240,6 @@
                                 -Với ${pointConfig.pointsRedeemed}điểm bạn được giảm ${pointConfig.redeemValue} VND
                             </div>
                         </c:if>
-
                     </div>
 
                     <div class="col-lg-4 offset-lg-2">
@@ -280,7 +247,6 @@
                             <h6>Thông tin mua hàng</h6>
                             <ul>
                                 <li>Tạm tính  <span id="originalTotal"><%= String.format("%.0f", granTotal)%></span></li>
-                                <li>Khuyến mãi <span id="promotion">0</span></li>
                                 <li>Giảm giá <span id="discountAmount">0</span></li>
                                 <li>Tổng tiền  <span id="finalTotal"><%= String.format("%.0f", granTotal)%></span></li>
                             </ul>
@@ -289,6 +255,7 @@
                 </div>
         </section>
         <!-- Shop Cart Section End -->
+
 
         <!-- Footer Section Begin -->
         <jsp:include page="footer.jsp"/>
@@ -327,11 +294,6 @@
                                 })();
         </script>
         <script>
-            // Define the condition and promotion amount
-//            const promotionCondition = 100000; // example condition, change as needed
-//            const promotionAmount = 30000; // example promotion amount, change as needed
-            //// Chuyển danh sách khuyến mãi thành JSON
-            var promotions = <%= new Gson().toJson(activePromotions)%>;
             // Định nghĩa mảng để lưu trữ các id sản phẩm được chọn
             let listProcductIdChoose = [];
             function updateTotal() {
@@ -349,31 +311,14 @@
                 var discountAmount = (total * currentDiscount) + currentPointDiscount;
                 // Đảm bảo tổng giảm giá không vượt quá tổng tiền
                 discountAmount = Math.min(discountAmount, total);
-                // Apply promotion if condition is met
-//                var promotion = 0;
-//                if (total > promotionCondition) {
-//                    promotion = promotionAmount;
-//                }
-                // Apply promotion if conditions are met
-                var promotionAmount = 0;
-                promotions.forEach(function (promotion) {
-                    if (total >= promotion.condition) {
-                        promotionAmount = Math.max(promotionAmount, promotion.discountAmount);
-                    }
-                });
-                // Đảm bảo tổng giảm giá không vượt quá tổng tiền
-                discountAmount = Math.min(discountAmount, total);
+                var finalTotal = total - discountAmount;
+                if (finalTotal < 0)
+                    finalTotal = 0; // Ensure total is not negative
 
-                // Calculate final total after applying discounts and promotion
-                var finalTotal = total - discountAmount - promotionAmount;
-                finalTotal = finalTotal < 0 ? 0 : finalTotal; // Ensure total is not negative
-
-                document.getElementById('promotion').innerText = promotionAmount.toFixed(0);
                 document.getElementById('discountAmount').innerText = discountAmount.toFixed(0);
                 document.getElementById('finalTotal').innerText = finalTotal.toFixed(0);
                 sessionStorage.setItem('cartTotal', finalTotal.toFixed(0));
                 sessionStorage.setItem('cartDiscount', discountAmount.toFixed(0));
-                sessionStorage.setItem('cartPromotion', promotionAmount.toFixed(0));
             }
 
             document.querySelectorAll('.product-checkbox').forEach(function (checkbox) {
@@ -452,7 +397,7 @@
                     // đẩy tổng tiền và số tiền giảm giá sang trang check out note: annp
                     link += '&total=' + sessionStorage.getItem('cartTotal');
                     link += '&discount=' + sessionStorage.getItem('cartDiscount');
-                    link += '&promotion=' + sessionStorage.getItem('cartPromotion');
+
                     link += '&' + params.toString();
                     window.location.href = link;
                 }
@@ -499,8 +444,9 @@
             }
         </script>
 
-        <script>
 
+        <script>
+           
             let currentPointDiscount = 0; //Biến để lưu giá trị giảm giá hiện tại
             function applyPoints() {
                 let points = parseInt(document.getElementById('pointInput').value);

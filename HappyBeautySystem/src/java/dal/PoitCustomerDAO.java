@@ -96,7 +96,7 @@ public class PoitCustomerDAO extends DBContext {
     public static void main(String[] args) {
         PoitCustomerDAO dao = new PoitCustomerDAO();
        
-        int userId = 16; 
+        int userId = 1026; 
       int point =  dao.getCustomerPoints(userId);
         System.out.println("poiint" + point);
        
