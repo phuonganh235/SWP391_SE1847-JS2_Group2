@@ -34,7 +34,7 @@ public class Dashboard extends HttpServlet {
             String username = (String) session.getAttribute("username");
             String password = (String) session.getAttribute("password");
 
-            if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4) {
+            if (uDao.getRole(username) == 1 || uDao.getRole(username) == 4) {
                 int countproductReview = pDao.countReview(1);
                 int countCustomer = uDao.CountUser();
                 int countProduct = pDao.countProduct();

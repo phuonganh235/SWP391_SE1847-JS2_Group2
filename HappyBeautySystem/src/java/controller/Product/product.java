@@ -61,7 +61,7 @@ public class product extends HttpServlet {
         String usename = (String) session.getAttribute("username");
         String passWord = (String) session.getAttribute("password");
 
-        if (u.getRole(usename, passWord) != 1 && u.getRole(usename, passWord) != 3 && u.getRole(usename, passWord) !=4) {
+        if (u.getRole(usename) != 1 && u.getRole(usename) != 3 && u.getRole(usename) !=4) {
 //        request.getRequestDispatcher("/ViewUser/shop.jsp").forward(request, response);
             if (action.equals("")) {
                 ArrayList<Product> productList = d.getAllProductActive();

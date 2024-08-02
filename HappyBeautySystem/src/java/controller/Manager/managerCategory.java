@@ -26,7 +26,7 @@ public class managerCategory extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
 
-        if (uDao.getRole(username, password) == 1 || uDao.getRole(username, password) == 4) {
+        if (uDao.getRole(username) == 1 || uDao.getRole(username) == 4) {
             // Default service to "listall" if no service parameter is provided
             if (service == null) {
                 service = "listall";

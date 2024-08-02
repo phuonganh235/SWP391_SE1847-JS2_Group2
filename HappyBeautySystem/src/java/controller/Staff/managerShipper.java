@@ -42,7 +42,7 @@ public class managerShipper extends HttpServlet {
         InforOrderDetailDAO daoInforOrderDetail = new InforOrderDetailDAO();
         InforOrderDetailDAO daoInfor = new InforOrderDetailDAO();
         NoteShipDAO noteShipDAO = new NoteShipDAO();
-        if (daoUser.getRole(username, password) == 3) {
+        if (daoUser.getRole(username) == 3) {
             try (PrintWriter out = response.getWriter()) {
                 if ("showTask".equals(service)) {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewUser/view-manager-shipper.jsp");

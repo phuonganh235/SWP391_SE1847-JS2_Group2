@@ -90,9 +90,9 @@ public class Login extends HttpServlet {
                 String password = request.getParameter("password");
                 
                 // Mã hóa mật khẩu trước khi gọi phương thức login
-                String encodedPassword = PasswordUtil.encodePassword(password);
+//                String encodedPassword = PasswordUtil.encodePassword(password);
                 
-                User u = dao.login(username, encodedPassword);
+                User u = dao.login(username, password);
                 if (u != null) {
                     int points = pointDao.getCustomerPoints(u.getUserId());
                     request.setAttribute("check", "success");
@@ -101,7 +101,7 @@ public class Login extends HttpServlet {
                     
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
-                    
+                    session.setAttribute("inforUserLogin", u);
                     String remember = request.getParameter("remember-me");
                     if ("on".equals(remember)) {
                         Cookie userCookie = new Cookie("username", username);

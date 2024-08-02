@@ -41,7 +41,7 @@ public class ManageRole extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
-        if (uDao.getRole(username, password) == 1) {
+        if (uDao.getRole(username) == 1) {
             // Default service to "listall" if no service parameter is provided
             if (service == null) {
                 service = "listall";

@@ -33,7 +33,7 @@ public class staff extends HttpServlet {
             String username = (String) session.getAttribute("username");
             String password = (String) session.getAttribute("password");
 
-            if (uDao.getRole(username, password) == 4) {
+            if (uDao.getRole(username) == 4) {
                 ArrayList<News> newsList = newsDAO.viewAllNews();
                 request.setAttribute("newsList", newsList);
                 

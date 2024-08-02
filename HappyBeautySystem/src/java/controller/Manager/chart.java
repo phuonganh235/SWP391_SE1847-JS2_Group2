@@ -31,7 +31,7 @@ public class chart extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
 
-        if (userDao.getRole(username, password) == 1) {
+        if (userDao.getRole(username) == 1) {
             if (service == null) {
                 service = "listAll";
             }

@@ -44,7 +44,7 @@ public class managerOrder extends HttpServlet {
             String username = (String) session.getAttribute("username");
             String password = (String) session.getAttribute("password");
 
-            if (daoUser.getRole(username, password) == 1 || daoUser.getRole(username, password) == 4) {
+            if (daoUser.getRole(username) == 1 || daoUser.getRole(username) == 4) {
                 if (service.equals("showAll")) {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("ViewAdmin/managerOrder.jsp");
                     dispatcher.forward(request, response);

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 import model.User;
 
 public class UserDAO extends DBContext {
@@ -40,7 +41,6 @@ public class UserDAO extends DBContext {
         }
         return uList;
     }
-    
 
     public User getUserByEmail(String email) {
         User user = null;
@@ -178,38 +178,68 @@ public class UserDAO extends DBContext {
         return n;
     }
 
+    public int insertUser1(String Name, String userName, String mobile, String email, String address, String postCode, String img, int roleId, String createDate, String password, int status, String dateofbirth) {
+        int n = 0;
+        PreparedStatement pre;
+        String sqlInsert = "INSERT INTO [dbo].[Users]([Name],[Username],[Mobile],[Email],[Address] ,[PostCode],[ImageUrl] ,[RoleId],[CreateDate] ,[Password] ,[Statuss],[DateOfBirth]) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            pre = connection.prepareStatement(sqlInsert);
+            pre.setString(1, Name);
+            pre.setString(2, userName);
+            pre.setString(3, mobile);
+            pre.setString(4, email);
+            pre.setString(5, address);
+            pre.setString(6, postCode);
+            pre.setString(7, img);
+            pre.setInt(8, roleId);
+            pre.setString(9, createDate);
+            pre.setString(10, password);
+            pre.setInt(11, status);
+            pre.setString(12, dateofbirth);
+            n = pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
     // Authenticates a user with the provided username and password
     public User login(String username, String password) {
-    String sql = "SELECT * FROM [Users] WHERE Username = ? AND Password = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        String encodedPassword = PasswordUtil.encodePassword(password);
-        ps.setString(1, username);
-        ps.setString(2, encodedPassword);
-        
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                return new User(
-                    rs.getInt("UserId"),
-                    rs.getString("Name"),
-                    rs.getString("Username"),
-                    rs.getString("Mobile"),
-                    rs.getString("Email"),
-                    rs.getString("Address"),
-                    rs.getString("PostCode"),
-                    rs.getString("ImageUrl"),
-                    rs.getInt("RoleId"),
-                    rs.getString("CreateDate"),
-                    rs.getString("Password"),
-                    rs.getInt("Statuss"),
-                    rs.getString("DateOfBirth")
-                );
+        String sql = "SELECT * FROM [Users] WHERE Username = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, username);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String storedPassword = rs.getString("Password");
+
+                    // So sánh mật khẩu nhập vào với mật khẩu đã mã hóa
+                    if (BCrypt.checkpw(password, storedPassword)) {
+                        return new User(
+                                rs.getInt("UserId"),
+                                rs.getString("Name"),
+                                rs.getString("Username"),
+                                rs.getString("Mobile"),
+                                rs.getString("Email"),
+                                rs.getString("Address"),
+                                rs.getString("PostCode"),
+                                rs.getString("ImageUrl"),
+                                rs.getInt("RoleId"),
+                                rs.getString("CreateDate"),
+                                storedPassword,
+                                rs.getInt("Statuss"),
+                                rs.getString("DateOfBirth")
+                        );
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
 
     // Retrieves a user by their userId
     public User getUserById(String userId) {
@@ -256,7 +286,7 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    
+
     // Retrieves a user by their username
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE Username = ?";
@@ -316,34 +346,33 @@ public class UserDAO extends DBContext {
 
     // Registers a new user with the provided details
     public void register(String name, String username, String password, String mobile, String email, String address, String postCode, String createDate, int roleId, int statuss, String dateOfBirth) {
-    String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        String encodedPassword = PasswordUtil.encodePassword(password);
-        
-        ps.setString(1, name);
-        ps.setString(2, username);
-        ps.setString(3, mobile);
-        ps.setString(4, email);
-        ps.setString(5, address);
-        ps.setString(6, postCode);
-        ps.setInt(7, roleId);
-        ps.setString(8, createDate);
-        ps.setString(9, encodedPassword);
-        ps.setInt(10, statuss);
-        ps.setString(11, dateOfBirth);
-        ps.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+        String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String encodedPassword = PasswordUtil.encodePassword(password);
+
+            ps.setString(1, name);
+            ps.setString(2, username);
+            ps.setString(3, mobile);
+            ps.setString(4, email);
+            ps.setString(5, address);
+            ps.setString(6, postCode);
+            ps.setInt(7, roleId);
+            ps.setString(8, createDate);
+            ps.setString(9, encodedPassword);
+            ps.setInt(10, statuss);
+            ps.setString(11, dateOfBirth);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
     // Retrieves the role of a user based on their username and password
-    public int getRole(String username, String password) {
-        String sql = "SELECT RoleId FROM Users WHERE Username = ? AND Password = ?";
+    public int getRole(String username) {
+        String sql = "SELECT RoleId FROM Users WHERE Username = ? ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
-            ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("RoleId");
@@ -502,27 +531,31 @@ public class UserDAO extends DBContext {
 
     public User getUser(int userId, String old_pass) {
         try {
-            String sql = "select * from Users where UserId = ? and Password = ?";
+            String sql = "select * from Users where UserId = ? ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, userId);
-            ps.setString(2, old_pass);
+
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                User u = new User();
-                u.setUserId(rs.getInt("UserId"));
-                u.setName(rs.getString("Name"));
-                u.setUsername(rs.getString("Username"));
-                u.setMobile(rs.getString("Mobile"));
-                u.setEmail(rs.getString("Email"));
-                u.setAddress(rs.getString("Address"));
-                u.setPostCode(rs.getString("PostCode"));
-                u.setImage(rs.getString("ImageUrl"));
-                u.setRoleId(rs.getInt("RoleId"));
-                u.setCreateDate(rs.getString("CreateDate"));
-                u.setPassword(rs.getString("Password"));
-                u.setStatuss(rs.getInt("Statuss"));
-                u.setDateofbirth(rs.getString("DateOfBirth"));
-                return u;
+                String storedHashedPassword = rs.getString("Password");
+            
+                if (BCrypt.checkpw(old_pass, storedHashedPassword)) {
+                    User u = new User();
+                    u.setUserId(rs.getInt("UserId"));
+                    u.setName(rs.getString("Name"));
+                    u.setUsername(rs.getString("Username"));
+                    u.setMobile(rs.getString("Mobile"));
+                    u.setEmail(rs.getString("Email"));
+                    u.setAddress(rs.getString("Address"));
+                    u.setPostCode(rs.getString("PostCode"));
+                    u.setImage(rs.getString("ImageUrl"));
+                    u.setRoleId(rs.getInt("RoleId"));
+                    u.setCreateDate(rs.getString("CreateDate"));
+                    u.setPassword(rs.getString("Password"));
+                    u.setStatuss(rs.getInt("Statuss"));
+                    u.setDateofbirth(rs.getString("DateOfBirth"));
+                    return u;
+                }
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -530,17 +563,20 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public void changePassword(int userId, String new_pass1) {
+    public void changePassword(int userId, String new_pass) {
         try {
+            String hashedNewPassword = BCrypt.hashpw(new_pass, BCrypt.gensalt());
+
             String sql = "UPDATE Users SET Password = ? WHERE UserId = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, new_pass1);
+            ps.setString(1, hashedNewPassword);
             ps.setInt(2, userId);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+
 
     public ArrayList<User> getUserByProductId(int productId) {
         ArrayList<User> uList = new ArrayList<>();
@@ -641,15 +677,16 @@ public class UserDAO extends DBContext {
     public static void main(String[] args) {
         UserDAO userDB = new UserDAO();
         // Kiểm tra hàm checkExistEmail
-        String testEmail = "sang@gmail.com";
-        int testRoleId = 3;
-        boolean emailExists = userDB.checkExistEmail(testEmail, testRoleId);
-        System.out.println("Email " + testEmail + " exists: " + emailExists);
-
-        // Kiểm tra hàm userExists
-        String testUsername = "sangtv";
-        boolean userExists = userDB.userExists(testUsername, testRoleId);
-        System.out.println("User " + testUsername + " exists: " + userExists);
+//        String hashed1 = BCrypt.hashpw("password123", BCrypt.gensalt());
+//        String hashed2 = BCrypt.hashpw("Phuonganh235", BCrypt.gensalt());
+//        String hashed3 = BCrypt.hashpw("An@123456", BCrypt.gensalt());
+//        String hashed4 = BCrypt.hashpw("Dic@1234", BCrypt.gensalt());
+//        String hashed5 = BCrypt.hashpw("sang@12234", BCrypt.gensalt());
+//        
+//        userDB.insertUser1("Nguyen Van A", "nguyenvana", "0987654321", "nguyenvana@example.com", "123 Nguyen Trai, Hanoi", "100000", "http://example.com/user1.jpg", 1, "2024-05-16 23:21:45.423", hashed1, 0, "");
+//        userDB.insertUser1("Lê Van Toàn", "toanlv", "0355725203", "phamphuonganhk23@gmail.com", " Hanoi", "500000", "ViewUser/img/avatar/avatar_16.jpg", 2, "2024-05-16 23:21:45.423", hashed2, 0, "");
+//        userDB.insertUser1("Nguyen Phú An", "annp", "0288394042", "phuann32@gmail.com", "Hoa Lac - Ha Noi ", "300000", "", 3, "2024-10-11 00:00:00.000", hashed3, 0, "");
+//        userDB.insertUser1("Tran Dinh Duc", "ductd", "03774657638", "duc@gmail.com", "123 Nguyen Trai, Hanoi", "100000", "", 3, "2024-10-10 00:00:00.000", hashed4, 0, "");
 
     }
 }

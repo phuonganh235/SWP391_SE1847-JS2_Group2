@@ -35,7 +35,7 @@ public class ManageNews extends HttpServlet {
             return;
         }
 
-        int userRole = uDao.getRole(username, password);
+        int userRole = uDao.getRole(username);
 
         if (service == null || service.isEmpty()) {
             service = "viewAllNews";

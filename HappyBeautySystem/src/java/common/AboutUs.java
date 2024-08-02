@@ -24,7 +24,7 @@ public class AboutUs extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
 
-        if (uDao.getRole(username, password) == 2 || uDao == null) {
+        if (uDao.getRole(username) == 2 || uDao == null) {
             if (service == null) {
                 service = "listall";
             }

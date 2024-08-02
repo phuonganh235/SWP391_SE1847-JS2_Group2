@@ -31,7 +31,7 @@ public class Home extends HttpServlet {
         ArrayList<Product> productSeller = pDao.getSellerProduct();
         ArrayList<Product> Favourite = pDao.getFavouriteProduct();
 //      Decentralize
-        int role = uDao.getRole(username, password);
+        int role = uDao.getRole(username);
 
         if (role == 1 || role == 4) {
             request.getRequestDispatcher("dashboard").forward(request, response);
