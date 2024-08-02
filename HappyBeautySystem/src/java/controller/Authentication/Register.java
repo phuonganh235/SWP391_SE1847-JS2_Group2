@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.regex.Pattern;
 import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Register extends HttpServlet {
 
@@ -81,7 +82,7 @@ public class Register extends HttpServlet {
             return;
         }
 
-        String encodedPassword = PasswordUtil.encodePassword(password);
+           String encodedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         
          User u = new User();
         u.setName(name);

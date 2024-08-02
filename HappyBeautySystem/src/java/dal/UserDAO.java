@@ -348,7 +348,7 @@ public class UserDAO extends DBContext {
     public void register(String name, String username, String password, String mobile, String email, String address, String postCode, String createDate, int roleId, int statuss, String dateOfBirth) {
         String sql = "INSERT INTO Users (Name, Username, Mobile, Email, Address, PostCode, RoleId, CreateDate, Password, Statuss, DateOfBirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            String encodedPassword = PasswordUtil.encodePassword(password);
+         
 
             ps.setString(1, name);
             ps.setString(2, username);
@@ -358,7 +358,7 @@ public class UserDAO extends DBContext {
             ps.setString(6, postCode);
             ps.setInt(7, roleId);
             ps.setString(8, createDate);
-            ps.setString(9, encodedPassword);
+            ps.setString(9, password);
             ps.setInt(10, statuss);
             ps.setString(11, dateOfBirth);
             ps.executeUpdate();
