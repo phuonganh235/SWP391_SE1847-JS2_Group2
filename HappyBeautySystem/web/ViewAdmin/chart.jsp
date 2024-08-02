@@ -142,7 +142,7 @@
                         <div class="col-sm-6 col-xl-6">
                             <div class="bg-light text-center rounded p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Số lượng sản phẩm bán được theo ngày </h6>
+                                    <h6 class="mb-0">Số lượng đơn hàng được theo ngày </h6>
                                 </div>
                                 <canvas id="orders-by-day-chart"></canvas>
                             </div>
@@ -192,7 +192,7 @@
                 data: {
                     labels: orderDates,
                     datasets: [{
-                            label: 'Số lượng sản phẩm bán được',
+                            label: 'Số lượng đơn hàng bán được',
                             backgroundColor: 'rgba(0, 156, 255, .3)',
                             borderColor:'rgba(0, 156, 255, .3)',
                             borderWidth: 1,

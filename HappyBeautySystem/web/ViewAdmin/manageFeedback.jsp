@@ -193,7 +193,7 @@
                         <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form id="updateCategoryForm" action="managefeedback?service=addRep" method="post" onsubmit="return validateUpdateForm()">
+                                    <form id="updateCategoryForm" action="managefeedback?service=addRep" method="post" onsubmit="return validateForm()">
                                         <div class="modal-header">						
                                             <h4 class="modal-title">Trả lời phản hồi</h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -204,6 +204,7 @@
                                         <div class="mb-3">
                                             <label for="comment" class="form-label">Phản hồi</label>
                                             <textarea class="form-control" id="comment" name="comment" required></textarea>
+                                            <span id="commentError" style="color: red;"></span>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
@@ -232,9 +233,10 @@
                                             <div class="mb-3">
                                                 <label for="comment" class="form-label">Phản hồi</label>
                                                 <textarea class="form-control" id="comment" name="comment" required>${repfb.comment}</textarea>
+                                                <span id="commentError" style="color: red;"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="comment" class="form-label">Phản hồi</label>
+                                                <label for="comment" class="form-label">Thời gian</label>
                                                 <input type="text" class="form-control" id="createDate" name="createDate" value="${repfb.creatAt}" readonly>
                                             </div>
                                         </div>
@@ -271,29 +273,29 @@
         <script src="ViewAdmin/js/main.js"></script>
 
         <script>
-                                    $(document).ready(function () {
-                                        var table = $('#abouttable').DataTable({
-                                            "pageLength": 5,
-                                            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                                            "order": [[1, "asc"]],
-                                            "columnDefs": [
-                                                {"orderable": false, "targets": 6}
-                                            ],
-                                            "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                                            "language": {
-                                                "lengthMenu": "Hiển thị _MENU_ mục",
-                                                "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
-                                                "paginate": {
-                                                    "first": "Đầu",
-                                                    "last": "Cuối",
-                                                    "next": "Tiếp",
-                                                    "previous": "Trở vể"
+                                        $(document).ready(function () {
+                                            var table = $('#abouttable').DataTable({
+                                                "pageLength": 5,
+                                                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                                                "order": [[1, "asc"]],
+                                                "columnDefs": [
+                                                    {"orderable": false, "targets": 6}
+                                                ],
+                                                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                                                "language": {
+                                                    "lengthMenu": "Hiển thị _MENU_ mục",
+                                                    "info": "Hiển thị _START_ đến _END_ trong số _TOTAL_ mục",
+                                                    "paginate": {
+                                                        "first": "Đầu",
+                                                        "last": "Cuối",
+                                                        "next": "Tiếp",
+                                                        "previous": "Trở vể"
+                                                    }
                                                 }
-                                            }
+                                            });
+
+
                                         });
-
-
-                                    });
         </script>
         <script>
             $(document).ready(function () {
@@ -311,6 +313,41 @@
                 $('#updateProductModal').modal('show');
             </c:if>
             });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                function formatFullName(name) {
+                    name = name.trim().replace(/\s+/g, ' ');
+                    return name;
+                }
+
+                document.getElementById("comment").oninput = function () {
+                    var name = this.value;
+                    this.value = name;
+                    if (name === "") {
+                        document.getElementById("commentError").innerHTML = "Trả lời không được để trống.";
+                    } else if (/^\s/.test(name)) {
+                        document.getElementById("commentError").innerHTML = "Trả lời không được bắt đầu bằng dấu cách.";
+                    } else {
+                        document.getElementById("commentError").innerHTML = "";
+                    }
+                };
+
+            });
+
+            // Update form validation
+            document.getElementById("updateTitle").oninput = function () {
+                var name = this.value;
+                this.value = name.trim();
+                if (name === "") {
+                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được để trống.";
+                } else if (/^\s/.test(name)) {
+                    document.getElementById("titleUpdateError").innerHTML = "Tiêu đề không được bắt đầu bằng dấu cách.";
+                } else {
+                    document.getElementById("titleUpdateError").innerHTML = "";
+                }
+            };
+
         </script>
     </body>
 
